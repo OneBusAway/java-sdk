@@ -2,48 +2,22 @@
 
 package com.open_transit.api.models
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import org.apache.hc.core5.http.ContentType
-import java.time.LocalDate
+import com.open_transit.api.core.NoAutoDetect
+import com.open_transit.api.core.toUnmodifiable
+import com.open_transit.api.models.*
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
-import java.util.UUID
-import com.open_transit.api.core.BaseDeserializer
-import com.open_transit.api.core.BaseSerializer
-import com.open_transit.api.core.getOrThrow
-import com.open_transit.api.core.ExcludeMissing
-import com.open_transit.api.core.JsonField
-import com.open_transit.api.core.JsonMissing
-import com.open_transit.api.core.JsonValue
-import com.open_transit.api.core.MultipartFormValue
-import com.open_transit.api.core.toUnmodifiable
-import com.open_transit.api.core.NoAutoDetect
-import com.open_transit.api.core.Enum
-import com.open_transit.api.core.ContentTypes
-import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
-import com.open_transit.api.models.*
 
-class ArrivalAndDepartureListParams constructor(
-  private val stopId: String,
-  private val minutesAfter: Long?,
-  private val minutesBefore: Long?,
-  private val time: OffsetDateTime?,
-  private val additionalQueryParams: Map<String, List<String>>,
-  private val additionalHeaders: Map<String, List<String>>,
-
+class ArrivalAndDepartureListParams
+constructor(
+    private val stopId: String,
+    private val minutesAfter: Long?,
+    private val minutesBefore: Long?,
+    private val time: OffsetDateTime?,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun stopId(): String = stopId
@@ -56,28 +30,23 @@ class ArrivalAndDepartureListParams constructor(
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
-      val params = mutableMapOf<String, List<String>>()
-      this.minutesAfter?.let {
-          params.put("minutesAfter", listOf(it.toString()))
-      }
-      this.minutesBefore?.let {
-          params.put("minutesBefore", listOf(it.toString()))
-      }
-      this.time?.let {
-          params.put("time", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-      }
-      params.putAll(additionalQueryParams)
-      return params.toUnmodifiable()
+        val params = mutableMapOf<String, List<String>>()
+        this.minutesAfter?.let { params.put("minutesAfter", listOf(it.toString())) }
+        this.minutesBefore?.let { params.put("minutesBefore", listOf(it.toString())) }
+        this.time?.let {
+            params.put("time", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+        }
+        params.putAll(additionalQueryParams)
+        return params.toUnmodifiable()
     }
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-      return when (index) {
-          0 -> stopId
-          else -> ""
-      }
+        return when (index) {
+            0 -> stopId
+            else -> ""
+        }
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -85,38 +54,38 @@ class ArrivalAndDepartureListParams constructor(
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is ArrivalAndDepartureListParams &&
-          this.stopId == other.stopId &&
-          this.minutesAfter == other.minutesAfter &&
-          this.minutesBefore == other.minutesBefore &&
-          this.time == other.time &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders
+        return other is ArrivalAndDepartureListParams &&
+            this.stopId == other.stopId &&
+            this.minutesAfter == other.minutesAfter &&
+            this.minutesBefore == other.minutesBefore &&
+            this.time == other.time &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          stopId,
-          minutesAfter,
-          minutesBefore,
-          time,
-          additionalQueryParams,
-          additionalHeaders,
-      )
+        return Objects.hash(
+            stopId,
+            minutesAfter,
+            minutesBefore,
+            time,
+            additionalQueryParams,
+            additionalHeaders,
+        )
     }
 
-    override fun toString() = "ArrivalAndDepartureListParams{stopId=$stopId, minutesAfter=$minutesAfter, minutesBefore=$minutesBefore, time=$time, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+    override fun toString() =
+        "ArrivalAndDepartureListParams{stopId=$stopId, minutesAfter=$minutesAfter, minutesBefore=$minutesBefore, time=$time, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -139,24 +108,16 @@ class ArrivalAndDepartureListParams constructor(
             additionalHeaders(arrivalAndDepartureListParams.additionalHeaders)
         }
 
-        fun stopId(stopId: String) = apply {
-            this.stopId = stopId
-        }
+        fun stopId(stopId: String) = apply { this.stopId = stopId }
 
         /** Include vehicles arriving or departing in the next n minutes. */
-        fun minutesAfter(minutesAfter: Long) = apply {
-            this.minutesAfter = minutesAfter
-        }
+        fun minutesAfter(minutesAfter: Long) = apply { this.minutesAfter = minutesAfter }
 
         /** Include vehicles having arrived or departed in the previous n minutes. */
-        fun minutesBefore(minutesBefore: Long) = apply {
-            this.minutesBefore = minutesBefore
-        }
+        fun minutesBefore(minutesBefore: Long) = apply { this.minutesBefore = minutesBefore }
 
         /** The specific time for querying the system status. */
-        fun time(time: OffsetDateTime) = apply {
-            this.time = time
-        }
+        fun time(time: OffsetDateTime) = apply { this.time = time }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -196,19 +157,16 @@ class ArrivalAndDepartureListParams constructor(
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): ArrivalAndDepartureListParams = ArrivalAndDepartureListParams(
-            checkNotNull(stopId) {
-                "`stopId` is required but was not set"
-            },
-            minutesAfter,
-            minutesBefore,
-            time,
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-        )
+        fun build(): ArrivalAndDepartureListParams =
+            ArrivalAndDepartureListParams(
+                checkNotNull(stopId) { "`stopId` is required but was not set" },
+                minutesAfter,
+                minutesBefore,
+                time,
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            )
     }
 }

@@ -4,45 +4,26 @@ package com.open_transit.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.open_transit.api.core.BaseDeserializer
-import com.open_transit.api.core.BaseSerializer
-import com.open_transit.api.core.getOrThrow
 import com.open_transit.api.core.ExcludeMissing
+import com.open_transit.api.core.JsonField
 import com.open_transit.api.core.JsonMissing
 import com.open_transit.api.core.JsonValue
-import com.open_transit.api.core.JsonNull
-import com.open_transit.api.core.JsonField
-import com.open_transit.api.core.Enum
-import com.open_transit.api.core.toUnmodifiable
 import com.open_transit.api.core.NoAutoDetect
-import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
+import com.open_transit.api.core.toUnmodifiable
+import java.util.Objects
 
 @JsonDeserialize(builder = AgenciesWithCoverageListResponse.Builder::class)
 @NoAutoDetect
-class AgenciesWithCoverageListResponse private constructor(
-  private val code: JsonField<Long>,
-  private val currentTime: JsonField<Long>,
-  private val text: JsonField<String>,
-  private val version: JsonField<Long>,
-  private val data: JsonField<Data>,
-  private val additionalProperties: Map<String, JsonValue>,
-
+class AgenciesWithCoverageListResponse
+private constructor(
+    private val code: JsonField<Long>,
+    private val currentTime: JsonField<Long>,
+    private val text: JsonField<String>,
+    private val version: JsonField<Long>,
+    private val data: JsonField<Data>,
+    private val additionalProperties: Map<String, JsonValue>,
 ) {
 
     private var validated: Boolean = false
@@ -59,27 +40,23 @@ class AgenciesWithCoverageListResponse private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    fun toResponseWrapper(): ResponseWrapper = ResponseWrapper.builder().code(code).currentTime(currentTime).text(text).version(version).build()
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
 
-    @JsonProperty("code")
-    @ExcludeMissing
-    fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code() = code
 
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
 
-    @JsonProperty("text")
-    @ExcludeMissing
-    fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text() = text
 
-    @JsonProperty("version")
-    @ExcludeMissing
-    fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version() = version
 
-    @JsonProperty("data")
-    @ExcludeMissing
-    fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data() = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -87,51 +64,52 @@ class AgenciesWithCoverageListResponse private constructor(
 
     fun validate(): AgenciesWithCoverageListResponse = apply {
         if (!validated) {
-          code()
-          currentTime()
-          text()
-          version()
-          data().validate()
-          validated = true
+            code()
+            currentTime()
+            text()
+            version()
+            data().validate()
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is AgenciesWithCoverageListResponse &&
-          this.code == other.code &&
-          this.currentTime == other.currentTime &&
-          this.text == other.text &&
-          this.version == other.version &&
-          this.data == other.data &&
-          this.additionalProperties == other.additionalProperties
+        return other is AgenciesWithCoverageListResponse &&
+            this.code == other.code &&
+            this.currentTime == other.currentTime &&
+            this.text == other.text &&
+            this.version == other.version &&
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(
-            code,
-            currentTime,
-            text,
-            version,
-            data,
-            additionalProperties,
-        )
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    code,
+                    currentTime,
+                    text,
+                    version,
+                    data,
+                    additionalProperties,
+                )
+        }
+        return hashCode
     }
 
-    override fun toString() = "AgenciesWithCoverageListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "AgenciesWithCoverageListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -144,54 +122,45 @@ class AgenciesWithCoverageListResponse private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(agenciesWithCoverageListResponse: AgenciesWithCoverageListResponse) = apply {
-            this.code = agenciesWithCoverageListResponse.code
-            this.currentTime = agenciesWithCoverageListResponse.currentTime
-            this.text = agenciesWithCoverageListResponse.text
-            this.version = agenciesWithCoverageListResponse.version
-            this.data = agenciesWithCoverageListResponse.data
-            additionalProperties(agenciesWithCoverageListResponse.additionalProperties)
-        }
+        internal fun from(agenciesWithCoverageListResponse: AgenciesWithCoverageListResponse) =
+            apply {
+                this.code = agenciesWithCoverageListResponse.code
+                this.currentTime = agenciesWithCoverageListResponse.currentTime
+                this.text = agenciesWithCoverageListResponse.text
+                this.version = agenciesWithCoverageListResponse.version
+                this.data = agenciesWithCoverageListResponse.data
+                additionalProperties(agenciesWithCoverageListResponse.additionalProperties)
+            }
 
         fun code(code: Long) = code(JsonField.of(code))
 
         @JsonProperty("code")
         @ExcludeMissing
-        fun code(code: JsonField<Long>) = apply {
-            this.code = code
-        }
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
         @JsonProperty("currentTime")
         @ExcludeMissing
-        fun currentTime(currentTime: JsonField<Long>) = apply {
-            this.currentTime = currentTime
-        }
+        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
         @JsonProperty("text")
         @ExcludeMissing
-        fun text(text: JsonField<String>) = apply {
-            this.text = text
-        }
+        fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
         @JsonProperty("version")
         @ExcludeMissing
-        fun version(version: JsonField<Long>) = apply {
-            this.version = version
-        }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
         @JsonProperty("data")
         @ExcludeMissing
-        fun data(data: JsonField<Data>) = apply {
-            this.data = data
-        }
+        fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -207,24 +176,25 @@ class AgenciesWithCoverageListResponse private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): AgenciesWithCoverageListResponse = AgenciesWithCoverageListResponse(
-            code,
-            currentTime,
-            text,
-            version,
-            data,
-            additionalProperties.toUnmodifiable(),
-        )
+        fun build(): AgenciesWithCoverageListResponse =
+            AgenciesWithCoverageListResponse(
+                code,
+                currentTime,
+                text,
+                version,
+                data,
+                additionalProperties.toUnmodifiable(),
+            )
     }
 
     @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
-    class Data private constructor(
-      private val limitExceeded: JsonField<Boolean>,
-      private val list: JsonField<List<List>>,
-      private val references: JsonField<References>,
-      private val additionalProperties: Map<String, JsonValue>,
-
+    class Data
+    private constructor(
+        private val limitExceeded: JsonField<Boolean>,
+        private val list: JsonField<List<List>>,
+        private val references: JsonField<References>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
@@ -237,17 +207,11 @@ class AgenciesWithCoverageListResponse private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("limitExceeded")
-        @ExcludeMissing
-        fun _limitExceeded() = limitExceeded
+        @JsonProperty("limitExceeded") @ExcludeMissing fun _limitExceeded() = limitExceeded
 
-        @JsonProperty("list")
-        @ExcludeMissing
-        fun _list() = list
+        @JsonProperty("list") @ExcludeMissing fun _list() = list
 
-        @JsonProperty("references")
-        @ExcludeMissing
-        fun _references() = references
+        @JsonProperty("references") @ExcludeMissing fun _references() = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -255,45 +219,46 @@ class AgenciesWithCoverageListResponse private constructor(
 
         fun validate(): Data = apply {
             if (!validated) {
-              limitExceeded()
-              list().forEach { it.validate() }
-              references().validate()
-              validated = true
+                limitExceeded()
+                list().forEach { it.validate() }
+                references().validate()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Data &&
-              this.limitExceeded == other.limitExceeded &&
-              this.list == other.list &&
-              this.references == other.references &&
-              this.additionalProperties == other.additionalProperties
+            return other is Data &&
+                this.limitExceeded == other.limitExceeded &&
+                this.list == other.list &&
+                this.references == other.references &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                limitExceeded,
-                list,
-                references,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        limitExceeded,
+                        list,
+                        references,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -323,9 +288,7 @@ class AgenciesWithCoverageListResponse private constructor(
 
             @JsonProperty("list")
             @ExcludeMissing
-            fun list(list: JsonField<List<List>>) = apply {
-                this.list = list
-            }
+            fun list(list: JsonField<List<List>>) = apply { this.list = list }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -349,24 +312,25 @@ class AgenciesWithCoverageListResponse private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Data = Data(
-                limitExceeded,
-                list.map { it.toUnmodifiable() },
-                references,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Data =
+                Data(
+                    limitExceeded,
+                    list.map { it.toUnmodifiable() },
+                    references,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
 
         @JsonDeserialize(builder = List.Builder::class)
         @NoAutoDetect
-        class List private constructor(
-          private val agencyId: JsonField<String>,
-          private val lat: JsonField<Double>,
-          private val latSpan: JsonField<Double>,
-          private val lon: JsonField<Double>,
-          private val lonSpan: JsonField<Double>,
-          private val additionalProperties: Map<String, JsonValue>,
-
+        class List
+        private constructor(
+            private val agencyId: JsonField<String>,
+            private val lat: JsonField<Double>,
+            private val latSpan: JsonField<Double>,
+            private val lon: JsonField<Double>,
+            private val lonSpan: JsonField<Double>,
+            private val additionalProperties: Map<String, JsonValue>,
         ) {
 
             private var validated: Boolean = false
@@ -383,25 +347,15 @@ class AgenciesWithCoverageListResponse private constructor(
 
             fun lonSpan(): Double = lonSpan.getRequired("lonSpan")
 
-            @JsonProperty("agencyId")
-            @ExcludeMissing
-            fun _agencyId() = agencyId
+            @JsonProperty("agencyId") @ExcludeMissing fun _agencyId() = agencyId
 
-            @JsonProperty("lat")
-            @ExcludeMissing
-            fun _lat() = lat
+            @JsonProperty("lat") @ExcludeMissing fun _lat() = lat
 
-            @JsonProperty("latSpan")
-            @ExcludeMissing
-            fun _latSpan() = latSpan
+            @JsonProperty("latSpan") @ExcludeMissing fun _latSpan() = latSpan
 
-            @JsonProperty("lon")
-            @ExcludeMissing
-            fun _lon() = lon
+            @JsonProperty("lon") @ExcludeMissing fun _lon() = lon
 
-            @JsonProperty("lonSpan")
-            @ExcludeMissing
-            fun _lonSpan() = lonSpan
+            @JsonProperty("lonSpan") @ExcludeMissing fun _lonSpan() = lonSpan
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -409,51 +363,52 @@ class AgenciesWithCoverageListResponse private constructor(
 
             fun validate(): List = apply {
                 if (!validated) {
-                  agencyId()
-                  lat()
-                  latSpan()
-                  lon()
-                  lonSpan()
-                  validated = true
+                    agencyId()
+                    lat()
+                    latSpan()
+                    lon()
+                    lonSpan()
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is List &&
-                  this.agencyId == other.agencyId &&
-                  this.lat == other.lat &&
-                  this.latSpan == other.latSpan &&
-                  this.lon == other.lon &&
-                  this.lonSpan == other.lonSpan &&
-                  this.additionalProperties == other.additionalProperties
+                return other is List &&
+                    this.agencyId == other.agencyId &&
+                    this.lat == other.lat &&
+                    this.latSpan == other.latSpan &&
+                    this.lon == other.lon &&
+                    this.lonSpan == other.lonSpan &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    agencyId,
-                    lat,
-                    latSpan,
-                    lon,
-                    lonSpan,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            agencyId,
+                            lat,
+                            latSpan,
+                            lon,
+                            lonSpan,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "List{agencyId=$agencyId, lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "List{agencyId=$agencyId, lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -479,41 +434,31 @@ class AgenciesWithCoverageListResponse private constructor(
 
                 @JsonProperty("agencyId")
                 @ExcludeMissing
-                fun agencyId(agencyId: JsonField<String>) = apply {
-                    this.agencyId = agencyId
-                }
+                fun agencyId(agencyId: JsonField<String>) = apply { this.agencyId = agencyId }
 
                 fun lat(lat: Double) = lat(JsonField.of(lat))
 
                 @JsonProperty("lat")
                 @ExcludeMissing
-                fun lat(lat: JsonField<Double>) = apply {
-                    this.lat = lat
-                }
+                fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
                 fun latSpan(latSpan: Double) = latSpan(JsonField.of(latSpan))
 
                 @JsonProperty("latSpan")
                 @ExcludeMissing
-                fun latSpan(latSpan: JsonField<Double>) = apply {
-                    this.latSpan = latSpan
-                }
+                fun latSpan(latSpan: JsonField<Double>) = apply { this.latSpan = latSpan }
 
                 fun lon(lon: Double) = lon(JsonField.of(lon))
 
                 @JsonProperty("lon")
                 @ExcludeMissing
-                fun lon(lon: JsonField<Double>) = apply {
-                    this.lon = lon
-                }
+                fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
                 fun lonSpan(lonSpan: Double) = lonSpan(JsonField.of(lonSpan))
 
                 @JsonProperty("lonSpan")
                 @ExcludeMissing
-                fun lonSpan(lonSpan: JsonField<Double>) = apply {
-                    this.lonSpan = lonSpan
-                }
+                fun lonSpan(lonSpan: JsonField<Double>) = apply { this.lonSpan = lonSpan }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -525,18 +470,20 @@ class AgenciesWithCoverageListResponse private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): List = List(
-                    agencyId,
-                    lat,
-                    latSpan,
-                    lon,
-                    lonSpan,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): List =
+                    List(
+                        agencyId,
+                        lat,
+                        latSpan,
+                        lon,
+                        lonSpan,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
         }
     }

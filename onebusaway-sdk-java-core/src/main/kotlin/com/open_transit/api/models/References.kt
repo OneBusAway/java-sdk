@@ -5,45 +5,30 @@ package com.open_transit.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.open_transit.api.core.BaseDeserializer
-import com.open_transit.api.core.BaseSerializer
-import com.open_transit.api.core.getOrThrow
+import com.open_transit.api.core.Enum
 import com.open_transit.api.core.ExcludeMissing
+import com.open_transit.api.core.JsonField
 import com.open_transit.api.core.JsonMissing
 import com.open_transit.api.core.JsonValue
-import com.open_transit.api.core.JsonNull
-import com.open_transit.api.core.JsonField
-import com.open_transit.api.core.Enum
-import com.open_transit.api.core.toUnmodifiable
 import com.open_transit.api.core.NoAutoDetect
+import com.open_transit.api.core.toUnmodifiable
 import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
+import java.util.Objects
+import java.util.Optional
 
 @JsonDeserialize(builder = References.Builder::class)
 @NoAutoDetect
-class References private constructor(
-  private val agencies: JsonField<List<Agency>>,
-  private val routes: JsonField<List<Route>>,
-  private val situations: JsonField<List<Situation>>,
-  private val stopTimes: JsonField<List<StopTime>>,
-  private val stops: JsonField<List<Stop>>,
-  private val trips: JsonField<List<Trip>>,
-  private val additionalProperties: Map<String, JsonValue>,
-
+class References
+private constructor(
+    private val agencies: JsonField<List<Agency>>,
+    private val routes: JsonField<List<Route>>,
+    private val situations: JsonField<List<Situation>>,
+    private val stopTimes: JsonField<List<StopTime>>,
+    private val stops: JsonField<List<Stop>>,
+    private val trips: JsonField<List<Trip>>,
+    private val additionalProperties: Map<String, JsonValue>,
 ) {
 
     private var validated: Boolean = false
@@ -62,29 +47,17 @@ class References private constructor(
 
     fun trips(): List<Trip> = trips.getRequired("trips")
 
-    @JsonProperty("agencies")
-    @ExcludeMissing
-    fun _agencies() = agencies
+    @JsonProperty("agencies") @ExcludeMissing fun _agencies() = agencies
 
-    @JsonProperty("routes")
-    @ExcludeMissing
-    fun _routes() = routes
+    @JsonProperty("routes") @ExcludeMissing fun _routes() = routes
 
-    @JsonProperty("situations")
-    @ExcludeMissing
-    fun _situations() = situations
+    @JsonProperty("situations") @ExcludeMissing fun _situations() = situations
 
-    @JsonProperty("stopTimes")
-    @ExcludeMissing
-    fun _stopTimes() = stopTimes
+    @JsonProperty("stopTimes") @ExcludeMissing fun _stopTimes() = stopTimes
 
-    @JsonProperty("stops")
-    @ExcludeMissing
-    fun _stops() = stops
+    @JsonProperty("stops") @ExcludeMissing fun _stops() = stops
 
-    @JsonProperty("trips")
-    @ExcludeMissing
-    fun _trips() = trips
+    @JsonProperty("trips") @ExcludeMissing fun _trips() = trips
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -92,54 +65,55 @@ class References private constructor(
 
     fun validate(): References = apply {
         if (!validated) {
-          agencies().forEach { it.validate() }
-          routes().forEach { it.validate() }
-          situations().forEach { it.validate() }
-          stopTimes().forEach { it.validate() }
-          stops().forEach { it.validate() }
-          trips().forEach { it.validate() }
-          validated = true
+            agencies().forEach { it.validate() }
+            routes().forEach { it.validate() }
+            situations().forEach { it.validate() }
+            stopTimes().forEach { it.validate() }
+            stops().forEach { it.validate() }
+            trips().forEach { it.validate() }
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is References &&
-          this.agencies == other.agencies &&
-          this.routes == other.routes &&
-          this.situations == other.situations &&
-          this.stopTimes == other.stopTimes &&
-          this.stops == other.stops &&
-          this.trips == other.trips &&
-          this.additionalProperties == other.additionalProperties
+        return other is References &&
+            this.agencies == other.agencies &&
+            this.routes == other.routes &&
+            this.situations == other.situations &&
+            this.stopTimes == other.stopTimes &&
+            this.stops == other.stops &&
+            this.trips == other.trips &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(
-            agencies,
-            routes,
-            situations,
-            stopTimes,
-            stops,
-            trips,
-            additionalProperties,
-        )
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    agencies,
+                    routes,
+                    situations,
+                    stopTimes,
+                    stops,
+                    trips,
+                    additionalProperties,
+                )
+        }
+        return hashCode
     }
 
-    override fun toString() = "References{agencies=$agencies, routes=$routes, situations=$situations, stopTimes=$stopTimes, stops=$stops, trips=$trips, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "References{agencies=$agencies, routes=$routes, situations=$situations, stopTimes=$stopTimes, stops=$stops, trips=$trips, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -167,17 +141,13 @@ class References private constructor(
 
         @JsonProperty("agencies")
         @ExcludeMissing
-        fun agencies(agencies: JsonField<List<Agency>>) = apply {
-            this.agencies = agencies
-        }
+        fun agencies(agencies: JsonField<List<Agency>>) = apply { this.agencies = agencies }
 
         fun routes(routes: List<Route>) = routes(JsonField.of(routes))
 
         @JsonProperty("routes")
         @ExcludeMissing
-        fun routes(routes: JsonField<List<Route>>) = apply {
-            this.routes = routes
-        }
+        fun routes(routes: JsonField<List<Route>>) = apply { this.routes = routes }
 
         fun situations(situations: List<Situation>) = situations(JsonField.of(situations))
 
@@ -191,25 +161,19 @@ class References private constructor(
 
         @JsonProperty("stopTimes")
         @ExcludeMissing
-        fun stopTimes(stopTimes: JsonField<List<StopTime>>) = apply {
-            this.stopTimes = stopTimes
-        }
+        fun stopTimes(stopTimes: JsonField<List<StopTime>>) = apply { this.stopTimes = stopTimes }
 
         fun stops(stops: List<Stop>) = stops(JsonField.of(stops))
 
         @JsonProperty("stops")
         @ExcludeMissing
-        fun stops(stops: JsonField<List<Stop>>) = apply {
-            this.stops = stops
-        }
+        fun stops(stops: JsonField<List<Stop>>) = apply { this.stops = stops }
 
         fun trips(trips: List<Trip>) = trips(JsonField.of(trips))
 
         @JsonProperty("trips")
         @ExcludeMissing
-        fun trips(trips: JsonField<List<Trip>>) = apply {
-            this.trips = trips
-        }
+        fun trips(trips: JsonField<List<Trip>>) = apply { this.trips = trips }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -225,39 +189,41 @@ class References private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): References = References(
-            agencies.map { it.toUnmodifiable() },
-            routes.map { it.toUnmodifiable() },
-            situations.map { it.toUnmodifiable() },
-            stopTimes.map { it.toUnmodifiable() },
-            stops.map { it.toUnmodifiable() },
-            trips.map { it.toUnmodifiable() },
-            additionalProperties.toUnmodifiable(),
-        )
+        fun build(): References =
+            References(
+                agencies.map { it.toUnmodifiable() },
+                routes.map { it.toUnmodifiable() },
+                situations.map { it.toUnmodifiable() },
+                stopTimes.map { it.toUnmodifiable() },
+                stops.map { it.toUnmodifiable() },
+                trips.map { it.toUnmodifiable() },
+                additionalProperties.toUnmodifiable(),
+            )
     }
 
     @JsonDeserialize(builder = Agency.Builder::class)
     @NoAutoDetect
-    class Agency private constructor(
-      private val disclaimer: JsonField<String>,
-      private val email: JsonField<String>,
-      private val fareUrl: JsonField<String>,
-      private val id: JsonField<String>,
-      private val lang: JsonField<String>,
-      private val name: JsonField<String>,
-      private val phone: JsonField<String>,
-      private val privateService: JsonField<Boolean>,
-      private val timezone: JsonField<String>,
-      private val url: JsonField<String>,
-      private val additionalProperties: Map<String, JsonValue>,
-
+    class Agency
+    private constructor(
+        private val disclaimer: JsonField<String>,
+        private val email: JsonField<String>,
+        private val fareUrl: JsonField<String>,
+        private val id: JsonField<String>,
+        private val lang: JsonField<String>,
+        private val name: JsonField<String>,
+        private val phone: JsonField<String>,
+        private val privateService: JsonField<Boolean>,
+        private val timezone: JsonField<String>,
+        private val url: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
 
-        fun disclaimer(): Optional<String> = Optional.ofNullable(disclaimer.getNullable("disclaimer"))
+        fun disclaimer(): Optional<String> =
+            Optional.ofNullable(disclaimer.getNullable("disclaimer"))
 
         fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
@@ -271,51 +237,32 @@ class References private constructor(
 
         fun phone(): Optional<String> = Optional.ofNullable(phone.getNullable("phone"))
 
-        fun privateService(): Optional<Boolean> = Optional.ofNullable(privateService.getNullable("privateService"))
+        fun privateService(): Optional<Boolean> =
+            Optional.ofNullable(privateService.getNullable("privateService"))
 
         fun timezone(): String = timezone.getRequired("timezone")
 
         fun url(): String = url.getRequired("url")
 
-        @JsonProperty("disclaimer")
-        @ExcludeMissing
-        fun _disclaimer() = disclaimer
+        @JsonProperty("disclaimer") @ExcludeMissing fun _disclaimer() = disclaimer
 
-        @JsonProperty("email")
-        @ExcludeMissing
-        fun _email() = email
+        @JsonProperty("email") @ExcludeMissing fun _email() = email
 
-        @JsonProperty("fareUrl")
-        @ExcludeMissing
-        fun _fareUrl() = fareUrl
+        @JsonProperty("fareUrl") @ExcludeMissing fun _fareUrl() = fareUrl
 
-        @JsonProperty("id")
-        @ExcludeMissing
-        fun _id() = id
+        @JsonProperty("id") @ExcludeMissing fun _id() = id
 
-        @JsonProperty("lang")
-        @ExcludeMissing
-        fun _lang() = lang
+        @JsonProperty("lang") @ExcludeMissing fun _lang() = lang
 
-        @JsonProperty("name")
-        @ExcludeMissing
-        fun _name() = name
+        @JsonProperty("name") @ExcludeMissing fun _name() = name
 
-        @JsonProperty("phone")
-        @ExcludeMissing
-        fun _phone() = phone
+        @JsonProperty("phone") @ExcludeMissing fun _phone() = phone
 
-        @JsonProperty("privateService")
-        @ExcludeMissing
-        fun _privateService() = privateService
+        @JsonProperty("privateService") @ExcludeMissing fun _privateService() = privateService
 
-        @JsonProperty("timezone")
-        @ExcludeMissing
-        fun _timezone() = timezone
+        @JsonProperty("timezone") @ExcludeMissing fun _timezone() = timezone
 
-        @JsonProperty("url")
-        @ExcludeMissing
-        fun _url() = url
+        @JsonProperty("url") @ExcludeMissing fun _url() = url
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -323,66 +270,67 @@ class References private constructor(
 
         fun validate(): Agency = apply {
             if (!validated) {
-              disclaimer()
-              email()
-              fareUrl()
-              id()
-              lang()
-              name()
-              phone()
-              privateService()
-              timezone()
-              url()
-              validated = true
+                disclaimer()
+                email()
+                fareUrl()
+                id()
+                lang()
+                name()
+                phone()
+                privateService()
+                timezone()
+                url()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Agency &&
-              this.disclaimer == other.disclaimer &&
-              this.email == other.email &&
-              this.fareUrl == other.fareUrl &&
-              this.id == other.id &&
-              this.lang == other.lang &&
-              this.name == other.name &&
-              this.phone == other.phone &&
-              this.privateService == other.privateService &&
-              this.timezone == other.timezone &&
-              this.url == other.url &&
-              this.additionalProperties == other.additionalProperties
+            return other is Agency &&
+                this.disclaimer == other.disclaimer &&
+                this.email == other.email &&
+                this.fareUrl == other.fareUrl &&
+                this.id == other.id &&
+                this.lang == other.lang &&
+                this.name == other.name &&
+                this.phone == other.phone &&
+                this.privateService == other.privateService &&
+                this.timezone == other.timezone &&
+                this.url == other.url &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                disclaimer,
-                email,
-                fareUrl,
-                id,
-                lang,
-                name,
-                phone,
-                privateService,
-                timezone,
-                url,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        disclaimer,
+                        email,
+                        fareUrl,
+                        id,
+                        lang,
+                        name,
+                        phone,
+                        privateService,
+                        timezone,
+                        url,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Agency{disclaimer=$disclaimer, email=$email, fareUrl=$fareUrl, id=$id, lang=$lang, name=$name, phone=$phone, privateService=$privateService, timezone=$timezone, url=$url, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Agency{disclaimer=$disclaimer, email=$email, fareUrl=$fareUrl, id=$id, lang=$lang, name=$name, phone=$phone, privateService=$privateService, timezone=$timezone, url=$url, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -418,59 +366,46 @@ class References private constructor(
 
             @JsonProperty("disclaimer")
             @ExcludeMissing
-            fun disclaimer(disclaimer: JsonField<String>) = apply {
-                this.disclaimer = disclaimer
-            }
+            fun disclaimer(disclaimer: JsonField<String>) = apply { this.disclaimer = disclaimer }
 
             fun email(email: String) = email(JsonField.of(email))
 
             @JsonProperty("email")
             @ExcludeMissing
-            fun email(email: JsonField<String>) = apply {
-                this.email = email
-            }
+            fun email(email: JsonField<String>) = apply { this.email = email }
 
             fun fareUrl(fareUrl: String) = fareUrl(JsonField.of(fareUrl))
 
             @JsonProperty("fareUrl")
             @ExcludeMissing
-            fun fareUrl(fareUrl: JsonField<String>) = apply {
-                this.fareUrl = fareUrl
-            }
+            fun fareUrl(fareUrl: JsonField<String>) = apply { this.fareUrl = fareUrl }
 
             fun id(id: String) = id(JsonField.of(id))
 
             @JsonProperty("id")
             @ExcludeMissing
-            fun id(id: JsonField<String>) = apply {
-                this.id = id
-            }
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun lang(lang: String) = lang(JsonField.of(lang))
 
             @JsonProperty("lang")
             @ExcludeMissing
-            fun lang(lang: JsonField<String>) = apply {
-                this.lang = lang
-            }
+            fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
             fun name(name: String) = name(JsonField.of(name))
 
             @JsonProperty("name")
             @ExcludeMissing
-            fun name(name: JsonField<String>) = apply {
-                this.name = name
-            }
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun phone(phone: String) = phone(JsonField.of(phone))
 
             @JsonProperty("phone")
             @ExcludeMissing
-            fun phone(phone: JsonField<String>) = apply {
-                this.phone = phone
-            }
+            fun phone(phone: JsonField<String>) = apply { this.phone = phone }
 
-            fun privateService(privateService: Boolean) = privateService(JsonField.of(privateService))
+            fun privateService(privateService: Boolean) =
+                privateService(JsonField.of(privateService))
 
             @JsonProperty("privateService")
             @ExcludeMissing
@@ -482,17 +417,13 @@ class References private constructor(
 
             @JsonProperty("timezone")
             @ExcludeMissing
-            fun timezone(timezone: JsonField<String>) = apply {
-                this.timezone = timezone
-            }
+            fun timezone(timezone: JsonField<String>) = apply { this.timezone = timezone }
 
             fun url(url: String) = url(JsonField.of(url))
 
             @JsonProperty("url")
             @ExcludeMissing
-            fun url(url: JsonField<String>) = apply {
-                this.url = url
-            }
+            fun url(url: JsonField<String>) = apply { this.url = url }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -508,37 +439,38 @@ class References private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Agency = Agency(
-                disclaimer,
-                email,
-                fareUrl,
-                id,
-                lang,
-                name,
-                phone,
-                privateService,
-                timezone,
-                url,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Agency =
+                Agency(
+                    disclaimer,
+                    email,
+                    fareUrl,
+                    id,
+                    lang,
+                    name,
+                    phone,
+                    privateService,
+                    timezone,
+                    url,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
     @JsonDeserialize(builder = Route.Builder::class)
     @NoAutoDetect
-    class Route private constructor(
-      private val agencyId: JsonField<String>,
-      private val color: JsonField<String>,
-      private val description: JsonField<String>,
-      private val id: JsonField<String>,
-      private val longName: JsonField<String>,
-      private val nullSafeShortName: JsonField<String>,
-      private val shortName: JsonField<String>,
-      private val textColor: JsonField<String>,
-      private val type: JsonField<Long>,
-      private val url: JsonField<String>,
-      private val additionalProperties: Map<String, JsonValue>,
-
+    class Route
+    private constructor(
+        private val agencyId: JsonField<String>,
+        private val color: JsonField<String>,
+        private val description: JsonField<String>,
+        private val id: JsonField<String>,
+        private val longName: JsonField<String>,
+        private val nullSafeShortName: JsonField<String>,
+        private val shortName: JsonField<String>,
+        private val textColor: JsonField<String>,
+        private val type: JsonField<Long>,
+        private val url: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
@@ -549,13 +481,15 @@ class References private constructor(
 
         fun color(): Optional<String> = Optional.ofNullable(color.getNullable("color"))
 
-        fun description(): Optional<String> = Optional.ofNullable(description.getNullable("description"))
+        fun description(): Optional<String> =
+            Optional.ofNullable(description.getNullable("description"))
 
         fun id(): String = id.getRequired("id")
 
         fun longName(): Optional<String> = Optional.ofNullable(longName.getNullable("longName"))
 
-        fun nullSafeShortName(): Optional<String> = Optional.ofNullable(nullSafeShortName.getNullable("nullSafeShortName"))
+        fun nullSafeShortName(): Optional<String> =
+            Optional.ofNullable(nullSafeShortName.getNullable("nullSafeShortName"))
 
         fun shortName(): Optional<String> = Optional.ofNullable(shortName.getNullable("shortName"))
 
@@ -565,45 +499,27 @@ class References private constructor(
 
         fun url(): Optional<String> = Optional.ofNullable(url.getNullable("url"))
 
-        @JsonProperty("agencyId")
-        @ExcludeMissing
-        fun _agencyId() = agencyId
+        @JsonProperty("agencyId") @ExcludeMissing fun _agencyId() = agencyId
 
-        @JsonProperty("color")
-        @ExcludeMissing
-        fun _color() = color
+        @JsonProperty("color") @ExcludeMissing fun _color() = color
 
-        @JsonProperty("description")
-        @ExcludeMissing
-        fun _description() = description
+        @JsonProperty("description") @ExcludeMissing fun _description() = description
 
-        @JsonProperty("id")
-        @ExcludeMissing
-        fun _id() = id
+        @JsonProperty("id") @ExcludeMissing fun _id() = id
 
-        @JsonProperty("longName")
-        @ExcludeMissing
-        fun _longName() = longName
+        @JsonProperty("longName") @ExcludeMissing fun _longName() = longName
 
         @JsonProperty("nullSafeShortName")
         @ExcludeMissing
         fun _nullSafeShortName() = nullSafeShortName
 
-        @JsonProperty("shortName")
-        @ExcludeMissing
-        fun _shortName() = shortName
+        @JsonProperty("shortName") @ExcludeMissing fun _shortName() = shortName
 
-        @JsonProperty("textColor")
-        @ExcludeMissing
-        fun _textColor() = textColor
+        @JsonProperty("textColor") @ExcludeMissing fun _textColor() = textColor
 
-        @JsonProperty("type")
-        @ExcludeMissing
-        fun _type() = type
+        @JsonProperty("type") @ExcludeMissing fun _type() = type
 
-        @JsonProperty("url")
-        @ExcludeMissing
-        fun _url() = url
+        @JsonProperty("url") @ExcludeMissing fun _url() = url
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -611,66 +527,67 @@ class References private constructor(
 
         fun validate(): Route = apply {
             if (!validated) {
-              agencyId()
-              color()
-              description()
-              id()
-              longName()
-              nullSafeShortName()
-              shortName()
-              textColor()
-              type()
-              url()
-              validated = true
+                agencyId()
+                color()
+                description()
+                id()
+                longName()
+                nullSafeShortName()
+                shortName()
+                textColor()
+                type()
+                url()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Route &&
-              this.agencyId == other.agencyId &&
-              this.color == other.color &&
-              this.description == other.description &&
-              this.id == other.id &&
-              this.longName == other.longName &&
-              this.nullSafeShortName == other.nullSafeShortName &&
-              this.shortName == other.shortName &&
-              this.textColor == other.textColor &&
-              this.type == other.type &&
-              this.url == other.url &&
-              this.additionalProperties == other.additionalProperties
+            return other is Route &&
+                this.agencyId == other.agencyId &&
+                this.color == other.color &&
+                this.description == other.description &&
+                this.id == other.id &&
+                this.longName == other.longName &&
+                this.nullSafeShortName == other.nullSafeShortName &&
+                this.shortName == other.shortName &&
+                this.textColor == other.textColor &&
+                this.type == other.type &&
+                this.url == other.url &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                agencyId,
-                color,
-                description,
-                id,
-                longName,
-                nullSafeShortName,
-                shortName,
-                textColor,
-                type,
-                url,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        agencyId,
+                        color,
+                        description,
+                        id,
+                        longName,
+                        nullSafeShortName,
+                        shortName,
+                        textColor,
+                        type,
+                        url,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Route{agencyId=$agencyId, color=$color, description=$description, id=$id, longName=$longName, nullSafeShortName=$nullSafeShortName, shortName=$shortName, textColor=$textColor, type=$type, url=$url, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Route{agencyId=$agencyId, color=$color, description=$description, id=$id, longName=$longName, nullSafeShortName=$nullSafeShortName, shortName=$shortName, textColor=$textColor, type=$type, url=$url, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -706,17 +623,13 @@ class References private constructor(
 
             @JsonProperty("agencyId")
             @ExcludeMissing
-            fun agencyId(agencyId: JsonField<String>) = apply {
-                this.agencyId = agencyId
-            }
+            fun agencyId(agencyId: JsonField<String>) = apply { this.agencyId = agencyId }
 
             fun color(color: String) = color(JsonField.of(color))
 
             @JsonProperty("color")
             @ExcludeMissing
-            fun color(color: JsonField<String>) = apply {
-                this.color = color
-            }
+            fun color(color: JsonField<String>) = apply { this.color = color }
 
             fun description(description: String) = description(JsonField.of(description))
 
@@ -730,19 +643,16 @@ class References private constructor(
 
             @JsonProperty("id")
             @ExcludeMissing
-            fun id(id: JsonField<String>) = apply {
-                this.id = id
-            }
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun longName(longName: String) = longName(JsonField.of(longName))
 
             @JsonProperty("longName")
             @ExcludeMissing
-            fun longName(longName: JsonField<String>) = apply {
-                this.longName = longName
-            }
+            fun longName(longName: JsonField<String>) = apply { this.longName = longName }
 
-            fun nullSafeShortName(nullSafeShortName: String) = nullSafeShortName(JsonField.of(nullSafeShortName))
+            fun nullSafeShortName(nullSafeShortName: String) =
+                nullSafeShortName(JsonField.of(nullSafeShortName))
 
             @JsonProperty("nullSafeShortName")
             @ExcludeMissing
@@ -754,33 +664,25 @@ class References private constructor(
 
             @JsonProperty("shortName")
             @ExcludeMissing
-            fun shortName(shortName: JsonField<String>) = apply {
-                this.shortName = shortName
-            }
+            fun shortName(shortName: JsonField<String>) = apply { this.shortName = shortName }
 
             fun textColor(textColor: String) = textColor(JsonField.of(textColor))
 
             @JsonProperty("textColor")
             @ExcludeMissing
-            fun textColor(textColor: JsonField<String>) = apply {
-                this.textColor = textColor
-            }
+            fun textColor(textColor: JsonField<String>) = apply { this.textColor = textColor }
 
             fun type(type: Long) = type(JsonField.of(type))
 
             @JsonProperty("type")
             @ExcludeMissing
-            fun type(type: JsonField<Long>) = apply {
-                this.type = type
-            }
+            fun type(type: JsonField<Long>) = apply { this.type = type }
 
             fun url(url: String) = url(JsonField.of(url))
 
             @JsonProperty("url")
             @ExcludeMissing
-            fun url(url: JsonField<String>) = apply {
-                this.url = url
-            }
+            fun url(url: JsonField<String>) = apply { this.url = url }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -796,39 +698,40 @@ class References private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Route = Route(
-                agencyId,
-                color,
-                description,
-                id,
-                longName,
-                nullSafeShortName,
-                shortName,
-                textColor,
-                type,
-                url,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Route =
+                Route(
+                    agencyId,
+                    color,
+                    description,
+                    id,
+                    longName,
+                    nullSafeShortName,
+                    shortName,
+                    textColor,
+                    type,
+                    url,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
     @JsonDeserialize(builder = Situation.Builder::class)
     @NoAutoDetect
-    class Situation private constructor(
-      private val id: JsonField<String>,
-      private val creationTime: JsonField<Long>,
-      private val reason: JsonField<Reason>,
-      private val summary: JsonField<Summary>,
-      private val description: JsonField<Description>,
-      private val url: JsonField<Url>,
-      private val activeWindows: JsonField<List<ActiveWindow>>,
-      private val allAffects: JsonField<List<AllAffect>>,
-      private val consequences: JsonField<List<Consequence>>,
-      private val publicationWindows: JsonField<List<PublicationWindow>>,
-      private val severity: JsonField<String>,
-      private val consequenceMessage: JsonField<String>,
-      private val additionalProperties: Map<String, JsonValue>,
-
+    class Situation
+    private constructor(
+        private val id: JsonField<String>,
+        private val creationTime: JsonField<Long>,
+        private val reason: JsonField<Reason>,
+        private val summary: JsonField<Summary>,
+        private val description: JsonField<Description>,
+        private val url: JsonField<Url>,
+        private val activeWindows: JsonField<List<ActiveWindow>>,
+        private val allAffects: JsonField<List<AllAffect>>,
+        private val consequences: JsonField<List<Consequence>>,
+        private val publicationWindows: JsonField<List<PublicationWindow>>,
+        private val severity: JsonField<String>,
+        private val consequenceMessage: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
@@ -846,71 +749,57 @@ class References private constructor(
 
         fun summary(): Optional<Summary> = Optional.ofNullable(summary.getNullable("summary"))
 
-        fun description(): Optional<Description> = Optional.ofNullable(description.getNullable("description"))
+        fun description(): Optional<Description> =
+            Optional.ofNullable(description.getNullable("description"))
 
         fun url(): Optional<Url> = Optional.ofNullable(url.getNullable("url"))
 
-        fun activeWindows(): Optional<List<ActiveWindow>> = Optional.ofNullable(activeWindows.getNullable("activeWindows"))
+        fun activeWindows(): Optional<List<ActiveWindow>> =
+            Optional.ofNullable(activeWindows.getNullable("activeWindows"))
 
-        fun allAffects(): Optional<List<AllAffect>> = Optional.ofNullable(allAffects.getNullable("allAffects"))
+        fun allAffects(): Optional<List<AllAffect>> =
+            Optional.ofNullable(allAffects.getNullable("allAffects"))
 
-        fun consequences(): Optional<List<Consequence>> = Optional.ofNullable(consequences.getNullable("consequences"))
+        fun consequences(): Optional<List<Consequence>> =
+            Optional.ofNullable(consequences.getNullable("consequences"))
 
-        fun publicationWindows(): Optional<List<PublicationWindow>> = Optional.ofNullable(publicationWindows.getNullable("publicationWindows"))
+        fun publicationWindows(): Optional<List<PublicationWindow>> =
+            Optional.ofNullable(publicationWindows.getNullable("publicationWindows"))
 
         /** Severity of the situation. */
         fun severity(): Optional<String> = Optional.ofNullable(severity.getNullable("severity"))
 
         /** Message regarding the consequence of the situation. */
-        fun consequenceMessage(): Optional<String> = Optional.ofNullable(consequenceMessage.getNullable("consequenceMessage"))
+        fun consequenceMessage(): Optional<String> =
+            Optional.ofNullable(consequenceMessage.getNullable("consequenceMessage"))
 
         /** Unique identifier for the situation. */
-        @JsonProperty("id")
-        @ExcludeMissing
-        fun _id() = id
+        @JsonProperty("id") @ExcludeMissing fun _id() = id
 
         /** Unix timestamp of when this situation was created. */
-        @JsonProperty("creationTime")
-        @ExcludeMissing
-        fun _creationTime() = creationTime
+        @JsonProperty("creationTime") @ExcludeMissing fun _creationTime() = creationTime
 
         /** Reason for the service alert, taken from TPEG codes. */
-        @JsonProperty("reason")
-        @ExcludeMissing
-        fun _reason() = reason
+        @JsonProperty("reason") @ExcludeMissing fun _reason() = reason
 
-        @JsonProperty("summary")
-        @ExcludeMissing
-        fun _summary() = summary
+        @JsonProperty("summary") @ExcludeMissing fun _summary() = summary
 
-        @JsonProperty("description")
-        @ExcludeMissing
-        fun _description() = description
+        @JsonProperty("description") @ExcludeMissing fun _description() = description
 
-        @JsonProperty("url")
-        @ExcludeMissing
-        fun _url() = url
+        @JsonProperty("url") @ExcludeMissing fun _url() = url
 
-        @JsonProperty("activeWindows")
-        @ExcludeMissing
-        fun _activeWindows() = activeWindows
+        @JsonProperty("activeWindows") @ExcludeMissing fun _activeWindows() = activeWindows
 
-        @JsonProperty("allAffects")
-        @ExcludeMissing
-        fun _allAffects() = allAffects
+        @JsonProperty("allAffects") @ExcludeMissing fun _allAffects() = allAffects
 
-        @JsonProperty("consequences")
-        @ExcludeMissing
-        fun _consequences() = consequences
+        @JsonProperty("consequences") @ExcludeMissing fun _consequences() = consequences
 
         @JsonProperty("publicationWindows")
         @ExcludeMissing
         fun _publicationWindows() = publicationWindows
 
         /** Severity of the situation. */
-        @JsonProperty("severity")
-        @ExcludeMissing
-        fun _severity() = severity
+        @JsonProperty("severity") @ExcludeMissing fun _severity() = severity
 
         /** Message regarding the consequence of the situation. */
         @JsonProperty("consequenceMessage")
@@ -923,72 +812,73 @@ class References private constructor(
 
         fun validate(): Situation = apply {
             if (!validated) {
-              id()
-              creationTime()
-              reason()
-              summary().map { it.validate() }
-              description().map { it.validate() }
-              url().map { it.validate() }
-              activeWindows().map { it.forEach { it.validate() } }
-              allAffects().map { it.forEach { it.validate() } }
-              consequences().map { it.forEach { it.validate() } }
-              publicationWindows().map { it.forEach { it.validate() } }
-              severity()
-              consequenceMessage()
-              validated = true
+                id()
+                creationTime()
+                reason()
+                summary().map { it.validate() }
+                description().map { it.validate() }
+                url().map { it.validate() }
+                activeWindows().map { it.forEach { it.validate() } }
+                allAffects().map { it.forEach { it.validate() } }
+                consequences().map { it.forEach { it.validate() } }
+                publicationWindows().map { it.forEach { it.validate() } }
+                severity()
+                consequenceMessage()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Situation &&
-              this.id == other.id &&
-              this.creationTime == other.creationTime &&
-              this.reason == other.reason &&
-              this.summary == other.summary &&
-              this.description == other.description &&
-              this.url == other.url &&
-              this.activeWindows == other.activeWindows &&
-              this.allAffects == other.allAffects &&
-              this.consequences == other.consequences &&
-              this.publicationWindows == other.publicationWindows &&
-              this.severity == other.severity &&
-              this.consequenceMessage == other.consequenceMessage &&
-              this.additionalProperties == other.additionalProperties
+            return other is Situation &&
+                this.id == other.id &&
+                this.creationTime == other.creationTime &&
+                this.reason == other.reason &&
+                this.summary == other.summary &&
+                this.description == other.description &&
+                this.url == other.url &&
+                this.activeWindows == other.activeWindows &&
+                this.allAffects == other.allAffects &&
+                this.consequences == other.consequences &&
+                this.publicationWindows == other.publicationWindows &&
+                this.severity == other.severity &&
+                this.consequenceMessage == other.consequenceMessage &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                id,
-                creationTime,
-                reason,
-                summary,
-                description,
-                url,
-                activeWindows,
-                allAffects,
-                consequences,
-                publicationWindows,
-                severity,
-                consequenceMessage,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        id,
+                        creationTime,
+                        reason,
+                        summary,
+                        description,
+                        url,
+                        activeWindows,
+                        allAffects,
+                        consequences,
+                        publicationWindows,
+                        severity,
+                        consequenceMessage,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Situation{id=$id, creationTime=$creationTime, reason=$reason, summary=$summary, description=$description, url=$url, activeWindows=$activeWindows, allAffects=$allAffects, consequences=$consequences, publicationWindows=$publicationWindows, severity=$severity, consequenceMessage=$consequenceMessage, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Situation{id=$id, creationTime=$creationTime, reason=$reason, summary=$summary, description=$description, url=$url, activeWindows=$activeWindows, allAffects=$allAffects, consequences=$consequences, publicationWindows=$publicationWindows, severity=$severity, consequenceMessage=$consequenceMessage, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -1030,9 +920,7 @@ class References private constructor(
             /** Unique identifier for the situation. */
             @JsonProperty("id")
             @ExcludeMissing
-            fun id(id: JsonField<String>) = apply {
-                this.id = id
-            }
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             /** Unix timestamp of when this situation was created. */
             fun creationTime(creationTime: Long) = creationTime(JsonField.of(creationTime))
@@ -1050,17 +938,13 @@ class References private constructor(
             /** Reason for the service alert, taken from TPEG codes. */
             @JsonProperty("reason")
             @ExcludeMissing
-            fun reason(reason: JsonField<Reason>) = apply {
-                this.reason = reason
-            }
+            fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
 
             fun summary(summary: Summary) = summary(JsonField.of(summary))
 
             @JsonProperty("summary")
             @ExcludeMissing
-            fun summary(summary: JsonField<Summary>) = apply {
-                this.summary = summary
-            }
+            fun summary(summary: JsonField<Summary>) = apply { this.summary = summary }
 
             fun description(description: Description) = description(JsonField.of(description))
 
@@ -1074,11 +958,10 @@ class References private constructor(
 
             @JsonProperty("url")
             @ExcludeMissing
-            fun url(url: JsonField<Url>) = apply {
-                this.url = url
-            }
+            fun url(url: JsonField<Url>) = apply { this.url = url }
 
-            fun activeWindows(activeWindows: List<ActiveWindow>) = activeWindows(JsonField.of(activeWindows))
+            fun activeWindows(activeWindows: List<ActiveWindow>) =
+                activeWindows(JsonField.of(activeWindows))
 
             @JsonProperty("activeWindows")
             @ExcludeMissing
@@ -1094,7 +977,8 @@ class References private constructor(
                 this.allAffects = allAffects
             }
 
-            fun consequences(consequences: List<Consequence>) = consequences(JsonField.of(consequences))
+            fun consequences(consequences: List<Consequence>) =
+                consequences(JsonField.of(consequences))
 
             @JsonProperty("consequences")
             @ExcludeMissing
@@ -1102,7 +986,8 @@ class References private constructor(
                 this.consequences = consequences
             }
 
-            fun publicationWindows(publicationWindows: List<PublicationWindow>) = publicationWindows(JsonField.of(publicationWindows))
+            fun publicationWindows(publicationWindows: List<PublicationWindow>) =
+                publicationWindows(JsonField.of(publicationWindows))
 
             @JsonProperty("publicationWindows")
             @ExcludeMissing
@@ -1116,12 +1001,11 @@ class References private constructor(
             /** Severity of the situation. */
             @JsonProperty("severity")
             @ExcludeMissing
-            fun severity(severity: JsonField<String>) = apply {
-                this.severity = severity
-            }
+            fun severity(severity: JsonField<String>) = apply { this.severity = severity }
 
             /** Message regarding the consequence of the situation. */
-            fun consequenceMessage(consequenceMessage: String) = consequenceMessage(JsonField.of(consequenceMessage))
+            fun consequenceMessage(consequenceMessage: String) =
+                consequenceMessage(JsonField.of(consequenceMessage))
 
             /** Message regarding the consequence of the situation. */
             @JsonProperty("consequenceMessage")
@@ -1144,26 +1028,32 @@ class References private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Situation = Situation(
-                id,
-                creationTime,
-                reason,
-                summary,
-                description,
-                url,
-                activeWindows.map { it.toUnmodifiable() },
-                allAffects.map { it.toUnmodifiable() },
-                consequences.map { it.toUnmodifiable() },
-                publicationWindows.map { it.toUnmodifiable() },
-                severity,
-                consequenceMessage,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Situation =
+                Situation(
+                    id,
+                    creationTime,
+                    reason,
+                    summary,
+                    description,
+                    url,
+                    activeWindows.map { it.toUnmodifiable() },
+                    allAffects.map { it.toUnmodifiable() },
+                    consequences.map { it.toUnmodifiable() },
+                    publicationWindows.map { it.toUnmodifiable() },
+                    severity,
+                    consequenceMessage,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
 
         @JsonDeserialize(builder = ActiveWindow.Builder::class)
         @NoAutoDetect
-        class ActiveWindow private constructor(private val from: JsonField<Long>, private val to: JsonField<Long>, private val additionalProperties: Map<String, JsonValue>, ) {
+        class ActiveWindow
+        private constructor(
+            private val from: JsonField<Long>,
+            private val to: JsonField<Long>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
 
             private var validated: Boolean = false
 
@@ -1176,14 +1066,10 @@ class References private constructor(
             fun to(): Optional<Long> = Optional.ofNullable(to.getNullable("to"))
 
             /** Start time of the active window as a Unix timestamp. */
-            @JsonProperty("from")
-            @ExcludeMissing
-            fun _from() = from
+            @JsonProperty("from") @ExcludeMissing fun _from() = from
 
             /** End time of the active window as a Unix timestamp. */
-            @JsonProperty("to")
-            @ExcludeMissing
-            fun _to() = to
+            @JsonProperty("to") @ExcludeMissing fun _to() = to
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1191,42 +1077,43 @@ class References private constructor(
 
             fun validate(): ActiveWindow = apply {
                 if (!validated) {
-                  from()
-                  to()
-                  validated = true
+                    from()
+                    to()
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is ActiveWindow &&
-                  this.from == other.from &&
-                  this.to == other.to &&
-                  this.additionalProperties == other.additionalProperties
+                return other is ActiveWindow &&
+                    this.from == other.from &&
+                    this.to == other.to &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    from,
-                    to,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            from,
+                            to,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "ActiveWindow{from=$from, to=$to, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "ActiveWindow{from=$from, to=$to, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -1248,9 +1135,7 @@ class References private constructor(
                 /** Start time of the active window as a Unix timestamp. */
                 @JsonProperty("from")
                 @ExcludeMissing
-                fun from(from: JsonField<Long>) = apply {
-                    this.from = from
-                }
+                fun from(from: JsonField<Long>) = apply { this.from = from }
 
                 /** End time of the active window as a Unix timestamp. */
                 fun to(to: Long) = to(JsonField.of(to))
@@ -1258,9 +1143,7 @@ class References private constructor(
                 /** End time of the active window as a Unix timestamp. */
                 @JsonProperty("to")
                 @ExcludeMissing
-                fun to(to: JsonField<Long>) = apply {
-                    this.to = to
-                }
+                fun to(to: JsonField<Long>) = apply { this.to = to }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1272,29 +1155,31 @@ class References private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): ActiveWindow = ActiveWindow(
-                    from,
-                    to,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): ActiveWindow =
+                    ActiveWindow(
+                        from,
+                        to,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
         }
 
         @JsonDeserialize(builder = AllAffect.Builder::class)
         @NoAutoDetect
-        class AllAffect private constructor(
-          private val agencyId: JsonField<String>,
-          private val applicationId: JsonField<String>,
-          private val directionId: JsonField<String>,
-          private val routeId: JsonField<String>,
-          private val stopId: JsonField<String>,
-          private val tripId: JsonField<String>,
-          private val additionalProperties: Map<String, JsonValue>,
-
+        class AllAffect
+        private constructor(
+            private val agencyId: JsonField<String>,
+            private val applicationId: JsonField<String>,
+            private val directionId: JsonField<String>,
+            private val routeId: JsonField<String>,
+            private val stopId: JsonField<String>,
+            private val tripId: JsonField<String>,
+            private val additionalProperties: Map<String, JsonValue>,
         ) {
 
             private var validated: Boolean = false
@@ -1305,10 +1190,12 @@ class References private constructor(
             fun agencyId(): Optional<String> = Optional.ofNullable(agencyId.getNullable("agencyId"))
 
             /** Identifier for the application. */
-            fun applicationId(): Optional<String> = Optional.ofNullable(applicationId.getNullable("applicationId"))
+            fun applicationId(): Optional<String> =
+                Optional.ofNullable(applicationId.getNullable("applicationId"))
 
             /** Identifier for the direction. */
-            fun directionId(): Optional<String> = Optional.ofNullable(directionId.getNullable("directionId"))
+            fun directionId(): Optional<String> =
+                Optional.ofNullable(directionId.getNullable("directionId"))
 
             /** Identifier for the route. */
             fun routeId(): Optional<String> = Optional.ofNullable(routeId.getNullable("routeId"))
@@ -1320,34 +1207,22 @@ class References private constructor(
             fun tripId(): Optional<String> = Optional.ofNullable(tripId.getNullable("tripId"))
 
             /** Identifier for the agency. */
-            @JsonProperty("agencyId")
-            @ExcludeMissing
-            fun _agencyId() = agencyId
+            @JsonProperty("agencyId") @ExcludeMissing fun _agencyId() = agencyId
 
             /** Identifier for the application. */
-            @JsonProperty("applicationId")
-            @ExcludeMissing
-            fun _applicationId() = applicationId
+            @JsonProperty("applicationId") @ExcludeMissing fun _applicationId() = applicationId
 
             /** Identifier for the direction. */
-            @JsonProperty("directionId")
-            @ExcludeMissing
-            fun _directionId() = directionId
+            @JsonProperty("directionId") @ExcludeMissing fun _directionId() = directionId
 
             /** Identifier for the route. */
-            @JsonProperty("routeId")
-            @ExcludeMissing
-            fun _routeId() = routeId
+            @JsonProperty("routeId") @ExcludeMissing fun _routeId() = routeId
 
             /** Identifier for the stop. */
-            @JsonProperty("stopId")
-            @ExcludeMissing
-            fun _stopId() = stopId
+            @JsonProperty("stopId") @ExcludeMissing fun _stopId() = stopId
 
             /** Identifier for the trip. */
-            @JsonProperty("tripId")
-            @ExcludeMissing
-            fun _tripId() = tripId
+            @JsonProperty("tripId") @ExcludeMissing fun _tripId() = tripId
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1355,54 +1230,55 @@ class References private constructor(
 
             fun validate(): AllAffect = apply {
                 if (!validated) {
-                  agencyId()
-                  applicationId()
-                  directionId()
-                  routeId()
-                  stopId()
-                  tripId()
-                  validated = true
+                    agencyId()
+                    applicationId()
+                    directionId()
+                    routeId()
+                    stopId()
+                    tripId()
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is AllAffect &&
-                  this.agencyId == other.agencyId &&
-                  this.applicationId == other.applicationId &&
-                  this.directionId == other.directionId &&
-                  this.routeId == other.routeId &&
-                  this.stopId == other.stopId &&
-                  this.tripId == other.tripId &&
-                  this.additionalProperties == other.additionalProperties
+                return other is AllAffect &&
+                    this.agencyId == other.agencyId &&
+                    this.applicationId == other.applicationId &&
+                    this.directionId == other.directionId &&
+                    this.routeId == other.routeId &&
+                    this.stopId == other.stopId &&
+                    this.tripId == other.tripId &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    agencyId,
-                    applicationId,
-                    directionId,
-                    routeId,
-                    stopId,
-                    tripId,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            agencyId,
+                            applicationId,
+                            directionId,
+                            routeId,
+                            stopId,
+                            tripId,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "AllAffect{agencyId=$agencyId, applicationId=$applicationId, directionId=$directionId, routeId=$routeId, stopId=$stopId, tripId=$tripId, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "AllAffect{agencyId=$agencyId, applicationId=$applicationId, directionId=$directionId, routeId=$routeId, stopId=$stopId, tripId=$tripId, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -1432,12 +1308,11 @@ class References private constructor(
                 /** Identifier for the agency. */
                 @JsonProperty("agencyId")
                 @ExcludeMissing
-                fun agencyId(agencyId: JsonField<String>) = apply {
-                    this.agencyId = agencyId
-                }
+                fun agencyId(agencyId: JsonField<String>) = apply { this.agencyId = agencyId }
 
                 /** Identifier for the application. */
-                fun applicationId(applicationId: String) = applicationId(JsonField.of(applicationId))
+                fun applicationId(applicationId: String) =
+                    applicationId(JsonField.of(applicationId))
 
                 /** Identifier for the application. */
                 @JsonProperty("applicationId")
@@ -1462,9 +1337,7 @@ class References private constructor(
                 /** Identifier for the route. */
                 @JsonProperty("routeId")
                 @ExcludeMissing
-                fun routeId(routeId: JsonField<String>) = apply {
-                    this.routeId = routeId
-                }
+                fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                 /** Identifier for the stop. */
                 fun stopId(stopId: String) = stopId(JsonField.of(stopId))
@@ -1472,9 +1345,7 @@ class References private constructor(
                 /** Identifier for the stop. */
                 @JsonProperty("stopId")
                 @ExcludeMissing
-                fun stopId(stopId: JsonField<String>) = apply {
-                    this.stopId = stopId
-                }
+                fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
                 /** Identifier for the trip. */
                 fun tripId(tripId: String) = tripId(JsonField.of(tripId))
@@ -1482,9 +1353,7 @@ class References private constructor(
                 /** Identifier for the trip. */
                 @JsonProperty("tripId")
                 @ExcludeMissing
-                fun tripId(tripId: JsonField<String>) = apply {
-                    this.tripId = tripId
-                }
+                fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1496,39 +1365,46 @@ class References private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): AllAffect = AllAffect(
-                    agencyId,
-                    applicationId,
-                    directionId,
-                    routeId,
-                    stopId,
-                    tripId,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): AllAffect =
+                    AllAffect(
+                        agencyId,
+                        applicationId,
+                        directionId,
+                        routeId,
+                        stopId,
+                        tripId,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
         }
 
         @JsonDeserialize(builder = Consequence.Builder::class)
         @NoAutoDetect
-        class Consequence private constructor(private val condition: JsonField<String>, private val conditionDetails: JsonField<ConditionDetails>, private val additionalProperties: Map<String, JsonValue>, ) {
+        class Consequence
+        private constructor(
+            private val condition: JsonField<String>,
+            private val conditionDetails: JsonField<ConditionDetails>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
 
             private var validated: Boolean = false
 
             private var hashCode: Int = 0
 
             /** Condition of the consequence. */
-            fun condition(): Optional<String> = Optional.ofNullable(condition.getNullable("condition"))
+            fun condition(): Optional<String> =
+                Optional.ofNullable(condition.getNullable("condition"))
 
-            fun conditionDetails(): Optional<ConditionDetails> = Optional.ofNullable(conditionDetails.getNullable("conditionDetails"))
+            fun conditionDetails(): Optional<ConditionDetails> =
+                Optional.ofNullable(conditionDetails.getNullable("conditionDetails"))
 
             /** Condition of the consequence. */
-            @JsonProperty("condition")
-            @ExcludeMissing
-            fun _condition() = condition
+            @JsonProperty("condition") @ExcludeMissing fun _condition() = condition
 
             @JsonProperty("conditionDetails")
             @ExcludeMissing
@@ -1540,42 +1416,43 @@ class References private constructor(
 
             fun validate(): Consequence = apply {
                 if (!validated) {
-                  condition()
-                  conditionDetails().map { it.validate() }
-                  validated = true
+                    condition()
+                    conditionDetails().map { it.validate() }
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Consequence &&
-                  this.condition == other.condition &&
-                  this.conditionDetails == other.conditionDetails &&
-                  this.additionalProperties == other.additionalProperties
+                return other is Consequence &&
+                    this.condition == other.condition &&
+                    this.conditionDetails == other.conditionDetails &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    condition,
-                    conditionDetails,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            condition,
+                            conditionDetails,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "Consequence{condition=$condition, conditionDetails=$conditionDetails, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "Consequence{condition=$condition, conditionDetails=$conditionDetails, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -1597,11 +1474,10 @@ class References private constructor(
                 /** Condition of the consequence. */
                 @JsonProperty("condition")
                 @ExcludeMissing
-                fun condition(condition: JsonField<String>) = apply {
-                    this.condition = condition
-                }
+                fun condition(condition: JsonField<String>) = apply { this.condition = condition }
 
-                fun conditionDetails(conditionDetails: ConditionDetails) = conditionDetails(JsonField.of(conditionDetails))
+                fun conditionDetails(conditionDetails: ConditionDetails) =
+                    conditionDetails(JsonField.of(conditionDetails))
 
                 @JsonProperty("conditionDetails")
                 @ExcludeMissing
@@ -1619,32 +1495,39 @@ class References private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): Consequence = Consequence(
-                    condition,
-                    conditionDetails,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): Consequence =
+                    Consequence(
+                        condition,
+                        conditionDetails,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
 
             @JsonDeserialize(builder = ConditionDetails.Builder::class)
             @NoAutoDetect
-            class ConditionDetails private constructor(private val diversionPath: JsonField<DiversionPath>, private val diversionStopIds: JsonField<List<String>>, private val additionalProperties: Map<String, JsonValue>, ) {
+            class ConditionDetails
+            private constructor(
+                private val diversionPath: JsonField<DiversionPath>,
+                private val diversionStopIds: JsonField<List<String>>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
 
                 private var validated: Boolean = false
 
                 private var hashCode: Int = 0
 
-                fun diversionPath(): Optional<DiversionPath> = Optional.ofNullable(diversionPath.getNullable("diversionPath"))
+                fun diversionPath(): Optional<DiversionPath> =
+                    Optional.ofNullable(diversionPath.getNullable("diversionPath"))
 
-                fun diversionStopIds(): Optional<List<String>> = Optional.ofNullable(diversionStopIds.getNullable("diversionStopIds"))
+                fun diversionStopIds(): Optional<List<String>> =
+                    Optional.ofNullable(diversionStopIds.getNullable("diversionStopIds"))
 
-                @JsonProperty("diversionPath")
-                @ExcludeMissing
-                fun _diversionPath() = diversionPath
+                @JsonProperty("diversionPath") @ExcludeMissing fun _diversionPath() = diversionPath
 
                 @JsonProperty("diversionStopIds")
                 @ExcludeMissing
@@ -1656,42 +1539,43 @@ class References private constructor(
 
                 fun validate(): ConditionDetails = apply {
                     if (!validated) {
-                      diversionPath().map { it.validate() }
-                      diversionStopIds()
-                      validated = true
+                        diversionPath().map { it.validate() }
+                        diversionStopIds()
+                        validated = true
                     }
                 }
 
                 fun toBuilder() = Builder().from(this)
 
                 override fun equals(other: Any?): Boolean {
-                  if (this === other) {
-                      return true
-                  }
+                    if (this === other) {
+                        return true
+                    }
 
-                  return other is ConditionDetails &&
-                      this.diversionPath == other.diversionPath &&
-                      this.diversionStopIds == other.diversionStopIds &&
-                      this.additionalProperties == other.additionalProperties
+                    return other is ConditionDetails &&
+                        this.diversionPath == other.diversionPath &&
+                        this.diversionStopIds == other.diversionStopIds &&
+                        this.additionalProperties == other.additionalProperties
                 }
 
                 override fun hashCode(): Int {
-                  if (hashCode == 0) {
-                    hashCode = Objects.hash(
-                        diversionPath,
-                        diversionStopIds,
-                        additionalProperties,
-                    )
-                  }
-                  return hashCode
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                diversionPath,
+                                diversionStopIds,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
                 }
 
-                override fun toString() = "ConditionDetails{diversionPath=$diversionPath, diversionStopIds=$diversionStopIds, additionalProperties=$additionalProperties}"
+                override fun toString() =
+                    "ConditionDetails{diversionPath=$diversionPath, diversionStopIds=$diversionStopIds, additionalProperties=$additionalProperties}"
 
                 companion object {
 
-                    @JvmStatic
-                    fun builder() = Builder()
+                    @JvmStatic fun builder() = Builder()
                 }
 
                 class Builder {
@@ -1707,7 +1591,8 @@ class References private constructor(
                         additionalProperties(conditionDetails.additionalProperties)
                     }
 
-                    fun diversionPath(diversionPath: DiversionPath) = diversionPath(JsonField.of(diversionPath))
+                    fun diversionPath(diversionPath: DiversionPath) =
+                        diversionPath(JsonField.of(diversionPath))
 
                     @JsonProperty("diversionPath")
                     @ExcludeMissing
@@ -1715,7 +1600,8 @@ class References private constructor(
                         this.diversionPath = diversionPath
                     }
 
-                    fun diversionStopIds(diversionStopIds: List<String>) = diversionStopIds(JsonField.of(diversionStopIds))
+                    fun diversionStopIds(diversionStopIds: List<String>) =
+                        diversionStopIds(JsonField.of(diversionStopIds))
 
                     @JsonProperty("diversionStopIds")
                     @ExcludeMissing
@@ -1733,25 +1619,27 @@ class References private constructor(
                         this.additionalProperties.put(key, value)
                     }
 
-                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
 
-                    fun build(): ConditionDetails = ConditionDetails(
-                        diversionPath,
-                        diversionStopIds.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
-                    )
+                    fun build(): ConditionDetails =
+                        ConditionDetails(
+                            diversionPath,
+                            diversionStopIds.map { it.toUnmodifiable() },
+                            additionalProperties.toUnmodifiable(),
+                        )
                 }
 
                 @JsonDeserialize(builder = DiversionPath.Builder::class)
                 @NoAutoDetect
-                class DiversionPath private constructor(
-                  private val length: JsonField<Long>,
-                  private val levels: JsonField<String>,
-                  private val points: JsonField<String>,
-                  private val additionalProperties: Map<String, JsonValue>,
-
+                class DiversionPath
+                private constructor(
+                    private val length: JsonField<Long>,
+                    private val levels: JsonField<String>,
+                    private val points: JsonField<String>,
+                    private val additionalProperties: Map<String, JsonValue>,
                 ) {
 
                     private var validated: Boolean = false
@@ -1762,25 +1650,21 @@ class References private constructor(
                     fun length(): Optional<Long> = Optional.ofNullable(length.getNullable("length"))
 
                     /** Levels of the diversion path. */
-                    fun levels(): Optional<String> = Optional.ofNullable(levels.getNullable("levels"))
+                    fun levels(): Optional<String> =
+                        Optional.ofNullable(levels.getNullable("levels"))
 
                     /** Points of the diversion path. */
-                    fun points(): Optional<String> = Optional.ofNullable(points.getNullable("points"))
+                    fun points(): Optional<String> =
+                        Optional.ofNullable(points.getNullable("points"))
 
                     /** Length of the diversion path. */
-                    @JsonProperty("length")
-                    @ExcludeMissing
-                    fun _length() = length
+                    @JsonProperty("length") @ExcludeMissing fun _length() = length
 
                     /** Levels of the diversion path. */
-                    @JsonProperty("levels")
-                    @ExcludeMissing
-                    fun _levels() = levels
+                    @JsonProperty("levels") @ExcludeMissing fun _levels() = levels
 
                     /** Points of the diversion path. */
-                    @JsonProperty("points")
-                    @ExcludeMissing
-                    fun _points() = points
+                    @JsonProperty("points") @ExcludeMissing fun _points() = points
 
                     @JsonAnyGetter
                     @ExcludeMissing
@@ -1788,45 +1672,46 @@ class References private constructor(
 
                     fun validate(): DiversionPath = apply {
                         if (!validated) {
-                          length()
-                          levels()
-                          points()
-                          validated = true
+                            length()
+                            levels()
+                            points()
+                            validated = true
                         }
                     }
 
                     fun toBuilder() = Builder().from(this)
 
                     override fun equals(other: Any?): Boolean {
-                      if (this === other) {
-                          return true
-                      }
+                        if (this === other) {
+                            return true
+                        }
 
-                      return other is DiversionPath &&
-                          this.length == other.length &&
-                          this.levels == other.levels &&
-                          this.points == other.points &&
-                          this.additionalProperties == other.additionalProperties
+                        return other is DiversionPath &&
+                            this.length == other.length &&
+                            this.levels == other.levels &&
+                            this.points == other.points &&
+                            this.additionalProperties == other.additionalProperties
                     }
 
                     override fun hashCode(): Int {
-                      if (hashCode == 0) {
-                        hashCode = Objects.hash(
-                            length,
-                            levels,
-                            points,
-                            additionalProperties,
-                        )
-                      }
-                      return hashCode
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    length,
+                                    levels,
+                                    points,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
                     }
 
-                    override fun toString() = "DiversionPath{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
+                    override fun toString() =
+                        "DiversionPath{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
 
                     companion object {
 
-                        @JvmStatic
-                        fun builder() = Builder()
+                        @JvmStatic fun builder() = Builder()
                     }
 
                     class Builder {
@@ -1834,7 +1719,8 @@ class References private constructor(
                         private var length: JsonField<Long> = JsonMissing.of()
                         private var levels: JsonField<String> = JsonMissing.of()
                         private var points: JsonField<String> = JsonMissing.of()
-                        private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+                        private var additionalProperties: MutableMap<String, JsonValue> =
+                            mutableMapOf()
 
                         @JvmSynthetic
                         internal fun from(diversionPath: DiversionPath) = apply {
@@ -1850,9 +1736,7 @@ class References private constructor(
                         /** Length of the diversion path. */
                         @JsonProperty("length")
                         @ExcludeMissing
-                        fun length(length: JsonField<Long>) = apply {
-                            this.length = length
-                        }
+                        fun length(length: JsonField<Long>) = apply { this.length = length }
 
                         /** Levels of the diversion path. */
                         fun levels(levels: String) = levels(JsonField.of(levels))
@@ -1860,9 +1744,7 @@ class References private constructor(
                         /** Levels of the diversion path. */
                         @JsonProperty("levels")
                         @ExcludeMissing
-                        fun levels(levels: JsonField<String>) = apply {
-                            this.levels = levels
-                        }
+                        fun levels(levels: JsonField<String>) = apply { this.levels = levels }
 
                         /** Points of the diversion path. */
                         fun points(points: String) = points(JsonField.of(points))
@@ -1870,30 +1752,30 @@ class References private constructor(
                         /** Points of the diversion path. */
                         @JsonProperty("points")
                         @ExcludeMissing
-                        fun points(points: JsonField<String>) = apply {
-                            this.points = points
-                        }
+                        fun points(points: JsonField<String>) = apply { this.points = points }
 
-                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                            this.additionalProperties.clear()
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                            apply {
+                                this.additionalProperties.clear()
+                                this.additionalProperties.putAll(additionalProperties)
+                            }
 
                         @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                             this.additionalProperties.put(key, value)
                         }
 
-                        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        fun putAllAdditionalProperties(
+                            additionalProperties: Map<String, JsonValue>
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
-                        fun build(): DiversionPath = DiversionPath(
-                            length,
-                            levels,
-                            points,
-                            additionalProperties.toUnmodifiable(),
-                        )
+                        fun build(): DiversionPath =
+                            DiversionPath(
+                                length,
+                                levels,
+                                points,
+                                additionalProperties.toUnmodifiable(),
+                            )
                     }
                 }
             }
@@ -1901,7 +1783,12 @@ class References private constructor(
 
         @JsonDeserialize(builder = Description.Builder::class)
         @NoAutoDetect
-        class Description private constructor(private val lang: JsonField<String>, private val value: JsonField<String>, private val additionalProperties: Map<String, JsonValue>, ) {
+        class Description
+        private constructor(
+            private val lang: JsonField<String>,
+            private val value: JsonField<String>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
 
             private var validated: Boolean = false
 
@@ -1914,14 +1801,10 @@ class References private constructor(
             fun value(): Optional<String> = Optional.ofNullable(value.getNullable("value"))
 
             /** Language of the description. */
-            @JsonProperty("lang")
-            @ExcludeMissing
-            fun _lang() = lang
+            @JsonProperty("lang") @ExcludeMissing fun _lang() = lang
 
             /** Longer description of the situation. */
-            @JsonProperty("value")
-            @ExcludeMissing
-            fun _value() = value
+            @JsonProperty("value") @ExcludeMissing fun _value() = value
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1929,42 +1812,43 @@ class References private constructor(
 
             fun validate(): Description = apply {
                 if (!validated) {
-                  lang()
-                  value()
-                  validated = true
+                    lang()
+                    value()
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Description &&
-                  this.lang == other.lang &&
-                  this.value == other.value &&
-                  this.additionalProperties == other.additionalProperties
+                return other is Description &&
+                    this.lang == other.lang &&
+                    this.value == other.value &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    lang,
-                    value,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            lang,
+                            value,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "Description{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "Description{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -1986,9 +1870,7 @@ class References private constructor(
                 /** Language of the description. */
                 @JsonProperty("lang")
                 @ExcludeMissing
-                fun lang(lang: JsonField<String>) = apply {
-                    this.lang = lang
-                }
+                fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
                 /** Longer description of the situation. */
                 fun value(value: String) = value(JsonField.of(value))
@@ -1996,9 +1878,7 @@ class References private constructor(
                 /** Longer description of the situation. */
                 @JsonProperty("value")
                 @ExcludeMissing
-                fun value(value: JsonField<String>) = apply {
-                    this.value = value
-                }
+                fun value(value: JsonField<String>) = apply { this.value = value }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -2010,21 +1890,28 @@ class References private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): Description = Description(
-                    lang,
-                    value,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): Description =
+                    Description(
+                        lang,
+                        value,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
         }
 
         @JsonDeserialize(builder = PublicationWindow.Builder::class)
         @NoAutoDetect
-        class PublicationWindow private constructor(private val from: JsonField<Long>, private val to: JsonField<Long>, private val additionalProperties: Map<String, JsonValue>, ) {
+        class PublicationWindow
+        private constructor(
+            private val from: JsonField<Long>,
+            private val to: JsonField<Long>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
 
             private var validated: Boolean = false
 
@@ -2037,14 +1924,10 @@ class References private constructor(
             fun to(): Long = to.getRequired("to")
 
             /** Start time of the time window as a Unix timestamp. */
-            @JsonProperty("from")
-            @ExcludeMissing
-            fun _from() = from
+            @JsonProperty("from") @ExcludeMissing fun _from() = from
 
             /** End time of the time window as a Unix timestamp. */
-            @JsonProperty("to")
-            @ExcludeMissing
-            fun _to() = to
+            @JsonProperty("to") @ExcludeMissing fun _to() = to
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -2052,42 +1935,43 @@ class References private constructor(
 
             fun validate(): PublicationWindow = apply {
                 if (!validated) {
-                  from()
-                  to()
-                  validated = true
+                    from()
+                    to()
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is PublicationWindow &&
-                  this.from == other.from &&
-                  this.to == other.to &&
-                  this.additionalProperties == other.additionalProperties
+                return other is PublicationWindow &&
+                    this.from == other.from &&
+                    this.to == other.to &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    from,
-                    to,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            from,
+                            to,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "PublicationWindow{from=$from, to=$to, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "PublicationWindow{from=$from, to=$to, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -2109,9 +1993,7 @@ class References private constructor(
                 /** Start time of the time window as a Unix timestamp. */
                 @JsonProperty("from")
                 @ExcludeMissing
-                fun from(from: JsonField<Long>) = apply {
-                    this.from = from
-                }
+                fun from(from: JsonField<Long>) = apply { this.from = from }
 
                 /** End time of the time window as a Unix timestamp. */
                 fun to(to: Long) = to(JsonField.of(to))
@@ -2119,9 +2001,7 @@ class References private constructor(
                 /** End time of the time window as a Unix timestamp. */
                 @JsonProperty("to")
                 @ExcludeMissing
-                fun to(to: JsonField<Long>) = apply {
-                    this.to = to
-                }
+                fun to(to: JsonField<Long>) = apply { this.to = to }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -2133,30 +2013,34 @@ class References private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): PublicationWindow = PublicationWindow(
-                    from,
-                    to,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): PublicationWindow =
+                    PublicationWindow(
+                        from,
+                        to,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
         }
 
-        class Reason @JsonCreator private constructor(private val value: JsonField<String>, ) : Enum {
+        class Reason
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) : Enum {
 
-            @com.fasterxml.jackson.annotation.JsonValue
-            fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Reason &&
-                  this.value == other.value
+                return other is Reason && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2195,30 +2079,37 @@ class References private constructor(
                 _UNKNOWN,
             }
 
-            fun value(): Value = when (this) {
-                EQUIPMENT_REASON -> Value.EQUIPMENT_REASON
-                ENVIRONMENT_REASON -> Value.ENVIRONMENT_REASON
-                PERSONNEL_REASON -> Value.PERSONNEL_REASON
-                MISCELLANEOUS_REASON -> Value.MISCELLANEOUS_REASON
-                SECURITY_ALERT -> Value.SECURITY_ALERT
-                else -> Value._UNKNOWN
-            }
+            fun value(): Value =
+                when (this) {
+                    EQUIPMENT_REASON -> Value.EQUIPMENT_REASON
+                    ENVIRONMENT_REASON -> Value.ENVIRONMENT_REASON
+                    PERSONNEL_REASON -> Value.PERSONNEL_REASON
+                    MISCELLANEOUS_REASON -> Value.MISCELLANEOUS_REASON
+                    SECURITY_ALERT -> Value.SECURITY_ALERT
+                    else -> Value._UNKNOWN
+                }
 
-            fun known(): Known = when (this) {
-                EQUIPMENT_REASON -> Known.EQUIPMENT_REASON
-                ENVIRONMENT_REASON -> Known.ENVIRONMENT_REASON
-                PERSONNEL_REASON -> Known.PERSONNEL_REASON
-                MISCELLANEOUS_REASON -> Known.MISCELLANEOUS_REASON
-                SECURITY_ALERT -> Known.SECURITY_ALERT
-                else -> throw OnebusawaySdkInvalidDataException("Unknown Reason: $value")
-            }
+            fun known(): Known =
+                when (this) {
+                    EQUIPMENT_REASON -> Known.EQUIPMENT_REASON
+                    ENVIRONMENT_REASON -> Known.ENVIRONMENT_REASON
+                    PERSONNEL_REASON -> Known.PERSONNEL_REASON
+                    MISCELLANEOUS_REASON -> Known.MISCELLANEOUS_REASON
+                    SECURITY_ALERT -> Known.SECURITY_ALERT
+                    else -> throw OnebusawaySdkInvalidDataException("Unknown Reason: $value")
+                }
 
             fun asString(): String = _value().asStringOrThrow()
         }
 
         @JsonDeserialize(builder = Summary.Builder::class)
         @NoAutoDetect
-        class Summary private constructor(private val lang: JsonField<String>, private val value: JsonField<String>, private val additionalProperties: Map<String, JsonValue>, ) {
+        class Summary
+        private constructor(
+            private val lang: JsonField<String>,
+            private val value: JsonField<String>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
 
             private var validated: Boolean = false
 
@@ -2231,14 +2122,10 @@ class References private constructor(
             fun value(): Optional<String> = Optional.ofNullable(value.getNullable("value"))
 
             /** Language of the summary. */
-            @JsonProperty("lang")
-            @ExcludeMissing
-            fun _lang() = lang
+            @JsonProperty("lang") @ExcludeMissing fun _lang() = lang
 
             /** Short summary of the situation. */
-            @JsonProperty("value")
-            @ExcludeMissing
-            fun _value() = value
+            @JsonProperty("value") @ExcludeMissing fun _value() = value
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -2246,42 +2133,43 @@ class References private constructor(
 
             fun validate(): Summary = apply {
                 if (!validated) {
-                  lang()
-                  value()
-                  validated = true
+                    lang()
+                    value()
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Summary &&
-                  this.lang == other.lang &&
-                  this.value == other.value &&
-                  this.additionalProperties == other.additionalProperties
+                return other is Summary &&
+                    this.lang == other.lang &&
+                    this.value == other.value &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    lang,
-                    value,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            lang,
+                            value,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "Summary{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "Summary{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -2303,9 +2191,7 @@ class References private constructor(
                 /** Language of the summary. */
                 @JsonProperty("lang")
                 @ExcludeMissing
-                fun lang(lang: JsonField<String>) = apply {
-                    this.lang = lang
-                }
+                fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
                 /** Short summary of the situation. */
                 fun value(value: String) = value(JsonField.of(value))
@@ -2313,9 +2199,7 @@ class References private constructor(
                 /** Short summary of the situation. */
                 @JsonProperty("value")
                 @ExcludeMissing
-                fun value(value: JsonField<String>) = apply {
-                    this.value = value
-                }
+                fun value(value: JsonField<String>) = apply { this.value = value }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -2327,21 +2211,28 @@ class References private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): Summary = Summary(
-                    lang,
-                    value,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): Summary =
+                    Summary(
+                        lang,
+                        value,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
         }
 
         @JsonDeserialize(builder = Url.Builder::class)
         @NoAutoDetect
-        class Url private constructor(private val lang: JsonField<String>, private val value: JsonField<String>, private val additionalProperties: Map<String, JsonValue>, ) {
+        class Url
+        private constructor(
+            private val lang: JsonField<String>,
+            private val value: JsonField<String>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
 
             private var validated: Boolean = false
 
@@ -2354,14 +2245,10 @@ class References private constructor(
             fun value(): Optional<String> = Optional.ofNullable(value.getNullable("value"))
 
             /** Language of the URL. */
-            @JsonProperty("lang")
-            @ExcludeMissing
-            fun _lang() = lang
+            @JsonProperty("lang") @ExcludeMissing fun _lang() = lang
 
             /** URL for more information about the situation. */
-            @JsonProperty("value")
-            @ExcludeMissing
-            fun _value() = value
+            @JsonProperty("value") @ExcludeMissing fun _value() = value
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -2369,42 +2256,43 @@ class References private constructor(
 
             fun validate(): Url = apply {
                 if (!validated) {
-                  lang()
-                  value()
-                  validated = true
+                    lang()
+                    value()
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Url &&
-                  this.lang == other.lang &&
-                  this.value == other.value &&
-                  this.additionalProperties == other.additionalProperties
+                return other is Url &&
+                    this.lang == other.lang &&
+                    this.value == other.value &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    lang,
-                    value,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            lang,
+                            value,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "Url{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "Url{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
@@ -2426,9 +2314,7 @@ class References private constructor(
                 /** Language of the URL. */
                 @JsonProperty("lang")
                 @ExcludeMissing
-                fun lang(lang: JsonField<String>) = apply {
-                    this.lang = lang
-                }
+                fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
                 /** URL for more information about the situation. */
                 fun value(value: String) = value(JsonField.of(value))
@@ -2436,9 +2322,7 @@ class References private constructor(
                 /** URL for more information about the situation. */
                 @JsonProperty("value")
                 @ExcludeMissing
-                fun value(value: JsonField<String>) = apply {
-                    this.value = value
-                }
+                fun value(value: JsonField<String>) = apply { this.value = value }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -2450,35 +2334,37 @@ class References private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): Url = Url(
-                    lang,
-                    value,
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): Url =
+                    Url(
+                        lang,
+                        value,
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
         }
     }
 
     @JsonDeserialize(builder = Stop.Builder::class)
     @NoAutoDetect
-    class Stop private constructor(
-      private val code: JsonField<String>,
-      private val direction: JsonField<String>,
-      private val id: JsonField<String>,
-      private val lat: JsonField<Double>,
-      private val locationType: JsonField<Long>,
-      private val lon: JsonField<Double>,
-      private val name: JsonField<String>,
-      private val parent: JsonField<String>,
-      private val routeIds: JsonField<List<String>>,
-      private val staticRouteIds: JsonField<List<String>>,
-      private val wheelchairBoarding: JsonField<String>,
-      private val additionalProperties: Map<String, JsonValue>,
-
+    class Stop
+    private constructor(
+        private val code: JsonField<String>,
+        private val direction: JsonField<String>,
+        private val id: JsonField<String>,
+        private val lat: JsonField<Double>,
+        private val locationType: JsonField<Long>,
+        private val lon: JsonField<Double>,
+        private val name: JsonField<String>,
+        private val parent: JsonField<String>,
+        private val routeIds: JsonField<List<String>>,
+        private val staticRouteIds: JsonField<List<String>>,
+        private val wheelchairBoarding: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
@@ -2493,7 +2379,8 @@ class References private constructor(
 
         fun lat(): Double = lat.getRequired("lat")
 
-        fun locationType(): Optional<Long> = Optional.ofNullable(locationType.getNullable("locationType"))
+        fun locationType(): Optional<Long> =
+            Optional.ofNullable(locationType.getNullable("locationType"))
 
         fun lon(): Double = lon.getRequired("lon")
 
@@ -2501,51 +2388,34 @@ class References private constructor(
 
         fun parent(): Optional<String> = Optional.ofNullable(parent.getNullable("parent"))
 
-        fun routeIds(): Optional<List<String>> = Optional.ofNullable(routeIds.getNullable("routeIds"))
+        fun routeIds(): Optional<List<String>> =
+            Optional.ofNullable(routeIds.getNullable("routeIds"))
 
-        fun staticRouteIds(): Optional<List<String>> = Optional.ofNullable(staticRouteIds.getNullable("staticRouteIds"))
+        fun staticRouteIds(): Optional<List<String>> =
+            Optional.ofNullable(staticRouteIds.getNullable("staticRouteIds"))
 
-        fun wheelchairBoarding(): Optional<String> = Optional.ofNullable(wheelchairBoarding.getNullable("wheelchairBoarding"))
+        fun wheelchairBoarding(): Optional<String> =
+            Optional.ofNullable(wheelchairBoarding.getNullable("wheelchairBoarding"))
 
-        @JsonProperty("code")
-        @ExcludeMissing
-        fun _code() = code
+        @JsonProperty("code") @ExcludeMissing fun _code() = code
 
-        @JsonProperty("direction")
-        @ExcludeMissing
-        fun _direction() = direction
+        @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
 
-        @JsonProperty("id")
-        @ExcludeMissing
-        fun _id() = id
+        @JsonProperty("id") @ExcludeMissing fun _id() = id
 
-        @JsonProperty("lat")
-        @ExcludeMissing
-        fun _lat() = lat
+        @JsonProperty("lat") @ExcludeMissing fun _lat() = lat
 
-        @JsonProperty("locationType")
-        @ExcludeMissing
-        fun _locationType() = locationType
+        @JsonProperty("locationType") @ExcludeMissing fun _locationType() = locationType
 
-        @JsonProperty("lon")
-        @ExcludeMissing
-        fun _lon() = lon
+        @JsonProperty("lon") @ExcludeMissing fun _lon() = lon
 
-        @JsonProperty("name")
-        @ExcludeMissing
-        fun _name() = name
+        @JsonProperty("name") @ExcludeMissing fun _name() = name
 
-        @JsonProperty("parent")
-        @ExcludeMissing
-        fun _parent() = parent
+        @JsonProperty("parent") @ExcludeMissing fun _parent() = parent
 
-        @JsonProperty("routeIds")
-        @ExcludeMissing
-        fun _routeIds() = routeIds
+        @JsonProperty("routeIds") @ExcludeMissing fun _routeIds() = routeIds
 
-        @JsonProperty("staticRouteIds")
-        @ExcludeMissing
-        fun _staticRouteIds() = staticRouteIds
+        @JsonProperty("staticRouteIds") @ExcludeMissing fun _staticRouteIds() = staticRouteIds
 
         @JsonProperty("wheelchairBoarding")
         @ExcludeMissing
@@ -2557,69 +2427,70 @@ class References private constructor(
 
         fun validate(): Stop = apply {
             if (!validated) {
-              code()
-              direction()
-              id()
-              lat()
-              locationType()
-              lon()
-              name()
-              parent()
-              routeIds()
-              staticRouteIds()
-              wheelchairBoarding()
-              validated = true
+                code()
+                direction()
+                id()
+                lat()
+                locationType()
+                lon()
+                name()
+                parent()
+                routeIds()
+                staticRouteIds()
+                wheelchairBoarding()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Stop &&
-              this.code == other.code &&
-              this.direction == other.direction &&
-              this.id == other.id &&
-              this.lat == other.lat &&
-              this.locationType == other.locationType &&
-              this.lon == other.lon &&
-              this.name == other.name &&
-              this.parent == other.parent &&
-              this.routeIds == other.routeIds &&
-              this.staticRouteIds == other.staticRouteIds &&
-              this.wheelchairBoarding == other.wheelchairBoarding &&
-              this.additionalProperties == other.additionalProperties
+            return other is Stop &&
+                this.code == other.code &&
+                this.direction == other.direction &&
+                this.id == other.id &&
+                this.lat == other.lat &&
+                this.locationType == other.locationType &&
+                this.lon == other.lon &&
+                this.name == other.name &&
+                this.parent == other.parent &&
+                this.routeIds == other.routeIds &&
+                this.staticRouteIds == other.staticRouteIds &&
+                this.wheelchairBoarding == other.wheelchairBoarding &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                code,
-                direction,
-                id,
-                lat,
-                locationType,
-                lon,
-                name,
-                parent,
-                routeIds,
-                staticRouteIds,
-                wheelchairBoarding,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        code,
+                        direction,
+                        id,
+                        lat,
+                        locationType,
+                        lon,
+                        name,
+                        parent,
+                        routeIds,
+                        staticRouteIds,
+                        wheelchairBoarding,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Stop{code=$code, direction=$direction, id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Stop{code=$code, direction=$direction, id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -2657,33 +2528,25 @@ class References private constructor(
 
             @JsonProperty("code")
             @ExcludeMissing
-            fun code(code: JsonField<String>) = apply {
-                this.code = code
-            }
+            fun code(code: JsonField<String>) = apply { this.code = code }
 
             fun direction(direction: String) = direction(JsonField.of(direction))
 
             @JsonProperty("direction")
             @ExcludeMissing
-            fun direction(direction: JsonField<String>) = apply {
-                this.direction = direction
-            }
+            fun direction(direction: JsonField<String>) = apply { this.direction = direction }
 
             fun id(id: String) = id(JsonField.of(id))
 
             @JsonProperty("id")
             @ExcludeMissing
-            fun id(id: JsonField<String>) = apply {
-                this.id = id
-            }
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun lat(lat: Double) = lat(JsonField.of(lat))
 
             @JsonProperty("lat")
             @ExcludeMissing
-            fun lat(lat: JsonField<Double>) = apply {
-                this.lat = lat
-            }
+            fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
             fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
 
@@ -2697,35 +2560,28 @@ class References private constructor(
 
             @JsonProperty("lon")
             @ExcludeMissing
-            fun lon(lon: JsonField<Double>) = apply {
-                this.lon = lon
-            }
+            fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
             fun name(name: String) = name(JsonField.of(name))
 
             @JsonProperty("name")
             @ExcludeMissing
-            fun name(name: JsonField<String>) = apply {
-                this.name = name
-            }
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun parent(parent: String) = parent(JsonField.of(parent))
 
             @JsonProperty("parent")
             @ExcludeMissing
-            fun parent(parent: JsonField<String>) = apply {
-                this.parent = parent
-            }
+            fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
             fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
 
             @JsonProperty("routeIds")
             @ExcludeMissing
-            fun routeIds(routeIds: JsonField<List<String>>) = apply {
-                this.routeIds = routeIds
-            }
+            fun routeIds(routeIds: JsonField<List<String>>) = apply { this.routeIds = routeIds }
 
-            fun staticRouteIds(staticRouteIds: List<String>) = staticRouteIds(JsonField.of(staticRouteIds))
+            fun staticRouteIds(staticRouteIds: List<String>) =
+                staticRouteIds(JsonField.of(staticRouteIds))
 
             @JsonProperty("staticRouteIds")
             @ExcludeMissing
@@ -2733,7 +2589,8 @@ class References private constructor(
                 this.staticRouteIds = staticRouteIds
             }
 
-            fun wheelchairBoarding(wheelchairBoarding: String) = wheelchairBoarding(JsonField.of(wheelchairBoarding))
+            fun wheelchairBoarding(wheelchairBoarding: String) =
+                wheelchairBoarding(JsonField.of(wheelchairBoarding))
 
             @JsonProperty("wheelchairBoarding")
             @ExcludeMissing
@@ -2755,59 +2612,61 @@ class References private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Stop = Stop(
-                code,
-                direction,
-                id,
-                lat,
-                locationType,
-                lon,
-                name,
-                parent,
-                routeIds.map { it.toUnmodifiable() },
-                staticRouteIds.map { it.toUnmodifiable() },
-                wheelchairBoarding,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Stop =
+                Stop(
+                    code,
+                    direction,
+                    id,
+                    lat,
+                    locationType,
+                    lon,
+                    name,
+                    parent,
+                    routeIds.map { it.toUnmodifiable() },
+                    staticRouteIds.map { it.toUnmodifiable() },
+                    wheelchairBoarding,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
     @JsonDeserialize(builder = StopTime.Builder::class)
     @NoAutoDetect
-    class StopTime private constructor(
-      private val arrivalTime: JsonField<Long>,
-      private val departureTime: JsonField<Long>,
-      private val distanceAlongTrip: JsonField<Double>,
-      private val historicalOccupancy: JsonField<String>,
-      private val stopHeadsign: JsonField<String>,
-      private val stopId: JsonField<String>,
-      private val additionalProperties: Map<String, JsonValue>,
-
+    class StopTime
+    private constructor(
+        private val arrivalTime: JsonField<Long>,
+        private val departureTime: JsonField<Long>,
+        private val distanceAlongTrip: JsonField<Double>,
+        private val historicalOccupancy: JsonField<String>,
+        private val stopHeadsign: JsonField<String>,
+        private val stopId: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
 
-        fun arrivalTime(): Optional<Long> = Optional.ofNullable(arrivalTime.getNullable("arrivalTime"))
+        fun arrivalTime(): Optional<Long> =
+            Optional.ofNullable(arrivalTime.getNullable("arrivalTime"))
 
-        fun departureTime(): Optional<Long> = Optional.ofNullable(departureTime.getNullable("departureTime"))
+        fun departureTime(): Optional<Long> =
+            Optional.ofNullable(departureTime.getNullable("departureTime"))
 
-        fun distanceAlongTrip(): Optional<Double> = Optional.ofNullable(distanceAlongTrip.getNullable("distanceAlongTrip"))
+        fun distanceAlongTrip(): Optional<Double> =
+            Optional.ofNullable(distanceAlongTrip.getNullable("distanceAlongTrip"))
 
-        fun historicalOccupancy(): Optional<String> = Optional.ofNullable(historicalOccupancy.getNullable("historicalOccupancy"))
+        fun historicalOccupancy(): Optional<String> =
+            Optional.ofNullable(historicalOccupancy.getNullable("historicalOccupancy"))
 
-        fun stopHeadsign(): Optional<String> = Optional.ofNullable(stopHeadsign.getNullable("stopHeadsign"))
+        fun stopHeadsign(): Optional<String> =
+            Optional.ofNullable(stopHeadsign.getNullable("stopHeadsign"))
 
         fun stopId(): Optional<String> = Optional.ofNullable(stopId.getNullable("stopId"))
 
-        @JsonProperty("arrivalTime")
-        @ExcludeMissing
-        fun _arrivalTime() = arrivalTime
+        @JsonProperty("arrivalTime") @ExcludeMissing fun _arrivalTime() = arrivalTime
 
-        @JsonProperty("departureTime")
-        @ExcludeMissing
-        fun _departureTime() = departureTime
+        @JsonProperty("departureTime") @ExcludeMissing fun _departureTime() = departureTime
 
         @JsonProperty("distanceAlongTrip")
         @ExcludeMissing
@@ -2817,13 +2676,9 @@ class References private constructor(
         @ExcludeMissing
         fun _historicalOccupancy() = historicalOccupancy
 
-        @JsonProperty("stopHeadsign")
-        @ExcludeMissing
-        fun _stopHeadsign() = stopHeadsign
+        @JsonProperty("stopHeadsign") @ExcludeMissing fun _stopHeadsign() = stopHeadsign
 
-        @JsonProperty("stopId")
-        @ExcludeMissing
-        fun _stopId() = stopId
+        @JsonProperty("stopId") @ExcludeMissing fun _stopId() = stopId
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -2831,54 +2686,55 @@ class References private constructor(
 
         fun validate(): StopTime = apply {
             if (!validated) {
-              arrivalTime()
-              departureTime()
-              distanceAlongTrip()
-              historicalOccupancy()
-              stopHeadsign()
-              stopId()
-              validated = true
+                arrivalTime()
+                departureTime()
+                distanceAlongTrip()
+                historicalOccupancy()
+                stopHeadsign()
+                stopId()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is StopTime &&
-              this.arrivalTime == other.arrivalTime &&
-              this.departureTime == other.departureTime &&
-              this.distanceAlongTrip == other.distanceAlongTrip &&
-              this.historicalOccupancy == other.historicalOccupancy &&
-              this.stopHeadsign == other.stopHeadsign &&
-              this.stopId == other.stopId &&
-              this.additionalProperties == other.additionalProperties
+            return other is StopTime &&
+                this.arrivalTime == other.arrivalTime &&
+                this.departureTime == other.departureTime &&
+                this.distanceAlongTrip == other.distanceAlongTrip &&
+                this.historicalOccupancy == other.historicalOccupancy &&
+                this.stopHeadsign == other.stopHeadsign &&
+                this.stopId == other.stopId &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                arrivalTime,
-                departureTime,
-                distanceAlongTrip,
-                historicalOccupancy,
-                stopHeadsign,
-                stopId,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        arrivalTime,
+                        departureTime,
+                        distanceAlongTrip,
+                        historicalOccupancy,
+                        stopHeadsign,
+                        stopId,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "StopTime{arrivalTime=$arrivalTime, departureTime=$departureTime, distanceAlongTrip=$distanceAlongTrip, historicalOccupancy=$historicalOccupancy, stopHeadsign=$stopHeadsign, stopId=$stopId, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "StopTime{arrivalTime=$arrivalTime, departureTime=$departureTime, distanceAlongTrip=$distanceAlongTrip, historicalOccupancy=$historicalOccupancy, stopHeadsign=$stopHeadsign, stopId=$stopId, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -2906,9 +2762,7 @@ class References private constructor(
 
             @JsonProperty("arrivalTime")
             @ExcludeMissing
-            fun arrivalTime(arrivalTime: JsonField<Long>) = apply {
-                this.arrivalTime = arrivalTime
-            }
+            fun arrivalTime(arrivalTime: JsonField<Long>) = apply { this.arrivalTime = arrivalTime }
 
             fun departureTime(departureTime: Long) = departureTime(JsonField.of(departureTime))
 
@@ -2918,7 +2772,8 @@ class References private constructor(
                 this.departureTime = departureTime
             }
 
-            fun distanceAlongTrip(distanceAlongTrip: Double) = distanceAlongTrip(JsonField.of(distanceAlongTrip))
+            fun distanceAlongTrip(distanceAlongTrip: Double) =
+                distanceAlongTrip(JsonField.of(distanceAlongTrip))
 
             @JsonProperty("distanceAlongTrip")
             @ExcludeMissing
@@ -2926,7 +2781,8 @@ class References private constructor(
                 this.distanceAlongTrip = distanceAlongTrip
             }
 
-            fun historicalOccupancy(historicalOccupancy: String) = historicalOccupancy(JsonField.of(historicalOccupancy))
+            fun historicalOccupancy(historicalOccupancy: String) =
+                historicalOccupancy(JsonField.of(historicalOccupancy))
 
             @JsonProperty("historicalOccupancy")
             @ExcludeMissing
@@ -2946,9 +2802,7 @@ class References private constructor(
 
             @JsonProperty("stopId")
             @ExcludeMissing
-            fun stopId(stopId: JsonField<String>) = apply {
-                this.stopId = stopId
-            }
+            fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -2964,34 +2818,35 @@ class References private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): StopTime = StopTime(
-                arrivalTime,
-                departureTime,
-                distanceAlongTrip,
-                historicalOccupancy,
-                stopHeadsign,
-                stopId,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): StopTime =
+                StopTime(
+                    arrivalTime,
+                    departureTime,
+                    distanceAlongTrip,
+                    historicalOccupancy,
+                    stopHeadsign,
+                    stopId,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
     @JsonDeserialize(builder = Trip.Builder::class)
     @NoAutoDetect
-    class Trip private constructor(
-      private val blockId: JsonField<String>,
-      private val directionId: JsonField<String>,
-      private val id: JsonField<String>,
-      private val peakOffpeak: JsonField<Long>,
-      private val routeId: JsonField<String>,
-      private val routeShortName: JsonField<String>,
-      private val serviceId: JsonField<String>,
-      private val shapeId: JsonField<String>,
-      private val timeZone: JsonField<String>,
-      private val tripHeadsign: JsonField<String>,
-      private val tripShortName: JsonField<String>,
-      private val additionalProperties: Map<String, JsonValue>,
-
+    class Trip
+    private constructor(
+        private val blockId: JsonField<String>,
+        private val directionId: JsonField<String>,
+        private val id: JsonField<String>,
+        private val peakOffpeak: JsonField<Long>,
+        private val routeId: JsonField<String>,
+        private val routeShortName: JsonField<String>,
+        private val serviceId: JsonField<String>,
+        private val shapeId: JsonField<String>,
+        private val timeZone: JsonField<String>,
+        private val tripHeadsign: JsonField<String>,
+        private val tripShortName: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
@@ -3000,15 +2855,18 @@ class References private constructor(
 
         fun blockId(): Optional<String> = Optional.ofNullable(blockId.getNullable("blockId"))
 
-        fun directionId(): Optional<String> = Optional.ofNullable(directionId.getNullable("directionId"))
+        fun directionId(): Optional<String> =
+            Optional.ofNullable(directionId.getNullable("directionId"))
 
         fun id(): String = id.getRequired("id")
 
-        fun peakOffpeak(): Optional<Long> = Optional.ofNullable(peakOffpeak.getNullable("peakOffpeak"))
+        fun peakOffpeak(): Optional<Long> =
+            Optional.ofNullable(peakOffpeak.getNullable("peakOffpeak"))
 
         fun routeId(): String = routeId.getRequired("routeId")
 
-        fun routeShortName(): Optional<String> = Optional.ofNullable(routeShortName.getNullable("routeShortName"))
+        fun routeShortName(): Optional<String> =
+            Optional.ofNullable(routeShortName.getNullable("routeShortName"))
 
         fun serviceId(): String = serviceId.getRequired("serviceId")
 
@@ -3016,53 +2874,33 @@ class References private constructor(
 
         fun timeZone(): Optional<String> = Optional.ofNullable(timeZone.getNullable("timeZone"))
 
-        fun tripHeadsign(): Optional<String> = Optional.ofNullable(tripHeadsign.getNullable("tripHeadsign"))
+        fun tripHeadsign(): Optional<String> =
+            Optional.ofNullable(tripHeadsign.getNullable("tripHeadsign"))
 
-        fun tripShortName(): Optional<String> = Optional.ofNullable(tripShortName.getNullable("tripShortName"))
+        fun tripShortName(): Optional<String> =
+            Optional.ofNullable(tripShortName.getNullable("tripShortName"))
 
-        @JsonProperty("blockId")
-        @ExcludeMissing
-        fun _blockId() = blockId
+        @JsonProperty("blockId") @ExcludeMissing fun _blockId() = blockId
 
-        @JsonProperty("directionId")
-        @ExcludeMissing
-        fun _directionId() = directionId
+        @JsonProperty("directionId") @ExcludeMissing fun _directionId() = directionId
 
-        @JsonProperty("id")
-        @ExcludeMissing
-        fun _id() = id
+        @JsonProperty("id") @ExcludeMissing fun _id() = id
 
-        @JsonProperty("peakOffpeak")
-        @ExcludeMissing
-        fun _peakOffpeak() = peakOffpeak
+        @JsonProperty("peakOffpeak") @ExcludeMissing fun _peakOffpeak() = peakOffpeak
 
-        @JsonProperty("routeId")
-        @ExcludeMissing
-        fun _routeId() = routeId
+        @JsonProperty("routeId") @ExcludeMissing fun _routeId() = routeId
 
-        @JsonProperty("routeShortName")
-        @ExcludeMissing
-        fun _routeShortName() = routeShortName
+        @JsonProperty("routeShortName") @ExcludeMissing fun _routeShortName() = routeShortName
 
-        @JsonProperty("serviceId")
-        @ExcludeMissing
-        fun _serviceId() = serviceId
+        @JsonProperty("serviceId") @ExcludeMissing fun _serviceId() = serviceId
 
-        @JsonProperty("shapeId")
-        @ExcludeMissing
-        fun _shapeId() = shapeId
+        @JsonProperty("shapeId") @ExcludeMissing fun _shapeId() = shapeId
 
-        @JsonProperty("timeZone")
-        @ExcludeMissing
-        fun _timeZone() = timeZone
+        @JsonProperty("timeZone") @ExcludeMissing fun _timeZone() = timeZone
 
-        @JsonProperty("tripHeadsign")
-        @ExcludeMissing
-        fun _tripHeadsign() = tripHeadsign
+        @JsonProperty("tripHeadsign") @ExcludeMissing fun _tripHeadsign() = tripHeadsign
 
-        @JsonProperty("tripShortName")
-        @ExcludeMissing
-        fun _tripShortName() = tripShortName
+        @JsonProperty("tripShortName") @ExcludeMissing fun _tripShortName() = tripShortName
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -3070,69 +2908,70 @@ class References private constructor(
 
         fun validate(): Trip = apply {
             if (!validated) {
-              blockId()
-              directionId()
-              id()
-              peakOffpeak()
-              routeId()
-              routeShortName()
-              serviceId()
-              shapeId()
-              timeZone()
-              tripHeadsign()
-              tripShortName()
-              validated = true
+                blockId()
+                directionId()
+                id()
+                peakOffpeak()
+                routeId()
+                routeShortName()
+                serviceId()
+                shapeId()
+                timeZone()
+                tripHeadsign()
+                tripShortName()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Trip &&
-              this.blockId == other.blockId &&
-              this.directionId == other.directionId &&
-              this.id == other.id &&
-              this.peakOffpeak == other.peakOffpeak &&
-              this.routeId == other.routeId &&
-              this.routeShortName == other.routeShortName &&
-              this.serviceId == other.serviceId &&
-              this.shapeId == other.shapeId &&
-              this.timeZone == other.timeZone &&
-              this.tripHeadsign == other.tripHeadsign &&
-              this.tripShortName == other.tripShortName &&
-              this.additionalProperties == other.additionalProperties
+            return other is Trip &&
+                this.blockId == other.blockId &&
+                this.directionId == other.directionId &&
+                this.id == other.id &&
+                this.peakOffpeak == other.peakOffpeak &&
+                this.routeId == other.routeId &&
+                this.routeShortName == other.routeShortName &&
+                this.serviceId == other.serviceId &&
+                this.shapeId == other.shapeId &&
+                this.timeZone == other.timeZone &&
+                this.tripHeadsign == other.tripHeadsign &&
+                this.tripShortName == other.tripShortName &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                blockId,
-                directionId,
-                id,
-                peakOffpeak,
-                routeId,
-                routeShortName,
-                serviceId,
-                shapeId,
-                timeZone,
-                tripHeadsign,
-                tripShortName,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        blockId,
+                        directionId,
+                        id,
+                        peakOffpeak,
+                        routeId,
+                        routeShortName,
+                        serviceId,
+                        shapeId,
+                        timeZone,
+                        tripHeadsign,
+                        tripShortName,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Trip{blockId=$blockId, directionId=$directionId, id=$id, peakOffpeak=$peakOffpeak, routeId=$routeId, routeShortName=$routeShortName, serviceId=$serviceId, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Trip{blockId=$blockId, directionId=$directionId, id=$id, peakOffpeak=$peakOffpeak, routeId=$routeId, routeShortName=$routeShortName, serviceId=$serviceId, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -3170,9 +3009,7 @@ class References private constructor(
 
             @JsonProperty("blockId")
             @ExcludeMissing
-            fun blockId(blockId: JsonField<String>) = apply {
-                this.blockId = blockId
-            }
+            fun blockId(blockId: JsonField<String>) = apply { this.blockId = blockId }
 
             fun directionId(directionId: String) = directionId(JsonField.of(directionId))
 
@@ -3186,27 +3023,22 @@ class References private constructor(
 
             @JsonProperty("id")
             @ExcludeMissing
-            fun id(id: JsonField<String>) = apply {
-                this.id = id
-            }
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun peakOffpeak(peakOffpeak: Long) = peakOffpeak(JsonField.of(peakOffpeak))
 
             @JsonProperty("peakOffpeak")
             @ExcludeMissing
-            fun peakOffpeak(peakOffpeak: JsonField<Long>) = apply {
-                this.peakOffpeak = peakOffpeak
-            }
+            fun peakOffpeak(peakOffpeak: JsonField<Long>) = apply { this.peakOffpeak = peakOffpeak }
 
             fun routeId(routeId: String) = routeId(JsonField.of(routeId))
 
             @JsonProperty("routeId")
             @ExcludeMissing
-            fun routeId(routeId: JsonField<String>) = apply {
-                this.routeId = routeId
-            }
+            fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
-            fun routeShortName(routeShortName: String) = routeShortName(JsonField.of(routeShortName))
+            fun routeShortName(routeShortName: String) =
+                routeShortName(JsonField.of(routeShortName))
 
             @JsonProperty("routeShortName")
             @ExcludeMissing
@@ -3218,25 +3050,19 @@ class References private constructor(
 
             @JsonProperty("serviceId")
             @ExcludeMissing
-            fun serviceId(serviceId: JsonField<String>) = apply {
-                this.serviceId = serviceId
-            }
+            fun serviceId(serviceId: JsonField<String>) = apply { this.serviceId = serviceId }
 
             fun shapeId(shapeId: String) = shapeId(JsonField.of(shapeId))
 
             @JsonProperty("shapeId")
             @ExcludeMissing
-            fun shapeId(shapeId: JsonField<String>) = apply {
-                this.shapeId = shapeId
-            }
+            fun shapeId(shapeId: JsonField<String>) = apply { this.shapeId = shapeId }
 
             fun timeZone(timeZone: String) = timeZone(JsonField.of(timeZone))
 
             @JsonProperty("timeZone")
             @ExcludeMissing
-            fun timeZone(timeZone: JsonField<String>) = apply {
-                this.timeZone = timeZone
-            }
+            fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
 
             fun tripHeadsign(tripHeadsign: String) = tripHeadsign(JsonField.of(tripHeadsign))
 
@@ -3268,20 +3094,21 @@ class References private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Trip = Trip(
-                blockId,
-                directionId,
-                id,
-                peakOffpeak,
-                routeId,
-                routeShortName,
-                serviceId,
-                shapeId,
-                timeZone,
-                tripHeadsign,
-                tripShortName,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Trip =
+                Trip(
+                    blockId,
+                    directionId,
+                    id,
+                    peakOffpeak,
+                    routeId,
+                    routeShortName,
+                    serviceId,
+                    shapeId,
+                    timeZone,
+                    tripHeadsign,
+                    tripShortName,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 }

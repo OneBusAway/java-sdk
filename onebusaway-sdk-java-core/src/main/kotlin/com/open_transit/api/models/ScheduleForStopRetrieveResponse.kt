@@ -4,45 +4,27 @@ package com.open_transit.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.open_transit.api.core.BaseDeserializer
-import com.open_transit.api.core.BaseSerializer
-import com.open_transit.api.core.getOrThrow
 import com.open_transit.api.core.ExcludeMissing
+import com.open_transit.api.core.JsonField
 import com.open_transit.api.core.JsonMissing
 import com.open_transit.api.core.JsonValue
-import com.open_transit.api.core.JsonNull
-import com.open_transit.api.core.JsonField
-import com.open_transit.api.core.Enum
-import com.open_transit.api.core.toUnmodifiable
 import com.open_transit.api.core.NoAutoDetect
-import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
+import com.open_transit.api.core.toUnmodifiable
+import java.util.Objects
+import java.util.Optional
 
 @JsonDeserialize(builder = ScheduleForStopRetrieveResponse.Builder::class)
 @NoAutoDetect
-class ScheduleForStopRetrieveResponse private constructor(
-  private val code: JsonField<Long>,
-  private val currentTime: JsonField<Long>,
-  private val text: JsonField<String>,
-  private val version: JsonField<Long>,
-  private val data: JsonField<Data>,
-  private val additionalProperties: Map<String, JsonValue>,
-
+class ScheduleForStopRetrieveResponse
+private constructor(
+    private val code: JsonField<Long>,
+    private val currentTime: JsonField<Long>,
+    private val text: JsonField<String>,
+    private val version: JsonField<Long>,
+    private val data: JsonField<Data>,
+    private val additionalProperties: Map<String, JsonValue>,
 ) {
 
     private var validated: Boolean = false
@@ -59,27 +41,23 @@ class ScheduleForStopRetrieveResponse private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    fun toResponseWrapper(): ResponseWrapper = ResponseWrapper.builder().code(code).currentTime(currentTime).text(text).version(version).build()
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
 
-    @JsonProperty("code")
-    @ExcludeMissing
-    fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code() = code
 
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
 
-    @JsonProperty("text")
-    @ExcludeMissing
-    fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text() = text
 
-    @JsonProperty("version")
-    @ExcludeMissing
-    fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version() = version
 
-    @JsonProperty("data")
-    @ExcludeMissing
-    fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data() = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -87,51 +65,52 @@ class ScheduleForStopRetrieveResponse private constructor(
 
     fun validate(): ScheduleForStopRetrieveResponse = apply {
         if (!validated) {
-          code()
-          currentTime()
-          text()
-          version()
-          data().validate()
-          validated = true
+            code()
+            currentTime()
+            text()
+            version()
+            data().validate()
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is ScheduleForStopRetrieveResponse &&
-          this.code == other.code &&
-          this.currentTime == other.currentTime &&
-          this.text == other.text &&
-          this.version == other.version &&
-          this.data == other.data &&
-          this.additionalProperties == other.additionalProperties
+        return other is ScheduleForStopRetrieveResponse &&
+            this.code == other.code &&
+            this.currentTime == other.currentTime &&
+            this.text == other.text &&
+            this.version == other.version &&
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(
-            code,
-            currentTime,
-            text,
-            version,
-            data,
-            additionalProperties,
-        )
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    code,
+                    currentTime,
+                    text,
+                    version,
+                    data,
+                    additionalProperties,
+                )
+        }
+        return hashCode
     }
 
-    override fun toString() = "ScheduleForStopRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "ScheduleForStopRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -144,54 +123,45 @@ class ScheduleForStopRetrieveResponse private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(scheduleForStopRetrieveResponse: ScheduleForStopRetrieveResponse) = apply {
-            this.code = scheduleForStopRetrieveResponse.code
-            this.currentTime = scheduleForStopRetrieveResponse.currentTime
-            this.text = scheduleForStopRetrieveResponse.text
-            this.version = scheduleForStopRetrieveResponse.version
-            this.data = scheduleForStopRetrieveResponse.data
-            additionalProperties(scheduleForStopRetrieveResponse.additionalProperties)
-        }
+        internal fun from(scheduleForStopRetrieveResponse: ScheduleForStopRetrieveResponse) =
+            apply {
+                this.code = scheduleForStopRetrieveResponse.code
+                this.currentTime = scheduleForStopRetrieveResponse.currentTime
+                this.text = scheduleForStopRetrieveResponse.text
+                this.version = scheduleForStopRetrieveResponse.version
+                this.data = scheduleForStopRetrieveResponse.data
+                additionalProperties(scheduleForStopRetrieveResponse.additionalProperties)
+            }
 
         fun code(code: Long) = code(JsonField.of(code))
 
         @JsonProperty("code")
         @ExcludeMissing
-        fun code(code: JsonField<Long>) = apply {
-            this.code = code
-        }
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
         @JsonProperty("currentTime")
         @ExcludeMissing
-        fun currentTime(currentTime: JsonField<Long>) = apply {
-            this.currentTime = currentTime
-        }
+        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
         @JsonProperty("text")
         @ExcludeMissing
-        fun text(text: JsonField<String>) = apply {
-            this.text = text
-        }
+        fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
         @JsonProperty("version")
         @ExcludeMissing
-        fun version(version: JsonField<Long>) = apply {
-            this.version = version
-        }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
         @JsonProperty("data")
         @ExcludeMissing
-        fun data(data: JsonField<Data>) = apply {
-            this.data = data
-        }
+        fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -207,19 +177,25 @@ class ScheduleForStopRetrieveResponse private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): ScheduleForStopRetrieveResponse = ScheduleForStopRetrieveResponse(
-            code,
-            currentTime,
-            text,
-            version,
-            data,
-            additionalProperties.toUnmodifiable(),
-        )
+        fun build(): ScheduleForStopRetrieveResponse =
+            ScheduleForStopRetrieveResponse(
+                code,
+                currentTime,
+                text,
+                version,
+                data,
+                additionalProperties.toUnmodifiable(),
+            )
     }
 
     @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
-    class Data private constructor(private val entry: JsonField<Entry>, private val references: JsonField<References>, private val additionalProperties: Map<String, JsonValue>, ) {
+    class Data
+    private constructor(
+        private val entry: JsonField<Entry>,
+        private val references: JsonField<References>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -229,13 +205,9 @@ class ScheduleForStopRetrieveResponse private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry")
-        @ExcludeMissing
-        fun _entry() = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
 
-        @JsonProperty("references")
-        @ExcludeMissing
-        fun _references() = references
+        @JsonProperty("references") @ExcludeMissing fun _references() = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -243,42 +215,43 @@ class ScheduleForStopRetrieveResponse private constructor(
 
         fun validate(): Data = apply {
             if (!validated) {
-              entry().validate()
-              references().validate()
-              validated = true
+                entry().validate()
+                references().validate()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Data &&
-              this.entry == other.entry &&
-              this.references == other.references &&
-              this.additionalProperties == other.additionalProperties
+            return other is Data &&
+                this.entry == other.entry &&
+                this.references == other.references &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                entry,
-                references,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        entry,
+                        references,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -298,9 +271,7 @@ class ScheduleForStopRetrieveResponse private constructor(
 
             @JsonProperty("entry")
             @ExcludeMissing
-            fun entry(entry: JsonField<Entry>) = apply {
-                this.entry = entry
-            }
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -324,21 +295,22 @@ class ScheduleForStopRetrieveResponse private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Data = Data(
-                entry,
-                references,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Data =
+                Data(
+                    entry,
+                    references,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
 
         @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
-        class Entry private constructor(
-          private val date: JsonField<Long>,
-          private val stopId: JsonField<String>,
-          private val stopRouteSchedules: JsonField<List<StopRouteSchedule>>,
-          private val additionalProperties: Map<String, JsonValue>,
-
+        class Entry
+        private constructor(
+            private val date: JsonField<Long>,
+            private val stopId: JsonField<String>,
+            private val stopRouteSchedules: JsonField<List<StopRouteSchedule>>,
+            private val additionalProperties: Map<String, JsonValue>,
         ) {
 
             private var validated: Boolean = false
@@ -349,15 +321,12 @@ class ScheduleForStopRetrieveResponse private constructor(
 
             fun stopId(): String = stopId.getRequired("stopId")
 
-            fun stopRouteSchedules(): List<StopRouteSchedule> = stopRouteSchedules.getRequired("stopRouteSchedules")
+            fun stopRouteSchedules(): List<StopRouteSchedule> =
+                stopRouteSchedules.getRequired("stopRouteSchedules")
 
-            @JsonProperty("date")
-            @ExcludeMissing
-            fun _date() = date
+            @JsonProperty("date") @ExcludeMissing fun _date() = date
 
-            @JsonProperty("stopId")
-            @ExcludeMissing
-            fun _stopId() = stopId
+            @JsonProperty("stopId") @ExcludeMissing fun _stopId() = stopId
 
             @JsonProperty("stopRouteSchedules")
             @ExcludeMissing
@@ -369,52 +338,54 @@ class ScheduleForStopRetrieveResponse private constructor(
 
             fun validate(): Entry = apply {
                 if (!validated) {
-                  date()
-                  stopId()
-                  stopRouteSchedules().forEach { it.validate() }
-                  validated = true
+                    date()
+                    stopId()
+                    stopRouteSchedules().forEach { it.validate() }
+                    validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Entry &&
-                  this.date == other.date &&
-                  this.stopId == other.stopId &&
-                  this.stopRouteSchedules == other.stopRouteSchedules &&
-                  this.additionalProperties == other.additionalProperties
+                return other is Entry &&
+                    this.date == other.date &&
+                    this.stopId == other.stopId &&
+                    this.stopRouteSchedules == other.stopRouteSchedules &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-              if (hashCode == 0) {
-                hashCode = Objects.hash(
-                    date,
-                    stopId,
-                    stopRouteSchedules,
-                    additionalProperties,
-                )
-              }
-              return hashCode
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            date,
+                            stopId,
+                            stopRouteSchedules,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
             }
 
-            override fun toString() = "Entry{date=$date, stopId=$stopId, stopRouteSchedules=$stopRouteSchedules, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "Entry{date=$date, stopId=$stopId, stopRouteSchedules=$stopRouteSchedules, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic
-                fun builder() = Builder()
+                @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
 
                 private var date: JsonField<Long> = JsonMissing.of()
                 private var stopId: JsonField<String> = JsonMissing.of()
-                private var stopRouteSchedules: JsonField<List<StopRouteSchedule>> = JsonMissing.of()
+                private var stopRouteSchedules: JsonField<List<StopRouteSchedule>> =
+                    JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -429,25 +400,23 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                 @JsonProperty("date")
                 @ExcludeMissing
-                fun date(date: JsonField<Long>) = apply {
-                    this.date = date
-                }
+                fun date(date: JsonField<Long>) = apply { this.date = date }
 
                 fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
                 @JsonProperty("stopId")
                 @ExcludeMissing
-                fun stopId(stopId: JsonField<String>) = apply {
-                    this.stopId = stopId
-                }
+                fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
-                fun stopRouteSchedules(stopRouteSchedules: List<StopRouteSchedule>) = stopRouteSchedules(JsonField.of(stopRouteSchedules))
+                fun stopRouteSchedules(stopRouteSchedules: List<StopRouteSchedule>) =
+                    stopRouteSchedules(JsonField.of(stopRouteSchedules))
 
                 @JsonProperty("stopRouteSchedules")
                 @ExcludeMissing
-                fun stopRouteSchedules(stopRouteSchedules: JsonField<List<StopRouteSchedule>>) = apply {
-                    this.stopRouteSchedules = stopRouteSchedules
-                }
+                fun stopRouteSchedules(stopRouteSchedules: JsonField<List<StopRouteSchedule>>) =
+                    apply {
+                        this.stopRouteSchedules = stopRouteSchedules
+                    }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -459,21 +428,29 @@ class ScheduleForStopRetrieveResponse private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                fun build(): Entry = Entry(
-                    date,
-                    stopId,
-                    stopRouteSchedules.map { it.toUnmodifiable() },
-                    additionalProperties.toUnmodifiable(),
-                )
+                fun build(): Entry =
+                    Entry(
+                        date,
+                        stopId,
+                        stopRouteSchedules.map { it.toUnmodifiable() },
+                        additionalProperties.toUnmodifiable(),
+                    )
             }
 
             @JsonDeserialize(builder = StopRouteSchedule.Builder::class)
             @NoAutoDetect
-            class StopRouteSchedule private constructor(private val routeId: JsonField<String>, private val stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>>, private val additionalProperties: Map<String, JsonValue>, ) {
+            class StopRouteSchedule
+            private constructor(
+                private val routeId: JsonField<String>,
+                private val stopRouteDirectionSchedules:
+                    JsonField<List<StopRouteDirectionSchedule>>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
 
                 private var validated: Boolean = false
 
@@ -481,11 +458,10 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                 fun routeId(): String = routeId.getRequired("routeId")
 
-                fun stopRouteDirectionSchedules(): List<StopRouteDirectionSchedule> = stopRouteDirectionSchedules.getRequired("stopRouteDirectionSchedules")
+                fun stopRouteDirectionSchedules(): List<StopRouteDirectionSchedule> =
+                    stopRouteDirectionSchedules.getRequired("stopRouteDirectionSchedules")
 
-                @JsonProperty("routeId")
-                @ExcludeMissing
-                fun _routeId() = routeId
+                @JsonProperty("routeId") @ExcludeMissing fun _routeId() = routeId
 
                 @JsonProperty("stopRouteDirectionSchedules")
                 @ExcludeMissing
@@ -497,54 +473,58 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                 fun validate(): StopRouteSchedule = apply {
                     if (!validated) {
-                      routeId()
-                      stopRouteDirectionSchedules().forEach { it.validate() }
-                      validated = true
+                        routeId()
+                        stopRouteDirectionSchedules().forEach { it.validate() }
+                        validated = true
                     }
                 }
 
                 fun toBuilder() = Builder().from(this)
 
                 override fun equals(other: Any?): Boolean {
-                  if (this === other) {
-                      return true
-                  }
+                    if (this === other) {
+                        return true
+                    }
 
-                  return other is StopRouteSchedule &&
-                      this.routeId == other.routeId &&
-                      this.stopRouteDirectionSchedules == other.stopRouteDirectionSchedules &&
-                      this.additionalProperties == other.additionalProperties
+                    return other is StopRouteSchedule &&
+                        this.routeId == other.routeId &&
+                        this.stopRouteDirectionSchedules == other.stopRouteDirectionSchedules &&
+                        this.additionalProperties == other.additionalProperties
                 }
 
                 override fun hashCode(): Int {
-                  if (hashCode == 0) {
-                    hashCode = Objects.hash(
-                        routeId,
-                        stopRouteDirectionSchedules,
-                        additionalProperties,
-                    )
-                  }
-                  return hashCode
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                routeId,
+                                stopRouteDirectionSchedules,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
                 }
 
-                override fun toString() = "StopRouteSchedule{routeId=$routeId, stopRouteDirectionSchedules=$stopRouteDirectionSchedules, additionalProperties=$additionalProperties}"
+                override fun toString() =
+                    "StopRouteSchedule{routeId=$routeId, stopRouteDirectionSchedules=$stopRouteDirectionSchedules, additionalProperties=$additionalProperties}"
 
                 companion object {
 
-                    @JvmStatic
-                    fun builder() = Builder()
+                    @JvmStatic fun builder() = Builder()
                 }
 
                 class Builder {
 
                     private var routeId: JsonField<String> = JsonMissing.of()
-                    private var stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>> = JsonMissing.of()
+                    private var stopRouteDirectionSchedules:
+                        JsonField<List<StopRouteDirectionSchedule>> =
+                        JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
                     internal fun from(stopRouteSchedule: StopRouteSchedule) = apply {
                         this.routeId = stopRouteSchedule.routeId
-                        this.stopRouteDirectionSchedules = stopRouteSchedule.stopRouteDirectionSchedules
+                        this.stopRouteDirectionSchedules =
+                            stopRouteSchedule.stopRouteDirectionSchedules
                         additionalProperties(stopRouteSchedule.additionalProperties)
                     }
 
@@ -552,17 +532,17 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                     @JsonProperty("routeId")
                     @ExcludeMissing
-                    fun routeId(routeId: JsonField<String>) = apply {
-                        this.routeId = routeId
-                    }
+                    fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
-                    fun stopRouteDirectionSchedules(stopRouteDirectionSchedules: List<StopRouteDirectionSchedule>) = stopRouteDirectionSchedules(JsonField.of(stopRouteDirectionSchedules))
+                    fun stopRouteDirectionSchedules(
+                        stopRouteDirectionSchedules: List<StopRouteDirectionSchedule>
+                    ) = stopRouteDirectionSchedules(JsonField.of(stopRouteDirectionSchedules))
 
                     @JsonProperty("stopRouteDirectionSchedules")
                     @ExcludeMissing
-                    fun stopRouteDirectionSchedules(stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>>) = apply {
-                        this.stopRouteDirectionSchedules = stopRouteDirectionSchedules
-                    }
+                    fun stopRouteDirectionSchedules(
+                        stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>>
+                    ) = apply { this.stopRouteDirectionSchedules = stopRouteDirectionSchedules }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -574,34 +554,38 @@ class ScheduleForStopRetrieveResponse private constructor(
                         this.additionalProperties.put(key, value)
                     }
 
-                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
 
-                    fun build(): StopRouteSchedule = StopRouteSchedule(
-                        routeId,
-                        stopRouteDirectionSchedules.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
-                    )
+                    fun build(): StopRouteSchedule =
+                        StopRouteSchedule(
+                            routeId,
+                            stopRouteDirectionSchedules.map { it.toUnmodifiable() },
+                            additionalProperties.toUnmodifiable(),
+                        )
                 }
 
                 @JsonDeserialize(builder = StopRouteDirectionSchedule.Builder::class)
                 @NoAutoDetect
-                class StopRouteDirectionSchedule private constructor(
-                  private val scheduleFrequencies: JsonField<List<ScheduleFrequency>>,
-                  private val scheduleStopTimes: JsonField<List<ScheduleStopTime>>,
-                  private val tripHeadsign: JsonField<String>,
-                  private val additionalProperties: Map<String, JsonValue>,
-
+                class StopRouteDirectionSchedule
+                private constructor(
+                    private val scheduleFrequencies: JsonField<List<ScheduleFrequency>>,
+                    private val scheduleStopTimes: JsonField<List<ScheduleStopTime>>,
+                    private val tripHeadsign: JsonField<String>,
+                    private val additionalProperties: Map<String, JsonValue>,
                 ) {
 
                     private var validated: Boolean = false
 
                     private var hashCode: Int = 0
 
-                    fun scheduleFrequencies(): Optional<List<ScheduleFrequency>> = Optional.ofNullable(scheduleFrequencies.getNullable("scheduleFrequencies"))
+                    fun scheduleFrequencies(): Optional<List<ScheduleFrequency>> =
+                        Optional.ofNullable(scheduleFrequencies.getNullable("scheduleFrequencies"))
 
-                    fun scheduleStopTimes(): List<ScheduleStopTime> = scheduleStopTimes.getRequired("scheduleStopTimes")
+                    fun scheduleStopTimes(): List<ScheduleStopTime> =
+                        scheduleStopTimes.getRequired("scheduleStopTimes")
 
                     fun tripHeadsign(): String = tripHeadsign.getRequired("tripHeadsign")
 
@@ -613,9 +597,7 @@ class ScheduleForStopRetrieveResponse private constructor(
                     @ExcludeMissing
                     fun _scheduleStopTimes() = scheduleStopTimes
 
-                    @JsonProperty("tripHeadsign")
-                    @ExcludeMissing
-                    fun _tripHeadsign() = tripHeadsign
+                    @JsonProperty("tripHeadsign") @ExcludeMissing fun _tripHeadsign() = tripHeadsign
 
                     @JsonAnyGetter
                     @ExcludeMissing
@@ -623,79 +605,91 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                     fun validate(): StopRouteDirectionSchedule = apply {
                         if (!validated) {
-                          scheduleFrequencies().map { it.forEach { it.validate() } }
-                          scheduleStopTimes().forEach { it.validate() }
-                          tripHeadsign()
-                          validated = true
+                            scheduleFrequencies().map { it.forEach { it.validate() } }
+                            scheduleStopTimes().forEach { it.validate() }
+                            tripHeadsign()
+                            validated = true
                         }
                     }
 
                     fun toBuilder() = Builder().from(this)
 
                     override fun equals(other: Any?): Boolean {
-                      if (this === other) {
-                          return true
-                      }
+                        if (this === other) {
+                            return true
+                        }
 
-                      return other is StopRouteDirectionSchedule &&
-                          this.scheduleFrequencies == other.scheduleFrequencies &&
-                          this.scheduleStopTimes == other.scheduleStopTimes &&
-                          this.tripHeadsign == other.tripHeadsign &&
-                          this.additionalProperties == other.additionalProperties
+                        return other is StopRouteDirectionSchedule &&
+                            this.scheduleFrequencies == other.scheduleFrequencies &&
+                            this.scheduleStopTimes == other.scheduleStopTimes &&
+                            this.tripHeadsign == other.tripHeadsign &&
+                            this.additionalProperties == other.additionalProperties
                     }
 
                     override fun hashCode(): Int {
-                      if (hashCode == 0) {
-                        hashCode = Objects.hash(
-                            scheduleFrequencies,
-                            scheduleStopTimes,
-                            tripHeadsign,
-                            additionalProperties,
-                        )
-                      }
-                      return hashCode
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    scheduleFrequencies,
+                                    scheduleStopTimes,
+                                    tripHeadsign,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
                     }
 
-                    override fun toString() = "StopRouteDirectionSchedule{scheduleFrequencies=$scheduleFrequencies, scheduleStopTimes=$scheduleStopTimes, tripHeadsign=$tripHeadsign, additionalProperties=$additionalProperties}"
+                    override fun toString() =
+                        "StopRouteDirectionSchedule{scheduleFrequencies=$scheduleFrequencies, scheduleStopTimes=$scheduleStopTimes, tripHeadsign=$tripHeadsign, additionalProperties=$additionalProperties}"
 
                     companion object {
 
-                        @JvmStatic
-                        fun builder() = Builder()
+                        @JvmStatic fun builder() = Builder()
                     }
 
                     class Builder {
 
-                        private var scheduleFrequencies: JsonField<List<ScheduleFrequency>> = JsonMissing.of()
-                        private var scheduleStopTimes: JsonField<List<ScheduleStopTime>> = JsonMissing.of()
+                        private var scheduleFrequencies: JsonField<List<ScheduleFrequency>> =
+                            JsonMissing.of()
+                        private var scheduleStopTimes: JsonField<List<ScheduleStopTime>> =
+                            JsonMissing.of()
                         private var tripHeadsign: JsonField<String> = JsonMissing.of()
-                        private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+                        private var additionalProperties: MutableMap<String, JsonValue> =
+                            mutableMapOf()
 
                         @JvmSynthetic
-                        internal fun from(stopRouteDirectionSchedule: StopRouteDirectionSchedule) = apply {
-                            this.scheduleFrequencies = stopRouteDirectionSchedule.scheduleFrequencies
-                            this.scheduleStopTimes = stopRouteDirectionSchedule.scheduleStopTimes
-                            this.tripHeadsign = stopRouteDirectionSchedule.tripHeadsign
-                            additionalProperties(stopRouteDirectionSchedule.additionalProperties)
-                        }
+                        internal fun from(stopRouteDirectionSchedule: StopRouteDirectionSchedule) =
+                            apply {
+                                this.scheduleFrequencies =
+                                    stopRouteDirectionSchedule.scheduleFrequencies
+                                this.scheduleStopTimes =
+                                    stopRouteDirectionSchedule.scheduleStopTimes
+                                this.tripHeadsign = stopRouteDirectionSchedule.tripHeadsign
+                                additionalProperties(
+                                    stopRouteDirectionSchedule.additionalProperties
+                                )
+                            }
 
-                        fun scheduleFrequencies(scheduleFrequencies: List<ScheduleFrequency>) = scheduleFrequencies(JsonField.of(scheduleFrequencies))
+                        fun scheduleFrequencies(scheduleFrequencies: List<ScheduleFrequency>) =
+                            scheduleFrequencies(JsonField.of(scheduleFrequencies))
 
                         @JsonProperty("scheduleFrequencies")
                         @ExcludeMissing
-                        fun scheduleFrequencies(scheduleFrequencies: JsonField<List<ScheduleFrequency>>) = apply {
-                            this.scheduleFrequencies = scheduleFrequencies
-                        }
+                        fun scheduleFrequencies(
+                            scheduleFrequencies: JsonField<List<ScheduleFrequency>>
+                        ) = apply { this.scheduleFrequencies = scheduleFrequencies }
 
-                        fun scheduleStopTimes(scheduleStopTimes: List<ScheduleStopTime>) = scheduleStopTimes(JsonField.of(scheduleStopTimes))
+                        fun scheduleStopTimes(scheduleStopTimes: List<ScheduleStopTime>) =
+                            scheduleStopTimes(JsonField.of(scheduleStopTimes))
 
                         @JsonProperty("scheduleStopTimes")
                         @ExcludeMissing
-                        fun scheduleStopTimes(scheduleStopTimes: JsonField<List<ScheduleStopTime>>) = apply {
-                            this.scheduleStopTimes = scheduleStopTimes
-                        }
+                        fun scheduleStopTimes(
+                            scheduleStopTimes: JsonField<List<ScheduleStopTime>>
+                        ) = apply { this.scheduleStopTimes = scheduleStopTimes }
 
-                        fun tripHeadsign(tripHeadsign: String) = tripHeadsign(JsonField.of(tripHeadsign))
+                        fun tripHeadsign(tripHeadsign: String) =
+                            tripHeadsign(JsonField.of(tripHeadsign))
 
                         @JsonProperty("tripHeadsign")
                         @ExcludeMissing
@@ -703,40 +697,42 @@ class ScheduleForStopRetrieveResponse private constructor(
                             this.tripHeadsign = tripHeadsign
                         }
 
-                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                            this.additionalProperties.clear()
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                            apply {
+                                this.additionalProperties.clear()
+                                this.additionalProperties.putAll(additionalProperties)
+                            }
 
                         @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                             this.additionalProperties.put(key, value)
                         }
 
-                        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        fun putAllAdditionalProperties(
+                            additionalProperties: Map<String, JsonValue>
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
-                        fun build(): StopRouteDirectionSchedule = StopRouteDirectionSchedule(
-                            scheduleFrequencies.map { it.toUnmodifiable() },
-                            scheduleStopTimes.map { it.toUnmodifiable() },
-                            tripHeadsign,
-                            additionalProperties.toUnmodifiable(),
-                        )
+                        fun build(): StopRouteDirectionSchedule =
+                            StopRouteDirectionSchedule(
+                                scheduleFrequencies.map { it.toUnmodifiable() },
+                                scheduleStopTimes.map { it.toUnmodifiable() },
+                                tripHeadsign,
+                                additionalProperties.toUnmodifiable(),
+                            )
                     }
 
                     @JsonDeserialize(builder = ScheduleStopTime.Builder::class)
                     @NoAutoDetect
-                    class ScheduleStopTime private constructor(
-                      private val arrivalEnabled: JsonField<Boolean>,
-                      private val arrivalTime: JsonField<Long>,
-                      private val departureEnabled: JsonField<Boolean>,
-                      private val departureTime: JsonField<Long>,
-                      private val serviceId: JsonField<String>,
-                      private val stopHeadsign: JsonField<String>,
-                      private val tripId: JsonField<String>,
-                      private val additionalProperties: Map<String, JsonValue>,
-
+                    class ScheduleStopTime
+                    private constructor(
+                        private val arrivalEnabled: JsonField<Boolean>,
+                        private val arrivalTime: JsonField<Long>,
+                        private val departureEnabled: JsonField<Boolean>,
+                        private val departureTime: JsonField<Long>,
+                        private val serviceId: JsonField<String>,
+                        private val stopHeadsign: JsonField<String>,
+                        private val tripId: JsonField<String>,
+                        private val additionalProperties: Map<String, JsonValue>,
                     ) {
 
                         private var validated: Boolean = false
@@ -747,13 +743,15 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                         fun arrivalTime(): Long = arrivalTime.getRequired("arrivalTime")
 
-                        fun departureEnabled(): Boolean = departureEnabled.getRequired("departureEnabled")
+                        fun departureEnabled(): Boolean =
+                            departureEnabled.getRequired("departureEnabled")
 
                         fun departureTime(): Long = departureTime.getRequired("departureTime")
 
                         fun serviceId(): String = serviceId.getRequired("serviceId")
 
-                        fun stopHeadsign(): Optional<String> = Optional.ofNullable(stopHeadsign.getNullable("stopHeadsign"))
+                        fun stopHeadsign(): Optional<String> =
+                            Optional.ofNullable(stopHeadsign.getNullable("stopHeadsign"))
 
                         fun tripId(): String = tripId.getRequired("tripId")
 
@@ -773,17 +771,13 @@ class ScheduleForStopRetrieveResponse private constructor(
                         @ExcludeMissing
                         fun _departureTime() = departureTime
 
-                        @JsonProperty("serviceId")
-                        @ExcludeMissing
-                        fun _serviceId() = serviceId
+                        @JsonProperty("serviceId") @ExcludeMissing fun _serviceId() = serviceId
 
                         @JsonProperty("stopHeadsign")
                         @ExcludeMissing
                         fun _stopHeadsign() = stopHeadsign
 
-                        @JsonProperty("tripId")
-                        @ExcludeMissing
-                        fun _tripId() = tripId
+                        @JsonProperty("tripId") @ExcludeMissing fun _tripId() = tripId
 
                         @JsonAnyGetter
                         @ExcludeMissing
@@ -791,57 +785,58 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                         fun validate(): ScheduleStopTime = apply {
                             if (!validated) {
-                              arrivalEnabled()
-                              arrivalTime()
-                              departureEnabled()
-                              departureTime()
-                              serviceId()
-                              stopHeadsign()
-                              tripId()
-                              validated = true
+                                arrivalEnabled()
+                                arrivalTime()
+                                departureEnabled()
+                                departureTime()
+                                serviceId()
+                                stopHeadsign()
+                                tripId()
+                                validated = true
                             }
                         }
 
                         fun toBuilder() = Builder().from(this)
 
                         override fun equals(other: Any?): Boolean {
-                          if (this === other) {
-                              return true
-                          }
+                            if (this === other) {
+                                return true
+                            }
 
-                          return other is ScheduleStopTime &&
-                              this.arrivalEnabled == other.arrivalEnabled &&
-                              this.arrivalTime == other.arrivalTime &&
-                              this.departureEnabled == other.departureEnabled &&
-                              this.departureTime == other.departureTime &&
-                              this.serviceId == other.serviceId &&
-                              this.stopHeadsign == other.stopHeadsign &&
-                              this.tripId == other.tripId &&
-                              this.additionalProperties == other.additionalProperties
+                            return other is ScheduleStopTime &&
+                                this.arrivalEnabled == other.arrivalEnabled &&
+                                this.arrivalTime == other.arrivalTime &&
+                                this.departureEnabled == other.departureEnabled &&
+                                this.departureTime == other.departureTime &&
+                                this.serviceId == other.serviceId &&
+                                this.stopHeadsign == other.stopHeadsign &&
+                                this.tripId == other.tripId &&
+                                this.additionalProperties == other.additionalProperties
                         }
 
                         override fun hashCode(): Int {
-                          if (hashCode == 0) {
-                            hashCode = Objects.hash(
-                                arrivalEnabled,
-                                arrivalTime,
-                                departureEnabled,
-                                departureTime,
-                                serviceId,
-                                stopHeadsign,
-                                tripId,
-                                additionalProperties,
-                            )
-                          }
-                          return hashCode
+                            if (hashCode == 0) {
+                                hashCode =
+                                    Objects.hash(
+                                        arrivalEnabled,
+                                        arrivalTime,
+                                        departureEnabled,
+                                        departureTime,
+                                        serviceId,
+                                        stopHeadsign,
+                                        tripId,
+                                        additionalProperties,
+                                    )
+                            }
+                            return hashCode
                         }
 
-                        override fun toString() = "ScheduleStopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, stopHeadsign=$stopHeadsign, tripId=$tripId, additionalProperties=$additionalProperties}"
+                        override fun toString() =
+                            "ScheduleStopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, stopHeadsign=$stopHeadsign, tripId=$tripId, additionalProperties=$additionalProperties}"
 
                         companion object {
 
-                            @JvmStatic
-                            fun builder() = Builder()
+                            @JvmStatic fun builder() = Builder()
                         }
 
                         class Builder {
@@ -853,7 +848,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                             private var serviceId: JsonField<String> = JsonMissing.of()
                             private var stopHeadsign: JsonField<String> = JsonMissing.of()
                             private var tripId: JsonField<String> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+                            private var additionalProperties: MutableMap<String, JsonValue> =
+                                mutableMapOf()
 
                             @JvmSynthetic
                             internal fun from(scheduleStopTime: ScheduleStopTime) = apply {
@@ -867,7 +863,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                                 additionalProperties(scheduleStopTime.additionalProperties)
                             }
 
-                            fun arrivalEnabled(arrivalEnabled: Boolean) = arrivalEnabled(JsonField.of(arrivalEnabled))
+                            fun arrivalEnabled(arrivalEnabled: Boolean) =
+                                arrivalEnabled(JsonField.of(arrivalEnabled))
 
                             @JsonProperty("arrivalEnabled")
                             @ExcludeMissing
@@ -875,7 +872,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                                 this.arrivalEnabled = arrivalEnabled
                             }
 
-                            fun arrivalTime(arrivalTime: Long) = arrivalTime(JsonField.of(arrivalTime))
+                            fun arrivalTime(arrivalTime: Long) =
+                                arrivalTime(JsonField.of(arrivalTime))
 
                             @JsonProperty("arrivalTime")
                             @ExcludeMissing
@@ -883,7 +881,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                                 this.arrivalTime = arrivalTime
                             }
 
-                            fun departureEnabled(departureEnabled: Boolean) = departureEnabled(JsonField.of(departureEnabled))
+                            fun departureEnabled(departureEnabled: Boolean) =
+                                departureEnabled(JsonField.of(departureEnabled))
 
                             @JsonProperty("departureEnabled")
                             @ExcludeMissing
@@ -891,7 +890,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                                 this.departureEnabled = departureEnabled
                             }
 
-                            fun departureTime(departureTime: Long) = departureTime(JsonField.of(departureTime))
+                            fun departureTime(departureTime: Long) =
+                                departureTime(JsonField.of(departureTime))
 
                             @JsonProperty("departureTime")
                             @ExcludeMissing
@@ -907,7 +907,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                                 this.serviceId = serviceId
                             }
 
-                            fun stopHeadsign(stopHeadsign: String) = stopHeadsign(JsonField.of(stopHeadsign))
+                            fun stopHeadsign(stopHeadsign: String) =
+                                stopHeadsign(JsonField.of(stopHeadsign))
 
                             @JsonProperty("stopHeadsign")
                             @ExcludeMissing
@@ -919,48 +920,48 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                             @JsonProperty("tripId")
                             @ExcludeMissing
-                            fun tripId(tripId: JsonField<String>) = apply {
-                                this.tripId = tripId
-                            }
+                            fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                                this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                                apply {
+                                    this.additionalProperties.clear()
+                                    this.additionalProperties.putAll(additionalProperties)
+                                }
 
                             @JsonAnySetter
                             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                                 this.additionalProperties.put(key, value)
                             }
 
-                            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                            fun putAllAdditionalProperties(
+                                additionalProperties: Map<String, JsonValue>
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
-                            fun build(): ScheduleStopTime = ScheduleStopTime(
-                                arrivalEnabled,
-                                arrivalTime,
-                                departureEnabled,
-                                departureTime,
-                                serviceId,
-                                stopHeadsign,
-                                tripId,
-                                additionalProperties.toUnmodifiable(),
-                            )
+                            fun build(): ScheduleStopTime =
+                                ScheduleStopTime(
+                                    arrivalEnabled,
+                                    arrivalTime,
+                                    departureEnabled,
+                                    departureTime,
+                                    serviceId,
+                                    stopHeadsign,
+                                    tripId,
+                                    additionalProperties.toUnmodifiable(),
+                                )
                         }
                     }
 
                     @JsonDeserialize(builder = ScheduleFrequency.Builder::class)
                     @NoAutoDetect
-                    class ScheduleFrequency private constructor(
-                      private val serviceDate: JsonField<Long>,
-                      private val startTime: JsonField<Long>,
-                      private val endTime: JsonField<Long>,
-                      private val headway: JsonField<Long>,
-                      private val serviceId: JsonField<String>,
-                      private val tripId: JsonField<String>,
-                      private val additionalProperties: Map<String, JsonValue>,
-
+                    class ScheduleFrequency
+                    private constructor(
+                        private val serviceDate: JsonField<Long>,
+                        private val startTime: JsonField<Long>,
+                        private val endTime: JsonField<Long>,
+                        private val headway: JsonField<Long>,
+                        private val serviceId: JsonField<String>,
+                        private val tripId: JsonField<String>,
+                        private val additionalProperties: Map<String, JsonValue>,
                     ) {
 
                         private var validated: Boolean = false
@@ -983,25 +984,15 @@ class ScheduleForStopRetrieveResponse private constructor(
                         @ExcludeMissing
                         fun _serviceDate() = serviceDate
 
-                        @JsonProperty("startTime")
-                        @ExcludeMissing
-                        fun _startTime() = startTime
+                        @JsonProperty("startTime") @ExcludeMissing fun _startTime() = startTime
 
-                        @JsonProperty("endTime")
-                        @ExcludeMissing
-                        fun _endTime() = endTime
+                        @JsonProperty("endTime") @ExcludeMissing fun _endTime() = endTime
 
-                        @JsonProperty("headway")
-                        @ExcludeMissing
-                        fun _headway() = headway
+                        @JsonProperty("headway") @ExcludeMissing fun _headway() = headway
 
-                        @JsonProperty("serviceId")
-                        @ExcludeMissing
-                        fun _serviceId() = serviceId
+                        @JsonProperty("serviceId") @ExcludeMissing fun _serviceId() = serviceId
 
-                        @JsonProperty("tripId")
-                        @ExcludeMissing
-                        fun _tripId() = tripId
+                        @JsonProperty("tripId") @ExcludeMissing fun _tripId() = tripId
 
                         @JsonAnyGetter
                         @ExcludeMissing
@@ -1009,54 +1000,55 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                         fun validate(): ScheduleFrequency = apply {
                             if (!validated) {
-                              serviceDate()
-                              startTime()
-                              endTime()
-                              headway()
-                              serviceId()
-                              tripId()
-                              validated = true
+                                serviceDate()
+                                startTime()
+                                endTime()
+                                headway()
+                                serviceId()
+                                tripId()
+                                validated = true
                             }
                         }
 
                         fun toBuilder() = Builder().from(this)
 
                         override fun equals(other: Any?): Boolean {
-                          if (this === other) {
-                              return true
-                          }
+                            if (this === other) {
+                                return true
+                            }
 
-                          return other is ScheduleFrequency &&
-                              this.serviceDate == other.serviceDate &&
-                              this.startTime == other.startTime &&
-                              this.endTime == other.endTime &&
-                              this.headway == other.headway &&
-                              this.serviceId == other.serviceId &&
-                              this.tripId == other.tripId &&
-                              this.additionalProperties == other.additionalProperties
+                            return other is ScheduleFrequency &&
+                                this.serviceDate == other.serviceDate &&
+                                this.startTime == other.startTime &&
+                                this.endTime == other.endTime &&
+                                this.headway == other.headway &&
+                                this.serviceId == other.serviceId &&
+                                this.tripId == other.tripId &&
+                                this.additionalProperties == other.additionalProperties
                         }
 
                         override fun hashCode(): Int {
-                          if (hashCode == 0) {
-                            hashCode = Objects.hash(
-                                serviceDate,
-                                startTime,
-                                endTime,
-                                headway,
-                                serviceId,
-                                tripId,
-                                additionalProperties,
-                            )
-                          }
-                          return hashCode
+                            if (hashCode == 0) {
+                                hashCode =
+                                    Objects.hash(
+                                        serviceDate,
+                                        startTime,
+                                        endTime,
+                                        headway,
+                                        serviceId,
+                                        tripId,
+                                        additionalProperties,
+                                    )
+                            }
+                            return hashCode
                         }
 
-                        override fun toString() = "ScheduleFrequency{serviceDate=$serviceDate, startTime=$startTime, endTime=$endTime, headway=$headway, serviceId=$serviceId, tripId=$tripId, additionalProperties=$additionalProperties}"
+                        override fun toString() =
+                            "ScheduleFrequency{serviceDate=$serviceDate, startTime=$startTime, endTime=$endTime, headway=$headway, serviceId=$serviceId, tripId=$tripId, additionalProperties=$additionalProperties}"
 
                         companion object {
 
-                            @JvmStatic
-                            fun builder() = Builder()
+                            @JvmStatic fun builder() = Builder()
                         }
 
                         class Builder {
@@ -1067,7 +1059,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                             private var headway: JsonField<Long> = JsonMissing.of()
                             private var serviceId: JsonField<String> = JsonMissing.of()
                             private var tripId: JsonField<String> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+                            private var additionalProperties: MutableMap<String, JsonValue> =
+                                mutableMapOf()
 
                             @JvmSynthetic
                             internal fun from(scheduleFrequency: ScheduleFrequency) = apply {
@@ -1080,7 +1073,8 @@ class ScheduleForStopRetrieveResponse private constructor(
                                 additionalProperties(scheduleFrequency.additionalProperties)
                             }
 
-                            fun serviceDate(serviceDate: Long) = serviceDate(JsonField.of(serviceDate))
+                            fun serviceDate(serviceDate: Long) =
+                                serviceDate(JsonField.of(serviceDate))
 
                             @JsonProperty("serviceDate")
                             @ExcludeMissing
@@ -1100,17 +1094,13 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                             @JsonProperty("endTime")
                             @ExcludeMissing
-                            fun endTime(endTime: JsonField<Long>) = apply {
-                                this.endTime = endTime
-                            }
+                            fun endTime(endTime: JsonField<Long>) = apply { this.endTime = endTime }
 
                             fun headway(headway: Long) = headway(JsonField.of(headway))
 
                             @JsonProperty("headway")
                             @ExcludeMissing
-                            fun headway(headway: JsonField<Long>) = apply {
-                                this.headway = headway
-                            }
+                            fun headway(headway: JsonField<Long>) = apply { this.headway = headway }
 
                             fun serviceId(serviceId: String) = serviceId(JsonField.of(serviceId))
 
@@ -1124,33 +1114,33 @@ class ScheduleForStopRetrieveResponse private constructor(
 
                             @JsonProperty("tripId")
                             @ExcludeMissing
-                            fun tripId(tripId: JsonField<String>) = apply {
-                                this.tripId = tripId
-                            }
+                            fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                                this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                                apply {
+                                    this.additionalProperties.clear()
+                                    this.additionalProperties.putAll(additionalProperties)
+                                }
 
                             @JsonAnySetter
                             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                                 this.additionalProperties.put(key, value)
                             }
 
-                            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                            fun putAllAdditionalProperties(
+                                additionalProperties: Map<String, JsonValue>
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
-                            fun build(): ScheduleFrequency = ScheduleFrequency(
-                                serviceDate,
-                                startTime,
-                                endTime,
-                                headway,
-                                serviceId,
-                                tripId,
-                                additionalProperties.toUnmodifiable(),
-                            )
+                            fun build(): ScheduleFrequency =
+                                ScheduleFrequency(
+                                    serviceDate,
+                                    startTime,
+                                    endTime,
+                                    headway,
+                                    serviceId,
+                                    tripId,
+                                    additionalProperties.toUnmodifiable(),
+                                )
                         }
                     }
                 }
