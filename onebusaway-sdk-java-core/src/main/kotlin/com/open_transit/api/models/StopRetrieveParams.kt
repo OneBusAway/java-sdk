@@ -2,29 +2,55 @@
 
 package com.open_transit.api.models
 
-import com.open_transit.api.core.NoAutoDetect
-import com.open_transit.api.core.toUnmodifiable
-import com.open_transit.api.models.*
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import org.apache.hc.core5.http.ContentType
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Objects
+import java.util.Optional
+import java.util.UUID
+import com.open_transit.api.core.BaseDeserializer
+import com.open_transit.api.core.BaseSerializer
+import com.open_transit.api.core.getOrThrow
+import com.open_transit.api.core.ExcludeMissing
+import com.open_transit.api.core.JsonField
+import com.open_transit.api.core.JsonMissing
+import com.open_transit.api.core.JsonValue
+import com.open_transit.api.core.MultipartFormValue
+import com.open_transit.api.core.toUnmodifiable
+import com.open_transit.api.core.NoAutoDetect
+import com.open_transit.api.core.Enum
+import com.open_transit.api.core.ContentTypes
+import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
+import com.open_transit.api.models.*
 
-class StopRetrieveParams
-constructor(
-    private val stopId: String,
-    private val additionalQueryParams: Map<String, List<String>>,
-    private val additionalHeaders: Map<String, List<String>>,
-) {
+class StopRetrieveParams constructor(private val stopId: String, private val additionalQueryParams: Map<String, List<String>>, private val additionalHeaders: Map<String, List<String>>, ) {
 
     fun stopId(): String = stopId
 
-    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic
+    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic
+    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-        return when (index) {
-            0 -> stopId
-            else -> ""
-        }
+      return when (index) {
+          0 -> stopId
+          else -> ""
+      }
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -32,32 +58,32 @@ constructor(
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is StopRetrieveParams &&
-            this.stopId == other.stopId &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+      return other is StopRetrieveParams &&
+          this.stopId == other.stopId &&
+          this.additionalQueryParams == other.additionalQueryParams &&
+          this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            stopId,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+      return Objects.hash(
+          stopId,
+          additionalQueryParams,
+          additionalHeaders,
+      )
     }
 
-    override fun toString() =
-        "StopRetrieveParams{stopId=$stopId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+    override fun toString() = "StopRetrieveParams{stopId=$stopId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -74,7 +100,9 @@ constructor(
             additionalHeaders(stopRetrieveParams.additionalHeaders)
         }
 
-        fun stopId(stopId: String) = apply { this.stopId = stopId }
+        fun stopId(stopId: String) = apply {
+            this.stopId = stopId
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -114,13 +142,16 @@ constructor(
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
+        fun removeHeader(name: String) = apply {
+            this.additionalHeaders.put(name, mutableListOf())
+        }
 
-        fun build(): StopRetrieveParams =
-            StopRetrieveParams(
-                checkNotNull(stopId) { "`stopId` is required but was not set" },
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            )
+        fun build(): StopRetrieveParams = StopRetrieveParams(
+            checkNotNull(stopId) {
+                "`stopId` is required but was not set"
+            },
+            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+        )
     }
 }

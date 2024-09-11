@@ -4,10 +4,9 @@ import com.google.common.collect.ListMultimap
 
 class PermissionDeniedException
 constructor(
-    headers: ListMultimap<String, String>,
-    private val error: OnebusawaySdkError,
+        headers: ListMultimap<String, String>,
+        private val error: OnebusawaySdkError,
 ) : OnebusawaySdkServiceException(headers, "${error}") {
     override fun statusCode(): Int = 403
-
     fun error(): OnebusawaySdkError = error
 }

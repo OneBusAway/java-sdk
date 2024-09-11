@@ -4,25 +4,44 @@ package com.open_transit.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Objects
+import java.util.Optional
+import java.util.UUID
+import com.open_transit.api.core.BaseDeserializer
+import com.open_transit.api.core.BaseSerializer
+import com.open_transit.api.core.getOrThrow
 import com.open_transit.api.core.ExcludeMissing
-import com.open_transit.api.core.JsonField
 import com.open_transit.api.core.JsonMissing
 import com.open_transit.api.core.JsonValue
-import com.open_transit.api.core.NoAutoDetect
+import com.open_transit.api.core.JsonNull
+import com.open_transit.api.core.JsonField
+import com.open_transit.api.core.Enum
 import com.open_transit.api.core.toUnmodifiable
-import java.util.Objects
+import com.open_transit.api.core.NoAutoDetect
+import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
 
 @JsonDeserialize(builder = ResponseWrapper.Builder::class)
 @NoAutoDetect
-class ResponseWrapper
-private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val additionalProperties: Map<String, JsonValue>,
+class ResponseWrapper private constructor(
+  private val code: JsonField<Long>,
+  private val currentTime: JsonField<Long>,
+  private val text: JsonField<String>,
+  private val version: JsonField<Long>,
+  private val additionalProperties: Map<String, JsonValue>,
+
 ) {
 
     private var validated: Boolean = false
@@ -37,13 +56,21 @@ private constructor(
 
     fun version(): Long = version.getRequired("version")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code")
+    @ExcludeMissing
+    fun _code() = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    fun _currentTime() = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text")
+    @ExcludeMissing
+    fun _text() = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version")
+    @ExcludeMissing
+    fun _version() = version
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -51,49 +78,48 @@ private constructor(
 
     fun validate(): ResponseWrapper = apply {
         if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            validated = true
+          code()
+          currentTime()
+          text()
+          version()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is ResponseWrapper &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.additionalProperties == other.additionalProperties
+      return other is ResponseWrapper &&
+          this.code == other.code &&
+          this.currentTime == other.currentTime &&
+          this.text == other.text &&
+          this.version == other.version &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            code,
+            currentTime,
+            text,
+            version,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "ResponseWrapper{code=$code, currentTime=$currentTime, text=$text, version=$version, additionalProperties=$additionalProperties}"
+    override fun toString() = "ResponseWrapper{code=$code, currentTime=$currentTime, text=$text, version=$version, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -117,25 +143,33 @@ private constructor(
 
         @JsonProperty("code")
         @ExcludeMissing
-        fun code(code: JsonField<Long>) = apply { this.code = code }
+        fun code(code: JsonField<Long>) = apply {
+            this.code = code
+        }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
         @JsonProperty("currentTime")
         @ExcludeMissing
-        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
+        fun currentTime(currentTime: JsonField<Long>) = apply {
+            this.currentTime = currentTime
+        }
 
         fun text(text: String) = text(JsonField.of(text))
 
         @JsonProperty("text")
         @ExcludeMissing
-        fun text(text: JsonField<String>) = apply { this.text = text }
+        fun text(text: JsonField<String>) = apply {
+            this.text = text
+        }
 
         fun version(version: Long) = version(JsonField.of(version))
 
         @JsonProperty("version")
         @ExcludeMissing
-        fun version(version: JsonField<Long>) = apply { this.version = version }
+        fun version(version: JsonField<Long>) = apply {
+            this.version = version
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -151,13 +185,12 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): ResponseWrapper =
-            ResponseWrapper(
-                code,
-                currentTime,
-                text,
-                version,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): ResponseWrapper = ResponseWrapper(
+            code,
+            currentTime,
+            text,
+            version,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 }

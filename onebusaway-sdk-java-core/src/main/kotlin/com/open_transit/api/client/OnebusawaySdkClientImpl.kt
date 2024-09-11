@@ -2,109 +2,83 @@
 
 package com.open_transit.api.client
 
+import java.time.Duration
+import java.util.Base64
+import java.util.Optional
+import java.util.concurrent.CompletableFuture
 import com.open_transit.api.core.ClientOptions
+import com.open_transit.api.core.http.HttpMethod
+import com.open_transit.api.core.http.HttpRequest
 import com.open_transit.api.core.http.HttpResponse.Handler
+import com.open_transit.api.core.JsonField
+import com.open_transit.api.core.RequestOptions
 import com.open_transit.api.errors.OnebusawaySdkError
+import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
 import com.open_transit.api.models.*
 import com.open_transit.api.services.blocking.*
+import com.open_transit.api.services.emptyHandler
 import com.open_transit.api.services.errorHandler
+import com.open_transit.api.services.json
+import com.open_transit.api.services.jsonHandler
+import com.open_transit.api.services.stringHandler
+import com.open_transit.api.services.binaryHandler
+import com.open_transit.api.services.withErrorHandler
 
-class OnebusawaySdkClientImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : OnebusawaySdkClient {
+class OnebusawaySdkClientImpl constructor(private val clientOptions: ClientOptions, ) : OnebusawaySdkClient {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-    private val async: OnebusawaySdkClientAsync by lazy {
-        OnebusawaySdkClientAsyncImpl(clientOptions)
-    }
+    private val async: OnebusawaySdkClientAsync by lazy { OnebusawaySdkClientAsyncImpl(clientOptions) }
 
-    private val agenciesWithCoverage: AgenciesWithCoverageService by lazy {
-        AgenciesWithCoverageServiceImpl(clientOptions)
-    }
+    private val agenciesWithCoverage: AgenciesWithCoverageService by lazy { AgenciesWithCoverageServiceImpl(clientOptions) }
 
     private val agency: AgencyService by lazy { AgencyServiceImpl(clientOptions) }
 
-    private val vehiclesForAgency: VehiclesForAgencyService by lazy {
-        VehiclesForAgencyServiceImpl(clientOptions)
-    }
+    private val vehiclesForAgency: VehiclesForAgencyService by lazy { VehiclesForAgencyServiceImpl(clientOptions) }
 
     private val config: ConfigService by lazy { ConfigServiceImpl(clientOptions) }
 
     private val currentTime: CurrentTimeService by lazy { CurrentTimeServiceImpl(clientOptions) }
 
-    private val stopsForLocation: StopsForLocationService by lazy {
-        StopsForLocationServiceImpl(clientOptions)
-    }
+    private val stopsForLocation: StopsForLocationService by lazy { StopsForLocationServiceImpl(clientOptions) }
 
-    private val stopsForRoute: StopsForRouteService by lazy {
-        StopsForRouteServiceImpl(clientOptions)
-    }
+    private val stopsForRoute: StopsForRouteService by lazy { StopsForRouteServiceImpl(clientOptions) }
 
     private val stop: StopService by lazy { StopServiceImpl(clientOptions) }
 
-    private val stopIdsForAgency: StopIdsForAgencyService by lazy {
-        StopIdsForAgencyServiceImpl(clientOptions)
-    }
+    private val stopIdsForAgency: StopIdsForAgencyService by lazy { StopIdsForAgencyServiceImpl(clientOptions) }
 
-    private val scheduleForStop: ScheduleForStopService by lazy {
-        ScheduleForStopServiceImpl(clientOptions)
-    }
+    private val scheduleForStop: ScheduleForStopService by lazy { ScheduleForStopServiceImpl(clientOptions) }
 
     private val route: RouteService by lazy { RouteServiceImpl(clientOptions) }
 
-    private val routeIdsForAgency: RouteIdsForAgencyService by lazy {
-        RouteIdsForAgencyServiceImpl(clientOptions)
-    }
+    private val routeIdsForAgency: RouteIdsForAgencyService by lazy { RouteIdsForAgencyServiceImpl(clientOptions) }
 
-    private val routesForLocation: RoutesForLocationService by lazy {
-        RoutesForLocationServiceImpl(clientOptions)
-    }
+    private val routesForLocation: RoutesForLocationService by lazy { RoutesForLocationServiceImpl(clientOptions) }
 
-    private val routesForAgency: RoutesForAgencyService by lazy {
-        RoutesForAgencyServiceImpl(clientOptions)
-    }
+    private val routesForAgency: RoutesForAgencyService by lazy { RoutesForAgencyServiceImpl(clientOptions) }
 
-    private val scheduleForRoute: ScheduleForRouteService by lazy {
-        ScheduleForRouteServiceImpl(clientOptions)
-    }
+    private val scheduleForRoute: ScheduleForRouteService by lazy { ScheduleForRouteServiceImpl(clientOptions) }
 
-    private val arrivalAndDeparture: ArrivalAndDepartureService by lazy {
-        ArrivalAndDepartureServiceImpl(clientOptions)
-    }
+    private val arrivalAndDeparture: ArrivalAndDepartureService by lazy { ArrivalAndDepartureServiceImpl(clientOptions) }
 
     private val trip: TripService by lazy { TripServiceImpl(clientOptions) }
 
-    private val tripsForLocation: TripsForLocationService by lazy {
-        TripsForLocationServiceImpl(clientOptions)
-    }
+    private val tripsForLocation: TripsForLocationService by lazy { TripsForLocationServiceImpl(clientOptions) }
 
     private val tripDetails: TripDetailService by lazy { TripDetailServiceImpl(clientOptions) }
 
-    private val tripForVehicle: TripForVehicleService by lazy {
-        TripForVehicleServiceImpl(clientOptions)
-    }
+    private val tripForVehicle: TripForVehicleService by lazy { TripForVehicleServiceImpl(clientOptions) }
 
-    private val tripsForRoute: TripsForRouteService by lazy {
-        TripsForRouteServiceImpl(clientOptions)
-    }
+    private val tripsForRoute: TripsForRouteService by lazy { TripsForRouteServiceImpl(clientOptions) }
 
-    private val reportProblemWithStop: ReportProblemWithStopService by lazy {
-        ReportProblemWithStopServiceImpl(clientOptions)
-    }
+    private val reportProblemWithStop: ReportProblemWithStopService by lazy { ReportProblemWithStopServiceImpl(clientOptions) }
 
-    private val reportProblemWithTrip: ReportProblemWithTripService by lazy {
-        ReportProblemWithTripServiceImpl(clientOptions)
-    }
+    private val reportProblemWithTrip: ReportProblemWithTripService by lazy { ReportProblemWithTripServiceImpl(clientOptions) }
 
-    private val searchForStop: SearchForStopService by lazy {
-        SearchForStopServiceImpl(clientOptions)
-    }
+    private val searchForStop: SearchForStopService by lazy { SearchForStopServiceImpl(clientOptions) }
 
-    private val searchForRoute: SearchForRouteService by lazy {
-        SearchForRouteServiceImpl(clientOptions)
-    }
+    private val searchForRoute: SearchForRouteService by lazy { SearchForRouteServiceImpl(clientOptions) }
 
     private val block: BlockService by lazy { BlockServiceImpl(clientOptions) }
 

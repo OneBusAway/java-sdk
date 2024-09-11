@@ -4,27 +4,45 @@ package com.open_transit.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.open_transit.api.core.ExcludeMissing
-import com.open_transit.api.core.JsonField
-import com.open_transit.api.core.JsonMissing
-import com.open_transit.api.core.JsonValue
-import com.open_transit.api.core.NoAutoDetect
-import com.open_transit.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.open_transit.api.core.BaseDeserializer
+import com.open_transit.api.core.BaseSerializer
+import com.open_transit.api.core.getOrThrow
+import com.open_transit.api.core.ExcludeMissing
+import com.open_transit.api.core.JsonMissing
+import com.open_transit.api.core.JsonValue
+import com.open_transit.api.core.JsonNull
+import com.open_transit.api.core.JsonField
+import com.open_transit.api.core.Enum
+import com.open_transit.api.core.toUnmodifiable
+import com.open_transit.api.core.NoAutoDetect
+import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
 
 @JsonDeserialize(builder = ConfigRetrieveResponse.Builder::class)
 @NoAutoDetect
-class ConfigRetrieveResponse
-private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val data: JsonField<Data>,
-    private val additionalProperties: Map<String, JsonValue>,
+class ConfigRetrieveResponse private constructor(
+  private val code: JsonField<Long>,
+  private val currentTime: JsonField<Long>,
+  private val text: JsonField<String>,
+  private val version: JsonField<Long>,
+  private val data: JsonField<Data>,
+  private val additionalProperties: Map<String, JsonValue>,
+
 ) {
 
     private var validated: Boolean = false
@@ -41,23 +59,27 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
+    fun toResponseWrapper(): ResponseWrapper = ResponseWrapper.builder().code(code).currentTime(currentTime).text(text).version(version).build()
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code")
+    @ExcludeMissing
+    fun _code() = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    fun _currentTime() = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text")
+    @ExcludeMissing
+    fun _text() = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version")
+    @ExcludeMissing
+    fun _version() = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data")
+    @ExcludeMissing
+    fun _data() = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -65,52 +87,51 @@ private constructor(
 
     fun validate(): ConfigRetrieveResponse = apply {
         if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+          code()
+          currentTime()
+          text()
+          version()
+          data().validate()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is ConfigRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
+      return other is ConfigRetrieveResponse &&
+          this.code == other.code &&
+          this.currentTime == other.currentTime &&
+          this.text == other.text &&
+          this.version == other.version &&
+          this.data == other.data &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            code,
+            currentTime,
+            text,
+            version,
+            data,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "ConfigRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
+    override fun toString() = "ConfigRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -136,31 +157,41 @@ private constructor(
 
         @JsonProperty("code")
         @ExcludeMissing
-        fun code(code: JsonField<Long>) = apply { this.code = code }
+        fun code(code: JsonField<Long>) = apply {
+            this.code = code
+        }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
         @JsonProperty("currentTime")
         @ExcludeMissing
-        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
+        fun currentTime(currentTime: JsonField<Long>) = apply {
+            this.currentTime = currentTime
+        }
 
         fun text(text: String) = text(JsonField.of(text))
 
         @JsonProperty("text")
         @ExcludeMissing
-        fun text(text: JsonField<String>) = apply { this.text = text }
+        fun text(text: JsonField<String>) = apply {
+            this.text = text
+        }
 
         fun version(version: Long) = version(JsonField.of(version))
 
         @JsonProperty("version")
         @ExcludeMissing
-        fun version(version: JsonField<Long>) = apply { this.version = version }
+        fun version(version: JsonField<Long>) = apply {
+            this.version = version
+        }
 
         fun data(data: Data) = data(JsonField.of(data))
 
         @JsonProperty("data")
         @ExcludeMissing
-        fun data(data: JsonField<Data>) = apply { this.data = data }
+        fun data(data: JsonField<Data>) = apply {
+            this.data = data
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -176,25 +207,19 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): ConfigRetrieveResponse =
-            ConfigRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): ConfigRetrieveResponse = ConfigRetrieveResponse(
+            code,
+            currentTime,
+            text,
+            version,
+            data,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 
     @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
-    class Data
-    private constructor(
-        private val entry: JsonField<Entry>,
-        private val references: JsonField<References>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class Data private constructor(private val entry: JsonField<Entry>, private val references: JsonField<References>, private val additionalProperties: Map<String, JsonValue>, ) {
 
         private var validated: Boolean = false
 
@@ -204,9 +229,13 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry")
+        @ExcludeMissing
+        fun _entry() = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references() = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -214,43 +243,42 @@ private constructor(
 
         fun validate(): Data = apply {
             if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+              entry().validate()
+              references().validate()
+              validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
+          return other is Data &&
+              this.entry == other.entry &&
+              this.references == other.references &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(
+                entry,
+                references,
+                additionalProperties,
+            )
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
+        override fun toString() = "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -270,7 +298,9 @@ private constructor(
 
             @JsonProperty("entry")
             @ExcludeMissing
-            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
+            fun entry(entry: JsonField<Entry>) = apply {
+                this.entry = entry
+            }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -294,54 +324,58 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Data =
-                Data(
-                    entry,
-                    references,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build(): Data = Data(
+                entry,
+                references,
+                additionalProperties.toUnmodifiable(),
+            )
         }
 
         @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
-        class Entry
-        private constructor(
-            private val gitProperties: JsonField<GitProperties>,
-            private val id: JsonField<String>,
-            private val name: JsonField<String>,
-            private val serviceDateFrom: JsonField<String>,
-            private val serviceDateTo: JsonField<String>,
-            private val additionalProperties: Map<String, JsonValue>,
+        class Entry private constructor(
+          private val gitProperties: JsonField<GitProperties>,
+          private val id: JsonField<String>,
+          private val name: JsonField<String>,
+          private val serviceDateFrom: JsonField<String>,
+          private val serviceDateTo: JsonField<String>,
+          private val additionalProperties: Map<String, JsonValue>,
+
         ) {
 
             private var validated: Boolean = false
 
             private var hashCode: Int = 0
 
-            fun gitProperties(): Optional<GitProperties> =
-                Optional.ofNullable(gitProperties.getNullable("gitProperties"))
+            fun gitProperties(): Optional<GitProperties> = Optional.ofNullable(gitProperties.getNullable("gitProperties"))
 
             fun id(): Optional<String> = Optional.ofNullable(id.getNullable("id"))
 
             fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-            fun serviceDateFrom(): Optional<String> =
-                Optional.ofNullable(serviceDateFrom.getNullable("serviceDateFrom"))
+            fun serviceDateFrom(): Optional<String> = Optional.ofNullable(serviceDateFrom.getNullable("serviceDateFrom"))
 
-            fun serviceDateTo(): Optional<String> =
-                Optional.ofNullable(serviceDateTo.getNullable("serviceDateTo"))
+            fun serviceDateTo(): Optional<String> = Optional.ofNullable(serviceDateTo.getNullable("serviceDateTo"))
 
-            @JsonProperty("gitProperties") @ExcludeMissing fun _gitProperties() = gitProperties
+            @JsonProperty("gitProperties")
+            @ExcludeMissing
+            fun _gitProperties() = gitProperties
 
-            @JsonProperty("id") @ExcludeMissing fun _id() = id
+            @JsonProperty("id")
+            @ExcludeMissing
+            fun _id() = id
 
-            @JsonProperty("name") @ExcludeMissing fun _name() = name
+            @JsonProperty("name")
+            @ExcludeMissing
+            fun _name() = name
 
             @JsonProperty("serviceDateFrom")
             @ExcludeMissing
             fun _serviceDateFrom() = serviceDateFrom
 
-            @JsonProperty("serviceDateTo") @ExcludeMissing fun _serviceDateTo() = serviceDateTo
+            @JsonProperty("serviceDateTo")
+            @ExcludeMissing
+            fun _serviceDateTo() = serviceDateTo
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -349,52 +383,51 @@ private constructor(
 
             fun validate(): Entry = apply {
                 if (!validated) {
-                    gitProperties().map { it.validate() }
-                    id()
-                    name()
-                    serviceDateFrom()
-                    serviceDateTo()
-                    validated = true
+                  gitProperties().map { it.validate() }
+                  id()
+                  name()
+                  serviceDateFrom()
+                  serviceDateTo()
+                  validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
+              if (this === other) {
+                  return true
+              }
 
-                return other is Entry &&
-                    this.gitProperties == other.gitProperties &&
-                    this.id == other.id &&
-                    this.name == other.name &&
-                    this.serviceDateFrom == other.serviceDateFrom &&
-                    this.serviceDateTo == other.serviceDateTo &&
-                    this.additionalProperties == other.additionalProperties
+              return other is Entry &&
+                  this.gitProperties == other.gitProperties &&
+                  this.id == other.id &&
+                  this.name == other.name &&
+                  this.serviceDateFrom == other.serviceDateFrom &&
+                  this.serviceDateTo == other.serviceDateTo &&
+                  this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            gitProperties,
-                            id,
-                            name,
-                            serviceDateFrom,
-                            serviceDateTo,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
+              if (hashCode == 0) {
+                hashCode = Objects.hash(
+                    gitProperties,
+                    id,
+                    name,
+                    serviceDateFrom,
+                    serviceDateTo,
+                    additionalProperties,
+                )
+              }
+              return hashCode
             }
 
-            override fun toString() =
-                "Entry{gitProperties=$gitProperties, id=$id, name=$name, serviceDateFrom=$serviceDateFrom, serviceDateTo=$serviceDateTo, additionalProperties=$additionalProperties}"
+            override fun toString() = "Entry{gitProperties=$gitProperties, id=$id, name=$name, serviceDateFrom=$serviceDateFrom, serviceDateTo=$serviceDateTo, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic fun builder() = Builder()
+                @JvmStatic
+                fun builder() = Builder()
             }
 
             class Builder {
@@ -416,8 +449,7 @@ private constructor(
                     additionalProperties(entry.additionalProperties)
                 }
 
-                fun gitProperties(gitProperties: GitProperties) =
-                    gitProperties(JsonField.of(gitProperties))
+                fun gitProperties(gitProperties: GitProperties) = gitProperties(JsonField.of(gitProperties))
 
                 @JsonProperty("gitProperties")
                 @ExcludeMissing
@@ -429,16 +461,19 @@ private constructor(
 
                 @JsonProperty("id")
                 @ExcludeMissing
-                fun id(id: JsonField<String>) = apply { this.id = id }
+                fun id(id: JsonField<String>) = apply {
+                    this.id = id
+                }
 
                 fun name(name: String) = name(JsonField.of(name))
 
                 @JsonProperty("name")
                 @ExcludeMissing
-                fun name(name: JsonField<String>) = apply { this.name = name }
+                fun name(name: JsonField<String>) = apply {
+                    this.name = name
+                }
 
-                fun serviceDateFrom(serviceDateFrom: String) =
-                    serviceDateFrom(JsonField.of(serviceDateFrom))
+                fun serviceDateFrom(serviceDateFrom: String) = serviceDateFrom(JsonField.of(serviceDateFrom))
 
                 @JsonProperty("serviceDateFrom")
                 @ExcludeMissing
@@ -446,8 +481,7 @@ private constructor(
                     this.serviceDateFrom = serviceDateFrom
                 }
 
-                fun serviceDateTo(serviceDateTo: String) =
-                    serviceDateTo(JsonField.of(serviceDateTo))
+                fun serviceDateTo(serviceDateTo: String) = serviceDateTo(JsonField.of(serviceDateTo))
 
                 @JsonProperty("serviceDateTo")
                 @ExcludeMissing
@@ -465,124 +499,102 @@ private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.putAll(additionalProperties)
+                }
 
-                fun build(): Entry =
-                    Entry(
-                        gitProperties,
-                        id,
-                        name,
-                        serviceDateFrom,
-                        serviceDateTo,
-                        additionalProperties.toUnmodifiable(),
-                    )
+                fun build(): Entry = Entry(
+                    gitProperties,
+                    id,
+                    name,
+                    serviceDateFrom,
+                    serviceDateTo,
+                    additionalProperties.toUnmodifiable(),
+                )
             }
 
             @JsonDeserialize(builder = GitProperties.Builder::class)
             @NoAutoDetect
-            class GitProperties
-            private constructor(
-                private val gitBranch: JsonField<String>,
-                private val gitBuildHost: JsonField<String>,
-                private val gitBuildTime: JsonField<String>,
-                private val gitBuildUserEmail: JsonField<String>,
-                private val gitBuildUserName: JsonField<String>,
-                private val gitBuildVersion: JsonField<String>,
-                private val gitClosestTagCommitCount: JsonField<String>,
-                private val gitClosestTagName: JsonField<String>,
-                private val gitCommitId: JsonField<String>,
-                private val gitCommitIdAbbrev: JsonField<String>,
-                private val gitCommitIdDescribe: JsonField<String>,
-                private val gitCommitIdDescribeShort: JsonField<String>,
-                private val gitCommitMessageFull: JsonField<String>,
-                private val gitCommitMessageShort: JsonField<String>,
-                private val gitCommitTime: JsonField<String>,
-                private val gitCommitUserEmail: JsonField<String>,
-                private val gitCommitUserName: JsonField<String>,
-                private val gitDirty: JsonField<String>,
-                private val gitRemoteOriginUrl: JsonField<String>,
-                private val gitTags: JsonField<String>,
-                private val additionalProperties: Map<String, JsonValue>,
+            class GitProperties private constructor(
+              private val gitBranch: JsonField<String>,
+              private val gitBuildHost: JsonField<String>,
+              private val gitBuildTime: JsonField<String>,
+              private val gitBuildUserEmail: JsonField<String>,
+              private val gitBuildUserName: JsonField<String>,
+              private val gitBuildVersion: JsonField<String>,
+              private val gitClosestTagCommitCount: JsonField<String>,
+              private val gitClosestTagName: JsonField<String>,
+              private val gitCommitId: JsonField<String>,
+              private val gitCommitIdAbbrev: JsonField<String>,
+              private val gitCommitIdDescribe: JsonField<String>,
+              private val gitCommitIdDescribeShort: JsonField<String>,
+              private val gitCommitMessageFull: JsonField<String>,
+              private val gitCommitMessageShort: JsonField<String>,
+              private val gitCommitTime: JsonField<String>,
+              private val gitCommitUserEmail: JsonField<String>,
+              private val gitCommitUserName: JsonField<String>,
+              private val gitDirty: JsonField<String>,
+              private val gitRemoteOriginUrl: JsonField<String>,
+              private val gitTags: JsonField<String>,
+              private val additionalProperties: Map<String, JsonValue>,
+
             ) {
 
                 private var validated: Boolean = false
 
                 private var hashCode: Int = 0
 
-                fun gitBranch(): Optional<String> =
-                    Optional.ofNullable(gitBranch.getNullable("git.branch"))
+                fun gitBranch(): Optional<String> = Optional.ofNullable(gitBranch.getNullable("git.branch"))
 
-                fun gitBuildHost(): Optional<String> =
-                    Optional.ofNullable(gitBuildHost.getNullable("git.build.host"))
+                fun gitBuildHost(): Optional<String> = Optional.ofNullable(gitBuildHost.getNullable("git.build.host"))
 
-                fun gitBuildTime(): Optional<String> =
-                    Optional.ofNullable(gitBuildTime.getNullable("git.build.time"))
+                fun gitBuildTime(): Optional<String> = Optional.ofNullable(gitBuildTime.getNullable("git.build.time"))
 
-                fun gitBuildUserEmail(): Optional<String> =
-                    Optional.ofNullable(gitBuildUserEmail.getNullable("git.build.user.email"))
+                fun gitBuildUserEmail(): Optional<String> = Optional.ofNullable(gitBuildUserEmail.getNullable("git.build.user.email"))
 
-                fun gitBuildUserName(): Optional<String> =
-                    Optional.ofNullable(gitBuildUserName.getNullable("git.build.user.name"))
+                fun gitBuildUserName(): Optional<String> = Optional.ofNullable(gitBuildUserName.getNullable("git.build.user.name"))
 
-                fun gitBuildVersion(): Optional<String> =
-                    Optional.ofNullable(gitBuildVersion.getNullable("git.build.version"))
+                fun gitBuildVersion(): Optional<String> = Optional.ofNullable(gitBuildVersion.getNullable("git.build.version"))
 
-                fun gitClosestTagCommitCount(): Optional<String> =
-                    Optional.ofNullable(
-                        gitClosestTagCommitCount.getNullable("git.closest.tag.commit.count")
-                    )
+                fun gitClosestTagCommitCount(): Optional<String> = Optional.ofNullable(gitClosestTagCommitCount.getNullable("git.closest.tag.commit.count"))
 
-                fun gitClosestTagName(): Optional<String> =
-                    Optional.ofNullable(gitClosestTagName.getNullable("git.closest.tag.name"))
+                fun gitClosestTagName(): Optional<String> = Optional.ofNullable(gitClosestTagName.getNullable("git.closest.tag.name"))
 
-                fun gitCommitId(): Optional<String> =
-                    Optional.ofNullable(gitCommitId.getNullable("git.commit.id"))
+                fun gitCommitId(): Optional<String> = Optional.ofNullable(gitCommitId.getNullable("git.commit.id"))
 
-                fun gitCommitIdAbbrev(): Optional<String> =
-                    Optional.ofNullable(gitCommitIdAbbrev.getNullable("git.commit.id.abbrev"))
+                fun gitCommitIdAbbrev(): Optional<String> = Optional.ofNullable(gitCommitIdAbbrev.getNullable("git.commit.id.abbrev"))
 
-                fun gitCommitIdDescribe(): Optional<String> =
-                    Optional.ofNullable(gitCommitIdDescribe.getNullable("git.commit.id.describe"))
+                fun gitCommitIdDescribe(): Optional<String> = Optional.ofNullable(gitCommitIdDescribe.getNullable("git.commit.id.describe"))
 
-                fun gitCommitIdDescribeShort(): Optional<String> =
-                    Optional.ofNullable(
-                        gitCommitIdDescribeShort.getNullable("git.commit.id.describe-short")
-                    )
+                fun gitCommitIdDescribeShort(): Optional<String> = Optional.ofNullable(gitCommitIdDescribeShort.getNullable("git.commit.id.describe-short"))
 
-                fun gitCommitMessageFull(): Optional<String> =
-                    Optional.ofNullable(gitCommitMessageFull.getNullable("git.commit.message.full"))
+                fun gitCommitMessageFull(): Optional<String> = Optional.ofNullable(gitCommitMessageFull.getNullable("git.commit.message.full"))
 
-                fun gitCommitMessageShort(): Optional<String> =
-                    Optional.ofNullable(
-                        gitCommitMessageShort.getNullable("git.commit.message.short")
-                    )
+                fun gitCommitMessageShort(): Optional<String> = Optional.ofNullable(gitCommitMessageShort.getNullable("git.commit.message.short"))
 
-                fun gitCommitTime(): Optional<String> =
-                    Optional.ofNullable(gitCommitTime.getNullable("git.commit.time"))
+                fun gitCommitTime(): Optional<String> = Optional.ofNullable(gitCommitTime.getNullable("git.commit.time"))
 
-                fun gitCommitUserEmail(): Optional<String> =
-                    Optional.ofNullable(gitCommitUserEmail.getNullable("git.commit.user.email"))
+                fun gitCommitUserEmail(): Optional<String> = Optional.ofNullable(gitCommitUserEmail.getNullable("git.commit.user.email"))
 
-                fun gitCommitUserName(): Optional<String> =
-                    Optional.ofNullable(gitCommitUserName.getNullable("git.commit.user.name"))
+                fun gitCommitUserName(): Optional<String> = Optional.ofNullable(gitCommitUserName.getNullable("git.commit.user.name"))
 
-                fun gitDirty(): Optional<String> =
-                    Optional.ofNullable(gitDirty.getNullable("git.dirty"))
+                fun gitDirty(): Optional<String> = Optional.ofNullable(gitDirty.getNullable("git.dirty"))
 
-                fun gitRemoteOriginUrl(): Optional<String> =
-                    Optional.ofNullable(gitRemoteOriginUrl.getNullable("git.remote.origin.url"))
+                fun gitRemoteOriginUrl(): Optional<String> = Optional.ofNullable(gitRemoteOriginUrl.getNullable("git.remote.origin.url"))
 
-                fun gitTags(): Optional<String> =
-                    Optional.ofNullable(gitTags.getNullable("git.tags"))
+                fun gitTags(): Optional<String> = Optional.ofNullable(gitTags.getNullable("git.tags"))
 
-                @JsonProperty("git.branch") @ExcludeMissing fun _gitBranch() = gitBranch
+                @JsonProperty("git.branch")
+                @ExcludeMissing
+                fun _gitBranch() = gitBranch
 
-                @JsonProperty("git.build.host") @ExcludeMissing fun _gitBuildHost() = gitBuildHost
+                @JsonProperty("git.build.host")
+                @ExcludeMissing
+                fun _gitBuildHost() = gitBuildHost
 
-                @JsonProperty("git.build.time") @ExcludeMissing fun _gitBuildTime() = gitBuildTime
+                @JsonProperty("git.build.time")
+                @ExcludeMissing
+                fun _gitBuildTime() = gitBuildTime
 
                 @JsonProperty("git.build.user.email")
                 @ExcludeMissing
@@ -604,7 +616,9 @@ private constructor(
                 @ExcludeMissing
                 fun _gitClosestTagName() = gitClosestTagName
 
-                @JsonProperty("git.commit.id") @ExcludeMissing fun _gitCommitId() = gitCommitId
+                @JsonProperty("git.commit.id")
+                @ExcludeMissing
+                fun _gitCommitId() = gitCommitId
 
                 @JsonProperty("git.commit.id.abbrev")
                 @ExcludeMissing
@@ -638,13 +652,17 @@ private constructor(
                 @ExcludeMissing
                 fun _gitCommitUserName() = gitCommitUserName
 
-                @JsonProperty("git.dirty") @ExcludeMissing fun _gitDirty() = gitDirty
+                @JsonProperty("git.dirty")
+                @ExcludeMissing
+                fun _gitDirty() = gitDirty
 
                 @JsonProperty("git.remote.origin.url")
                 @ExcludeMissing
                 fun _gitRemoteOriginUrl() = gitRemoteOriginUrl
 
-                @JsonProperty("git.tags") @ExcludeMissing fun _gitTags() = gitTags
+                @JsonProperty("git.tags")
+                @ExcludeMissing
+                fun _gitTags() = gitTags
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -652,97 +670,96 @@ private constructor(
 
                 fun validate(): GitProperties = apply {
                     if (!validated) {
-                        gitBranch()
-                        gitBuildHost()
-                        gitBuildTime()
-                        gitBuildUserEmail()
-                        gitBuildUserName()
-                        gitBuildVersion()
-                        gitClosestTagCommitCount()
-                        gitClosestTagName()
-                        gitCommitId()
-                        gitCommitIdAbbrev()
-                        gitCommitIdDescribe()
-                        gitCommitIdDescribeShort()
-                        gitCommitMessageFull()
-                        gitCommitMessageShort()
-                        gitCommitTime()
-                        gitCommitUserEmail()
-                        gitCommitUserName()
-                        gitDirty()
-                        gitRemoteOriginUrl()
-                        gitTags()
-                        validated = true
+                      gitBranch()
+                      gitBuildHost()
+                      gitBuildTime()
+                      gitBuildUserEmail()
+                      gitBuildUserName()
+                      gitBuildVersion()
+                      gitClosestTagCommitCount()
+                      gitClosestTagName()
+                      gitCommitId()
+                      gitCommitIdAbbrev()
+                      gitCommitIdDescribe()
+                      gitCommitIdDescribeShort()
+                      gitCommitMessageFull()
+                      gitCommitMessageShort()
+                      gitCommitTime()
+                      gitCommitUserEmail()
+                      gitCommitUserName()
+                      gitDirty()
+                      gitRemoteOriginUrl()
+                      gitTags()
+                      validated = true
                     }
                 }
 
                 fun toBuilder() = Builder().from(this)
 
                 override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
+                  if (this === other) {
+                      return true
+                  }
 
-                    return other is GitProperties &&
-                        this.gitBranch == other.gitBranch &&
-                        this.gitBuildHost == other.gitBuildHost &&
-                        this.gitBuildTime == other.gitBuildTime &&
-                        this.gitBuildUserEmail == other.gitBuildUserEmail &&
-                        this.gitBuildUserName == other.gitBuildUserName &&
-                        this.gitBuildVersion == other.gitBuildVersion &&
-                        this.gitClosestTagCommitCount == other.gitClosestTagCommitCount &&
-                        this.gitClosestTagName == other.gitClosestTagName &&
-                        this.gitCommitId == other.gitCommitId &&
-                        this.gitCommitIdAbbrev == other.gitCommitIdAbbrev &&
-                        this.gitCommitIdDescribe == other.gitCommitIdDescribe &&
-                        this.gitCommitIdDescribeShort == other.gitCommitIdDescribeShort &&
-                        this.gitCommitMessageFull == other.gitCommitMessageFull &&
-                        this.gitCommitMessageShort == other.gitCommitMessageShort &&
-                        this.gitCommitTime == other.gitCommitTime &&
-                        this.gitCommitUserEmail == other.gitCommitUserEmail &&
-                        this.gitCommitUserName == other.gitCommitUserName &&
-                        this.gitDirty == other.gitDirty &&
-                        this.gitRemoteOriginUrl == other.gitRemoteOriginUrl &&
-                        this.gitTags == other.gitTags &&
-                        this.additionalProperties == other.additionalProperties
+                  return other is GitProperties &&
+                      this.gitBranch == other.gitBranch &&
+                      this.gitBuildHost == other.gitBuildHost &&
+                      this.gitBuildTime == other.gitBuildTime &&
+                      this.gitBuildUserEmail == other.gitBuildUserEmail &&
+                      this.gitBuildUserName == other.gitBuildUserName &&
+                      this.gitBuildVersion == other.gitBuildVersion &&
+                      this.gitClosestTagCommitCount == other.gitClosestTagCommitCount &&
+                      this.gitClosestTagName == other.gitClosestTagName &&
+                      this.gitCommitId == other.gitCommitId &&
+                      this.gitCommitIdAbbrev == other.gitCommitIdAbbrev &&
+                      this.gitCommitIdDescribe == other.gitCommitIdDescribe &&
+                      this.gitCommitIdDescribeShort == other.gitCommitIdDescribeShort &&
+                      this.gitCommitMessageFull == other.gitCommitMessageFull &&
+                      this.gitCommitMessageShort == other.gitCommitMessageShort &&
+                      this.gitCommitTime == other.gitCommitTime &&
+                      this.gitCommitUserEmail == other.gitCommitUserEmail &&
+                      this.gitCommitUserName == other.gitCommitUserName &&
+                      this.gitDirty == other.gitDirty &&
+                      this.gitRemoteOriginUrl == other.gitRemoteOriginUrl &&
+                      this.gitTags == other.gitTags &&
+                      this.additionalProperties == other.additionalProperties
                 }
 
                 override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                gitBranch,
-                                gitBuildHost,
-                                gitBuildTime,
-                                gitBuildUserEmail,
-                                gitBuildUserName,
-                                gitBuildVersion,
-                                gitClosestTagCommitCount,
-                                gitClosestTagName,
-                                gitCommitId,
-                                gitCommitIdAbbrev,
-                                gitCommitIdDescribe,
-                                gitCommitIdDescribeShort,
-                                gitCommitMessageFull,
-                                gitCommitMessageShort,
-                                gitCommitTime,
-                                gitCommitUserEmail,
-                                gitCommitUserName,
-                                gitDirty,
-                                gitRemoteOriginUrl,
-                                gitTags,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
+                  if (hashCode == 0) {
+                    hashCode = Objects.hash(
+                        gitBranch,
+                        gitBuildHost,
+                        gitBuildTime,
+                        gitBuildUserEmail,
+                        gitBuildUserName,
+                        gitBuildVersion,
+                        gitClosestTagCommitCount,
+                        gitClosestTagName,
+                        gitCommitId,
+                        gitCommitIdAbbrev,
+                        gitCommitIdDescribe,
+                        gitCommitIdDescribeShort,
+                        gitCommitMessageFull,
+                        gitCommitMessageShort,
+                        gitCommitTime,
+                        gitCommitUserEmail,
+                        gitCommitUserName,
+                        gitDirty,
+                        gitRemoteOriginUrl,
+                        gitTags,
+                        additionalProperties,
+                    )
+                  }
+                  return hashCode
                 }
 
-                override fun toString() =
-                    "GitProperties{gitBranch=$gitBranch, gitBuildHost=$gitBuildHost, gitBuildTime=$gitBuildTime, gitBuildUserEmail=$gitBuildUserEmail, gitBuildUserName=$gitBuildUserName, gitBuildVersion=$gitBuildVersion, gitClosestTagCommitCount=$gitClosestTagCommitCount, gitClosestTagName=$gitClosestTagName, gitCommitId=$gitCommitId, gitCommitIdAbbrev=$gitCommitIdAbbrev, gitCommitIdDescribe=$gitCommitIdDescribe, gitCommitIdDescribeShort=$gitCommitIdDescribeShort, gitCommitMessageFull=$gitCommitMessageFull, gitCommitMessageShort=$gitCommitMessageShort, gitCommitTime=$gitCommitTime, gitCommitUserEmail=$gitCommitUserEmail, gitCommitUserName=$gitCommitUserName, gitDirty=$gitDirty, gitRemoteOriginUrl=$gitRemoteOriginUrl, gitTags=$gitTags, additionalProperties=$additionalProperties}"
+                override fun toString() = "GitProperties{gitBranch=$gitBranch, gitBuildHost=$gitBuildHost, gitBuildTime=$gitBuildTime, gitBuildUserEmail=$gitBuildUserEmail, gitBuildUserName=$gitBuildUserName, gitBuildVersion=$gitBuildVersion, gitClosestTagCommitCount=$gitClosestTagCommitCount, gitClosestTagName=$gitClosestTagName, gitCommitId=$gitCommitId, gitCommitIdAbbrev=$gitCommitIdAbbrev, gitCommitIdDescribe=$gitCommitIdDescribe, gitCommitIdDescribeShort=$gitCommitIdDescribeShort, gitCommitMessageFull=$gitCommitMessageFull, gitCommitMessageShort=$gitCommitMessageShort, gitCommitTime=$gitCommitTime, gitCommitUserEmail=$gitCommitUserEmail, gitCommitUserName=$gitCommitUserName, gitDirty=$gitDirty, gitRemoteOriginUrl=$gitRemoteOriginUrl, gitTags=$gitTags, additionalProperties=$additionalProperties}"
 
                 companion object {
 
-                    @JvmStatic fun builder() = Builder()
+                    @JvmStatic
+                    fun builder() = Builder()
                 }
 
                 class Builder {
@@ -802,8 +819,7 @@ private constructor(
                         this.gitBranch = gitBranch
                     }
 
-                    fun gitBuildHost(gitBuildHost: String) =
-                        gitBuildHost(JsonField.of(gitBuildHost))
+                    fun gitBuildHost(gitBuildHost: String) = gitBuildHost(JsonField.of(gitBuildHost))
 
                     @JsonProperty("git.build.host")
                     @ExcludeMissing
@@ -811,8 +827,7 @@ private constructor(
                         this.gitBuildHost = gitBuildHost
                     }
 
-                    fun gitBuildTime(gitBuildTime: String) =
-                        gitBuildTime(JsonField.of(gitBuildTime))
+                    fun gitBuildTime(gitBuildTime: String) = gitBuildTime(JsonField.of(gitBuildTime))
 
                     @JsonProperty("git.build.time")
                     @ExcludeMissing
@@ -820,8 +835,7 @@ private constructor(
                         this.gitBuildTime = gitBuildTime
                     }
 
-                    fun gitBuildUserEmail(gitBuildUserEmail: String) =
-                        gitBuildUserEmail(JsonField.of(gitBuildUserEmail))
+                    fun gitBuildUserEmail(gitBuildUserEmail: String) = gitBuildUserEmail(JsonField.of(gitBuildUserEmail))
 
                     @JsonProperty("git.build.user.email")
                     @ExcludeMissing
@@ -829,8 +843,7 @@ private constructor(
                         this.gitBuildUserEmail = gitBuildUserEmail
                     }
 
-                    fun gitBuildUserName(gitBuildUserName: String) =
-                        gitBuildUserName(JsonField.of(gitBuildUserName))
+                    fun gitBuildUserName(gitBuildUserName: String) = gitBuildUserName(JsonField.of(gitBuildUserName))
 
                     @JsonProperty("git.build.user.name")
                     @ExcludeMissing
@@ -838,8 +851,7 @@ private constructor(
                         this.gitBuildUserName = gitBuildUserName
                     }
 
-                    fun gitBuildVersion(gitBuildVersion: String) =
-                        gitBuildVersion(JsonField.of(gitBuildVersion))
+                    fun gitBuildVersion(gitBuildVersion: String) = gitBuildVersion(JsonField.of(gitBuildVersion))
 
                     @JsonProperty("git.build.version")
                     @ExcludeMissing
@@ -847,18 +859,15 @@ private constructor(
                         this.gitBuildVersion = gitBuildVersion
                     }
 
-                    fun gitClosestTagCommitCount(gitClosestTagCommitCount: String) =
-                        gitClosestTagCommitCount(JsonField.of(gitClosestTagCommitCount))
+                    fun gitClosestTagCommitCount(gitClosestTagCommitCount: String) = gitClosestTagCommitCount(JsonField.of(gitClosestTagCommitCount))
 
                     @JsonProperty("git.closest.tag.commit.count")
                     @ExcludeMissing
-                    fun gitClosestTagCommitCount(gitClosestTagCommitCount: JsonField<String>) =
-                        apply {
-                            this.gitClosestTagCommitCount = gitClosestTagCommitCount
-                        }
+                    fun gitClosestTagCommitCount(gitClosestTagCommitCount: JsonField<String>) = apply {
+                        this.gitClosestTagCommitCount = gitClosestTagCommitCount
+                    }
 
-                    fun gitClosestTagName(gitClosestTagName: String) =
-                        gitClosestTagName(JsonField.of(gitClosestTagName))
+                    fun gitClosestTagName(gitClosestTagName: String) = gitClosestTagName(JsonField.of(gitClosestTagName))
 
                     @JsonProperty("git.closest.tag.name")
                     @ExcludeMissing
@@ -874,8 +883,7 @@ private constructor(
                         this.gitCommitId = gitCommitId
                     }
 
-                    fun gitCommitIdAbbrev(gitCommitIdAbbrev: String) =
-                        gitCommitIdAbbrev(JsonField.of(gitCommitIdAbbrev))
+                    fun gitCommitIdAbbrev(gitCommitIdAbbrev: String) = gitCommitIdAbbrev(JsonField.of(gitCommitIdAbbrev))
 
                     @JsonProperty("git.commit.id.abbrev")
                     @ExcludeMissing
@@ -883,8 +891,7 @@ private constructor(
                         this.gitCommitIdAbbrev = gitCommitIdAbbrev
                     }
 
-                    fun gitCommitIdDescribe(gitCommitIdDescribe: String) =
-                        gitCommitIdDescribe(JsonField.of(gitCommitIdDescribe))
+                    fun gitCommitIdDescribe(gitCommitIdDescribe: String) = gitCommitIdDescribe(JsonField.of(gitCommitIdDescribe))
 
                     @JsonProperty("git.commit.id.describe")
                     @ExcludeMissing
@@ -892,18 +899,15 @@ private constructor(
                         this.gitCommitIdDescribe = gitCommitIdDescribe
                     }
 
-                    fun gitCommitIdDescribeShort(gitCommitIdDescribeShort: String) =
-                        gitCommitIdDescribeShort(JsonField.of(gitCommitIdDescribeShort))
+                    fun gitCommitIdDescribeShort(gitCommitIdDescribeShort: String) = gitCommitIdDescribeShort(JsonField.of(gitCommitIdDescribeShort))
 
                     @JsonProperty("git.commit.id.describe-short")
                     @ExcludeMissing
-                    fun gitCommitIdDescribeShort(gitCommitIdDescribeShort: JsonField<String>) =
-                        apply {
-                            this.gitCommitIdDescribeShort = gitCommitIdDescribeShort
-                        }
+                    fun gitCommitIdDescribeShort(gitCommitIdDescribeShort: JsonField<String>) = apply {
+                        this.gitCommitIdDescribeShort = gitCommitIdDescribeShort
+                    }
 
-                    fun gitCommitMessageFull(gitCommitMessageFull: String) =
-                        gitCommitMessageFull(JsonField.of(gitCommitMessageFull))
+                    fun gitCommitMessageFull(gitCommitMessageFull: String) = gitCommitMessageFull(JsonField.of(gitCommitMessageFull))
 
                     @JsonProperty("git.commit.message.full")
                     @ExcludeMissing
@@ -911,8 +915,7 @@ private constructor(
                         this.gitCommitMessageFull = gitCommitMessageFull
                     }
 
-                    fun gitCommitMessageShort(gitCommitMessageShort: String) =
-                        gitCommitMessageShort(JsonField.of(gitCommitMessageShort))
+                    fun gitCommitMessageShort(gitCommitMessageShort: String) = gitCommitMessageShort(JsonField.of(gitCommitMessageShort))
 
                     @JsonProperty("git.commit.message.short")
                     @ExcludeMissing
@@ -920,8 +923,7 @@ private constructor(
                         this.gitCommitMessageShort = gitCommitMessageShort
                     }
 
-                    fun gitCommitTime(gitCommitTime: String) =
-                        gitCommitTime(JsonField.of(gitCommitTime))
+                    fun gitCommitTime(gitCommitTime: String) = gitCommitTime(JsonField.of(gitCommitTime))
 
                     @JsonProperty("git.commit.time")
                     @ExcludeMissing
@@ -929,8 +931,7 @@ private constructor(
                         this.gitCommitTime = gitCommitTime
                     }
 
-                    fun gitCommitUserEmail(gitCommitUserEmail: String) =
-                        gitCommitUserEmail(JsonField.of(gitCommitUserEmail))
+                    fun gitCommitUserEmail(gitCommitUserEmail: String) = gitCommitUserEmail(JsonField.of(gitCommitUserEmail))
 
                     @JsonProperty("git.commit.user.email")
                     @ExcludeMissing
@@ -938,8 +939,7 @@ private constructor(
                         this.gitCommitUserEmail = gitCommitUserEmail
                     }
 
-                    fun gitCommitUserName(gitCommitUserName: String) =
-                        gitCommitUserName(JsonField.of(gitCommitUserName))
+                    fun gitCommitUserName(gitCommitUserName: String) = gitCommitUserName(JsonField.of(gitCommitUserName))
 
                     @JsonProperty("git.commit.user.name")
                     @ExcludeMissing
@@ -951,10 +951,11 @@ private constructor(
 
                     @JsonProperty("git.dirty")
                     @ExcludeMissing
-                    fun gitDirty(gitDirty: JsonField<String>) = apply { this.gitDirty = gitDirty }
+                    fun gitDirty(gitDirty: JsonField<String>) = apply {
+                        this.gitDirty = gitDirty
+                    }
 
-                    fun gitRemoteOriginUrl(gitRemoteOriginUrl: String) =
-                        gitRemoteOriginUrl(JsonField.of(gitRemoteOriginUrl))
+                    fun gitRemoteOriginUrl(gitRemoteOriginUrl: String) = gitRemoteOriginUrl(JsonField.of(gitRemoteOriginUrl))
 
                     @JsonProperty("git.remote.origin.url")
                     @ExcludeMissing
@@ -966,7 +967,9 @@ private constructor(
 
                     @JsonProperty("git.tags")
                     @ExcludeMissing
-                    fun gitTags(gitTags: JsonField<String>) = apply { this.gitTags = gitTags }
+                    fun gitTags(gitTags: JsonField<String>) = apply {
+                        this.gitTags = gitTags
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -978,35 +981,33 @@ private constructor(
                         this.additionalProperties.put(key, value)
                     }
 
-                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                        apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                    fun build(): GitProperties =
-                        GitProperties(
-                            gitBranch,
-                            gitBuildHost,
-                            gitBuildTime,
-                            gitBuildUserEmail,
-                            gitBuildUserName,
-                            gitBuildVersion,
-                            gitClosestTagCommitCount,
-                            gitClosestTagName,
-                            gitCommitId,
-                            gitCommitIdAbbrev,
-                            gitCommitIdDescribe,
-                            gitCommitIdDescribeShort,
-                            gitCommitMessageFull,
-                            gitCommitMessageShort,
-                            gitCommitTime,
-                            gitCommitUserEmail,
-                            gitCommitUserName,
-                            gitDirty,
-                            gitRemoteOriginUrl,
-                            gitTags,
-                            additionalProperties.toUnmodifiable(),
-                        )
+                    fun build(): GitProperties = GitProperties(
+                        gitBranch,
+                        gitBuildHost,
+                        gitBuildTime,
+                        gitBuildUserEmail,
+                        gitBuildUserName,
+                        gitBuildVersion,
+                        gitClosestTagCommitCount,
+                        gitClosestTagName,
+                        gitCommitId,
+                        gitCommitIdAbbrev,
+                        gitCommitIdDescribe,
+                        gitCommitIdDescribeShort,
+                        gitCommitMessageFull,
+                        gitCommitMessageShort,
+                        gitCommitTime,
+                        gitCommitUserEmail,
+                        gitCommitUserName,
+                        gitDirty,
+                        gitRemoteOriginUrl,
+                        gitTags,
+                        additionalProperties.toUnmodifiable(),
+                    )
                 }
             }
         }
