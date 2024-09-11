@@ -4,27 +4,45 @@ package com.open_transit.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.open_transit.api.core.ExcludeMissing
-import com.open_transit.api.core.JsonField
-import com.open_transit.api.core.JsonMissing
-import com.open_transit.api.core.JsonValue
-import com.open_transit.api.core.NoAutoDetect
-import com.open_transit.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.open_transit.api.core.BaseDeserializer
+import com.open_transit.api.core.BaseSerializer
+import com.open_transit.api.core.getOrThrow
+import com.open_transit.api.core.ExcludeMissing
+import com.open_transit.api.core.JsonMissing
+import com.open_transit.api.core.JsonValue
+import com.open_transit.api.core.JsonNull
+import com.open_transit.api.core.JsonField
+import com.open_transit.api.core.Enum
+import com.open_transit.api.core.toUnmodifiable
+import com.open_transit.api.core.NoAutoDetect
+import com.open_transit.api.errors.OnebusawaySdkInvalidDataException
 
 @JsonDeserialize(builder = BlockRetrieveResponse.Builder::class)
 @NoAutoDetect
-class BlockRetrieveResponse
-private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val data: JsonField<Data>,
-    private val additionalProperties: Map<String, JsonValue>,
+class BlockRetrieveResponse private constructor(
+  private val code: JsonField<Long>,
+  private val currentTime: JsonField<Long>,
+  private val text: JsonField<String>,
+  private val version: JsonField<Long>,
+  private val data: JsonField<Data>,
+  private val additionalProperties: Map<String, JsonValue>,
+
 ) {
 
     private var validated: Boolean = false
@@ -41,23 +59,27 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
+    fun toResponseWrapper(): ResponseWrapper = ResponseWrapper.builder().code(code).currentTime(currentTime).text(text).version(version).build()
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code")
+    @ExcludeMissing
+    fun _code() = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    fun _currentTime() = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text")
+    @ExcludeMissing
+    fun _text() = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version")
+    @ExcludeMissing
+    fun _version() = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data")
+    @ExcludeMissing
+    fun _data() = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -65,52 +87,51 @@ private constructor(
 
     fun validate(): BlockRetrieveResponse = apply {
         if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+          code()
+          currentTime()
+          text()
+          version()
+          data().validate()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is BlockRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
+      return other is BlockRetrieveResponse &&
+          this.code == other.code &&
+          this.currentTime == other.currentTime &&
+          this.text == other.text &&
+          this.version == other.version &&
+          this.data == other.data &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            code,
+            currentTime,
+            text,
+            version,
+            data,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "BlockRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
+    override fun toString() = "BlockRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -136,31 +157,41 @@ private constructor(
 
         @JsonProperty("code")
         @ExcludeMissing
-        fun code(code: JsonField<Long>) = apply { this.code = code }
+        fun code(code: JsonField<Long>) = apply {
+            this.code = code
+        }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
         @JsonProperty("currentTime")
         @ExcludeMissing
-        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
+        fun currentTime(currentTime: JsonField<Long>) = apply {
+            this.currentTime = currentTime
+        }
 
         fun text(text: String) = text(JsonField.of(text))
 
         @JsonProperty("text")
         @ExcludeMissing
-        fun text(text: JsonField<String>) = apply { this.text = text }
+        fun text(text: JsonField<String>) = apply {
+            this.text = text
+        }
 
         fun version(version: Long) = version(JsonField.of(version))
 
         @JsonProperty("version")
         @ExcludeMissing
-        fun version(version: JsonField<Long>) = apply { this.version = version }
+        fun version(version: JsonField<Long>) = apply {
+            this.version = version
+        }
 
         fun data(data: Data) = data(JsonField.of(data))
 
         @JsonProperty("data")
         @ExcludeMissing
-        fun data(data: JsonField<Data>) = apply { this.data = data }
+        fun data(data: JsonField<Data>) = apply {
+            this.data = data
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -176,25 +207,19 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): BlockRetrieveResponse =
-            BlockRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): BlockRetrieveResponse = BlockRetrieveResponse(
+            code,
+            currentTime,
+            text,
+            version,
+            data,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 
     @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
-    class Data
-    private constructor(
-        private val entry: JsonField<Entry>,
-        private val references: JsonField<References>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class Data private constructor(private val entry: JsonField<Entry>, private val references: JsonField<References>, private val additionalProperties: Map<String, JsonValue>, ) {
 
         private var validated: Boolean = false
 
@@ -204,9 +229,13 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry")
+        @ExcludeMissing
+        fun _entry() = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references() = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -214,43 +243,42 @@ private constructor(
 
         fun validate(): Data = apply {
             if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+              entry().validate()
+              references().validate()
+              validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
+          return other is Data &&
+              this.entry == other.entry &&
+              this.references == other.references &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(
+                entry,
+                references,
+                additionalProperties,
+            )
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
+        override fun toString() = "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -270,7 +298,9 @@ private constructor(
 
             @JsonProperty("entry")
             @ExcludeMissing
-            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
+            fun entry(entry: JsonField<Entry>) = apply {
+                this.entry = entry
+            }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -294,22 +324,16 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Data =
-                Data(
-                    entry,
-                    references,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build(): Data = Data(
+                entry,
+                references,
+                additionalProperties.toUnmodifiable(),
+            )
         }
 
         @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
-        class Entry
-        private constructor(
-            private val id: JsonField<String>,
-            private val configurations: JsonField<List<Configuration>>,
-            private val additionalProperties: Map<String, JsonValue>,
-        ) {
+        class Entry private constructor(private val id: JsonField<String>, private val configurations: JsonField<List<Configuration>>, private val additionalProperties: Map<String, JsonValue>, ) {
 
             private var validated: Boolean = false
 
@@ -319,9 +343,13 @@ private constructor(
 
             fun configurations(): List<Configuration> = configurations.getRequired("configurations")
 
-            @JsonProperty("id") @ExcludeMissing fun _id() = id
+            @JsonProperty("id")
+            @ExcludeMissing
+            fun _id() = id
 
-            @JsonProperty("configurations") @ExcludeMissing fun _configurations() = configurations
+            @JsonProperty("configurations")
+            @ExcludeMissing
+            fun _configurations() = configurations
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -329,43 +357,42 @@ private constructor(
 
             fun validate(): Entry = apply {
                 if (!validated) {
-                    id()
-                    configurations().forEach { it.validate() }
-                    validated = true
+                  id()
+                  configurations().forEach { it.validate() }
+                  validated = true
                 }
             }
 
             fun toBuilder() = Builder().from(this)
 
             override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
+              if (this === other) {
+                  return true
+              }
 
-                return other is Entry &&
-                    this.id == other.id &&
-                    this.configurations == other.configurations &&
-                    this.additionalProperties == other.additionalProperties
+              return other is Entry &&
+                  this.id == other.id &&
+                  this.configurations == other.configurations &&
+                  this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            id,
-                            configurations,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
+              if (hashCode == 0) {
+                hashCode = Objects.hash(
+                    id,
+                    configurations,
+                    additionalProperties,
+                )
+              }
+              return hashCode
             }
 
-            override fun toString() =
-                "Entry{id=$id, configurations=$configurations, additionalProperties=$additionalProperties}"
+            override fun toString() = "Entry{id=$id, configurations=$configurations, additionalProperties=$additionalProperties}"
 
             companion object {
 
-                @JvmStatic fun builder() = Builder()
+                @JvmStatic
+                fun builder() = Builder()
             }
 
             class Builder {
@@ -385,10 +412,11 @@ private constructor(
 
                 @JsonProperty("id")
                 @ExcludeMissing
-                fun id(id: JsonField<String>) = apply { this.id = id }
+                fun id(id: JsonField<String>) = apply {
+                    this.id = id
+                }
 
-                fun configurations(configurations: List<Configuration>) =
-                    configurations(JsonField.of(configurations))
+                fun configurations(configurations: List<Configuration>) = configurations(JsonField.of(configurations))
 
                 @JsonProperty("configurations")
                 @ExcludeMissing
@@ -406,38 +434,34 @@ private constructor(
                     this.additionalProperties.put(key, value)
                 }
 
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.putAll(additionalProperties)
+                }
 
-                fun build(): Entry =
-                    Entry(
-                        id,
-                        configurations.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
-                    )
+                fun build(): Entry = Entry(
+                    id,
+                    configurations.map { it.toUnmodifiable() },
+                    additionalProperties.toUnmodifiable(),
+                )
             }
 
             @JsonDeserialize(builder = Configuration.Builder::class)
             @NoAutoDetect
-            class Configuration
-            private constructor(
-                private val activeServiceIds: JsonField<List<String>>,
-                private val inactiveServiceIds: JsonField<List<String>>,
-                private val trips: JsonField<List<Trip>>,
-                private val additionalProperties: Map<String, JsonValue>,
+            class Configuration private constructor(
+              private val activeServiceIds: JsonField<List<String>>,
+              private val inactiveServiceIds: JsonField<List<String>>,
+              private val trips: JsonField<List<Trip>>,
+              private val additionalProperties: Map<String, JsonValue>,
+
             ) {
 
                 private var validated: Boolean = false
 
                 private var hashCode: Int = 0
 
-                fun activeServiceIds(): List<String> =
-                    activeServiceIds.getRequired("activeServiceIds")
+                fun activeServiceIds(): List<String> = activeServiceIds.getRequired("activeServiceIds")
 
-                fun inactiveServiceIds(): Optional<List<String>> =
-                    Optional.ofNullable(inactiveServiceIds.getNullable("inactiveServiceIds"))
+                fun inactiveServiceIds(): Optional<List<String>> = Optional.ofNullable(inactiveServiceIds.getNullable("inactiveServiceIds"))
 
                 fun trips(): List<Trip> = trips.getRequired("trips")
 
@@ -449,7 +473,9 @@ private constructor(
                 @ExcludeMissing
                 fun _inactiveServiceIds() = inactiveServiceIds
 
-                @JsonProperty("trips") @ExcludeMissing fun _trips() = trips
+                @JsonProperty("trips")
+                @ExcludeMissing
+                fun _trips() = trips
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -457,46 +483,45 @@ private constructor(
 
                 fun validate(): Configuration = apply {
                     if (!validated) {
-                        activeServiceIds()
-                        inactiveServiceIds()
-                        trips().forEach { it.validate() }
-                        validated = true
+                      activeServiceIds()
+                      inactiveServiceIds()
+                      trips().forEach { it.validate() }
+                      validated = true
                     }
                 }
 
                 fun toBuilder() = Builder().from(this)
 
                 override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
+                  if (this === other) {
+                      return true
+                  }
 
-                    return other is Configuration &&
-                        this.activeServiceIds == other.activeServiceIds &&
-                        this.inactiveServiceIds == other.inactiveServiceIds &&
-                        this.trips == other.trips &&
-                        this.additionalProperties == other.additionalProperties
+                  return other is Configuration &&
+                      this.activeServiceIds == other.activeServiceIds &&
+                      this.inactiveServiceIds == other.inactiveServiceIds &&
+                      this.trips == other.trips &&
+                      this.additionalProperties == other.additionalProperties
                 }
 
                 override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                activeServiceIds,
-                                inactiveServiceIds,
-                                trips,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
+                  if (hashCode == 0) {
+                    hashCode = Objects.hash(
+                        activeServiceIds,
+                        inactiveServiceIds,
+                        trips,
+                        additionalProperties,
+                    )
+                  }
+                  return hashCode
                 }
 
-                override fun toString() =
-                    "Configuration{activeServiceIds=$activeServiceIds, inactiveServiceIds=$inactiveServiceIds, trips=$trips, additionalProperties=$additionalProperties}"
+                override fun toString() = "Configuration{activeServiceIds=$activeServiceIds, inactiveServiceIds=$inactiveServiceIds, trips=$trips, additionalProperties=$additionalProperties}"
 
                 companion object {
 
-                    @JvmStatic fun builder() = Builder()
+                    @JvmStatic
+                    fun builder() = Builder()
                 }
 
                 class Builder {
@@ -514,8 +539,7 @@ private constructor(
                         additionalProperties(configuration.additionalProperties)
                     }
 
-                    fun activeServiceIds(activeServiceIds: List<String>) =
-                        activeServiceIds(JsonField.of(activeServiceIds))
+                    fun activeServiceIds(activeServiceIds: List<String>) = activeServiceIds(JsonField.of(activeServiceIds))
 
                     @JsonProperty("activeServiceIds")
                     @ExcludeMissing
@@ -523,8 +547,7 @@ private constructor(
                         this.activeServiceIds = activeServiceIds
                     }
 
-                    fun inactiveServiceIds(inactiveServiceIds: List<String>) =
-                        inactiveServiceIds(JsonField.of(inactiveServiceIds))
+                    fun inactiveServiceIds(inactiveServiceIds: List<String>) = inactiveServiceIds(JsonField.of(inactiveServiceIds))
 
                     @JsonProperty("inactiveServiceIds")
                     @ExcludeMissing
@@ -536,7 +559,9 @@ private constructor(
 
                     @JsonProperty("trips")
                     @ExcludeMissing
-                    fun trips(trips: JsonField<List<Trip>>) = apply { this.trips = trips }
+                    fun trips(trips: JsonField<List<Trip>>) = apply {
+                        this.trips = trips
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -548,29 +573,27 @@ private constructor(
                         this.additionalProperties.put(key, value)
                     }
 
-                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                        apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
 
-                    fun build(): Configuration =
-                        Configuration(
-                            activeServiceIds.map { it.toUnmodifiable() },
-                            inactiveServiceIds.map { it.toUnmodifiable() },
-                            trips.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
-                        )
+                    fun build(): Configuration = Configuration(
+                        activeServiceIds.map { it.toUnmodifiable() },
+                        inactiveServiceIds.map { it.toUnmodifiable() },
+                        trips.map { it.toUnmodifiable() },
+                        additionalProperties.toUnmodifiable(),
+                    )
                 }
 
                 @JsonDeserialize(builder = Trip.Builder::class)
                 @NoAutoDetect
-                class Trip
-                private constructor(
-                    private val tripId: JsonField<String>,
-                    private val distanceAlongBlock: JsonField<Double>,
-                    private val accumulatedSlackTime: JsonField<Double>,
-                    private val blockStopTimes: JsonField<List<BlockStopTime>>,
-                    private val additionalProperties: Map<String, JsonValue>,
+                class Trip private constructor(
+                  private val tripId: JsonField<String>,
+                  private val distanceAlongBlock: JsonField<Double>,
+                  private val accumulatedSlackTime: JsonField<Double>,
+                  private val blockStopTimes: JsonField<List<BlockStopTime>>,
+                  private val additionalProperties: Map<String, JsonValue>,
+
                 ) {
 
                     private var validated: Boolean = false
@@ -579,16 +602,15 @@ private constructor(
 
                     fun tripId(): String = tripId.getRequired("tripId")
 
-                    fun distanceAlongBlock(): Double =
-                        distanceAlongBlock.getRequired("distanceAlongBlock")
+                    fun distanceAlongBlock(): Double = distanceAlongBlock.getRequired("distanceAlongBlock")
 
-                    fun accumulatedSlackTime(): Double =
-                        accumulatedSlackTime.getRequired("accumulatedSlackTime")
+                    fun accumulatedSlackTime(): Double = accumulatedSlackTime.getRequired("accumulatedSlackTime")
 
-                    fun blockStopTimes(): List<BlockStopTime> =
-                        blockStopTimes.getRequired("blockStopTimes")
+                    fun blockStopTimes(): List<BlockStopTime> = blockStopTimes.getRequired("blockStopTimes")
 
-                    @JsonProperty("tripId") @ExcludeMissing fun _tripId() = tripId
+                    @JsonProperty("tripId")
+                    @ExcludeMissing
+                    fun _tripId() = tripId
 
                     @JsonProperty("distanceAlongBlock")
                     @ExcludeMissing
@@ -608,49 +630,48 @@ private constructor(
 
                     fun validate(): Trip = apply {
                         if (!validated) {
-                            tripId()
-                            distanceAlongBlock()
-                            accumulatedSlackTime()
-                            blockStopTimes().forEach { it.validate() }
-                            validated = true
+                          tripId()
+                          distanceAlongBlock()
+                          accumulatedSlackTime()
+                          blockStopTimes().forEach { it.validate() }
+                          validated = true
                         }
                     }
 
                     fun toBuilder() = Builder().from(this)
 
                     override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
+                      if (this === other) {
+                          return true
+                      }
 
-                        return other is Trip &&
-                            this.tripId == other.tripId &&
-                            this.distanceAlongBlock == other.distanceAlongBlock &&
-                            this.accumulatedSlackTime == other.accumulatedSlackTime &&
-                            this.blockStopTimes == other.blockStopTimes &&
-                            this.additionalProperties == other.additionalProperties
+                      return other is Trip &&
+                          this.tripId == other.tripId &&
+                          this.distanceAlongBlock == other.distanceAlongBlock &&
+                          this.accumulatedSlackTime == other.accumulatedSlackTime &&
+                          this.blockStopTimes == other.blockStopTimes &&
+                          this.additionalProperties == other.additionalProperties
                     }
 
                     override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    tripId,
-                                    distanceAlongBlock,
-                                    accumulatedSlackTime,
-                                    blockStopTimes,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
+                      if (hashCode == 0) {
+                        hashCode = Objects.hash(
+                            tripId,
+                            distanceAlongBlock,
+                            accumulatedSlackTime,
+                            blockStopTimes,
+                            additionalProperties,
+                        )
+                      }
+                      return hashCode
                     }
 
-                    override fun toString() =
-                        "Trip{tripId=$tripId, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, blockStopTimes=$blockStopTimes, additionalProperties=$additionalProperties}"
+                    override fun toString() = "Trip{tripId=$tripId, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, blockStopTimes=$blockStopTimes, additionalProperties=$additionalProperties}"
 
                     companion object {
 
-                        @JvmStatic fun builder() = Builder()
+                        @JvmStatic
+                        fun builder() = Builder()
                     }
 
                     class Builder {
@@ -658,10 +679,8 @@ private constructor(
                         private var tripId: JsonField<String> = JsonMissing.of()
                         private var distanceAlongBlock: JsonField<Double> = JsonMissing.of()
                         private var accumulatedSlackTime: JsonField<Double> = JsonMissing.of()
-                        private var blockStopTimes: JsonField<List<BlockStopTime>> =
-                            JsonMissing.of()
-                        private var additionalProperties: MutableMap<String, JsonValue> =
-                            mutableMapOf()
+                        private var blockStopTimes: JsonField<List<BlockStopTime>> = JsonMissing.of()
+                        private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                         @JvmSynthetic
                         internal fun from(trip: Trip) = apply {
@@ -676,10 +695,11 @@ private constructor(
 
                         @JsonProperty("tripId")
                         @ExcludeMissing
-                        fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
+                        fun tripId(tripId: JsonField<String>) = apply {
+                            this.tripId = tripId
+                        }
 
-                        fun distanceAlongBlock(distanceAlongBlock: Double) =
-                            distanceAlongBlock(JsonField.of(distanceAlongBlock))
+                        fun distanceAlongBlock(distanceAlongBlock: Double) = distanceAlongBlock(JsonField.of(distanceAlongBlock))
 
                         @JsonProperty("distanceAlongBlock")
                         @ExcludeMissing
@@ -687,8 +707,7 @@ private constructor(
                             this.distanceAlongBlock = distanceAlongBlock
                         }
 
-                        fun accumulatedSlackTime(accumulatedSlackTime: Double) =
-                            accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
+                        fun accumulatedSlackTime(accumulatedSlackTime: Double) = accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
 
                         @JsonProperty("accumulatedSlackTime")
                         @ExcludeMissing
@@ -696,8 +715,7 @@ private constructor(
                             this.accumulatedSlackTime = accumulatedSlackTime
                         }
 
-                        fun blockStopTimes(blockStopTimes: List<BlockStopTime>) =
-                            blockStopTimes(JsonField.of(blockStopTimes))
+                        fun blockStopTimes(blockStopTimes: List<BlockStopTime>) = blockStopTimes(JsonField.of(blockStopTimes))
 
                         @JsonProperty("blockStopTimes")
                         @ExcludeMissing
@@ -705,40 +723,38 @@ private constructor(
                             this.blockStopTimes = blockStopTimes
                         }
 
-                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                            apply {
-                                this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                            this.additionalProperties.clear()
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
 
                         @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                             this.additionalProperties.put(key, value)
                         }
 
-                        fun putAllAdditionalProperties(
-                            additionalProperties: Map<String, JsonValue>
-                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
+                        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
 
-                        fun build(): Trip =
-                            Trip(
-                                tripId,
-                                distanceAlongBlock,
-                                accumulatedSlackTime,
-                                blockStopTimes.map { it.toUnmodifiable() },
-                                additionalProperties.toUnmodifiable(),
-                            )
+                        fun build(): Trip = Trip(
+                            tripId,
+                            distanceAlongBlock,
+                            accumulatedSlackTime,
+                            blockStopTimes.map { it.toUnmodifiable() },
+                            additionalProperties.toUnmodifiable(),
+                        )
                     }
 
                     @JsonDeserialize(builder = BlockStopTime.Builder::class)
                     @NoAutoDetect
-                    class BlockStopTime
-                    private constructor(
-                        private val blockSequence: JsonField<Long>,
-                        private val distanceAlongBlock: JsonField<Double>,
-                        private val accumulatedSlackTime: JsonField<Double>,
-                        private val stopTime: JsonField<StopTime>,
-                        private val additionalProperties: Map<String, JsonValue>,
+                    class BlockStopTime private constructor(
+                      private val blockSequence: JsonField<Long>,
+                      private val distanceAlongBlock: JsonField<Double>,
+                      private val accumulatedSlackTime: JsonField<Double>,
+                      private val stopTime: JsonField<StopTime>,
+                      private val additionalProperties: Map<String, JsonValue>,
+
                     ) {
 
                         private var validated: Boolean = false
@@ -747,11 +763,9 @@ private constructor(
 
                         fun blockSequence(): Long = blockSequence.getRequired("blockSequence")
 
-                        fun distanceAlongBlock(): Double =
-                            distanceAlongBlock.getRequired("distanceAlongBlock")
+                        fun distanceAlongBlock(): Double = distanceAlongBlock.getRequired("distanceAlongBlock")
 
-                        fun accumulatedSlackTime(): Double =
-                            accumulatedSlackTime.getRequired("accumulatedSlackTime")
+                        fun accumulatedSlackTime(): Double = accumulatedSlackTime.getRequired("accumulatedSlackTime")
 
                         fun stopTime(): StopTime = stopTime.getRequired("stopTime")
 
@@ -767,7 +781,9 @@ private constructor(
                         @ExcludeMissing
                         fun _accumulatedSlackTime() = accumulatedSlackTime
 
-                        @JsonProperty("stopTime") @ExcludeMissing fun _stopTime() = stopTime
+                        @JsonProperty("stopTime")
+                        @ExcludeMissing
+                        fun _stopTime() = stopTime
 
                         @JsonAnyGetter
                         @ExcludeMissing
@@ -775,49 +791,48 @@ private constructor(
 
                         fun validate(): BlockStopTime = apply {
                             if (!validated) {
-                                blockSequence()
-                                distanceAlongBlock()
-                                accumulatedSlackTime()
-                                stopTime().validate()
-                                validated = true
+                              blockSequence()
+                              distanceAlongBlock()
+                              accumulatedSlackTime()
+                              stopTime().validate()
+                              validated = true
                             }
                         }
 
                         fun toBuilder() = Builder().from(this)
 
                         override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
+                          if (this === other) {
+                              return true
+                          }
 
-                            return other is BlockStopTime &&
-                                this.blockSequence == other.blockSequence &&
-                                this.distanceAlongBlock == other.distanceAlongBlock &&
-                                this.accumulatedSlackTime == other.accumulatedSlackTime &&
-                                this.stopTime == other.stopTime &&
-                                this.additionalProperties == other.additionalProperties
+                          return other is BlockStopTime &&
+                              this.blockSequence == other.blockSequence &&
+                              this.distanceAlongBlock == other.distanceAlongBlock &&
+                              this.accumulatedSlackTime == other.accumulatedSlackTime &&
+                              this.stopTime == other.stopTime &&
+                              this.additionalProperties == other.additionalProperties
                         }
 
                         override fun hashCode(): Int {
-                            if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        blockSequence,
-                                        distanceAlongBlock,
-                                        accumulatedSlackTime,
-                                        stopTime,
-                                        additionalProperties,
-                                    )
-                            }
-                            return hashCode
+                          if (hashCode == 0) {
+                            hashCode = Objects.hash(
+                                blockSequence,
+                                distanceAlongBlock,
+                                accumulatedSlackTime,
+                                stopTime,
+                                additionalProperties,
+                            )
+                          }
+                          return hashCode
                         }
 
-                        override fun toString() =
-                            "BlockStopTime{blockSequence=$blockSequence, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, stopTime=$stopTime, additionalProperties=$additionalProperties}"
+                        override fun toString() = "BlockStopTime{blockSequence=$blockSequence, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, stopTime=$stopTime, additionalProperties=$additionalProperties}"
 
                         companion object {
 
-                            @JvmStatic fun builder() = Builder()
+                            @JvmStatic
+                            fun builder() = Builder()
                         }
 
                         class Builder {
@@ -826,8 +841,7 @@ private constructor(
                             private var distanceAlongBlock: JsonField<Double> = JsonMissing.of()
                             private var accumulatedSlackTime: JsonField<Double> = JsonMissing.of()
                             private var stopTime: JsonField<StopTime> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> =
-                                mutableMapOf()
+                            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                             @JvmSynthetic
                             internal fun from(blockStopTime: BlockStopTime) = apply {
@@ -838,8 +852,7 @@ private constructor(
                                 additionalProperties(blockStopTime.additionalProperties)
                             }
 
-                            fun blockSequence(blockSequence: Long) =
-                                blockSequence(JsonField.of(blockSequence))
+                            fun blockSequence(blockSequence: Long) = blockSequence(JsonField.of(blockSequence))
 
                             @JsonProperty("blockSequence")
                             @ExcludeMissing
@@ -847,8 +860,7 @@ private constructor(
                                 this.blockSequence = blockSequence
                             }
 
-                            fun distanceAlongBlock(distanceAlongBlock: Double) =
-                                distanceAlongBlock(JsonField.of(distanceAlongBlock))
+                            fun distanceAlongBlock(distanceAlongBlock: Double) = distanceAlongBlock(JsonField.of(distanceAlongBlock))
 
                             @JsonProperty("distanceAlongBlock")
                             @ExcludeMissing
@@ -856,15 +868,13 @@ private constructor(
                                 this.distanceAlongBlock = distanceAlongBlock
                             }
 
-                            fun accumulatedSlackTime(accumulatedSlackTime: Double) =
-                                accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
+                            fun accumulatedSlackTime(accumulatedSlackTime: Double) = accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
 
                             @JsonProperty("accumulatedSlackTime")
                             @ExcludeMissing
-                            fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) =
-                                apply {
-                                    this.accumulatedSlackTime = accumulatedSlackTime
-                                }
+                            fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) = apply {
+                                this.accumulatedSlackTime = accumulatedSlackTime
+                            }
 
                             fun stopTime(stopTime: StopTime) = stopTime(JsonField.of(stopTime))
 
@@ -874,41 +884,39 @@ private constructor(
                                 this.stopTime = stopTime
                             }
 
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                                apply {
-                                    this.additionalProperties.clear()
-                                    this.additionalProperties.putAll(additionalProperties)
-                                }
+                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                                this.additionalProperties.clear()
+                                this.additionalProperties.putAll(additionalProperties)
+                            }
 
                             @JsonAnySetter
                             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                                 this.additionalProperties.put(key, value)
                             }
 
-                            fun putAllAdditionalProperties(
-                                additionalProperties: Map<String, JsonValue>
-                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
+                            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                                this.additionalProperties.putAll(additionalProperties)
+                            }
 
-                            fun build(): BlockStopTime =
-                                BlockStopTime(
-                                    blockSequence,
-                                    distanceAlongBlock,
-                                    accumulatedSlackTime,
-                                    stopTime,
-                                    additionalProperties.toUnmodifiable(),
-                                )
+                            fun build(): BlockStopTime = BlockStopTime(
+                                blockSequence,
+                                distanceAlongBlock,
+                                accumulatedSlackTime,
+                                stopTime,
+                                additionalProperties.toUnmodifiable(),
+                            )
                         }
 
                         @JsonDeserialize(builder = StopTime.Builder::class)
                         @NoAutoDetect
-                        class StopTime
-                        private constructor(
-                            private val stopId: JsonField<String>,
-                            private val arrivalTime: JsonField<Long>,
-                            private val departureTime: JsonField<Long>,
-                            private val pickupType: JsonField<Long>,
-                            private val dropOffType: JsonField<Long>,
-                            private val additionalProperties: Map<String, JsonValue>,
+                        class StopTime private constructor(
+                          private val stopId: JsonField<String>,
+                          private val arrivalTime: JsonField<Long>,
+                          private val departureTime: JsonField<Long>,
+                          private val pickupType: JsonField<Long>,
+                          private val dropOffType: JsonField<Long>,
+                          private val additionalProperties: Map<String, JsonValue>,
+
                         ) {
 
                             private var validated: Boolean = false
@@ -921,13 +929,13 @@ private constructor(
 
                             fun departureTime(): Long = departureTime.getRequired("departureTime")
 
-                            fun pickupType(): Optional<Long> =
-                                Optional.ofNullable(pickupType.getNullable("pickupType"))
+                            fun pickupType(): Optional<Long> = Optional.ofNullable(pickupType.getNullable("pickupType"))
 
-                            fun dropOffType(): Optional<Long> =
-                                Optional.ofNullable(dropOffType.getNullable("dropOffType"))
+                            fun dropOffType(): Optional<Long> = Optional.ofNullable(dropOffType.getNullable("dropOffType"))
 
-                            @JsonProperty("stopId") @ExcludeMissing fun _stopId() = stopId
+                            @JsonProperty("stopId")
+                            @ExcludeMissing
+                            fun _stopId() = stopId
 
                             @JsonProperty("arrivalTime")
                             @ExcludeMissing
@@ -947,57 +955,55 @@ private constructor(
 
                             @JsonAnyGetter
                             @ExcludeMissing
-                            fun _additionalProperties(): Map<String, JsonValue> =
-                                additionalProperties
+                            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
                             fun validate(): StopTime = apply {
                                 if (!validated) {
-                                    stopId()
-                                    arrivalTime()
-                                    departureTime()
-                                    pickupType()
-                                    dropOffType()
-                                    validated = true
+                                  stopId()
+                                  arrivalTime()
+                                  departureTime()
+                                  pickupType()
+                                  dropOffType()
+                                  validated = true
                                 }
                             }
 
                             fun toBuilder() = Builder().from(this)
 
                             override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
+                              if (this === other) {
+                                  return true
+                              }
 
-                                return other is StopTime &&
-                                    this.stopId == other.stopId &&
-                                    this.arrivalTime == other.arrivalTime &&
-                                    this.departureTime == other.departureTime &&
-                                    this.pickupType == other.pickupType &&
-                                    this.dropOffType == other.dropOffType &&
-                                    this.additionalProperties == other.additionalProperties
+                              return other is StopTime &&
+                                  this.stopId == other.stopId &&
+                                  this.arrivalTime == other.arrivalTime &&
+                                  this.departureTime == other.departureTime &&
+                                  this.pickupType == other.pickupType &&
+                                  this.dropOffType == other.dropOffType &&
+                                  this.additionalProperties == other.additionalProperties
                             }
 
                             override fun hashCode(): Int {
-                                if (hashCode == 0) {
-                                    hashCode =
-                                        Objects.hash(
-                                            stopId,
-                                            arrivalTime,
-                                            departureTime,
-                                            pickupType,
-                                            dropOffType,
-                                            additionalProperties,
-                                        )
-                                }
-                                return hashCode
+                              if (hashCode == 0) {
+                                hashCode = Objects.hash(
+                                    stopId,
+                                    arrivalTime,
+                                    departureTime,
+                                    pickupType,
+                                    dropOffType,
+                                    additionalProperties,
+                                )
+                              }
+                              return hashCode
                             }
 
-                            override fun toString() =
-                                "StopTime{stopId=$stopId, arrivalTime=$arrivalTime, departureTime=$departureTime, pickupType=$pickupType, dropOffType=$dropOffType, additionalProperties=$additionalProperties}"
+                            override fun toString() = "StopTime{stopId=$stopId, arrivalTime=$arrivalTime, departureTime=$departureTime, pickupType=$pickupType, dropOffType=$dropOffType, additionalProperties=$additionalProperties}"
 
                             companion object {
 
-                                @JvmStatic fun builder() = Builder()
+                                @JvmStatic
+                                fun builder() = Builder()
                             }
 
                             class Builder {
@@ -1007,8 +1013,7 @@ private constructor(
                                 private var departureTime: JsonField<Long> = JsonMissing.of()
                                 private var pickupType: JsonField<Long> = JsonMissing.of()
                                 private var dropOffType: JsonField<Long> = JsonMissing.of()
-                                private var additionalProperties: MutableMap<String, JsonValue> =
-                                    mutableMapOf()
+                                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                                 @JvmSynthetic
                                 internal fun from(stopTime: StopTime) = apply {
@@ -1028,8 +1033,7 @@ private constructor(
                                     this.stopId = stopId
                                 }
 
-                                fun arrivalTime(arrivalTime: Long) =
-                                    arrivalTime(JsonField.of(arrivalTime))
+                                fun arrivalTime(arrivalTime: Long) = arrivalTime(JsonField.of(arrivalTime))
 
                                 @JsonProperty("arrivalTime")
                                 @ExcludeMissing
@@ -1037,8 +1041,7 @@ private constructor(
                                     this.arrivalTime = arrivalTime
                                 }
 
-                                fun departureTime(departureTime: Long) =
-                                    departureTime(JsonField.of(departureTime))
+                                fun departureTime(departureTime: Long) = departureTime(JsonField.of(departureTime))
 
                                 @JsonProperty("departureTime")
                                 @ExcludeMissing
@@ -1046,8 +1049,7 @@ private constructor(
                                     this.departureTime = departureTime
                                 }
 
-                                fun pickupType(pickupType: Long) =
-                                    pickupType(JsonField.of(pickupType))
+                                fun pickupType(pickupType: Long) = pickupType(JsonField.of(pickupType))
 
                                 @JsonProperty("pickupType")
                                 @ExcludeMissing
@@ -1055,8 +1057,7 @@ private constructor(
                                     this.pickupType = pickupType
                                 }
 
-                                fun dropOffType(dropOffType: Long) =
-                                    dropOffType(JsonField.of(dropOffType))
+                                fun dropOffType(dropOffType: Long) = dropOffType(JsonField.of(dropOffType))
 
                                 @JsonProperty("dropOffType")
                                 @ExcludeMissing
@@ -1064,9 +1065,7 @@ private constructor(
                                     this.dropOffType = dropOffType
                                 }
 
-                                fun additionalProperties(
-                                    additionalProperties: Map<String, JsonValue>
-                                ) = apply {
+                                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                                     this.additionalProperties.clear()
                                     this.additionalProperties.putAll(additionalProperties)
                                 }
@@ -1076,19 +1075,18 @@ private constructor(
                                     this.additionalProperties.put(key, value)
                                 }
 
-                                fun putAllAdditionalProperties(
-                                    additionalProperties: Map<String, JsonValue>
-                                ) = apply { this.additionalProperties.putAll(additionalProperties) }
+                                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                                    this.additionalProperties.putAll(additionalProperties)
+                                }
 
-                                fun build(): StopTime =
-                                    StopTime(
-                                        stopId,
-                                        arrivalTime,
-                                        departureTime,
-                                        pickupType,
-                                        dropOffType,
-                                        additionalProperties.toUnmodifiable(),
-                                    )
+                                fun build(): StopTime = StopTime(
+                                    stopId,
+                                    arrivalTime,
+                                    departureTime,
+                                    pickupType,
+                                    dropOffType,
+                                    additionalProperties.toUnmodifiable(),
+                                )
                             }
                         }
                     }

@@ -1,8 +1,8 @@
 package com.open_transit.api.core.http
 
-import com.open_transit.api.core.RequestOptions
 import java.lang.AutoCloseable
 import java.util.concurrent.CompletableFuture
+import com.open_transit.api.core.RequestOptions
 
 interface HttpClient : AutoCloseable {
 

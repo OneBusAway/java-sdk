@@ -5,6 +5,7 @@ import com.google.common.collect.ListMultimap
 import com.google.common.collect.Multimap
 import com.google.common.collect.MultimapBuilder
 import com.open_transit.api.core.toUnmodifiable
+import com.open_transit.api.core.RequestOptions
 
 class HttpRequest
 private constructor(
