@@ -2,12 +2,8 @@ package com.open_transit.api.errors
 
 import com.google.common.collect.ListMultimap
 
-class RateLimitException
-constructor(
+class RateLimitException(
     headers: ListMultimap<String, String>,
-    private val error: OnebusawaySdkError,
-) : OnebusawaySdkServiceException(headers, "${error}") {
-    override fun statusCode(): Int = 429
-
-    fun error(): OnebusawaySdkError = error
-}
+    body: String,
+    error: OnebusawaySdkError,
+) : OnebusawaySdkServiceException(429, headers, body, error)

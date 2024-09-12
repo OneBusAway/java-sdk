@@ -2,12 +2,8 @@ package com.open_transit.api.errors
 
 import com.google.common.collect.ListMultimap
 
-class PermissionDeniedException
-constructor(
+class PermissionDeniedException(
     headers: ListMultimap<String, String>,
-    private val error: OnebusawaySdkError,
-) : OnebusawaySdkServiceException(headers, "${error}") {
-    override fun statusCode(): Int = 403
-
-    fun error(): OnebusawaySdkError = error
-}
+    body: String,
+    error: OnebusawaySdkError,
+) : OnebusawaySdkServiceException(403, headers, body, error)
