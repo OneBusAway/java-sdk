@@ -3,6 +3,7 @@
 package com.open_transit.api.models
 
 import com.open_transit.api.models.*
+import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,15 +11,21 @@ class ScheduleForRouteRetrieveParamsTest {
 
     @Test
     fun createScheduleForRouteRetrieveParams() {
-        ScheduleForRouteRetrieveParams.builder().routeId("routeID").date("date").build()
+        ScheduleForRouteRetrieveParams.builder()
+            .routeId("routeID")
+            .date(LocalDate.parse("2019-12-27"))
+            .build()
     }
 
     @Test
     fun getQueryParams() {
         val params =
-            ScheduleForRouteRetrieveParams.builder().routeId("routeID").date("date").build()
+            ScheduleForRouteRetrieveParams.builder()
+                .routeId("routeID")
+                .date(LocalDate.parse("2019-12-27"))
+                .build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("date", listOf("date"))
+        expected.put("date", listOf("2019-12-27"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

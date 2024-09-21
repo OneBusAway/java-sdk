@@ -5,20 +5,21 @@ package com.open_transit.api.models
 import com.open_transit.api.core.NoAutoDetect
 import com.open_transit.api.core.toUnmodifiable
 import com.open_transit.api.models.*
+import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
 class ScheduleForRouteRetrieveParams
 constructor(
     private val routeId: String,
-    private val date: String?,
+    private val date: LocalDate?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun routeId(): String = routeId
 
-    fun date(): Optional<String> = Optional.ofNullable(date)
+    fun date(): Optional<LocalDate> = Optional.ofNullable(date)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
@@ -76,7 +77,7 @@ constructor(
     class Builder {
 
         private var routeId: String? = null
-        private var date: String? = null
+        private var date: LocalDate? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
@@ -94,7 +95,7 @@ constructor(
          * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
          * defaults to current date)
          */
-        fun date(date: String) = apply { this.date = date }
+        fun date(date: LocalDate) = apply { this.date = date }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
