@@ -494,7 +494,8 @@ private constructor(
                 private var name: JsonField<String> = JsonMissing.of()
                 private var parent: JsonField<String> = JsonMissing.of()
                 private var routeIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of()
-                private var staticRouteIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of()
+                private var staticRouteIds: JsonField<kotlin.collections.List<String>> =
+                    JsonMissing.of()
                 private var wheelchairBoarding: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -564,20 +565,24 @@ private constructor(
                 @ExcludeMissing
                 fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
-                fun routeIds(routeIds: kotlin.collections.List<String>) = routeIds(JsonField.of(routeIds))
+                fun routeIds(routeIds: kotlin.collections.List<String>) =
+                    routeIds(JsonField.of(routeIds))
 
                 @JsonProperty("routeIds")
                 @ExcludeMissing
-                fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply { this.routeIds = routeIds }
+                fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
+                    this.routeIds = routeIds
+                }
 
                 fun staticRouteIds(staticRouteIds: kotlin.collections.List<String>) =
                     staticRouteIds(JsonField.of(staticRouteIds))
 
                 @JsonProperty("staticRouteIds")
                 @ExcludeMissing
-                fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) = apply {
-                    this.staticRouteIds = staticRouteIds
-                }
+                fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
+                    apply {
+                        this.staticRouteIds = staticRouteIds
+                    }
 
                 fun wheelchairBoarding(wheelchairBoarding: String) =
                     wheelchairBoarding(JsonField.of(wheelchairBoarding))
