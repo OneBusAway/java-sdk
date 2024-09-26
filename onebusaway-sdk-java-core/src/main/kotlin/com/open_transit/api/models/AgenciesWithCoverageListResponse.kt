@@ -192,7 +192,7 @@ private constructor(
     class Data
     private constructor(
         private val limitExceeded: JsonField<Boolean>,
-        private val list: JsonField<List<List>>,
+        private val list: JsonField<kotlin.collections.List<List>>,
         private val references: JsonField<References>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -203,7 +203,7 @@ private constructor(
 
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
-        fun list(): List<List> = list.getRequired("list")
+        fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         fun references(): References = references.getRequired("references")
 
@@ -264,7 +264,7 @@ private constructor(
         class Builder {
 
             private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
-            private var list: JsonField<List<List>> = JsonMissing.of()
+            private var list: JsonField<kotlin.collections.List<List>> = JsonMissing.of()
             private var references: JsonField<References> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -284,11 +284,11 @@ private constructor(
                 this.limitExceeded = limitExceeded
             }
 
-            fun list(list: List<List>) = list(JsonField.of(list))
+            fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
             @JsonProperty("list")
             @ExcludeMissing
-            fun list(list: JsonField<List<List>>) = apply { this.list = list }
+            fun list(list: JsonField<kotlin.collections.List<List>>) = apply { this.list = list }
 
             fun references(references: References) = references(JsonField.of(references))
 
