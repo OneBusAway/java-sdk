@@ -33,9 +33,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/open-transit-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/open-transit-java.git")
-                    url.set("https://github.com/stainless-sdks/open-transit-java")
+                    connection.set("scm:git:git://github.com/OneBusAway/java-sdk.git")
+                    developerConnection.set("scm:git:git://github.com/OneBusAway/java-sdk.git")
+                    url.set("https://github.com/OneBusAway/java-sdk")
                 }
 
                 versionMapping {
