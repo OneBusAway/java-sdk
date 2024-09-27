@@ -1,6 +1,10 @@
 # Onebusaway SDK Java API Library
 
+<!-- x-release-please-start-version -->
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.open_transit.api/onebusaway-sdk-java)](https://central.sonatype.com/artifact/com.open_transit.api/onebusaway-sdk-java/0.0.1-alpha.0)
+
+<!-- x-release-please-end -->
 
 The Onebusaway SDK Java SDK provides convenient access to the Onebusaway SDK REST API from applications written in Java. It includes helper classes with helpful types and documentation for every request and response property.
 
@@ -20,6 +24,8 @@ The REST API documentation can be found on [developer.onebusaway.org](https://d
 
 #### Gradle
 
+<!-- x-release-please-start-version -->
+
 ```kotlin
 implementation("com.open_transit.api:onebusaway-sdk-java:0.0.1-alpha.0")
 ```
@@ -33,6 +39,8 @@ implementation("com.open_transit.api:onebusaway-sdk-java:0.0.1-alpha.0")
     <version>0.0.1-alpha.0</version>
 </dependency>
 ```
+
+<!-- x-release-please-end -->
 
 ### Configure the client
 
@@ -241,7 +249,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/open-transit-java/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/OneBusAway/java-sdk/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
