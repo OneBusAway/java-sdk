@@ -3,65 +3,52 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.get
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    `maven-publish`
-    `signing`
+    id("com.vanniktech.maven.publish")
 }
 
-configure<PublishingExtension> {
-    publications {
-        register<MavenPublication>("maven") {
-            from(components["java"])
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
 
-            pom {
-                name.set("OneBusAway")
-                description.set("The OneBusAway REST API. For use with servers like\nhttps://api.pugetsound.onebusaway.org")
-                url.set("https://developer.onebusaway.org")
+extra["signingInMemoryKey"] = System.getenv("GPG_SIGNING_KEY")
+extra["signingInMemoryKeyId"] = System.getenv("GPG_SIGNING_KEY_ID")
+extra["signingInMemoryKeyPassword"] = System.getenv("GPG_SIGNING_PASSWORD")
 
-                licenses {
-                    license {
-                        name.set("Apache-2.0")
-                    }
-                }
+configure<MavenPublishBaseExtension> {
+    signAllPublications()
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-                developers {
-                    developer {
-                        name.set("Onebusaway SDK")
-                        email.set("info@onebusaway.org")
-                    }
-                }
+    this.coordinates(project.group.toString(), project.name, project.version.toString())
 
-                scm {
-                    connection.set("scm:git:git://github.com/OneBusAway/java-sdk.git")
-                    developerConnection.set("scm:git:git://github.com/OneBusAway/java-sdk.git")
-                    url.set("https://github.com/OneBusAway/java-sdk")
-                }
+    pom {
+        name.set("OneBusAway")
+        description.set("The OneBusAway REST API. For use with servers like\nhttps://api.pugetsound.onebusaway.org")
+        url.set("https://developer.onebusaway.org")
 
-                versionMapping {
-                    allVariants {
-                        fromResolutionResult()
-                    }
-                }
+        licenses {
+            license {
+                name.set("Apache-2.0")
             }
         }
-    }
-}
 
-signing {
-    val signingKeyId = System.getenv("GPG_SIGNING_KEY_ID")?.ifBlank { null }
-    val signingKey = System.getenv("GPG_SIGNING_KEY")?.ifBlank { null }
-    val signingPassword = System.getenv("GPG_SIGNING_PASSWORD")?.ifBlank { null }
-    if (signingKey != null && signingPassword != null) {
-        useInMemoryPgpKeys(
-            signingKeyId,
-            signingKey,
-            signingPassword,
-        )
-        sign(publishing.publications["maven"])
-    }
-}
+        developers {
+            developer {
+                name.set("Onebusaway SDK")
+                email.set("info@onebusaway.org")
+            }
+        }
 
-tasks.named("publish") {
-    dependsOn(":closeAndReleaseSonatypeStagingRepository")
+        scm {
+            connection.set("scm:git:git://github.com/OneBusAway/java-sdk.git")
+            developerConnection.set("scm:git:git://github.com/OneBusAway/java-sdk.git")
+            url.set("https://github.com/OneBusAway/java-sdk")
+        }
+    }
 }
