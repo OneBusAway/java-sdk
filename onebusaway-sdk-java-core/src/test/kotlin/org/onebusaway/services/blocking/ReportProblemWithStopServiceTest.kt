@@ -1,0 +1,36 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package org.onebusaway.services.blocking
+
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.onebusaway.TestServerExtension
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.models.*
+
+@ExtendWith(TestServerExtension::class)
+class ReportProblemWithStopServiceTest {
+
+    @Test
+    fun callRetrieve() {
+        val client =
+            OnebusawaySdkOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val reportProblemWithStopService = client.reportProblemWithStop()
+        val responseWrapper =
+            reportProblemWithStopService.retrieve(
+                ReportProblemWithStopRetrieveParams.builder()
+                    .stopId("stopID")
+                    .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
+                    .userComment("userComment")
+                    .userLat(42.23)
+                    .userLocationAccuracy(42.23)
+                    .userLon(42.23)
+                    .build()
+            )
+        println(responseWrapper)
+        responseWrapper.validate()
+    }
+}

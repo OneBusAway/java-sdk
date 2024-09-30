@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.open_transit.api/onebusaway-sdk-java)](https://central.sonatype.com/artifact/com.open_transit.api/onebusaway-sdk-java/0.1.0-alpha.1)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.1)
 
 <!-- x-release-please-end -->
 
@@ -27,14 +27,14 @@ The REST API documentation can be found on [developer.onebusaway.org](https://d
 <!-- x-release-please-start-version -->
 
 ```kotlin
-implementation("com.open_transit.api:onebusaway-sdk-java:0.1.0-alpha.1")
+implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.1")
 ```
 
 #### Maven
 
 ```xml
 <dependency>
-    <groupId>com.open_transit.api</groupId>
+    <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-sdk-java</artifactId>
     <version>0.1.0-alpha.1</version>
 </dependency>
@@ -47,8 +47,8 @@ implementation("com.open_transit.api:onebusaway-sdk-java:0.1.0-alpha.1")
 Use `OnebusawaySdkOkHttpClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
 
 ```java
-import com.open_transit.api.client.OnebusawaySdkClient;
-import com.open_transit.api.client.okhttp.OnebusawaySdkOkHttpClient;
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     .apiKey("My API Key")
@@ -81,8 +81,8 @@ To create a new current time, first use the `CurrentTimeRetrieveParams` builder 
 then pass that to the `retrieve` method of the `currentTime` service.
 
 ```java
-import com.open_transit.api.models.CurrentTimeRetrieveParams;
-import com.open_transit.api.models.CurrentTimeRetrieveResponse;
+import org.onebusaway.models.CurrentTimeRetrieveParams;
+import org.onebusaway.models.CurrentTimeRetrieveResponse;
 
 CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder().build();
 CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(params);
@@ -103,7 +103,7 @@ Sometimes, the API may support other properties that are not yet supported in th
 you can attach them using the `putAdditionalProperty` method.
 
 ```java
-import com.open_transit.api.models.core.JsonValue;
+import org.onebusaway.models.core.JsonValue;
 CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder()
     // ... normal properties
     .putAdditionalProperty("secret_param", JsonValue.from("4242"))
