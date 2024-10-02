@@ -35,7 +35,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "arrival-and-departure-for-stop", "{stopID}.json")
+                .addPathSegments(
+                    "api",
+                    "where",
+                    "arrival-and-departure-for-stop",
+                    "${params.getPathParam(0)}.json"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -68,7 +73,7 @@ constructor(
                     "api",
                     "where",
                     "arrivals-and-departures-for-stop",
-                    "{stopID}.json"
+                    "${params.getPathParam(0)}.json"
                 )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
