@@ -29,8 +29,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun code(): Long = code.getRequired("code")
 
     fun currentTime(): Long = currentTime.getRequired("currentTime")
@@ -75,38 +73,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ScheduleForRouteRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ScheduleForRouteRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -198,8 +164,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         fun entry(): Entry = entry.getRequired("entry")
 
         @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
@@ -216,25 +180,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.entry == other.entry &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = Objects.hash(entry, additionalProperties)
-            }
-            return hashCode
-        }
-
-        override fun toString() = "Data{entry=$entry, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -290,8 +235,6 @@ private constructor(
 
             private var validated: Boolean = false
 
-            private var hashCode: Int = 0
-
             fun routeId(): String = routeId.getRequired("routeId")
 
             fun scheduleDate(): Long = scheduleDate.getRequired("scheduleDate")
@@ -336,40 +279,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Entry &&
-                    this.routeId == other.routeId &&
-                    this.scheduleDate == other.scheduleDate &&
-                    this.serviceIds == other.serviceIds &&
-                    this.stopTripGroupings == other.stopTripGroupings &&
-                    this.stops == other.stops &&
-                    this.trips == other.trips &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            routeId,
-                            scheduleDate,
-                            serviceIds,
-                            stopTripGroupings,
-                            stops,
-                            trips,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Entry{routeId=$routeId, scheduleDate=$scheduleDate, serviceIds=$serviceIds, stopTripGroupings=$stopTripGroupings, stops=$stops, trips=$trips, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -488,8 +397,6 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                private var hashCode: Int = 0
-
                 fun code(): String = code.getRequired("code")
 
                 fun direction(): Optional<String> =
@@ -565,50 +472,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is Stop &&
-                        this.code == other.code &&
-                        this.direction == other.direction &&
-                        this.id == other.id &&
-                        this.lat == other.lat &&
-                        this.locationType == other.locationType &&
-                        this.lon == other.lon &&
-                        this.name == other.name &&
-                        this.parent == other.parent &&
-                        this.routeIds == other.routeIds &&
-                        this.staticRouteIds == other.staticRouteIds &&
-                        this.wheelchairBoarding == other.wheelchairBoarding &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                code,
-                                direction,
-                                id,
-                                lat,
-                                locationType,
-                                lon,
-                                name,
-                                parent,
-                                routeIds,
-                                staticRouteIds,
-                                wheelchairBoarding,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "Stop{code=$code, direction=$direction, id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -755,6 +618,52 @@ private constructor(
                             additionalProperties.toUnmodifiable(),
                         )
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Stop &&
+                        this.code == other.code &&
+                        this.direction == other.direction &&
+                        this.id == other.id &&
+                        this.lat == other.lat &&
+                        this.locationType == other.locationType &&
+                        this.lon == other.lon &&
+                        this.name == other.name &&
+                        this.parent == other.parent &&
+                        this.routeIds == other.routeIds &&
+                        this.staticRouteIds == other.staticRouteIds &&
+                        this.wheelchairBoarding == other.wheelchairBoarding &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                code,
+                                direction,
+                                id,
+                                lat,
+                                locationType,
+                                lon,
+                                name,
+                                parent,
+                                routeIds,
+                                staticRouteIds,
+                                wheelchairBoarding,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "Stop{code=$code, direction=$direction, id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
             }
 
             @JsonDeserialize(builder = StopTripGrouping.Builder::class)
@@ -770,8 +679,6 @@ private constructor(
             ) {
 
                 private var validated: Boolean = false
-
-                private var hashCode: Int = 0
 
                 fun directionId(): String = directionId.getRequired("directionId")
 
@@ -812,38 +719,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is StopTripGrouping &&
-                        this.directionId == other.directionId &&
-                        this.stopIds == other.stopIds &&
-                        this.tripHeadsigns == other.tripHeadsigns &&
-                        this.tripIds == other.tripIds &&
-                        this.tripsWithStopTimes == other.tripsWithStopTimes &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                directionId,
-                                stopIds,
-                                tripHeadsigns,
-                                tripIds,
-                                tripsWithStopTimes,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "StopTripGrouping{directionId=$directionId, stopIds=$stopIds, tripHeadsigns=$tripHeadsigns, tripIds=$tripIds, tripsWithStopTimes=$tripsWithStopTimes, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -946,8 +821,6 @@ private constructor(
 
                     private var validated: Boolean = false
 
-                    private var hashCode: Int = 0
-
                     fun tripId(): String = tripId.getRequired("tripId")
 
                     fun stopTimes(): List<StopTime> = stopTimes.getRequired("stopTimes")
@@ -969,32 +842,6 @@ private constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is TripsWithStopTime &&
-                            this.tripId == other.tripId &&
-                            this.stopTimes == other.stopTimes &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    tripId,
-                                    stopTimes,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "TripsWithStopTime{tripId=$tripId, stopTimes=$stopTimes, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -1070,8 +917,6 @@ private constructor(
 
                         private var validated: Boolean = false
 
-                        private var hashCode: Int = 0
-
                         fun arrivalEnabled(): Boolean = arrivalEnabled.getRequired("arrivalEnabled")
 
                         fun arrivalTime(): Long = arrivalTime.getRequired("arrivalTime")
@@ -1136,44 +981,6 @@ private constructor(
                         }
 
                         fun toBuilder() = Builder().from(this)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is StopTime &&
-                                this.arrivalEnabled == other.arrivalEnabled &&
-                                this.arrivalTime == other.arrivalTime &&
-                                this.departureEnabled == other.departureEnabled &&
-                                this.departureTime == other.departureTime &&
-                                this.serviceId == other.serviceId &&
-                                this.stopHeadsign == other.stopHeadsign &&
-                                this.stopId == other.stopId &&
-                                this.tripId == other.tripId &&
-                                this.additionalProperties == other.additionalProperties
-                        }
-
-                        override fun hashCode(): Int {
-                            if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        arrivalEnabled,
-                                        arrivalTime,
-                                        departureEnabled,
-                                        departureTime,
-                                        serviceId,
-                                        stopHeadsign,
-                                        stopId,
-                                        tripId,
-                                        additionalProperties,
-                                    )
-                            }
-                            return hashCode
-                        }
-
-                        override fun toString() =
-                            "StopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, stopHeadsign=$stopHeadsign, stopId=$stopId, tripId=$tripId, additionalProperties=$additionalProperties}"
 
                         companion object {
 
@@ -1299,8 +1106,110 @@ private constructor(
                                     additionalProperties.toUnmodifiable(),
                                 )
                         }
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is StopTime &&
+                                this.arrivalEnabled == other.arrivalEnabled &&
+                                this.arrivalTime == other.arrivalTime &&
+                                this.departureEnabled == other.departureEnabled &&
+                                this.departureTime == other.departureTime &&
+                                this.serviceId == other.serviceId &&
+                                this.stopHeadsign == other.stopHeadsign &&
+                                this.stopId == other.stopId &&
+                                this.tripId == other.tripId &&
+                                this.additionalProperties == other.additionalProperties
+                        }
+
+                        private var hashCode: Int = 0
+
+                        override fun hashCode(): Int {
+                            if (hashCode == 0) {
+                                hashCode =
+                                    Objects.hash(
+                                        arrivalEnabled,
+                                        arrivalTime,
+                                        departureEnabled,
+                                        departureTime,
+                                        serviceId,
+                                        stopHeadsign,
+                                        stopId,
+                                        tripId,
+                                        additionalProperties,
+                                    )
+                            }
+                            return hashCode
+                        }
+
+                        override fun toString() =
+                            "StopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, stopHeadsign=$stopHeadsign, stopId=$stopId, tripId=$tripId, additionalProperties=$additionalProperties}"
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is TripsWithStopTime &&
+                            this.tripId == other.tripId &&
+                            this.stopTimes == other.stopTimes &&
+                            this.additionalProperties == other.additionalProperties
+                    }
+
+                    private var hashCode: Int = 0
+
+                    override fun hashCode(): Int {
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    tripId,
+                                    stopTimes,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
+                    }
+
+                    override fun toString() =
+                        "TripsWithStopTime{tripId=$tripId, stopTimes=$stopTimes, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is StopTripGrouping &&
+                        this.directionId == other.directionId &&
+                        this.stopIds == other.stopIds &&
+                        this.tripHeadsigns == other.tripHeadsigns &&
+                        this.tripIds == other.tripIds &&
+                        this.tripsWithStopTimes == other.tripsWithStopTimes &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                directionId,
+                                stopIds,
+                                tripHeadsigns,
+                                tripIds,
+                                tripsWithStopTimes,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "StopTripGrouping{directionId=$directionId, stopIds=$stopIds, tripHeadsigns=$tripHeadsigns, tripIds=$tripIds, tripsWithStopTimes=$tripsWithStopTimes, additionalProperties=$additionalProperties}"
             }
 
             @JsonDeserialize(builder = Trip.Builder::class)
@@ -1322,8 +1231,6 @@ private constructor(
             ) {
 
                 private var validated: Boolean = false
-
-                private var hashCode: Int = 0
 
                 fun blockId(): Optional<String> =
                     Optional.ofNullable(blockId.getNullable("blockId"))
@@ -1401,50 +1308,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is Trip &&
-                        this.blockId == other.blockId &&
-                        this.directionId == other.directionId &&
-                        this.id == other.id &&
-                        this.peakOffpeak == other.peakOffpeak &&
-                        this.routeId == other.routeId &&
-                        this.routeShortName == other.routeShortName &&
-                        this.serviceId == other.serviceId &&
-                        this.shapeId == other.shapeId &&
-                        this.timeZone == other.timeZone &&
-                        this.tripHeadsign == other.tripHeadsign &&
-                        this.tripShortName == other.tripShortName &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                blockId,
-                                directionId,
-                                id,
-                                peakOffpeak,
-                                routeId,
-                                routeShortName,
-                                serviceId,
-                                shapeId,
-                                timeZone,
-                                tripHeadsign,
-                                tripShortName,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "Trip{blockId=$blockId, directionId=$directionId, id=$id, peakOffpeak=$peakOffpeak, routeId=$routeId, routeShortName=$routeShortName, serviceId=$serviceId, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -1594,7 +1457,144 @@ private constructor(
                             additionalProperties.toUnmodifiable(),
                         )
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Trip &&
+                        this.blockId == other.blockId &&
+                        this.directionId == other.directionId &&
+                        this.id == other.id &&
+                        this.peakOffpeak == other.peakOffpeak &&
+                        this.routeId == other.routeId &&
+                        this.routeShortName == other.routeShortName &&
+                        this.serviceId == other.serviceId &&
+                        this.shapeId == other.shapeId &&
+                        this.timeZone == other.timeZone &&
+                        this.tripHeadsign == other.tripHeadsign &&
+                        this.tripShortName == other.tripShortName &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                blockId,
+                                directionId,
+                                id,
+                                peakOffpeak,
+                                routeId,
+                                routeShortName,
+                                serviceId,
+                                shapeId,
+                                timeZone,
+                                tripHeadsign,
+                                tripShortName,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "Trip{blockId=$blockId, directionId=$directionId, id=$id, peakOffpeak=$peakOffpeak, routeId=$routeId, routeShortName=$routeShortName, serviceId=$serviceId, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Entry &&
+                    this.routeId == other.routeId &&
+                    this.scheduleDate == other.scheduleDate &&
+                    this.serviceIds == other.serviceIds &&
+                    this.stopTripGroupings == other.stopTripGroupings &&
+                    this.stops == other.stops &&
+                    this.trips == other.trips &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            routeId,
+                            scheduleDate,
+                            serviceIds,
+                            stopTripGroupings,
+                            stops,
+                            trips,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "Entry{routeId=$routeId, scheduleDate=$scheduleDate, serviceIds=$serviceIds, stopTripGroupings=$stopTripGroupings, stops=$stops, trips=$trips, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Data &&
+                this.entry == other.entry &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode = Objects.hash(entry, additionalProperties)
+            }
+            return hashCode
+        }
+
+        override fun toString() = "Data{entry=$entry, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ScheduleForRouteRetrieveResponse &&
+            this.code == other.code &&
+            this.currentTime == other.currentTime &&
+            this.text == other.text &&
+            this.version == other.version &&
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    code,
+                    currentTime,
+                    text,
+                    version,
+                    data,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ScheduleForRouteRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

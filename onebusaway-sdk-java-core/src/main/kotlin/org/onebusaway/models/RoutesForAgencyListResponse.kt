@@ -29,8 +29,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun code(): Long = code.getRequired("code")
 
     fun currentTime(): Long = currentTime.getRequired("currentTime")
@@ -75,38 +73,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is RoutesForAgencyListResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "RoutesForAgencyListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -199,8 +165,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
         fun list(): List<List> = list.getRequired("list")
@@ -227,34 +191,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.limitExceeded == other.limitExceeded &&
-                this.list == other.list &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        limitExceeded,
-                        list,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -340,8 +276,6 @@ private constructor(
 
             private var validated: Boolean = false
 
-            private var hashCode: Int = 0
-
             fun agencyId(): String = agencyId.getRequired("agencyId")
 
             fun color(): Optional<String> = Optional.ofNullable(color.getNullable("color"))
@@ -409,48 +343,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is List &&
-                    this.agencyId == other.agencyId &&
-                    this.color == other.color &&
-                    this.description == other.description &&
-                    this.id == other.id &&
-                    this.longName == other.longName &&
-                    this.nullSafeShortName == other.nullSafeShortName &&
-                    this.shortName == other.shortName &&
-                    this.textColor == other.textColor &&
-                    this.type == other.type &&
-                    this.url == other.url &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            agencyId,
-                            color,
-                            description,
-                            id,
-                            longName,
-                            nullSafeShortName,
-                            shortName,
-                            textColor,
-                            type,
-                            url,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "List{agencyId=$agencyId, color=$color, description=$description, id=$id, longName=$longName, nullSafeShortName=$nullSafeShortName, shortName=$shortName, textColor=$textColor, type=$type, url=$url, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -581,6 +473,114 @@ private constructor(
                         additionalProperties.toUnmodifiable(),
                     )
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is List &&
+                    this.agencyId == other.agencyId &&
+                    this.color == other.color &&
+                    this.description == other.description &&
+                    this.id == other.id &&
+                    this.longName == other.longName &&
+                    this.nullSafeShortName == other.nullSafeShortName &&
+                    this.shortName == other.shortName &&
+                    this.textColor == other.textColor &&
+                    this.type == other.type &&
+                    this.url == other.url &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            agencyId,
+                            color,
+                            description,
+                            id,
+                            longName,
+                            nullSafeShortName,
+                            shortName,
+                            textColor,
+                            type,
+                            url,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "List{agencyId=$agencyId, color=$color, description=$description, id=$id, longName=$longName, nullSafeShortName=$nullSafeShortName, shortName=$shortName, textColor=$textColor, type=$type, url=$url, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Data &&
+                this.limitExceeded == other.limitExceeded &&
+                this.list == other.list &&
+                this.references == other.references &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        limitExceeded,
+                        list,
+                        references,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is RoutesForAgencyListResponse &&
+            this.code == other.code &&
+            this.currentTime == other.currentTime &&
+            this.text == other.text &&
+            this.version == other.version &&
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    code,
+                    currentTime,
+                    text,
+                    version,
+                    data,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "RoutesForAgencyListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }
