@@ -34,7 +34,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "schedule-for-stop", "{stopID}.json")
+                .addPathSegments(
+                    "api",
+                    "where",
+                    "schedule-for-stop",
+                    "${params.getPathParam(0)}.json"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
