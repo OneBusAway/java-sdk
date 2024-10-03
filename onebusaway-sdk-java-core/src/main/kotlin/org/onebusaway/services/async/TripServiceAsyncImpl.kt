@@ -33,7 +33,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "trip", "{tripID}.json")
+                .addPathSegments("api", "where", "trip", "${params.getPathParam(0)}.json")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
