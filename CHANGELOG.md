@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2024-10-03)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Features
+
+* chore: linting and formatting ([a5bd78b](https://github.com/OneBusAway/java-sdk/commit/a5bd78b993afc0fdf9262d00449959564b8f7005))
+* fix: remove hashCode variable ([eee87e7](https://github.com/OneBusAway/java-sdk/commit/eee87e7bbcd54a1352231b07d4ec921ace56f020))
+
 ## 0.1.0-alpha.3 (2024-10-03)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
