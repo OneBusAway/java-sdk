@@ -1786,7 +1786,6 @@ private constructor(
                 this.additionalProperties == other.additionalProperties
         }
 
-
         override fun hashCode(): Int {
             if (hashCode == 0) {
                 hashCode =
