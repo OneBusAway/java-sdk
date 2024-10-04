@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2024-10-04)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
+
+### Features
+
+* feat: build gradle file for the examples ([ca60afd](https://github.com/OneBusAway/java-sdk/commit/ca60afddfc983dc517375a72fd6d3f70201b2bf2))
+* feat: Java examples ([782ab17](https://github.com/OneBusAway/java-sdk/commit/782ab1748d7268e8befc3028c98146d0c1398a81))
+* feat: Java examples ([3409162](https://github.com/OneBusAway/java-sdk/commit/34091627a89eed6f5d42ae9ee401df3c0aea2e1e))
+* feat: Java examples ([b1c0c68](https://github.com/OneBusAway/java-sdk/commit/b1c0c68aa6b14f6bf48b0c8544bea40341cfe83d))
+
 ## 0.1.0-alpha.4 (2024-10-03)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
