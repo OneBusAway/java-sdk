@@ -67,28 +67,11 @@ constructor(
             return true
         }
 
-        return other is ReportProblemWithStopRetrieveParams &&
-            this.stopId == other.stopId &&
-            this.code == other.code &&
-            this.userComment == other.userComment &&
-            this.userLat == other.userLat &&
-            this.userLocationAccuracy == other.userLocationAccuracy &&
-            this.userLon == other.userLon &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is ReportProblemWithStopRetrieveParams && this.stopId == other.stopId && this.code == other.code && this.userComment == other.userComment && this.userLat == other.userLat && this.userLocationAccuracy == other.userLocationAccuracy && this.userLon == other.userLon && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            stopId,
-            code,
-            userComment,
-            userLat,
-            userLocationAccuracy,
-            userLon,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(stopId, code, userComment, userLat, userLocationAccuracy, userLon, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -212,7 +195,7 @@ constructor(
                 return true
             }
 
-            return other is Code && this.value == other.value
+            return /* spotless:off */ other is Code && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -56,28 +56,11 @@ constructor(
             return true
         }
 
-        return other is StopsForLocationListParams &&
-            this.lat == other.lat &&
-            this.lon == other.lon &&
-            this.latSpan == other.latSpan &&
-            this.lonSpan == other.lonSpan &&
-            this.query == other.query &&
-            this.radius == other.radius &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is StopsForLocationListParams && this.lat == other.lat && this.lon == other.lon && this.latSpan == other.latSpan && this.lonSpan == other.lonSpan && this.query == other.query && this.radius == other.radius && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            lat,
-            lon,
-            latSpan,
-            lonSpan,
-            query,
-            radius,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(lat, lon, latSpan, lonSpan, query, radius, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

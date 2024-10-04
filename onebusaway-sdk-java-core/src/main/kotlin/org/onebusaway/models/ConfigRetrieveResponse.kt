@@ -854,58 +854,14 @@ private constructor(
                         return true
                     }
 
-                    return other is GitProperties &&
-                        this.gitBranch == other.gitBranch &&
-                        this.gitBuildHost == other.gitBuildHost &&
-                        this.gitBuildTime == other.gitBuildTime &&
-                        this.gitBuildUserEmail == other.gitBuildUserEmail &&
-                        this.gitBuildUserName == other.gitBuildUserName &&
-                        this.gitBuildVersion == other.gitBuildVersion &&
-                        this.gitClosestTagCommitCount == other.gitClosestTagCommitCount &&
-                        this.gitClosestTagName == other.gitClosestTagName &&
-                        this.gitCommitId == other.gitCommitId &&
-                        this.gitCommitIdAbbrev == other.gitCommitIdAbbrev &&
-                        this.gitCommitIdDescribe == other.gitCommitIdDescribe &&
-                        this.gitCommitIdDescribeShort == other.gitCommitIdDescribeShort &&
-                        this.gitCommitMessageFull == other.gitCommitMessageFull &&
-                        this.gitCommitMessageShort == other.gitCommitMessageShort &&
-                        this.gitCommitTime == other.gitCommitTime &&
-                        this.gitCommitUserEmail == other.gitCommitUserEmail &&
-                        this.gitCommitUserName == other.gitCommitUserName &&
-                        this.gitDirty == other.gitDirty &&
-                        this.gitRemoteOriginUrl == other.gitRemoteOriginUrl &&
-                        this.gitTags == other.gitTags &&
-                        this.additionalProperties == other.additionalProperties
+                    return /* spotless:off */ other is GitProperties && this.gitBranch == other.gitBranch && this.gitBuildHost == other.gitBuildHost && this.gitBuildTime == other.gitBuildTime && this.gitBuildUserEmail == other.gitBuildUserEmail && this.gitBuildUserName == other.gitBuildUserName && this.gitBuildVersion == other.gitBuildVersion && this.gitClosestTagCommitCount == other.gitClosestTagCommitCount && this.gitClosestTagName == other.gitClosestTagName && this.gitCommitId == other.gitCommitId && this.gitCommitIdAbbrev == other.gitCommitIdAbbrev && this.gitCommitIdDescribe == other.gitCommitIdDescribe && this.gitCommitIdDescribeShort == other.gitCommitIdDescribeShort && this.gitCommitMessageFull == other.gitCommitMessageFull && this.gitCommitMessageShort == other.gitCommitMessageShort && this.gitCommitTime == other.gitCommitTime && this.gitCommitUserEmail == other.gitCommitUserEmail && this.gitCommitUserName == other.gitCommitUserName && this.gitDirty == other.gitDirty && this.gitRemoteOriginUrl == other.gitRemoteOriginUrl && this.gitTags == other.gitTags && this.additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 private var hashCode: Int = 0
 
                 override fun hashCode(): Int {
                     if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                gitBranch,
-                                gitBuildHost,
-                                gitBuildTime,
-                                gitBuildUserEmail,
-                                gitBuildUserName,
-                                gitBuildVersion,
-                                gitClosestTagCommitCount,
-                                gitClosestTagName,
-                                gitCommitId,
-                                gitCommitIdAbbrev,
-                                gitCommitIdDescribe,
-                                gitCommitIdDescribeShort,
-                                gitCommitMessageFull,
-                                gitCommitMessageShort,
-                                gitCommitTime,
-                                gitCommitUserEmail,
-                                gitCommitUserName,
-                                gitDirty,
-                                gitRemoteOriginUrl,
-                                gitTags,
-                                additionalProperties,
-                            )
+                        hashCode = /* spotless:off */ Objects.hash(gitBranch, gitBuildHost, gitBuildTime, gitBuildUserEmail, gitBuildUserName, gitBuildVersion, gitClosestTagCommitCount, gitClosestTagName, gitCommitId, gitCommitIdAbbrev, gitCommitIdDescribe, gitCommitIdDescribeShort, gitCommitMessageFull, gitCommitMessageShort, gitCommitTime, gitCommitUserEmail, gitCommitUserName, gitDirty, gitRemoteOriginUrl, gitTags, additionalProperties) /* spotless:on */
                     }
                     return hashCode
                 }
@@ -919,28 +875,14 @@ private constructor(
                     return true
                 }
 
-                return other is Entry &&
-                    this.gitProperties == other.gitProperties &&
-                    this.id == other.id &&
-                    this.name == other.name &&
-                    this.serviceDateFrom == other.serviceDateFrom &&
-                    this.serviceDateTo == other.serviceDateTo &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is Entry && this.gitProperties == other.gitProperties && this.id == other.id && this.name == other.name && this.serviceDateFrom == other.serviceDateFrom && this.serviceDateTo == other.serviceDateTo && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            gitProperties,
-                            id,
-                            name,
-                            serviceDateFrom,
-                            serviceDateTo,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(gitProperties, id, name, serviceDateFrom, serviceDateTo, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -954,22 +896,14 @@ private constructor(
                 return true
             }
 
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Data && this.entry == other.entry && this.references == other.references && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(entry, references, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -983,28 +917,14 @@ private constructor(
             return true
         }
 
-        return other is ConfigRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is ConfigRetrieveResponse && this.code == other.code && this.currentTime == other.currentTime && this.text == other.text && this.version == other.version && this.data == other.data && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(code, currentTime, text, version, data, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

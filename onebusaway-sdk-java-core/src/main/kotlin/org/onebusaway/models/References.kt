@@ -380,38 +380,14 @@ private constructor(
                 return true
             }
 
-            return other is Agency &&
-                this.disclaimer == other.disclaimer &&
-                this.email == other.email &&
-                this.fareUrl == other.fareUrl &&
-                this.id == other.id &&
-                this.lang == other.lang &&
-                this.name == other.name &&
-                this.phone == other.phone &&
-                this.privateService == other.privateService &&
-                this.timezone == other.timezone &&
-                this.url == other.url &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Agency && this.disclaimer == other.disclaimer && this.email == other.email && this.fareUrl == other.fareUrl && this.id == other.id && this.lang == other.lang && this.name == other.name && this.phone == other.phone && this.privateService == other.privateService && this.timezone == other.timezone && this.url == other.url && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        disclaimer,
-                        email,
-                        fareUrl,
-                        id,
-                        lang,
-                        name,
-                        phone,
-                        privateService,
-                        timezone,
-                        url,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(disclaimer, email, fareUrl, id, lang, name, phone, privateService, timezone, url, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -639,38 +615,14 @@ private constructor(
                 return true
             }
 
-            return other is Route &&
-                this.agencyId == other.agencyId &&
-                this.color == other.color &&
-                this.description == other.description &&
-                this.id == other.id &&
-                this.longName == other.longName &&
-                this.nullSafeShortName == other.nullSafeShortName &&
-                this.shortName == other.shortName &&
-                this.textColor == other.textColor &&
-                this.type == other.type &&
-                this.url == other.url &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Route && this.agencyId == other.agencyId && this.color == other.color && this.description == other.description && this.id == other.id && this.longName == other.longName && this.nullSafeShortName == other.nullSafeShortName && this.shortName == other.shortName && this.textColor == other.textColor && this.type == other.type && this.url == other.url && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        agencyId,
-                        color,
-                        description,
-                        id,
-                        longName,
-                        nullSafeShortName,
-                        shortName,
-                        textColor,
-                        type,
-                        url,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(agencyId, color, description, id, longName, nullSafeShortName, shortName, textColor, type, url, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1061,22 +1013,14 @@ private constructor(
                     return true
                 }
 
-                return other is ActiveWindow &&
-                    this.from == other.from &&
-                    this.to == other.to &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is ActiveWindow && this.from == other.from && this.to == other.to && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            from,
-                            to,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(from, to, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -1267,30 +1211,14 @@ private constructor(
                     return true
                 }
 
-                return other is AllAffect &&
-                    this.agencyId == other.agencyId &&
-                    this.applicationId == other.applicationId &&
-                    this.directionId == other.directionId &&
-                    this.routeId == other.routeId &&
-                    this.stopId == other.stopId &&
-                    this.tripId == other.tripId &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is AllAffect && this.agencyId == other.agencyId && this.applicationId == other.applicationId && this.directionId == other.directionId && this.routeId == other.routeId && this.stopId == other.stopId && this.tripId == other.tripId && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            agencyId,
-                            applicationId,
-                            directionId,
-                            routeId,
-                            stopId,
-                            tripId,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(agencyId, applicationId, directionId, routeId, stopId, tripId, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -1613,24 +1541,14 @@ private constructor(
                             return true
                         }
 
-                        return other is DiversionPath &&
-                            this.length == other.length &&
-                            this.levels == other.levels &&
-                            this.points == other.points &&
-                            this.additionalProperties == other.additionalProperties
+                        return /* spotless:off */ other is DiversionPath && this.length == other.length && this.levels == other.levels && this.points == other.points && this.additionalProperties == other.additionalProperties /* spotless:on */
                     }
 
                     private var hashCode: Int = 0
 
                     override fun hashCode(): Int {
                         if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    length,
-                                    levels,
-                                    points,
-                                    additionalProperties,
-                                )
+                            hashCode = /* spotless:off */ Objects.hash(length, levels, points, additionalProperties) /* spotless:on */
                         }
                         return hashCode
                     }
@@ -1644,22 +1562,14 @@ private constructor(
                         return true
                     }
 
-                    return other is ConditionDetails &&
-                        this.diversionPath == other.diversionPath &&
-                        this.diversionStopIds == other.diversionStopIds &&
-                        this.additionalProperties == other.additionalProperties
+                    return /* spotless:off */ other is ConditionDetails && this.diversionPath == other.diversionPath && this.diversionStopIds == other.diversionStopIds && this.additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 private var hashCode: Int = 0
 
                 override fun hashCode(): Int {
                     if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                diversionPath,
-                                diversionStopIds,
-                                additionalProperties,
-                            )
+                        hashCode = /* spotless:off */ Objects.hash(diversionPath, diversionStopIds, additionalProperties) /* spotless:on */
                     }
                     return hashCode
                 }
@@ -1673,22 +1583,14 @@ private constructor(
                     return true
                 }
 
-                return other is Consequence &&
-                    this.condition == other.condition &&
-                    this.conditionDetails == other.conditionDetails &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is Consequence && this.condition == other.condition && this.conditionDetails == other.conditionDetails && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            condition,
-                            conditionDetails,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(condition, conditionDetails, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -1796,22 +1698,14 @@ private constructor(
                     return true
                 }
 
-                return other is Description &&
-                    this.lang == other.lang &&
-                    this.value == other.value &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is Description && this.lang == other.lang && this.value == other.value && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            lang,
-                            value,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(lang, value, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -1919,22 +1813,14 @@ private constructor(
                     return true
                 }
 
-                return other is PublicationWindow &&
-                    this.from == other.from &&
-                    this.to == other.to &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is PublicationWindow && this.from == other.from && this.to == other.to && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            from,
-                            to,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(from, to, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -1956,7 +1842,7 @@ private constructor(
                     return true
                 }
 
-                return other is Reason && this.value == other.value
+                return /* spotless:off */ other is Reason && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -2117,22 +2003,14 @@ private constructor(
                     return true
                 }
 
-                return other is Summary &&
-                    this.lang == other.lang &&
-                    this.value == other.value &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is Summary && this.lang == other.lang && this.value == other.value && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            lang,
-                            value,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(lang, value, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -2240,22 +2118,14 @@ private constructor(
                     return true
                 }
 
-                return other is Url &&
-                    this.lang == other.lang &&
-                    this.value == other.value &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is Url && this.lang == other.lang && this.value == other.value && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            lang,
-                            value,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(lang, value, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -2269,42 +2139,14 @@ private constructor(
                 return true
             }
 
-            return other is Situation &&
-                this.id == other.id &&
-                this.creationTime == other.creationTime &&
-                this.reason == other.reason &&
-                this.summary == other.summary &&
-                this.description == other.description &&
-                this.url == other.url &&
-                this.activeWindows == other.activeWindows &&
-                this.allAffects == other.allAffects &&
-                this.consequences == other.consequences &&
-                this.publicationWindows == other.publicationWindows &&
-                this.severity == other.severity &&
-                this.consequenceMessage == other.consequenceMessage &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Situation && this.id == other.id && this.creationTime == other.creationTime && this.reason == other.reason && this.summary == other.summary && this.description == other.description && this.url == other.url && this.activeWindows == other.activeWindows && this.allAffects == other.allAffects && this.consequences == other.consequences && this.publicationWindows == other.publicationWindows && this.severity == other.severity && this.consequenceMessage == other.consequenceMessage && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        id,
-                        creationTime,
-                        reason,
-                        summary,
-                        description,
-                        url,
-                        activeWindows,
-                        allAffects,
-                        consequences,
-                        publicationWindows,
-                        severity,
-                        consequenceMessage,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(id, creationTime, reason, summary, description, url, activeWindows, allAffects, consequences, publicationWindows, severity, consequenceMessage, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -2552,40 +2394,14 @@ private constructor(
                 return true
             }
 
-            return other is Stop &&
-                this.code == other.code &&
-                this.direction == other.direction &&
-                this.id == other.id &&
-                this.lat == other.lat &&
-                this.locationType == other.locationType &&
-                this.lon == other.lon &&
-                this.name == other.name &&
-                this.parent == other.parent &&
-                this.routeIds == other.routeIds &&
-                this.staticRouteIds == other.staticRouteIds &&
-                this.wheelchairBoarding == other.wheelchairBoarding &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Stop && this.code == other.code && this.direction == other.direction && this.id == other.id && this.lat == other.lat && this.locationType == other.locationType && this.lon == other.lon && this.name == other.name && this.parent == other.parent && this.routeIds == other.routeIds && this.staticRouteIds == other.staticRouteIds && this.wheelchairBoarding == other.wheelchairBoarding && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        code,
-                        direction,
-                        id,
-                        lat,
-                        locationType,
-                        lon,
-                        name,
-                        parent,
-                        routeIds,
-                        staticRouteIds,
-                        wheelchairBoarding,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(code, direction, id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, wheelchairBoarding, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -2763,30 +2579,14 @@ private constructor(
                 return true
             }
 
-            return other is StopTime &&
-                this.arrivalTime == other.arrivalTime &&
-                this.departureTime == other.departureTime &&
-                this.distanceAlongTrip == other.distanceAlongTrip &&
-                this.historicalOccupancy == other.historicalOccupancy &&
-                this.stopHeadsign == other.stopHeadsign &&
-                this.stopId == other.stopId &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is StopTime && this.arrivalTime == other.arrivalTime && this.departureTime == other.departureTime && this.distanceAlongTrip == other.distanceAlongTrip && this.historicalOccupancy == other.historicalOccupancy && this.stopHeadsign == other.stopHeadsign && this.stopId == other.stopId && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        arrivalTime,
-                        departureTime,
-                        distanceAlongTrip,
-                        historicalOccupancy,
-                        stopHeadsign,
-                        stopId,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(arrivalTime, departureTime, distanceAlongTrip, historicalOccupancy, stopHeadsign, stopId, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -3034,40 +2834,14 @@ private constructor(
                 return true
             }
 
-            return other is Trip &&
-                this.blockId == other.blockId &&
-                this.directionId == other.directionId &&
-                this.id == other.id &&
-                this.peakOffpeak == other.peakOffpeak &&
-                this.routeId == other.routeId &&
-                this.routeShortName == other.routeShortName &&
-                this.serviceId == other.serviceId &&
-                this.shapeId == other.shapeId &&
-                this.timeZone == other.timeZone &&
-                this.tripHeadsign == other.tripHeadsign &&
-                this.tripShortName == other.tripShortName &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Trip && this.blockId == other.blockId && this.directionId == other.directionId && this.id == other.id && this.peakOffpeak == other.peakOffpeak && this.routeId == other.routeId && this.routeShortName == other.routeShortName && this.serviceId == other.serviceId && this.shapeId == other.shapeId && this.timeZone == other.timeZone && this.tripHeadsign == other.tripHeadsign && this.tripShortName == other.tripShortName && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        blockId,
-                        directionId,
-                        id,
-                        peakOffpeak,
-                        routeId,
-                        routeShortName,
-                        serviceId,
-                        shapeId,
-                        timeZone,
-                        tripHeadsign,
-                        tripShortName,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(blockId, directionId, id, peakOffpeak, routeId, routeShortName, serviceId, shapeId, timeZone, tripHeadsign, tripShortName, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -3081,30 +2855,14 @@ private constructor(
             return true
         }
 
-        return other is References &&
-            this.agencies == other.agencies &&
-            this.routes == other.routes &&
-            this.situations == other.situations &&
-            this.stopTimes == other.stopTimes &&
-            this.stops == other.stops &&
-            this.trips == other.trips &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is References && this.agencies == other.agencies && this.routes == other.routes && this.situations == other.situations && this.stopTimes == other.stopTimes && this.stops == other.stops && this.trips == other.trips && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    agencies,
-                    routes,
-                    situations,
-                    stopTimes,
-                    stops,
-                    trips,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(agencies, routes, situations, stopTimes, stops, trips, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

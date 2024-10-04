@@ -47,20 +47,11 @@ constructor(
             return true
         }
 
-        return other is ScheduleForStopRetrieveParams &&
-            this.stopId == other.stopId &&
-            this.date == other.date &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is ScheduleForStopRetrieveParams && this.stopId == other.stopId && this.date == other.date && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            stopId,
-            date,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(stopId, date, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

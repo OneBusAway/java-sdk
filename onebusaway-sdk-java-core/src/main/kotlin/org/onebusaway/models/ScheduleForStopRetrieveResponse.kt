@@ -767,32 +767,14 @@ private constructor(
                                 return true
                             }
 
-                            return other is ScheduleStopTime &&
-                                this.arrivalEnabled == other.arrivalEnabled &&
-                                this.arrivalTime == other.arrivalTime &&
-                                this.departureEnabled == other.departureEnabled &&
-                                this.departureTime == other.departureTime &&
-                                this.serviceId == other.serviceId &&
-                                this.stopHeadsign == other.stopHeadsign &&
-                                this.tripId == other.tripId &&
-                                this.additionalProperties == other.additionalProperties
+                            return /* spotless:off */ other is ScheduleStopTime && this.arrivalEnabled == other.arrivalEnabled && this.arrivalTime == other.arrivalTime && this.departureEnabled == other.departureEnabled && this.departureTime == other.departureTime && this.serviceId == other.serviceId && this.stopHeadsign == other.stopHeadsign && this.tripId == other.tripId && this.additionalProperties == other.additionalProperties /* spotless:on */
                         }
 
                         private var hashCode: Int = 0
 
                         override fun hashCode(): Int {
                             if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        arrivalEnabled,
-                                        arrivalTime,
-                                        departureEnabled,
-                                        departureTime,
-                                        serviceId,
-                                        stopHeadsign,
-                                        tripId,
-                                        additionalProperties,
-                                    )
+                                hashCode = /* spotless:off */ Objects.hash(arrivalEnabled, arrivalTime, departureEnabled, departureTime, serviceId, stopHeadsign, tripId, additionalProperties) /* spotless:on */
                             }
                             return hashCode
                         }
@@ -962,30 +944,14 @@ private constructor(
                                 return true
                             }
 
-                            return other is ScheduleFrequency &&
-                                this.serviceDate == other.serviceDate &&
-                                this.startTime == other.startTime &&
-                                this.endTime == other.endTime &&
-                                this.headway == other.headway &&
-                                this.serviceId == other.serviceId &&
-                                this.tripId == other.tripId &&
-                                this.additionalProperties == other.additionalProperties
+                            return /* spotless:off */ other is ScheduleFrequency && this.serviceDate == other.serviceDate && this.startTime == other.startTime && this.endTime == other.endTime && this.headway == other.headway && this.serviceId == other.serviceId && this.tripId == other.tripId && this.additionalProperties == other.additionalProperties /* spotless:on */
                         }
 
                         private var hashCode: Int = 0
 
                         override fun hashCode(): Int {
                             if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        serviceDate,
-                                        startTime,
-                                        endTime,
-                                        headway,
-                                        serviceId,
-                                        tripId,
-                                        additionalProperties,
-                                    )
+                                hashCode = /* spotless:off */ Objects.hash(serviceDate, startTime, endTime, headway, serviceId, tripId, additionalProperties) /* spotless:on */
                             }
                             return hashCode
                         }
@@ -999,24 +965,14 @@ private constructor(
                             return true
                         }
 
-                        return other is StopRouteDirectionSchedule &&
-                            this.scheduleFrequencies == other.scheduleFrequencies &&
-                            this.scheduleStopTimes == other.scheduleStopTimes &&
-                            this.tripHeadsign == other.tripHeadsign &&
-                            this.additionalProperties == other.additionalProperties
+                        return /* spotless:off */ other is StopRouteDirectionSchedule && this.scheduleFrequencies == other.scheduleFrequencies && this.scheduleStopTimes == other.scheduleStopTimes && this.tripHeadsign == other.tripHeadsign && this.additionalProperties == other.additionalProperties /* spotless:on */
                     }
 
                     private var hashCode: Int = 0
 
                     override fun hashCode(): Int {
                         if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    scheduleFrequencies,
-                                    scheduleStopTimes,
-                                    tripHeadsign,
-                                    additionalProperties,
-                                )
+                            hashCode = /* spotless:off */ Objects.hash(scheduleFrequencies, scheduleStopTimes, tripHeadsign, additionalProperties) /* spotless:on */
                         }
                         return hashCode
                     }
@@ -1030,22 +986,14 @@ private constructor(
                         return true
                     }
 
-                    return other is StopRouteSchedule &&
-                        this.routeId == other.routeId &&
-                        this.stopRouteDirectionSchedules == other.stopRouteDirectionSchedules &&
-                        this.additionalProperties == other.additionalProperties
+                    return /* spotless:off */ other is StopRouteSchedule && this.routeId == other.routeId && this.stopRouteDirectionSchedules == other.stopRouteDirectionSchedules && this.additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 private var hashCode: Int = 0
 
                 override fun hashCode(): Int {
                     if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                routeId,
-                                stopRouteDirectionSchedules,
-                                additionalProperties,
-                            )
+                        hashCode = /* spotless:off */ Objects.hash(routeId, stopRouteDirectionSchedules, additionalProperties) /* spotless:on */
                     }
                     return hashCode
                 }
@@ -1059,24 +1007,14 @@ private constructor(
                     return true
                 }
 
-                return other is Entry &&
-                    this.date == other.date &&
-                    this.stopId == other.stopId &&
-                    this.stopRouteSchedules == other.stopRouteSchedules &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is Entry && this.date == other.date && this.stopId == other.stopId && this.stopRouteSchedules == other.stopRouteSchedules && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            date,
-                            stopId,
-                            stopRouteSchedules,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(date, stopId, stopRouteSchedules, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -1090,22 +1028,14 @@ private constructor(
                 return true
             }
 
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Data && this.entry == other.entry && this.references == other.references && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(entry, references, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1119,28 +1049,14 @@ private constructor(
             return true
         }
 
-        return other is ScheduleForStopRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is ScheduleForStopRetrieveResponse && this.code == other.code && this.currentTime == other.currentTime && this.text == other.text && this.version == other.version && this.data == other.data && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(code, currentTime, text, version, data, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
