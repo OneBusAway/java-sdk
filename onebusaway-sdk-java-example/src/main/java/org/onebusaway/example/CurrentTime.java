@@ -1,10 +1,10 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.models.*;
 
-public class SearchForStop {
+public class CurrentTime {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -19,16 +19,14 @@ public class SearchForStop {
 
     public static void main(String[] args) {
 
-        // Define the search input
-        String searchInput = "crysta";
+        // Define the parameters for the current time retrieval request
+        CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder().build();
 
-        // Create the parameters for the stop search request
-        SearchForStopListParams params = SearchForStopListParams.builder().input(searchInput).build();
+        // Retrieve the current time information
+        CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(params);
 
-        // Retrieve the stop search results
-        SearchForStopListResponse searchForStopListResponse = client.searchForStop().list(params);
-
-        System.out.println(searchForStopListResponse);
-
+        System.out.println(currentTime);
     }
+
+
 }

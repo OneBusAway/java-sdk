@@ -1,10 +1,10 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.models.*;
 
-public class StopsIdsForAgency {
+public class SearchForStop {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -16,18 +16,19 @@ public class StopsIdsForAgency {
             .baseUrl(BASE_URL)
             .build();
 
+
     public static void main(String[] args) {
-        // Define the agency ID
-        String agencyId = "1";
 
-        StopIdsForAgencyListParams params = StopIdsForAgencyListParams.builder().agencyId(agencyId).build();
-        // Get the list of stop IDs for the agency
-        StopIdsForAgencyListResponse stopIds = client.stopIdsForAgency().list(params);
+        // Define the search input
+        String searchInput = "crysta";
 
-        // Print the list of stop IDs
-        for (String stopId : stopIds.data().list()) {
-            System.out.println(stopId);
-        }
+        // Create the parameters for the stop search request
+        SearchForStopListParams params = SearchForStopListParams.builder().input(searchInput).build();
+
+        // Retrieve the stop search results
+        SearchForStopListResponse searchForStopListResponse = client.searchForStop().list(params);
+
+        System.out.println(searchForStopListResponse);
+
     }
-
 }

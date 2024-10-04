@@ -1,10 +1,10 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.models.*;
 
-public class Agency {
+public class TripForVehicle {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -16,18 +16,20 @@ public class Agency {
             .baseUrl(BASE_URL)
             .build();
 
-
     public static void main(String[] args) {
 
-            // Define the agency ID
-            String agencyId = "1";
+        // Define the vehicle ID
+        String vehicleId = "1_3520";
 
-            // Define the parameters for the agency retrieval request
-            AgencyRetrieveParams params = AgencyRetrieveParams.builder().agencyId(agencyId).build();
+        // Retrieve the trip for the vehicle
+        TripForVehicleRetrieveParams params = TripForVehicleRetrieveParams.builder()
+                .vehicleId(vehicleId)
+                .build();
 
-            // Retrieve the agency information
-            AgencyRetrieveResponse agency = client.agency().retrieve(params);
+        // Retrieve the trip for the vehicle
+        TripForVehicleRetrieveResponse tripForVehicle = client.tripForVehicle().retrieve(params);
 
-            System.out.println(agency);
+        System.out.println(tripForVehicle);
     }
+
 }

@@ -1,10 +1,11 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+import org.onebusaway.errors.OnebusawaySdkServiceException;
 import org.onebusaway.models.*;
 
-public class RoutesForLocation {
+public class RouteForAgency {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -20,24 +21,25 @@ public class RoutesForLocation {
     public static void main(String[] args) {
 
         try {
-            // Define the location parameters
-            double lat = 47.653435;
-            double lon = -122.305641;
-            double radius = 1000.0;
 
-            // Create the parameters for the routes for location request
-            RoutesForLocationListParams params = RoutesForLocationListParams.builder()
-                    .lat(lat)
-                    .lon(lon)
-                    .radius(radius)
+            // Define the agency ID
+            String agencyId = "1";
+
+            // Create the parameters for the routes for agency list request
+            RoutesForAgencyListParams params = RoutesForAgencyListParams.builder()
+                    .agencyId(agencyId)
                     .build();
 
-            // Retrieve the routes for location
-            RoutesForLocationListResponse routesForLocation = client.routesForLocation().list(params);
+            // Retrieve the routes for the agency
+            RoutesForAgencyListResponse routesForAgency = client.routesForAgency().list(params);
 
-            for (RoutesForLocationListResponse.Data.List route : routesForLocation.data().list()) {
+            for (RoutesForAgencyListResponse.Data.List route : routesForAgency.data().list()) {
                 System.out.println(route);
             }
+        }
+        catch (OnebusawaySdkServiceException e) {
+            System.err.println("Error occurred: " + e.getMessage());
+            System.err.println("Status Code: " + e.statusCode());
         }
         catch (Exception e) {
             System.err.println("Error occurred: " + e.getMessage());
