@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is BlockRetrieveParams &&
-            this.blockId == other.blockId &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is BlockRetrieveParams && this.blockId == other.blockId && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            blockId,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(blockId, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

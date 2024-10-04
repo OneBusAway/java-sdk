@@ -50,22 +50,11 @@ constructor(
             return true
         }
 
-        return other is StopsForRouteListParams &&
-            this.routeId == other.routeId &&
-            this.includePolylines == other.includePolylines &&
-            this.time == other.time &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is StopsForRouteListParams && this.routeId == other.routeId && this.includePolylines == other.includePolylines && this.time == other.time && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            routeId,
-            includePolylines,
-            time,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(routeId, includePolylines, time, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

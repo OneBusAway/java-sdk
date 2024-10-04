@@ -87,38 +87,11 @@ constructor(
             return true
         }
 
-        return other is ReportProblemWithTripRetrieveParams &&
-            this.tripId == other.tripId &&
-            this.code == other.code &&
-            this.serviceDate == other.serviceDate &&
-            this.stopId == other.stopId &&
-            this.userComment == other.userComment &&
-            this.userLat == other.userLat &&
-            this.userLocationAccuracy == other.userLocationAccuracy &&
-            this.userLon == other.userLon &&
-            this.userOnVehicle == other.userOnVehicle &&
-            this.userVehicleNumber == other.userVehicleNumber &&
-            this.vehicleId == other.vehicleId &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is ReportProblemWithTripRetrieveParams && this.tripId == other.tripId && this.code == other.code && this.serviceDate == other.serviceDate && this.stopId == other.stopId && this.userComment == other.userComment && this.userLat == other.userLat && this.userLocationAccuracy == other.userLocationAccuracy && this.userLon == other.userLon && this.userOnVehicle == other.userOnVehicle && this.userVehicleNumber == other.userVehicleNumber && this.vehicleId == other.vehicleId && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            tripId,
-            code,
-            serviceDate,
-            stopId,
-            userComment,
-            userLat,
-            userLocationAccuracy,
-            userLon,
-            userOnVehicle,
-            userVehicleNumber,
-            vehicleId,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(tripId, code, serviceDate, stopId, userComment, userLat, userLocationAccuracy, userLon, userOnVehicle, userVehicleNumber, vehicleId, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -274,7 +247,7 @@ constructor(
                 return true
             }
 
-            return other is Code && this.value == other.value
+            return /* spotless:off */ other is Code && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
