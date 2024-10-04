@@ -2,7 +2,7 @@ plugins {
     id("java")
 }
 
-group = "org.onebusaway.example"
+group = "org.onebusaway"
 version = "0.1.0-alpha.4"
 
 repositories {
