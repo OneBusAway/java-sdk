@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is TripRetrieveParams &&
-            this.tripId == other.tripId &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is TripRetrieveParams && this.tripId == other.tripId && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            tripId,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(tripId, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
