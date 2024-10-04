@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is RouteRetrieveParams &&
-            this.routeId == other.routeId &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is RouteRetrieveParams && this.routeId == other.routeId && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            routeId,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(routeId, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

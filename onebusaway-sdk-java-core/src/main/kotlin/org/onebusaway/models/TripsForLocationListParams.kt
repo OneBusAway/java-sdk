@@ -60,30 +60,11 @@ constructor(
             return true
         }
 
-        return other is TripsForLocationListParams &&
-            this.lat == other.lat &&
-            this.latSpan == other.latSpan &&
-            this.lon == other.lon &&
-            this.lonSpan == other.lonSpan &&
-            this.includeSchedule == other.includeSchedule &&
-            this.includeTrip == other.includeTrip &&
-            this.time == other.time &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is TripsForLocationListParams && this.lat == other.lat && this.latSpan == other.latSpan && this.lon == other.lon && this.lonSpan == other.lonSpan && this.includeSchedule == other.includeSchedule && this.includeTrip == other.includeTrip && this.time == other.time && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            lat,
-            latSpan,
-            lon,
-            lonSpan,
-            includeSchedule,
-            includeTrip,
-            time,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(lat, latSpan, lon, lonSpan, includeSchedule, includeTrip, time, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
