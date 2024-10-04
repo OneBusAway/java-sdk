@@ -1,10 +1,10 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.models.*;
 
-public class AgenciesWithCoverage {
+public class SearchForRoute {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -16,16 +16,19 @@ public class AgenciesWithCoverage {
             .baseUrl(BASE_URL)
             .build();
 
+
     public static void main(String[] args) {
 
-        // Define the required Params
-        AgenciesWithCoverageListParams params = AgenciesWithCoverageListParams.builder().build();
+          // Define the search input
+          String searchInput = "crysta";
 
-        // Get the agencies with coverage
-        AgenciesWithCoverageListResponse agencies = client.agenciesWithCoverage().list(params);
+          // Create the parameters for the route search request
+          SearchForRouteListParams params = SearchForRouteListParams.builder().input(searchInput).build();
 
-        for (AgenciesWithCoverageListResponse.Data.List agency : agencies.data().list()) {
-            System.out.println(agency);
-        }
+          // Retrieve the route search results
+          SearchForRouteListResponse searchForRouteListResponse = client.searchForRoute().list(params);
+
+          System.out.println(searchForRouteListResponse);
+
     }
 }

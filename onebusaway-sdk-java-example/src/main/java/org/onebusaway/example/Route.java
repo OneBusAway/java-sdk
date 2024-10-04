@@ -1,10 +1,11 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.models.*;
 
-public class TripsForRoute {
+
+public class Route {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -16,16 +17,23 @@ public class TripsForRoute {
             .baseUrl(BASE_URL)
             .build();
 
+
     public static void main(String[] args) {
-        // Define the route ID
-        String routeId = "1_100224";
 
-        TripsForRouteListParams params = TripsForRouteListParams.builder().routeId(routeId).build();
+            // Define the route ID
+            String routeId = "1_100224";
 
-        // Get the trips for the route
-        TripsForRouteListResponse trips = client.tripsForRoute().list(params);
+            try {
 
-        System.out.println(trips);
+                RouteRetrieveParams params = org.onebusaway.models.RouteRetrieveParams.builder().routeId(routeId).build();
+
+                RouteRetrieveResponse route = client.route().retrieve(params);
+
+                System.out.println(route);
+
+            } catch (org.onebusaway.errors.OnebusawaySdkServiceException e) {
+                System.err.println("Error occurred: " + e.getMessage());
+                System.err.println("Status Code: " + e.statusCode());
+            }
     }
-
 }

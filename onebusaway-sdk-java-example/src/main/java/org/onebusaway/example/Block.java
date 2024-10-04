@@ -1,10 +1,10 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+import org.onebusaway.errors.OnebusawaySdkServiceException;
 import org.onebusaway.models.*;
-
-public class ScheduleForRoute {
+public class Block {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -16,33 +16,28 @@ public class ScheduleForRoute {
             .baseUrl(BASE_URL)
             .build();
 
+
     public static void main(String[] args) {
 
-        // Define the route ID
-        String routeId = "1_100223";
+        // Define the block ID
+        String blockId = "1_7331695";
 
         try {
+            // Define the parameters for the block retrieval request
+            BlockRetrieveParams params = BlockRetrieveParams.builder().blockId(blockId).build();
 
-            // Define the parameters for the schedule for route request
-            ScheduleForRouteRetrieveParams params = ScheduleForRouteRetrieveParams.builder()
-                    .routeId(routeId)
-                    .build();
+            // Retrieve the block information
+            BlockRetrieveResponse block = client.block().retrieve(params);
 
-            // Retrieve the schedule for the route
-            ScheduleForRouteRetrieveResponse scheduleForRoute = client.scheduleForRoute().retrieve(params);
+            System.out.println(block);
 
-            System.out.println(scheduleForRoute);
+        } catch (OnebusawaySdkServiceException e) {
 
-        }
-        // Handle HTTP errors
-        catch (org.onebusaway.errors.OnebusawaySdkServiceException e) {
+            // Handle the SDK-specific service exception
             System.err.println("Error occurred: " + e.getMessage());
             System.err.println("Status Code: " + e.statusCode());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // Handle general errors
-        catch (Exception e) {
-            System.err.println("Error occurred: " + e.getMessage());
-        }
-
     }
 }

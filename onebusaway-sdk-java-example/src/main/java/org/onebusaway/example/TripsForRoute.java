@@ -1,9 +1,10 @@
-package org.example;
+package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.models.*;
-public class StopsForRoute {
+
+public class TripsForRoute {
 
     // Retrieve constants from environment variables or fallback to default values
     static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
@@ -17,14 +18,14 @@ public class StopsForRoute {
 
     public static void main(String[] args) {
         // Define the route ID
-        String routeId = "1_100229";
+        String routeId = "1_100224";
 
-        StopsForRouteListParams params = StopsForRouteListParams.builder().routeId(routeId).build();
+        TripsForRouteListParams params = TripsForRouteListParams.builder().routeId(routeId).build();
 
-        // Get the stops for the route
-        StopsForRouteListResponse stops = client.stopsForRoute().list(params);
+        // Get the trips for the route
+        TripsForRouteListResponse trips = client.tripsForRoute().list(params);
 
-        System.out.println(stops);
+        System.out.println(trips);
     }
 
 }
