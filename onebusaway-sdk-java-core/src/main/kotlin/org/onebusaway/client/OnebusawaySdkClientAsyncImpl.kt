@@ -3,18 +3,13 @@
 package org.onebusaway.client
 
 import org.onebusaway.core.ClientOptions
-import org.onebusaway.core.http.HttpResponse.Handler
-import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.*
 import org.onebusaway.services.async.*
-import org.onebusaway.services.errorHandler
 
 class OnebusawaySdkClientAsyncImpl
 constructor(
     private val clientOptions: ClientOptions,
 ) : OnebusawaySdkClientAsync {
-
-    private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
     private val sync: OnebusawaySdkClient by lazy { OnebusawaySdkClientImpl(clientOptions) }
 
