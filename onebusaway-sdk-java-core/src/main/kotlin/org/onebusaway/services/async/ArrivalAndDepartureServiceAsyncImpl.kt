@@ -5,6 +5,9 @@ package org.onebusaway.services.async
 import java.util.concurrent.CompletableFuture
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.handlers.errorHandler
+import org.onebusaway.core.handlers.jsonHandler
+import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
@@ -13,9 +16,6 @@ import org.onebusaway.models.ArrivalAndDepartureListParams
 import org.onebusaway.models.ArrivalAndDepartureListResponse
 import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
 import org.onebusaway.models.ArrivalAndDepartureRetrieveResponse
-import org.onebusaway.services.errorHandler
-import org.onebusaway.services.jsonHandler
-import org.onebusaway.services.withErrorHandler
 
 class ArrivalAndDepartureServiceAsyncImpl
 constructor(
