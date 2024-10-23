@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2024-10-23)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Features
+
+* **api:** api update ([#22](https://github.com/OneBusAway/java-sdk/issues/22)) ([3a97b33](https://github.com/OneBusAway/java-sdk/commit/3a97b33a09ff7b0113cbe9bf11b7b68bf7f48850))
+
 ## 0.1.0-alpha.7 (2024-10-22)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
