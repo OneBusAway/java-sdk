@@ -3,6 +3,7 @@
 package org.onebusaway.client
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.getPackageVersion
 import org.onebusaway.models.*
 import org.onebusaway.services.blocking.*
 
@@ -11,99 +12,112 @@ constructor(
     private val clientOptions: ClientOptions,
 ) : OnebusawaySdkClient {
 
+    private val clientOptionsWithUserAgent =
+        if (clientOptions.headers.containsKey("User-Agent")) clientOptions
+        else
+            clientOptions
+                .toBuilder()
+                .putHeader("User-Agent", "${javaClass.simpleName}/Java ${getPackageVersion()}")
+                .build()
+
+    // Pass the original clientOptions so that this client sets its own User-Agent.
     private val async: OnebusawaySdkClientAsync by lazy {
         OnebusawaySdkClientAsyncImpl(clientOptions)
     }
 
     private val agenciesWithCoverage: AgenciesWithCoverageService by lazy {
-        AgenciesWithCoverageServiceImpl(clientOptions)
+        AgenciesWithCoverageServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val agency: AgencyService by lazy { AgencyServiceImpl(clientOptions) }
+    private val agency: AgencyService by lazy { AgencyServiceImpl(clientOptionsWithUserAgent) }
 
     private val vehiclesForAgency: VehiclesForAgencyService by lazy {
-        VehiclesForAgencyServiceImpl(clientOptions)
+        VehiclesForAgencyServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val config: ConfigService by lazy { ConfigServiceImpl(clientOptions) }
+    private val config: ConfigService by lazy { ConfigServiceImpl(clientOptionsWithUserAgent) }
 
-    private val currentTime: CurrentTimeService by lazy { CurrentTimeServiceImpl(clientOptions) }
+    private val currentTime: CurrentTimeService by lazy {
+        CurrentTimeServiceImpl(clientOptionsWithUserAgent)
+    }
 
     private val stopsForLocation: StopsForLocationService by lazy {
-        StopsForLocationServiceImpl(clientOptions)
+        StopsForLocationServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val stopsForRoute: StopsForRouteService by lazy {
-        StopsForRouteServiceImpl(clientOptions)
+        StopsForRouteServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val stop: StopService by lazy { StopServiceImpl(clientOptions) }
+    private val stop: StopService by lazy { StopServiceImpl(clientOptionsWithUserAgent) }
 
     private val stopIdsForAgency: StopIdsForAgencyService by lazy {
-        StopIdsForAgencyServiceImpl(clientOptions)
+        StopIdsForAgencyServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val scheduleForStop: ScheduleForStopService by lazy {
-        ScheduleForStopServiceImpl(clientOptions)
+        ScheduleForStopServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val route: RouteService by lazy { RouteServiceImpl(clientOptions) }
+    private val route: RouteService by lazy { RouteServiceImpl(clientOptionsWithUserAgent) }
 
     private val routeIdsForAgency: RouteIdsForAgencyService by lazy {
-        RouteIdsForAgencyServiceImpl(clientOptions)
+        RouteIdsForAgencyServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val routesForLocation: RoutesForLocationService by lazy {
-        RoutesForLocationServiceImpl(clientOptions)
+        RoutesForLocationServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val routesForAgency: RoutesForAgencyService by lazy {
-        RoutesForAgencyServiceImpl(clientOptions)
+        RoutesForAgencyServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val scheduleForRoute: ScheduleForRouteService by lazy {
-        ScheduleForRouteServiceImpl(clientOptions)
+        ScheduleForRouteServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val arrivalAndDeparture: ArrivalAndDepartureService by lazy {
-        ArrivalAndDepartureServiceImpl(clientOptions)
+        ArrivalAndDepartureServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val trip: TripService by lazy { TripServiceImpl(clientOptions) }
+    private val trip: TripService by lazy { TripServiceImpl(clientOptionsWithUserAgent) }
 
     private val tripsForLocation: TripsForLocationService by lazy {
-        TripsForLocationServiceImpl(clientOptions)
+        TripsForLocationServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val tripDetails: TripDetailService by lazy { TripDetailServiceImpl(clientOptions) }
+    private val tripDetails: TripDetailService by lazy {
+        TripDetailServiceImpl(clientOptionsWithUserAgent)
+    }
 
     private val tripForVehicle: TripForVehicleService by lazy {
-        TripForVehicleServiceImpl(clientOptions)
+        TripForVehicleServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val tripsForRoute: TripsForRouteService by lazy {
-        TripsForRouteServiceImpl(clientOptions)
+        TripsForRouteServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val reportProblemWithStop: ReportProblemWithStopService by lazy {
-        ReportProblemWithStopServiceImpl(clientOptions)
+        ReportProblemWithStopServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val reportProblemWithTrip: ReportProblemWithTripService by lazy {
-        ReportProblemWithTripServiceImpl(clientOptions)
+        ReportProblemWithTripServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val searchForStop: SearchForStopService by lazy {
-        SearchForStopServiceImpl(clientOptions)
+        SearchForStopServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val searchForRoute: SearchForRouteService by lazy {
-        SearchForRouteServiceImpl(clientOptions)
+        SearchForRouteServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val block: BlockService by lazy { BlockServiceImpl(clientOptions) }
+    private val block: BlockService by lazy { BlockServiceImpl(clientOptionsWithUserAgent) }
 
-    private val shape: ShapeService by lazy { ShapeServiceImpl(clientOptions) }
+    private val shape: ShapeService by lazy { ShapeServiceImpl(clientOptionsWithUserAgent) }
 
     override fun async(): OnebusawaySdkClientAsync = async
 
