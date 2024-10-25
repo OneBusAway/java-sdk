@@ -3,6 +3,7 @@
 package org.onebusaway.client
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.getPackageVersion
 import org.onebusaway.models.*
 import org.onebusaway.services.async.*
 
@@ -11,101 +12,120 @@ constructor(
     private val clientOptions: ClientOptions,
 ) : OnebusawaySdkClientAsync {
 
+    private val clientOptionsWithUserAgent =
+        if (clientOptions.headers.containsKey("User-Agent")) clientOptions
+        else
+            clientOptions
+                .toBuilder()
+                .putHeader("User-Agent", "${javaClass.simpleName}/Java ${getPackageVersion()}")
+                .build()
+
+    // Pass the original clientOptions so that this client sets its own User-Agent.
     private val sync: OnebusawaySdkClient by lazy { OnebusawaySdkClientImpl(clientOptions) }
 
     private val agenciesWithCoverage: AgenciesWithCoverageServiceAsync by lazy {
-        AgenciesWithCoverageServiceAsyncImpl(clientOptions)
+        AgenciesWithCoverageServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
-    private val agency: AgencyServiceAsync by lazy { AgencyServiceAsyncImpl(clientOptions) }
+    private val agency: AgencyServiceAsync by lazy {
+        AgencyServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
     private val vehiclesForAgency: VehiclesForAgencyServiceAsync by lazy {
-        VehiclesForAgencyServiceAsyncImpl(clientOptions)
+        VehiclesForAgencyServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
-    private val config: ConfigServiceAsync by lazy { ConfigServiceAsyncImpl(clientOptions) }
+    private val config: ConfigServiceAsync by lazy {
+        ConfigServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
     private val currentTime: CurrentTimeServiceAsync by lazy {
-        CurrentTimeServiceAsyncImpl(clientOptions)
+        CurrentTimeServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val stopsForLocation: StopsForLocationServiceAsync by lazy {
-        StopsForLocationServiceAsyncImpl(clientOptions)
+        StopsForLocationServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val stopsForRoute: StopsForRouteServiceAsync by lazy {
-        StopsForRouteServiceAsyncImpl(clientOptions)
+        StopsForRouteServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
-    private val stop: StopServiceAsync by lazy { StopServiceAsyncImpl(clientOptions) }
+    private val stop: StopServiceAsync by lazy { StopServiceAsyncImpl(clientOptionsWithUserAgent) }
 
     private val stopIdsForAgency: StopIdsForAgencyServiceAsync by lazy {
-        StopIdsForAgencyServiceAsyncImpl(clientOptions)
+        StopIdsForAgencyServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val scheduleForStop: ScheduleForStopServiceAsync by lazy {
-        ScheduleForStopServiceAsyncImpl(clientOptions)
+        ScheduleForStopServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
-    private val route: RouteServiceAsync by lazy { RouteServiceAsyncImpl(clientOptions) }
+    private val route: RouteServiceAsync by lazy {
+        RouteServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
     private val routeIdsForAgency: RouteIdsForAgencyServiceAsync by lazy {
-        RouteIdsForAgencyServiceAsyncImpl(clientOptions)
+        RouteIdsForAgencyServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val routesForLocation: RoutesForLocationServiceAsync by lazy {
-        RoutesForLocationServiceAsyncImpl(clientOptions)
+        RoutesForLocationServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val routesForAgency: RoutesForAgencyServiceAsync by lazy {
-        RoutesForAgencyServiceAsyncImpl(clientOptions)
+        RoutesForAgencyServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val scheduleForRoute: ScheduleForRouteServiceAsync by lazy {
-        ScheduleForRouteServiceAsyncImpl(clientOptions)
+        ScheduleForRouteServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val arrivalAndDeparture: ArrivalAndDepartureServiceAsync by lazy {
-        ArrivalAndDepartureServiceAsyncImpl(clientOptions)
+        ArrivalAndDepartureServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
-    private val trip: TripServiceAsync by lazy { TripServiceAsyncImpl(clientOptions) }
+    private val trip: TripServiceAsync by lazy { TripServiceAsyncImpl(clientOptionsWithUserAgent) }
 
     private val tripsForLocation: TripsForLocationServiceAsync by lazy {
-        TripsForLocationServiceAsyncImpl(clientOptions)
+        TripsForLocationServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val tripDetails: TripDetailServiceAsync by lazy {
-        TripDetailServiceAsyncImpl(clientOptions)
+        TripDetailServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val tripForVehicle: TripForVehicleServiceAsync by lazy {
-        TripForVehicleServiceAsyncImpl(clientOptions)
+        TripForVehicleServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val tripsForRoute: TripsForRouteServiceAsync by lazy {
-        TripsForRouteServiceAsyncImpl(clientOptions)
+        TripsForRouteServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val reportProblemWithStop: ReportProblemWithStopServiceAsync by lazy {
-        ReportProblemWithStopServiceAsyncImpl(clientOptions)
+        ReportProblemWithStopServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val reportProblemWithTrip: ReportProblemWithTripServiceAsync by lazy {
-        ReportProblemWithTripServiceAsyncImpl(clientOptions)
+        ReportProblemWithTripServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val searchForStop: SearchForStopServiceAsync by lazy {
-        SearchForStopServiceAsyncImpl(clientOptions)
+        SearchForStopServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val searchForRoute: SearchForRouteServiceAsync by lazy {
-        SearchForRouteServiceAsyncImpl(clientOptions)
+        SearchForRouteServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
-    private val block: BlockServiceAsync by lazy { BlockServiceAsyncImpl(clientOptions) }
+    private val block: BlockServiceAsync by lazy {
+        BlockServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
-    private val shape: ShapeServiceAsync by lazy { ShapeServiceAsyncImpl(clientOptions) }
+    private val shape: ShapeServiceAsync by lazy {
+        ShapeServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
 
     override fun sync(): OnebusawaySdkClient = sync
 
