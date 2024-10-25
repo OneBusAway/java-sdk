@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.11)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.12)
 
 <!-- x-release-please-end -->
 
@@ -27,7 +27,7 @@ The REST API documentation can be found on [developer.onebusaway.org](https://d
 <!-- x-release-please-start-version -->
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.11")
+implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.12")
 ```
 
 #### Maven
@@ -36,7 +36,7 @@ implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.11")
 <dependency>
     <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-sdk-java</artifactId>
-    <version>0.1.0-alpha.11</version>
+    <version>0.1.0-alpha.12</version>
 </dependency>
 ```
 
