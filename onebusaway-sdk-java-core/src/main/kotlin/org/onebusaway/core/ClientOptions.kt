@@ -7,6 +7,7 @@ import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
 import java.time.Clock
 import org.onebusaway.core.http.HttpClient
+import org.onebusaway.core.http.PhantomReachableClosingHttpClient
 import org.onebusaway.core.http.RetryingHttpClient
 
 class ClientOptions
@@ -142,11 +143,13 @@ private constructor(
 
             return ClientOptions(
                 httpClient!!,
-                RetryingHttpClient.builder()
-                    .httpClient(httpClient!!)
-                    .clock(clock)
-                    .maxRetries(maxRetries)
-                    .build(),
+                PhantomReachableClosingHttpClient(
+                    RetryingHttpClient.builder()
+                        .httpClient(httpClient!!)
+                        .clock(clock)
+                        .maxRetries(maxRetries)
+                        .build()
+                ),
                 jsonMapper ?: jsonMapper(),
                 clock,
                 baseUrl,
