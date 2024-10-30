@@ -1,6 +1,5 @@
 package org.onebusaway.core.http
 
-import com.google.common.util.concurrent.MoreExecutors
 import java.io.IOException
 import java.time.Clock
 import java.time.Duration
@@ -116,8 +115,10 @@ private constructor(
                             executeWithRetries(request, requestOptions)
                         }
                     },
-                    MoreExecutors.directExecutor()
-                )
+                ) {
+                    // Run in the same thread.
+                    it.run()
+                }
                 .thenCompose(Function.identity())
         }
 
