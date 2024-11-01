@@ -13,7 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = SearchForStopListResponse.Builder::class)
 @NoAutoDetect
@@ -149,7 +149,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -265,10 +265,10 @@ private constructor(
             fun build(): Data =
                 Data(
                     limitExceeded,
-                    list.map { it.toUnmodifiable() },
+                    list.map { it.toImmutable() },
                     outOfRange,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -501,10 +501,10 @@ private constructor(
                         lon,
                         name,
                         parent,
-                        routeIds.map { it.toUnmodifiable() },
-                        staticRouteIds.map { it.toUnmodifiable() },
+                        routeIds.map { it.toImmutable() },
+                        staticRouteIds.map { it.toImmutable() },
                         wheelchairBoarding,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
