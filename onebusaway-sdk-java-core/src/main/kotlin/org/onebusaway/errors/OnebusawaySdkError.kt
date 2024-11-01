@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.Objects
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = OnebusawaySdkError.Builder::class)
 @NoAutoDetect
@@ -62,6 +62,6 @@ constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): OnebusawaySdkError = OnebusawaySdkError(additionalProperties.toUnmodifiable())
+        fun build(): OnebusawaySdkError = OnebusawaySdkError(additionalProperties.toImmutable())
     }
 }

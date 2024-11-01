@@ -13,7 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = ShapeRetrieveResponse.Builder::class)
 @NoAutoDetect
@@ -149,7 +149,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -236,7 +236,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -341,7 +341,7 @@ private constructor(
                         length,
                         levels,
                         points,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
