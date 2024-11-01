@@ -5,7 +5,7 @@ package org.onebusaway.models
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 import org.onebusaway.models.*
 
 class VehiclesForAgencyListParams
@@ -25,7 +25,7 @@ constructor(
         val params = mutableMapOf<String, List<String>>()
         this.time?.let { params.put("time", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -128,8 +128,8 @@ constructor(
             VehiclesForAgencyListParams(
                 checkNotNull(agencyId) { "`agencyId` is required but was not set" },
                 time,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 }
