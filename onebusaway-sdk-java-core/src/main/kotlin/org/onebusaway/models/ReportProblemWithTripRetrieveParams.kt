@@ -9,7 +9,7 @@ import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 import org.onebusaway.models.*
 
@@ -66,7 +66,7 @@ constructor(
         this.userVehicleNumber?.let { params.put("userVehicleNumber", listOf(it.toString())) }
         this.vehicleId?.let { params.put("vehicleID", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -229,8 +229,8 @@ constructor(
                 userOnVehicle,
                 userVehicleNumber,
                 vehicleId,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 
