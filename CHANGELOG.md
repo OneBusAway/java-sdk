@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.22 (2024-11-05)
+
+Full Changelog: [v0.1.0-alpha.21...v0.1.0-alpha.22](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.21...v0.1.0-alpha.22)
+
+### Chores
+
+* rebuild project due to codegen change ([#62](https://github.com/OneBusAway/java-sdk/issues/62)) ([f36db52](https://github.com/OneBusAway/java-sdk/commit/f36db524ee6dc538e370148bb04e29a2b0316dd1))
+
 ## 0.1.0-alpha.21 (2024-11-04)
 
 Full Changelog: [v0.1.0-alpha.20...v0.1.0-alpha.21](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.20...v0.1.0-alpha.21)
