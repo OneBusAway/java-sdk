@@ -39,10 +39,10 @@ constructor(
                     "routes-for-agency",
                     "${params.getPathParam(0)}.json"
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .putAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .putAllHeaders(params.getHeaders())
+                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .replaceAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers.asMap())
+                .replaceAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
