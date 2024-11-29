@@ -397,7 +397,7 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                fun code(): String = code.getRequired("code")
+                fun code(): Optional<String> = Optional.ofNullable(code.getNullable("code"))
 
                 fun direction(): Optional<String> =
                     Optional.ofNullable(direction.getNullable("direction"))
@@ -413,13 +413,11 @@ private constructor(
 
                 fun name(): String = name.getRequired("name")
 
-                fun parent(): Optional<String> = Optional.ofNullable(parent.getNullable("parent"))
+                fun parent(): String = parent.getRequired("parent")
 
-                fun routeIds(): Optional<List<String>> =
-                    Optional.ofNullable(routeIds.getNullable("routeIds"))
+                fun routeIds(): List<String> = routeIds.getRequired("routeIds")
 
-                fun staticRouteIds(): Optional<List<String>> =
-                    Optional.ofNullable(staticRouteIds.getNullable("staticRouteIds"))
+                fun staticRouteIds(): List<String> = staticRouteIds.getRequired("staticRouteIds")
 
                 fun wheelchairBoarding(): Optional<String> =
                     Optional.ofNullable(wheelchairBoarding.getNullable("wheelchairBoarding"))
