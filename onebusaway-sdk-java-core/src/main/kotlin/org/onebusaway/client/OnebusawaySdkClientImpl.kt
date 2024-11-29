@@ -49,6 +49,10 @@ constructor(
         StopsForRouteServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val stopsForAgency: StopsForAgencyService by lazy {
+        StopsForAgencyServiceImpl(clientOptionsWithUserAgent)
+    }
+
     private val stop: StopService by lazy { StopServiceImpl(clientOptionsWithUserAgent) }
 
     private val stopIdsForAgency: StopIdsForAgencyService by lazy {
@@ -134,6 +138,8 @@ constructor(
     override fun stopsForLocation(): StopsForLocationService = stopsForLocation
 
     override fun stopsForRoute(): StopsForRouteService = stopsForRoute
+
+    override fun stopsForAgency(): StopsForAgencyService = stopsForAgency
 
     override fun stop(): StopService = stop
 
