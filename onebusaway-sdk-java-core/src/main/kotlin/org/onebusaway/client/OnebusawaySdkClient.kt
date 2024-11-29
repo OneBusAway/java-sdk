@@ -23,6 +23,8 @@ interface OnebusawaySdkClient {
 
     fun stopsForRoute(): StopsForRouteService
 
+    fun stopsForAgency(): StopsForAgencyService
+
     fun stop(): StopService
 
     fun stopIdsForAgency(): StopIdsForAgencyService
