@@ -312,7 +312,8 @@ private constructor(
 
             fun routeIds(): kotlin.collections.List<String> = routeIds.getRequired("routeIds")
 
-            fun staticRouteIds(): kotlin.collections.List<String> = staticRouteIds.getRequired("staticRouteIds")
+            fun staticRouteIds(): kotlin.collections.List<String> =
+                staticRouteIds.getRequired("staticRouteIds")
 
             fun wheelchairBoarding(): Optional<String> =
                 Optional.ofNullable(wheelchairBoarding.getNullable("wheelchairBoarding"))
