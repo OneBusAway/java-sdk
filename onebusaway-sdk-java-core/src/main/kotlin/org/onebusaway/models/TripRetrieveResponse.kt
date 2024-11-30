@@ -483,17 +483,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && this.blockId == other.blockId && this.directionId == other.directionId && this.id == other.id && this.peakOffpeak == other.peakOffpeak && this.routeId == other.routeId && this.routeShortName == other.routeShortName && this.serviceId == other.serviceId && this.shapeId == other.shapeId && this.timeZone == other.timeZone && this.tripHeadsign == other.tripHeadsign && this.tripShortName == other.tripShortName && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Entry && blockId == other.blockId && directionId == other.directionId && id == other.id && peakOffpeak == other.peakOffpeak && routeId == other.routeId && routeShortName == other.routeShortName && serviceId == other.serviceId && shapeId == other.shapeId && timeZone == other.timeZone && tripHeadsign == other.tripHeadsign && tripShortName == other.tripShortName && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(blockId, directionId, id, peakOffpeak, routeId, routeShortName, serviceId, shapeId, timeZone, tripHeadsign, tripShortName, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(blockId, directionId, id, peakOffpeak, routeId, routeShortName, serviceId, shapeId, timeZone, tripHeadsign, tripShortName, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "Entry{blockId=$blockId, directionId=$directionId, id=$id, peakOffpeak=$peakOffpeak, routeId=$routeId, routeShortName=$routeShortName, serviceId=$serviceId, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
@@ -504,17 +501,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && this.entry == other.entry && this.references == other.references && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(entry, references, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
@@ -525,17 +519,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TripRetrieveResponse && this.code == other.code && this.currentTime == other.currentTime && this.text == other.text && this.version == other.version && this.data == other.data && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is TripRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(code, currentTime, text, version, data, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "TripRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"

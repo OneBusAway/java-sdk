@@ -5,6 +5,7 @@ package org.onebusaway.models
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.onebusaway.core.http.QueryParams
 import org.onebusaway.models.*
 
 class ScheduleForStopRetrieveParamsTest {
@@ -24,16 +25,16 @@ class ScheduleForStopRetrieveParamsTest {
                 .stopId("stopID")
                 .date(LocalDate.parse("2019-12-27"))
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("date", listOf("2019-12-27"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("date", "2019-12-27")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = ScheduleForStopRetrieveParams.builder().stopId("stopID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

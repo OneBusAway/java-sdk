@@ -1,10 +1,10 @@
 package org.onebusaway.errors
 
-import com.google.common.collect.ListMultimap
+import org.onebusaway.core.http.Headers
 
 class InternalServerException(
     statusCode: Int,
-    headers: ListMultimap<String, String>,
+    headers: Headers,
     body: String,
     error: OnebusawaySdkError,
 ) : OnebusawaySdkServiceException(statusCode, headers, body, error)

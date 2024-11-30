@@ -5,6 +5,7 @@ package org.onebusaway.models
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.onebusaway.core.http.QueryParams
 import org.onebusaway.models.*
 
 class ArrivalAndDepartureListParamsTest {
@@ -28,18 +29,18 @@ class ArrivalAndDepartureListParamsTest {
                 .minutesBefore(123L)
                 .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("minutesAfter", listOf("123"))
-        expected.put("minutesBefore", listOf("123"))
-        expected.put("time", listOf("2019-12-27T18:11:19.117Z"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("minutesAfter", "123")
+        expected.put("minutesBefore", "123")
+        expected.put("time", "2019-12-27T18:11:19.117Z")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = ArrivalAndDepartureListParams.builder().stopId("stopID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

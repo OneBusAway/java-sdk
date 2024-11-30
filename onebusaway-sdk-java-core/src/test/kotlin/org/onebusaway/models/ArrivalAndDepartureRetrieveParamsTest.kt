@@ -4,6 +4,7 @@ package org.onebusaway.models
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.onebusaway.core.http.QueryParams
 import org.onebusaway.models.*
 
 class ArrivalAndDepartureRetrieveParamsTest {
@@ -31,13 +32,13 @@ class ArrivalAndDepartureRetrieveParamsTest {
                 .time(123L)
                 .vehicleId("vehicleId")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("serviceDate", listOf("123"))
-        expected.put("tripId", listOf("tripId"))
-        expected.put("stopSequence", listOf("123"))
-        expected.put("time", listOf("123"))
-        expected.put("vehicleId", listOf("vehicleId"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("serviceDate", "123")
+        expected.put("tripId", "tripId")
+        expected.put("stopSequence", "123")
+        expected.put("time", "123")
+        expected.put("vehicleId", "vehicleId")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
@@ -48,10 +49,10 @@ class ArrivalAndDepartureRetrieveParamsTest {
                 .serviceDate(123L)
                 .tripId("tripId")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("serviceDate", listOf("123"))
-        expected.put("tripId", listOf("tripId"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("serviceDate", "123")
+        expected.put("tripId", "tripId")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

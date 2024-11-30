@@ -261,17 +261,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && this.limitExceeded == other.limitExceeded && this.list == other.list && this.references == other.references && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(limitExceeded, list, references, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(limitExceeded, list, references, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
@@ -282,17 +279,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is RouteIdsForAgencyListResponse && this.code == other.code && this.currentTime == other.currentTime && this.text == other.text && this.version == other.version && this.data == other.data && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is RouteIdsForAgencyListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(code, currentTime, text, version, data, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "RouteIdsForAgencyListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"

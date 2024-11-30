@@ -3,15 +3,14 @@
 package org.onebusaway.models
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.google.common.collect.ArrayListMultimap
-import com.google.common.collect.ListMultimap
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toImmutable
+import org.onebusaway.core.http.Headers
+import org.onebusaway.core.http.QueryParams
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 import org.onebusaway.models.*
 
@@ -28,8 +27,8 @@ constructor(
     private val userOnVehicle: Boolean?,
     private val userVehicleNumber: String?,
     private val vehicleId: String?,
-    private val additionalHeaders: Map<String, List<String>>,
-    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Headers,
+    private val additionalQueryParams: QueryParams,
 ) {
 
     fun tripId(): String = tripId
@@ -54,23 +53,29 @@ constructor(
 
     fun vehicleId(): Optional<String> = Optional.ofNullable(vehicleId)
 
-    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
-        this.code?.let { params.put("code", listOf(it.toString())) }
-        this.serviceDate?.let { params.put("serviceDate", listOf(it.toString())) }
-        this.stopId?.let { params.put("stopID", listOf(it.toString())) }
-        this.userComment?.let { params.put("userComment", listOf(it.toString())) }
-        this.userLat?.let { params.put("userLat", listOf(it.toString())) }
-        this.userLocationAccuracy?.let { params.put("userLocationAccuracy", listOf(it.toString())) }
-        this.userLon?.let { params.put("userLon", listOf(it.toString())) }
-        this.userOnVehicle?.let { params.put("userOnVehicle", listOf(it.toString())) }
-        this.userVehicleNumber?.let { params.put("userVehicleNumber", listOf(it.toString())) }
-        this.vehicleId?.let { params.put("vehicleID", listOf(it.toString())) }
-        params.putAll(additionalQueryParams)
-        return params.toImmutable()
+    internal fun getQueryParams(): QueryParams {
+        val queryParams = QueryParams.builder()
+        this.code?.let { queryParams.put("code", listOf(it.toString())) }
+        this.serviceDate?.let { queryParams.put("serviceDate", listOf(it.toString())) }
+        this.stopId?.let { queryParams.put("stopID", listOf(it.toString())) }
+        this.userComment?.let { queryParams.put("userComment", listOf(it.toString())) }
+        this.userLat?.let { queryParams.put("userLat", listOf(it.toString())) }
+        this.userLocationAccuracy?.let {
+            queryParams.put("userLocationAccuracy", listOf(it.toString()))
+        }
+        this.userLon?.let { queryParams.put("userLon", listOf(it.toString())) }
+        this.userOnVehicle?.let { queryParams.put("userOnVehicle", listOf(it.toString())) }
+        this.userVehicleNumber?.let { queryParams.put("userVehicleNumber", listOf(it.toString())) }
+        this.vehicleId?.let { queryParams.put("vehicleID", listOf(it.toString())) }
+        queryParams.putAll(additionalQueryParams)
+        return queryParams.build()
     }
 
     fun getPathParam(index: Int): String {
@@ -79,25 +84,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
-
-    fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ReportProblemWithTripRetrieveParams && this.tripId == other.tripId && this.code == other.code && this.serviceDate == other.serviceDate && this.stopId == other.stopId && this.userComment == other.userComment && this.userLat == other.userLat && this.userLocationAccuracy == other.userLocationAccuracy && this.userLon == other.userLon && this.userOnVehicle == other.userOnVehicle && this.userVehicleNumber == other.userVehicleNumber && this.vehicleId == other.vehicleId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(tripId, code, serviceDate, stopId, userComment, userLat, userLocationAccuracy, userLon, userOnVehicle, userVehicleNumber, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ReportProblemWithTripRetrieveParams{tripId=$tripId, code=$code, serviceDate=$serviceDate, stopId=$stopId, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, userOnVehicle=$userOnVehicle, userVehicleNumber=$userVehicleNumber, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -120,26 +106,27 @@ constructor(
         private var userOnVehicle: Boolean? = null
         private var userVehicleNumber: String? = null
         private var vehicleId: String? = null
-        private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
-        private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(
             reportProblemWithTripRetrieveParams: ReportProblemWithTripRetrieveParams
         ) = apply {
-            this.tripId = reportProblemWithTripRetrieveParams.tripId
-            this.code = reportProblemWithTripRetrieveParams.code
-            this.serviceDate = reportProblemWithTripRetrieveParams.serviceDate
-            this.stopId = reportProblemWithTripRetrieveParams.stopId
-            this.userComment = reportProblemWithTripRetrieveParams.userComment
-            this.userLat = reportProblemWithTripRetrieveParams.userLat
-            this.userLocationAccuracy = reportProblemWithTripRetrieveParams.userLocationAccuracy
-            this.userLon = reportProblemWithTripRetrieveParams.userLon
-            this.userOnVehicle = reportProblemWithTripRetrieveParams.userOnVehicle
-            this.userVehicleNumber = reportProblemWithTripRetrieveParams.userVehicleNumber
-            this.vehicleId = reportProblemWithTripRetrieveParams.vehicleId
-            additionalHeaders(reportProblemWithTripRetrieveParams.additionalHeaders)
-            additionalQueryParams(reportProblemWithTripRetrieveParams.additionalQueryParams)
+            tripId = reportProblemWithTripRetrieveParams.tripId
+            code = reportProblemWithTripRetrieveParams.code
+            serviceDate = reportProblemWithTripRetrieveParams.serviceDate
+            stopId = reportProblemWithTripRetrieveParams.stopId
+            userComment = reportProblemWithTripRetrieveParams.userComment
+            userLat = reportProblemWithTripRetrieveParams.userLat
+            userLocationAccuracy = reportProblemWithTripRetrieveParams.userLocationAccuracy
+            userLon = reportProblemWithTripRetrieveParams.userLon
+            userOnVehicle = reportProblemWithTripRetrieveParams.userOnVehicle
+            userVehicleNumber = reportProblemWithTripRetrieveParams.userVehicleNumber
+            vehicleId = reportProblemWithTripRetrieveParams.vehicleId
+            additionalHeaders = reportProblemWithTripRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                reportProblemWithTripRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun tripId(tripId: String) = apply { this.tripId = tripId }
@@ -178,6 +165,11 @@ constructor(
         /** The vehicle actively serving the trip */
         fun vehicleId(vehicleId: String) = apply { this.vehicleId = vehicleId }
 
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
         fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
             this.additionalHeaders.clear()
             putAllAdditionalHeaders(additionalHeaders)
@@ -188,29 +180,42 @@ constructor(
         }
 
         fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.putAll(name, values)
+            additionalHeaders.put(name, values)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
         }
 
         fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            additionalHeaders.forEach(::putAdditionalHeaders)
+            this.additionalHeaders.putAll(additionalHeaders)
         }
 
         fun replaceAdditionalHeaders(name: String, value: String) = apply {
-            additionalHeaders.replaceValues(name, listOf(value))
+            additionalHeaders.replace(name, value)
         }
 
         fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.replaceValues(name, values)
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
         fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            additionalHeaders.forEach(::replaceAdditionalHeaders)
+            this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.removeAll(name) }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
-            names.forEach(::removeAdditionalHeaders)
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
         }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
@@ -223,33 +228,39 @@ constructor(
         }
 
         fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.putAll(key, values)
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
         fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
             apply {
-                additionalQueryParams.forEach(::putAdditionalQueryParams)
+                this.additionalQueryParams.putAll(additionalQueryParams)
             }
 
         fun replaceAdditionalQueryParams(key: String, value: String) = apply {
-            additionalQueryParams.replaceValues(key, listOf(value))
+            additionalQueryParams.replace(key, value)
         }
 
         fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.replaceValues(key, values)
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
         }
 
         fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
             apply {
-                additionalQueryParams.forEach(::replaceAdditionalQueryParams)
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.removeAll(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalQueryParams)
+            additionalQueryParams.removeAll(keys)
         }
 
         fun build(): ReportProblemWithTripRetrieveParams =
@@ -265,14 +276,8 @@ constructor(
                 userOnVehicle,
                 userVehicleNumber,
                 vehicleId,
-                additionalHeaders
-                    .asMap()
-                    .mapValues { it.value.toList().toImmutable() }
-                    .toImmutable(),
-                additionalQueryParams
-                    .asMap()
-                    .mapValues { it.value.toList().toImmutable() }
-                    .toImmutable(),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
             )
     }
 
@@ -289,7 +294,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Code && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -357,4 +362,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ReportProblemWithTripRetrieveParams && tripId == other.tripId && code == other.code && serviceDate == other.serviceDate && stopId == other.stopId && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && userOnVehicle == other.userOnVehicle && userVehicleNumber == other.userVehicleNumber && vehicleId == other.vehicleId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tripId, code, serviceDate, stopId, userComment, userLat, userLocationAccuracy, userLon, userOnVehicle, userVehicleNumber, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ReportProblemWithTripRetrieveParams{tripId=$tripId, code=$code, serviceDate=$serviceDate, stopId=$stopId, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, userOnVehicle=$userOnVehicle, userVehicleNumber=$userVehicleNumber, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
