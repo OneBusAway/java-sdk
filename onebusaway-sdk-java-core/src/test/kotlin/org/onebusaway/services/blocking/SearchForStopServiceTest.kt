@@ -21,7 +21,7 @@ class SearchForStopServiceTest {
         val searchForStopService = client.searchForStop()
         val searchForStopListResponse =
             searchForStopService.list(
-                SearchForStopListParams.builder().input("input").maxCount(123L).build()
+                SearchForStopListParams.builder().input("input").maxCount(0L).build()
             )
         println(searchForStopListResponse)
     }

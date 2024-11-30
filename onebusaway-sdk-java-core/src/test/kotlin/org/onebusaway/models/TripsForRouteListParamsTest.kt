@@ -15,7 +15,7 @@ class TripsForRouteListParamsTest {
             .routeId("routeID")
             .includeSchedule(true)
             .includeStatus(true)
-            .time(123L)
+            .time(0L)
             .build()
     }
 
@@ -26,12 +26,12 @@ class TripsForRouteListParamsTest {
                 .routeId("routeID")
                 .includeSchedule(true)
                 .includeStatus(true)
-                .time(123L)
+                .time(0L)
                 .build()
         val expected = QueryParams.builder()
         expected.put("includeSchedule", "true")
         expected.put("includeStatus", "true")
-        expected.put("time", "123")
+        expected.put("time", "0")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 

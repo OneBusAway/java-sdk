@@ -22,13 +22,13 @@ class TripsForLocationServiceTest {
         val tripsForLocationListResponse =
             tripsForLocationService.list(
                 TripsForLocationListParams.builder()
-                    .lat(42.23)
-                    .latSpan(42.23)
-                    .lon(42.23)
-                    .lonSpan(42.23)
+                    .lat(0.0)
+                    .latSpan(0.0)
+                    .lon(0.0)
+                    .lonSpan(0.0)
                     .includeSchedule(true)
                     .includeTrip(true)
-                    .time(123L)
+                    .time(0L)
                     .build()
             )
         println(tripsForLocationListResponse)

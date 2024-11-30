@@ -12,13 +12,13 @@ class TripsForLocationListParamsTest {
     @Test
     fun createTripsForLocationListParams() {
         TripsForLocationListParams.builder()
-            .lat(42.23)
-            .latSpan(42.23)
-            .lon(42.23)
-            .lonSpan(42.23)
+            .lat(0.0)
+            .latSpan(0.0)
+            .lon(0.0)
+            .lonSpan(0.0)
             .includeSchedule(true)
             .includeTrip(true)
-            .time(123L)
+            .time(0L)
             .build()
     }
 
@@ -26,39 +26,34 @@ class TripsForLocationListParamsTest {
     fun getQueryParams() {
         val params =
             TripsForLocationListParams.builder()
-                .lat(42.23)
-                .latSpan(42.23)
-                .lon(42.23)
-                .lonSpan(42.23)
+                .lat(0.0)
+                .latSpan(0.0)
+                .lon(0.0)
+                .lonSpan(0.0)
                 .includeSchedule(true)
                 .includeTrip(true)
-                .time(123L)
+                .time(0L)
                 .build()
         val expected = QueryParams.builder()
-        expected.put("lat", "42.23")
-        expected.put("latSpan", "42.23")
-        expected.put("lon", "42.23")
-        expected.put("lonSpan", "42.23")
+        expected.put("lat", "0.0")
+        expected.put("latSpan", "0.0")
+        expected.put("lon", "0.0")
+        expected.put("lonSpan", "0.0")
         expected.put("includeSchedule", "true")
         expected.put("includeTrip", "true")
-        expected.put("time", "123")
+        expected.put("time", "0")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params =
-            TripsForLocationListParams.builder()
-                .lat(42.23)
-                .latSpan(42.23)
-                .lon(42.23)
-                .lonSpan(42.23)
-                .build()
+            TripsForLocationListParams.builder().lat(0.0).latSpan(0.0).lon(0.0).lonSpan(0.0).build()
         val expected = QueryParams.builder()
-        expected.put("lat", "42.23")
-        expected.put("latSpan", "42.23")
-        expected.put("lon", "42.23")
-        expected.put("lonSpan", "42.23")
+        expected.put("lat", "0.0")
+        expected.put("latSpan", "0.0")
+        expected.put("lon", "0.0")
+        expected.put("lonSpan", "0.0")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 }
