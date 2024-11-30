@@ -11,15 +11,15 @@ class SearchForStopListParamsTest {
 
     @Test
     fun createSearchForStopListParams() {
-        SearchForStopListParams.builder().input("input").maxCount(123L).build()
+        SearchForStopListParams.builder().input("input").maxCount(0L).build()
     }
 
     @Test
     fun getQueryParams() {
-        val params = SearchForStopListParams.builder().input("input").maxCount(123L).build()
+        val params = SearchForStopListParams.builder().input("input").maxCount(0L).build()
         val expected = QueryParams.builder()
         expected.put("input", "input")
-        expected.put("maxCount", "123")
+        expected.put("maxCount", "0")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 

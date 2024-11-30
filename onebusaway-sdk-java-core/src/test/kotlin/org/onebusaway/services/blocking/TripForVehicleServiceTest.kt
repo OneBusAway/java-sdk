@@ -26,7 +26,7 @@ class TripForVehicleServiceTest {
                     .includeSchedule(true)
                     .includeStatus(true)
                     .includeTrip(true)
-                    .time(123L)
+                    .time(0L)
                     .build()
             )
         println(tripForVehicleRetrieveResponse)

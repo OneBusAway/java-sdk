@@ -14,8 +14,8 @@ class ArrivalAndDepartureListParamsTest {
     fun createArrivalAndDepartureListParams() {
         ArrivalAndDepartureListParams.builder()
             .stopId("stopID")
-            .minutesAfter(123L)
-            .minutesBefore(123L)
+            .minutesAfter(0L)
+            .minutesBefore(0L)
             .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .build()
     }
@@ -25,13 +25,13 @@ class ArrivalAndDepartureListParamsTest {
         val params =
             ArrivalAndDepartureListParams.builder()
                 .stopId("stopID")
-                .minutesAfter(123L)
-                .minutesBefore(123L)
+                .minutesAfter(0L)
+                .minutesBefore(0L)
                 .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
         val expected = QueryParams.builder()
-        expected.put("minutesAfter", "123")
-        expected.put("minutesBefore", "123")
+        expected.put("minutesAfter", "0")
+        expected.put("minutesBefore", "0")
         expected.put("time", "2019-12-27T18:11:19.117Z")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }

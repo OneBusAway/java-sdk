@@ -25,7 +25,7 @@ class TripsForRouteServiceTest {
                     .routeId("routeID")
                     .includeSchedule(true)
                     .includeStatus(true)
-                    .time(123L)
+                    .time(0L)
                     .build()
             )
         println(tripsForRouteListResponse)

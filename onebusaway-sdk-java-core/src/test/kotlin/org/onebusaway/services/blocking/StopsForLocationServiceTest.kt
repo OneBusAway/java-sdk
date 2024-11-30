@@ -22,12 +22,12 @@ class StopsForLocationServiceTest {
         val stopsForLocationListResponse =
             stopsForLocationService.list(
                 StopsForLocationListParams.builder()
-                    .lat(42.23)
-                    .lon(42.23)
-                    .latSpan(42.23)
-                    .lonSpan(42.23)
+                    .lat(0.0)
+                    .lon(0.0)
+                    .latSpan(0.0)
+                    .lonSpan(0.0)
                     .query("query")
-                    .radius(42.23)
+                    .radius(0.0)
                     .build()
             )
         println(stopsForLocationListResponse)
