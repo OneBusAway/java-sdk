@@ -3,9 +3,9 @@
 package org.onebusaway.core.handlers
 
 import com.fasterxml.jackson.databind.json.JsonMapper
-import com.google.common.collect.ListMultimap
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpResponse
 import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.errors.BadRequestException
@@ -118,7 +118,7 @@ private fun HttpResponse.buffered(): HttpResponse {
     return object : HttpResponse {
         override fun statusCode(): Int = this@buffered.statusCode()
 
-        override fun headers(): ListMultimap<String, String> = this@buffered.headers()
+        override fun headers(): Headers = this@buffered.headers()
 
         override fun body(): InputStream = ByteArrayInputStream(body)
 

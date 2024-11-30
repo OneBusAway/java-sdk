@@ -437,17 +437,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is List && this.code == other.code && this.direction == other.direction && this.id == other.id && this.lat == other.lat && this.locationType == other.locationType && this.lon == other.lon && this.name == other.name && this.parent == other.parent && this.routeIds == other.routeIds && this.staticRouteIds == other.staticRouteIds && this.wheelchairBoarding == other.wheelchairBoarding && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is List && code == other.code && direction == other.direction && id == other.id && lat == other.lat && locationType == other.locationType && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(code, direction, id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, wheelchairBoarding, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(code, direction, id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, wheelchairBoarding, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "List{code=$code, direction=$direction, id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
@@ -458,17 +455,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StopsForAgencyListResponse && this.code == other.code && this.currentTime == other.currentTime && this.text == other.text && this.version == other.version && this.limitExceeded == other.limitExceeded && this.outOfRange == other.outOfRange && this.list == other.list && this.references == other.references && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is StopsForAgencyListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && limitExceeded == other.limitExceeded && outOfRange == other.outOfRange && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, limitExceeded, outOfRange, list, references, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(code, currentTime, text, version, limitExceeded, outOfRange, list, references, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "StopsForAgencyListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, limitExceeded=$limitExceeded, outOfRange=$outOfRange, list=$list, references=$references, additionalProperties=$additionalProperties}"

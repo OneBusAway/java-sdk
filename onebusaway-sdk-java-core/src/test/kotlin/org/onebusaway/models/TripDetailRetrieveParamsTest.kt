@@ -4,6 +4,7 @@ package org.onebusaway.models
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.onebusaway.core.http.QueryParams
 import org.onebusaway.models.*
 
 class TripDetailRetrieveParamsTest {
@@ -31,20 +32,20 @@ class TripDetailRetrieveParamsTest {
                 .serviceDate(123L)
                 .time(123L)
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("includeSchedule", listOf("true"))
-        expected.put("includeStatus", listOf("true"))
-        expected.put("includeTrip", listOf("true"))
-        expected.put("serviceDate", listOf("123"))
-        expected.put("time", listOf("123"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("includeSchedule", "true")
+        expected.put("includeStatus", "true")
+        expected.put("includeTrip", "true")
+        expected.put("serviceDate", "123")
+        expected.put("time", "123")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = TripDetailRetrieveParams.builder().tripId("tripID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

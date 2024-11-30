@@ -4,6 +4,7 @@ package org.onebusaway.models
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.onebusaway.core.http.QueryParams
 import org.onebusaway.models.*
 
 class ReportProblemWithTripRetrieveParamsTest {
@@ -41,28 +42,25 @@ class ReportProblemWithTripRetrieveParamsTest {
                 .userVehicleNumber("userVehicleNumber")
                 .vehicleId("vehicleID")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put(
-            "code",
-            listOf(ReportProblemWithTripRetrieveParams.Code.VEHICLE_NEVER_CAME.toString())
-        )
-        expected.put("serviceDate", listOf("123"))
-        expected.put("stopID", listOf("stopID"))
-        expected.put("userComment", listOf("userComment"))
-        expected.put("userLat", listOf("42.23"))
-        expected.put("userLocationAccuracy", listOf("42.23"))
-        expected.put("userLon", listOf("42.23"))
-        expected.put("userOnVehicle", listOf("true"))
-        expected.put("userVehicleNumber", listOf("userVehicleNumber"))
-        expected.put("vehicleID", listOf("vehicleID"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("code", ReportProblemWithTripRetrieveParams.Code.VEHICLE_NEVER_CAME.toString())
+        expected.put("serviceDate", "123")
+        expected.put("stopID", "stopID")
+        expected.put("userComment", "userComment")
+        expected.put("userLat", "42.23")
+        expected.put("userLocationAccuracy", "42.23")
+        expected.put("userLon", "42.23")
+        expected.put("userOnVehicle", "true")
+        expected.put("userVehicleNumber", "userVehicleNumber")
+        expected.put("vehicleID", "vehicleID")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = ReportProblemWithTripRetrieveParams.builder().tripId("tripID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
