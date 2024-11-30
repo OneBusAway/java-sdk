@@ -13,10 +13,10 @@ class ArrivalAndDepartureRetrieveParamsTest {
     fun createArrivalAndDepartureRetrieveParams() {
         ArrivalAndDepartureRetrieveParams.builder()
             .stopId("stopID")
-            .serviceDate(123L)
+            .serviceDate(0L)
             .tripId("tripId")
-            .stopSequence(123L)
-            .time(123L)
+            .stopSequence(0L)
+            .time(0L)
             .vehicleId("vehicleId")
             .build()
     }
@@ -26,17 +26,17 @@ class ArrivalAndDepartureRetrieveParamsTest {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("stopID")
-                .serviceDate(123L)
+                .serviceDate(0L)
                 .tripId("tripId")
-                .stopSequence(123L)
-                .time(123L)
+                .stopSequence(0L)
+                .time(0L)
                 .vehicleId("vehicleId")
                 .build()
         val expected = QueryParams.builder()
-        expected.put("serviceDate", "123")
+        expected.put("serviceDate", "0")
         expected.put("tripId", "tripId")
-        expected.put("stopSequence", "123")
-        expected.put("time", "123")
+        expected.put("stopSequence", "0")
+        expected.put("time", "0")
         expected.put("vehicleId", "vehicleId")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
@@ -46,11 +46,11 @@ class ArrivalAndDepartureRetrieveParamsTest {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("stopID")
-                .serviceDate(123L)
+                .serviceDate(0L)
                 .tripId("tripId")
                 .build()
         val expected = QueryParams.builder()
-        expected.put("serviceDate", "123")
+        expected.put("serviceDate", "0")
         expected.put("tripId", "tripId")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
@@ -60,7 +60,7 @@ class ArrivalAndDepartureRetrieveParamsTest {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("stopID")
-                .serviceDate(123L)
+                .serviceDate(0L)
                 .tripId("tripId")
                 .build()
         assertThat(params).isNotNull

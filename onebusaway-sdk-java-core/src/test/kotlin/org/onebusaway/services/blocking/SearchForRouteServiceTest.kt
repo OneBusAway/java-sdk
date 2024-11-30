@@ -21,7 +21,7 @@ class SearchForRouteServiceTest {
         val searchForRouteService = client.searchForRoute()
         val searchForRouteListResponse =
             searchForRouteService.list(
-                SearchForRouteListParams.builder().input("input").maxCount(123L).build()
+                SearchForRouteListParams.builder().input("input").maxCount(0L).build()
             )
         println(searchForRouteListResponse)
     }
