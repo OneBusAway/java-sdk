@@ -4,6 +4,7 @@ package org.onebusaway.models
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.onebusaway.core.http.QueryParams
 import org.onebusaway.models.*
 
 class StopsForRouteListParamsTest {
@@ -25,17 +26,17 @@ class StopsForRouteListParamsTest {
                 .includePolylines(true)
                 .time("time")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("includePolylines", listOf("true"))
-        expected.put("time", listOf("time"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("includePolylines", "true")
+        expected.put("time", "time")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = StopsForRouteListParams.builder().routeId("routeID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

@@ -2053,17 +2053,14 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is LastKnownLocation && this.lat == other.lat && this.lon == other.lon && this.additionalProperties == other.additionalProperties /* spotless:on */
+                        return /* spotless:off */ other is LastKnownLocation && lat == other.lat && lon == other.lon && additionalProperties == other.additionalProperties /* spotless:on */
                     }
 
-                    private var hashCode: Int = 0
+                    /* spotless:off */
+                    private val hashCode: Int by lazy { Objects.hash(lat, lon, additionalProperties) }
+                    /* spotless:on */
 
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode = /* spotless:off */ Objects.hash(lat, lon, additionalProperties) /* spotless:on */
-                        }
-                        return hashCode
-                    }
+                    override fun hashCode(): Int = hashCode
 
                     override fun toString() =
                         "LastKnownLocation{lat=$lat, lon=$lon, additionalProperties=$additionalProperties}"
@@ -2170,17 +2167,14 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Position && this.lat == other.lat && this.lon == other.lon && this.additionalProperties == other.additionalProperties /* spotless:on */
+                        return /* spotless:off */ other is Position && lat == other.lat && lon == other.lon && additionalProperties == other.additionalProperties /* spotless:on */
                     }
 
-                    private var hashCode: Int = 0
+                    /* spotless:off */
+                    private val hashCode: Int by lazy { Objects.hash(lat, lon, additionalProperties) }
+                    /* spotless:on */
 
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode = /* spotless:off */ Objects.hash(lat, lon, additionalProperties) /* spotless:on */
-                        }
-                        return hashCode
-                    }
+                    override fun hashCode(): Int = hashCode
 
                     override fun toString() =
                         "Position{lat=$lat, lon=$lon, additionalProperties=$additionalProperties}"
@@ -2191,17 +2185,14 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is TripStatus && this.activeTripId == other.activeTripId && this.blockTripSequence == other.blockTripSequence && this.closestStop == other.closestStop && this.closestStopTimeOffset == other.closestStopTimeOffset && this.distanceAlongTrip == other.distanceAlongTrip && this.frequency == other.frequency && this.lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip && this.lastKnownLocation == other.lastKnownLocation && this.lastKnownOrientation == other.lastKnownOrientation && this.lastLocationUpdateTime == other.lastLocationUpdateTime && this.lastUpdateTime == other.lastUpdateTime && this.nextStop == other.nextStop && this.nextStopTimeOffset == other.nextStopTimeOffset && this.occupancyCapacity == other.occupancyCapacity && this.occupancyCount == other.occupancyCount && this.occupancyStatus == other.occupancyStatus && this.orientation == other.orientation && this.phase == other.phase && this.position == other.position && this.predicted == other.predicted && this.scheduleDeviation == other.scheduleDeviation && this.scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip && this.serviceDate == other.serviceDate && this.situationIds == other.situationIds && this.status == other.status && this.totalDistanceAlongTrip == other.totalDistanceAlongTrip && this.vehicleId == other.vehicleId && this.additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is TripStatus && activeTripId == other.activeTripId && blockTripSequence == other.blockTripSequence && closestStop == other.closestStop && closestStopTimeOffset == other.closestStopTimeOffset && distanceAlongTrip == other.distanceAlongTrip && frequency == other.frequency && lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip && lastKnownLocation == other.lastKnownLocation && lastKnownOrientation == other.lastKnownOrientation && lastLocationUpdateTime == other.lastLocationUpdateTime && lastUpdateTime == other.lastUpdateTime && nextStop == other.nextStop && nextStopTimeOffset == other.nextStopTimeOffset && occupancyCapacity == other.occupancyCapacity && occupancyCount == other.occupancyCount && occupancyStatus == other.occupancyStatus && orientation == other.orientation && phase == other.phase && position == other.position && predicted == other.predicted && scheduleDeviation == other.scheduleDeviation && scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip && serviceDate == other.serviceDate && situationIds == other.situationIds && status == other.status && totalDistanceAlongTrip == other.totalDistanceAlongTrip && vehicleId == other.vehicleId && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
-                private var hashCode: Int = 0
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(activeTripId, blockTripSequence, closestStop, closestStopTimeOffset, distanceAlongTrip, frequency, lastKnownDistanceAlongTrip, lastKnownLocation, lastKnownOrientation, lastLocationUpdateTime, lastUpdateTime, nextStop, nextStopTimeOffset, occupancyCapacity, occupancyCount, occupancyStatus, orientation, phase, position, predicted, scheduleDeviation, scheduledDistanceAlongTrip, serviceDate, situationIds, status, totalDistanceAlongTrip, vehicleId, additionalProperties) }
+                /* spotless:on */
 
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode = /* spotless:off */ Objects.hash(activeTripId, blockTripSequence, closestStop, closestStopTimeOffset, distanceAlongTrip, frequency, lastKnownDistanceAlongTrip, lastKnownLocation, lastKnownOrientation, lastLocationUpdateTime, lastUpdateTime, nextStop, nextStopTimeOffset, occupancyCapacity, occupancyCount, occupancyStatus, orientation, phase, position, predicted, scheduleDeviation, scheduledDistanceAlongTrip, serviceDate, situationIds, status, totalDistanceAlongTrip, vehicleId, additionalProperties) /* spotless:on */
-                    }
-                    return hashCode
-                }
+                override fun hashCode(): Int = hashCode
 
                 override fun toString() =
                     "TripStatus{activeTripId=$activeTripId, blockTripSequence=$blockTripSequence, closestStop=$closestStop, closestStopTimeOffset=$closestStopTimeOffset, distanceAlongTrip=$distanceAlongTrip, frequency=$frequency, lastKnownDistanceAlongTrip=$lastKnownDistanceAlongTrip, lastKnownLocation=$lastKnownLocation, lastKnownOrientation=$lastKnownOrientation, lastLocationUpdateTime=$lastLocationUpdateTime, lastUpdateTime=$lastUpdateTime, nextStop=$nextStop, nextStopTimeOffset=$nextStopTimeOffset, occupancyCapacity=$occupancyCapacity, occupancyCount=$occupancyCount, occupancyStatus=$occupancyStatus, orientation=$orientation, phase=$phase, position=$position, predicted=$predicted, scheduleDeviation=$scheduleDeviation, scheduledDistanceAlongTrip=$scheduledDistanceAlongTrip, serviceDate=$serviceDate, situationIds=$situationIds, status=$status, totalDistanceAlongTrip=$totalDistanceAlongTrip, vehicleId=$vehicleId, additionalProperties=$additionalProperties}"
@@ -2212,17 +2203,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && this.actualTrack == other.actualTrack && this.arrivalEnabled == other.arrivalEnabled && this.blockTripSequence == other.blockTripSequence && this.departureEnabled == other.departureEnabled && this.distanceFromStop == other.distanceFromStop && this.frequency == other.frequency && this.historicalOccupancy == other.historicalOccupancy && this.lastUpdateTime == other.lastUpdateTime && this.numberOfStopsAway == other.numberOfStopsAway && this.occupancyStatus == other.occupancyStatus && this.predicted == other.predicted && this.predictedArrivalInterval == other.predictedArrivalInterval && this.predictedArrivalTime == other.predictedArrivalTime && this.predictedDepartureInterval == other.predictedDepartureInterval && this.predictedDepartureTime == other.predictedDepartureTime && this.predictedOccupancy == other.predictedOccupancy && this.routeId == other.routeId && this.routeLongName == other.routeLongName && this.routeShortName == other.routeShortName && this.scheduledArrivalInterval == other.scheduledArrivalInterval && this.scheduledArrivalTime == other.scheduledArrivalTime && this.scheduledDepartureInterval == other.scheduledDepartureInterval && this.scheduledDepartureTime == other.scheduledDepartureTime && this.scheduledTrack == other.scheduledTrack && this.serviceDate == other.serviceDate && this.situationIds == other.situationIds && this.status == other.status && this.stopId == other.stopId && this.stopSequence == other.stopSequence && this.totalStopsInTrip == other.totalStopsInTrip && this.tripHeadsign == other.tripHeadsign && this.tripId == other.tripId && this.tripStatus == other.tripStatus && this.vehicleId == other.vehicleId && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Entry && actualTrack == other.actualTrack && arrivalEnabled == other.arrivalEnabled && blockTripSequence == other.blockTripSequence && departureEnabled == other.departureEnabled && distanceFromStop == other.distanceFromStop && frequency == other.frequency && historicalOccupancy == other.historicalOccupancy && lastUpdateTime == other.lastUpdateTime && numberOfStopsAway == other.numberOfStopsAway && occupancyStatus == other.occupancyStatus && predicted == other.predicted && predictedArrivalInterval == other.predictedArrivalInterval && predictedArrivalTime == other.predictedArrivalTime && predictedDepartureInterval == other.predictedDepartureInterval && predictedDepartureTime == other.predictedDepartureTime && predictedOccupancy == other.predictedOccupancy && routeId == other.routeId && routeLongName == other.routeLongName && routeShortName == other.routeShortName && scheduledArrivalInterval == other.scheduledArrivalInterval && scheduledArrivalTime == other.scheduledArrivalTime && scheduledDepartureInterval == other.scheduledDepartureInterval && scheduledDepartureTime == other.scheduledDepartureTime && scheduledTrack == other.scheduledTrack && serviceDate == other.serviceDate && situationIds == other.situationIds && status == other.status && stopId == other.stopId && stopSequence == other.stopSequence && totalStopsInTrip == other.totalStopsInTrip && tripHeadsign == other.tripHeadsign && tripId == other.tripId && tripStatus == other.tripStatus && vehicleId == other.vehicleId && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(actualTrack, arrivalEnabled, blockTripSequence, departureEnabled, distanceFromStop, frequency, historicalOccupancy, lastUpdateTime, numberOfStopsAway, occupancyStatus, predicted, predictedArrivalInterval, predictedArrivalTime, predictedDepartureInterval, predictedDepartureTime, predictedOccupancy, routeId, routeLongName, routeShortName, scheduledArrivalInterval, scheduledArrivalTime, scheduledDepartureInterval, scheduledDepartureTime, scheduledTrack, serviceDate, situationIds, status, stopId, stopSequence, totalStopsInTrip, tripHeadsign, tripId, tripStatus, vehicleId, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(actualTrack, arrivalEnabled, blockTripSequence, departureEnabled, distanceFromStop, frequency, historicalOccupancy, lastUpdateTime, numberOfStopsAway, occupancyStatus, predicted, predictedArrivalInterval, predictedArrivalTime, predictedDepartureInterval, predictedDepartureTime, predictedOccupancy, routeId, routeLongName, routeShortName, scheduledArrivalInterval, scheduledArrivalTime, scheduledDepartureInterval, scheduledDepartureTime, scheduledTrack, serviceDate, situationIds, status, stopId, stopSequence, totalStopsInTrip, tripHeadsign, tripId, tripStatus, vehicleId, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "Entry{actualTrack=$actualTrack, arrivalEnabled=$arrivalEnabled, blockTripSequence=$blockTripSequence, departureEnabled=$departureEnabled, distanceFromStop=$distanceFromStop, frequency=$frequency, historicalOccupancy=$historicalOccupancy, lastUpdateTime=$lastUpdateTime, numberOfStopsAway=$numberOfStopsAway, occupancyStatus=$occupancyStatus, predicted=$predicted, predictedArrivalInterval=$predictedArrivalInterval, predictedArrivalTime=$predictedArrivalTime, predictedDepartureInterval=$predictedDepartureInterval, predictedDepartureTime=$predictedDepartureTime, predictedOccupancy=$predictedOccupancy, routeId=$routeId, routeLongName=$routeLongName, routeShortName=$routeShortName, scheduledArrivalInterval=$scheduledArrivalInterval, scheduledArrivalTime=$scheduledArrivalTime, scheduledDepartureInterval=$scheduledDepartureInterval, scheduledDepartureTime=$scheduledDepartureTime, scheduledTrack=$scheduledTrack, serviceDate=$serviceDate, situationIds=$situationIds, status=$status, stopId=$stopId, stopSequence=$stopSequence, totalStopsInTrip=$totalStopsInTrip, tripHeadsign=$tripHeadsign, tripId=$tripId, tripStatus=$tripStatus, vehicleId=$vehicleId, additionalProperties=$additionalProperties}"
@@ -2233,17 +2221,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && this.entry == other.entry && this.references == other.references && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(entry, references, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
@@ -2254,17 +2239,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ArrivalAndDepartureRetrieveResponse && this.code == other.code && this.currentTime == other.currentTime && this.text == other.text && this.version == other.version && this.data == other.data && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ArrivalAndDepartureRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(code, currentTime, text, version, data, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "ArrivalAndDepartureRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"

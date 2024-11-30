@@ -134,17 +134,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ResponseWrapper && this.code == other.code && this.currentTime == other.currentTime && this.text == other.text && this.version == other.version && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ResponseWrapper && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(code, currentTime, text, version, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "ResponseWrapper{code=$code, currentTime=$currentTime, text=$text, version=$version, additionalProperties=$additionalProperties}"

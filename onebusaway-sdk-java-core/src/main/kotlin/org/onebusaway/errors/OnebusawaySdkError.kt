@@ -13,27 +13,13 @@ import org.onebusaway.core.toImmutable
 @JsonDeserialize(builder = OnebusawaySdkError.Builder::class)
 @NoAutoDetect
 class OnebusawaySdkError
-constructor(
-    private val additionalProperties: Map<String, JsonValue>,
+private constructor(
+    @JsonAnyGetter
+    @get:JvmName("additionalProperties")
+    val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    @JsonAnyGetter fun additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    fun toBuilder() = Builder()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is OnebusawaySdkError && this.additionalProperties == other.additionalProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
-    }
-
-    override fun toString() = "OnebusawaySdkError{additionalProperties=$additionalProperties}"
+    fun toBuilder() = Builder().from(this)
 
     companion object {
 
@@ -44,24 +30,43 @@ constructor(
 
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-        fun from(error: OnebusawaySdkError) = apply {
-            additionalProperties(error.additionalProperties)
+        @JvmSynthetic
+        internal fun from(onebusawaySdkError: OnebusawaySdkError) = apply {
+            additionalProperties = onebusawaySdkError.additionalProperties.toMutableMap()
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
         }
 
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
+        }
+
         fun build(): OnebusawaySdkError = OnebusawaySdkError(additionalProperties.toImmutable())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is OnebusawaySdkError && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
+
+    override fun toString() = "OnebusawaySdkError{additionalProperties=$additionalProperties}"
 }

@@ -9,6 +9,8 @@ import java.time.Duration
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.OnebusawaySdkClientImpl
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.http.Headers
+import org.onebusaway.core.http.QueryParams
 
 class OnebusawaySdkOkHttpClient private constructor() {
 
@@ -36,6 +38,8 @@ class OnebusawaySdkOkHttpClient private constructor() {
 
         fun clock(clock: Clock) = apply { clientOptions.clock(clock) }
 
+        fun headers(headers: Headers) = apply { clientOptions.headers(headers) }
+
         fun headers(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.headers(headers)
         }
@@ -45,6 +49,8 @@ class OnebusawaySdkOkHttpClient private constructor() {
         fun putHeaders(name: String, values: Iterable<String>) = apply {
             clientOptions.putHeaders(name, values)
         }
+
+        fun putAllHeaders(headers: Headers) = apply { clientOptions.putAllHeaders(headers) }
 
         fun putAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.putAllHeaders(headers)
@@ -58,6 +64,8 @@ class OnebusawaySdkOkHttpClient private constructor() {
             clientOptions.replaceHeaders(name, values)
         }
 
+        fun replaceAllHeaders(headers: Headers) = apply { clientOptions.replaceAllHeaders(headers) }
+
         fun replaceAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.replaceAllHeaders(headers)
         }
@@ -65,6 +73,8 @@ class OnebusawaySdkOkHttpClient private constructor() {
         fun removeHeaders(name: String) = apply { clientOptions.removeHeaders(name) }
 
         fun removeAllHeaders(names: Set<String>) = apply { clientOptions.removeAllHeaders(names) }
+
+        fun queryParams(queryParams: QueryParams) = apply { clientOptions.queryParams(queryParams) }
 
         fun queryParams(queryParams: Map<String, Iterable<String>>) = apply {
             clientOptions.queryParams(queryParams)
@@ -78,6 +88,10 @@ class OnebusawaySdkOkHttpClient private constructor() {
             clientOptions.putQueryParams(key, values)
         }
 
+        fun putAllQueryParams(queryParams: QueryParams) = apply {
+            clientOptions.putAllQueryParams(queryParams)
+        }
+
         fun putAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
             clientOptions.putAllQueryParams(queryParams)
         }
@@ -88,6 +102,10 @@ class OnebusawaySdkOkHttpClient private constructor() {
 
         fun replaceQueryParams(key: String, values: Iterable<String>) = apply {
             clientOptions.replaceQueryParams(key, values)
+        }
+
+        fun replaceAllQueryParams(queryParams: QueryParams) = apply {
+            clientOptions.replaceAllQueryParams(queryParams)
         }
 
         fun replaceAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {

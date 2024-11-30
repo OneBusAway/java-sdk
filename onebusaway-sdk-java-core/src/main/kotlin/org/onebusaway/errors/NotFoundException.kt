@@ -1,9 +1,9 @@
 package org.onebusaway.errors
 
-import com.google.common.collect.ListMultimap
+import org.onebusaway.core.http.Headers
 
 class NotFoundException(
-    headers: ListMultimap<String, String>,
+    headers: Headers,
     body: String,
     error: OnebusawaySdkError,
 ) : OnebusawaySdkServiceException(404, headers, body, error)
