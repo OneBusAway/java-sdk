@@ -2,8 +2,34 @@
 
 package org.onebusaway.client
 
-import org.onebusaway.models.*
-import org.onebusaway.services.blocking.*
+import org.onebusaway.services.blocking.AgenciesWithCoverageService
+import org.onebusaway.services.blocking.AgencyService
+import org.onebusaway.services.blocking.ArrivalAndDepartureService
+import org.onebusaway.services.blocking.BlockService
+import org.onebusaway.services.blocking.ConfigService
+import org.onebusaway.services.blocking.CurrentTimeService
+import org.onebusaway.services.blocking.ReportProblemWithStopService
+import org.onebusaway.services.blocking.ReportProblemWithTripService
+import org.onebusaway.services.blocking.RouteIdsForAgencyService
+import org.onebusaway.services.blocking.RouteService
+import org.onebusaway.services.blocking.RoutesForAgencyService
+import org.onebusaway.services.blocking.RoutesForLocationService
+import org.onebusaway.services.blocking.ScheduleForRouteService
+import org.onebusaway.services.blocking.ScheduleForStopService
+import org.onebusaway.services.blocking.SearchForRouteService
+import org.onebusaway.services.blocking.SearchForStopService
+import org.onebusaway.services.blocking.ShapeService
+import org.onebusaway.services.blocking.StopIdsForAgencyService
+import org.onebusaway.services.blocking.StopService
+import org.onebusaway.services.blocking.StopsForAgencyService
+import org.onebusaway.services.blocking.StopsForLocationService
+import org.onebusaway.services.blocking.StopsForRouteService
+import org.onebusaway.services.blocking.TripDetailService
+import org.onebusaway.services.blocking.TripForVehicleService
+import org.onebusaway.services.blocking.TripService
+import org.onebusaway.services.blocking.TripsForLocationService
+import org.onebusaway.services.blocking.TripsForRouteService
+import org.onebusaway.services.blocking.VehiclesForAgencyService
 
 interface OnebusawaySdkClient {
 
