@@ -4,8 +4,8 @@ package org.onebusaway.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.ExcludeMissing
@@ -13,21 +13,24 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
-@JsonDeserialize(builder = AgencyRetrieveResponse.Builder::class)
 @NoAutoDetect
 class AgencyRetrieveResponse
+@JsonCreator
 private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val data: JsonField<Data>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("version")
+    @ExcludeMissing
+    private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
-
-    private var validated: Boolean = false
 
     fun code(): Long = code.getRequired("code")
 
@@ -38,14 +41,6 @@ private constructor(
     fun version(): Long = version.getRequired("version")
 
     fun data(): Data = data.getRequired("data")
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
 
     @JsonProperty("code") @ExcludeMissing fun _code() = code
 
@@ -60,6 +55,16 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
+
+    private var validated: Boolean = false
 
     fun validate(): AgencyRetrieveResponse = apply {
         if (!validated) {
@@ -90,56 +95,51 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(agencyRetrieveResponse: AgencyRetrieveResponse) = apply {
-            this.code = agencyRetrieveResponse.code
-            this.currentTime = agencyRetrieveResponse.currentTime
-            this.text = agencyRetrieveResponse.text
-            this.version = agencyRetrieveResponse.version
-            this.data = agencyRetrieveResponse.data
-            additionalProperties(agencyRetrieveResponse.additionalProperties)
+            code = agencyRetrieveResponse.code
+            currentTime = agencyRetrieveResponse.currentTime
+            text = agencyRetrieveResponse.text
+            version = agencyRetrieveResponse.version
+            data = agencyRetrieveResponse.data
+            additionalProperties = agencyRetrieveResponse.additionalProperties.toMutableMap()
         }
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        @JsonProperty("code")
-        @ExcludeMissing
         fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        @JsonProperty("currentTime")
-        @ExcludeMissing
         fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        @JsonProperty("text")
-        @ExcludeMissing
         fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        @JsonProperty("version")
-        @ExcludeMissing
         fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
-        @JsonProperty("data")
-        @ExcludeMissing
         fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): AgencyRetrieveResponse =
@@ -153,17 +153,22 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
     class Data
+    @JsonCreator
     private constructor(
-        private val limitExceeded: JsonField<Boolean>,
-        private val entry: JsonField<Entry>,
-        private val references: JsonField<References>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("entry")
+        @ExcludeMissing
+        private val entry: JsonField<Entry> = JsonMissing.of(),
+        @JsonProperty("references")
+        @ExcludeMissing
+        private val references: JsonField<References> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
-
-        private var validated: Boolean = false
 
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
@@ -180,6 +185,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): Data = apply {
             if (!validated) {
@@ -206,46 +213,45 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(data: Data) = apply {
-                this.limitExceeded = data.limitExceeded
-                this.entry = data.entry
-                this.references = data.references
-                additionalProperties(data.additionalProperties)
+                limitExceeded = data.limitExceeded
+                entry = data.entry
+                references = data.references
+                additionalProperties = data.additionalProperties.toMutableMap()
             }
 
             fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
 
-            @JsonProperty("limitExceeded")
-            @ExcludeMissing
             fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
                 this.limitExceeded = limitExceeded
             }
 
             fun entry(entry: Entry) = entry(JsonField.of(entry))
 
-            @JsonProperty("entry")
-            @ExcludeMissing
             fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
-            @JsonProperty("references")
-            @ExcludeMissing
             fun references(references: JsonField<References>) = apply {
                 this.references = references
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Data =
@@ -257,24 +263,43 @@ private constructor(
                 )
         }
 
-        @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
         class Entry
+        @JsonCreator
         private constructor(
-            private val disclaimer: JsonField<String>,
-            private val email: JsonField<String>,
-            private val fareUrl: JsonField<String>,
-            private val id: JsonField<String>,
-            private val lang: JsonField<String>,
-            private val name: JsonField<String>,
-            private val phone: JsonField<String>,
-            private val privateService: JsonField<Boolean>,
-            private val timezone: JsonField<String>,
-            private val url: JsonField<String>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("disclaimer")
+            @ExcludeMissing
+            private val disclaimer: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("email")
+            @ExcludeMissing
+            private val email: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("fareUrl")
+            @ExcludeMissing
+            private val fareUrl: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("id")
+            @ExcludeMissing
+            private val id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("lang")
+            @ExcludeMissing
+            private val lang: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("name")
+            @ExcludeMissing
+            private val name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone")
+            @ExcludeMissing
+            private val phone: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("privateService")
+            @ExcludeMissing
+            private val privateService: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("timezone")
+            @ExcludeMissing
+            private val timezone: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("url")
+            @ExcludeMissing
+            private val url: JsonField<String> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
-
-            private var validated: Boolean = false
 
             fun disclaimer(): Optional<String> =
                 Optional.ofNullable(disclaimer.getNullable("disclaimer"))
@@ -322,6 +347,8 @@ private constructor(
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+            private var validated: Boolean = false
+
             fun validate(): Entry = apply {
                 if (!validated) {
                     disclaimer()
@@ -361,98 +388,85 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(entry: Entry) = apply {
-                    this.disclaimer = entry.disclaimer
-                    this.email = entry.email
-                    this.fareUrl = entry.fareUrl
-                    this.id = entry.id
-                    this.lang = entry.lang
-                    this.name = entry.name
-                    this.phone = entry.phone
-                    this.privateService = entry.privateService
-                    this.timezone = entry.timezone
-                    this.url = entry.url
-                    additionalProperties(entry.additionalProperties)
+                    disclaimer = entry.disclaimer
+                    email = entry.email
+                    fareUrl = entry.fareUrl
+                    id = entry.id
+                    lang = entry.lang
+                    name = entry.name
+                    phone = entry.phone
+                    privateService = entry.privateService
+                    timezone = entry.timezone
+                    url = entry.url
+                    additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
                 fun disclaimer(disclaimer: String) = disclaimer(JsonField.of(disclaimer))
 
-                @JsonProperty("disclaimer")
-                @ExcludeMissing
                 fun disclaimer(disclaimer: JsonField<String>) = apply {
                     this.disclaimer = disclaimer
                 }
 
                 fun email(email: String) = email(JsonField.of(email))
 
-                @JsonProperty("email")
-                @ExcludeMissing
                 fun email(email: JsonField<String>) = apply { this.email = email }
 
                 fun fareUrl(fareUrl: String) = fareUrl(JsonField.of(fareUrl))
 
-                @JsonProperty("fareUrl")
-                @ExcludeMissing
                 fun fareUrl(fareUrl: JsonField<String>) = apply { this.fareUrl = fareUrl }
 
                 fun id(id: String) = id(JsonField.of(id))
 
-                @JsonProperty("id")
-                @ExcludeMissing
                 fun id(id: JsonField<String>) = apply { this.id = id }
 
                 fun lang(lang: String) = lang(JsonField.of(lang))
 
-                @JsonProperty("lang")
-                @ExcludeMissing
                 fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
                 fun name(name: String) = name(JsonField.of(name))
 
-                @JsonProperty("name")
-                @ExcludeMissing
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
                 fun phone(phone: String) = phone(JsonField.of(phone))
 
-                @JsonProperty("phone")
-                @ExcludeMissing
                 fun phone(phone: JsonField<String>) = apply { this.phone = phone }
 
                 fun privateService(privateService: Boolean) =
                     privateService(JsonField.of(privateService))
 
-                @JsonProperty("privateService")
-                @ExcludeMissing
                 fun privateService(privateService: JsonField<Boolean>) = apply {
                     this.privateService = privateService
                 }
 
                 fun timezone(timezone: String) = timezone(JsonField.of(timezone))
 
-                @JsonProperty("timezone")
-                @ExcludeMissing
                 fun timezone(timezone: JsonField<String>) = apply { this.timezone = timezone }
 
                 fun url(url: String) = url(JsonField.of(url))
 
-                @JsonProperty("url")
-                @ExcludeMissing
                 fun url(url: JsonField<String>) = apply { this.url = url }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): Entry =
                     Entry(

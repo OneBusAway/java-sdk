@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.*
+import org.onebusaway.models.RoutesForAgencyListParams
 
 @ExtendWith(TestServerExtension::class)
 class RoutesForAgencyServiceTest {
@@ -20,9 +20,7 @@ class RoutesForAgencyServiceTest {
                 .build()
         val routesForAgencyService = client.routesForAgency()
         val routesForAgencyListResponse =
-            routesForAgencyService.list(
-                RoutesForAgencyListParams.builder().agencyId("agencyID").build()
-            )
+            routesForAgencyService.list(RoutesForAgencyListParams.builder().agencyId("40").build())
         println(routesForAgencyListResponse)
     }
 }

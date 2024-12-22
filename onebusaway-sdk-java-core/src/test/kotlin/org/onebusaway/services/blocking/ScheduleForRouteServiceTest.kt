@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.*
+import org.onebusaway.models.ScheduleForRouteRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 class ScheduleForRouteServiceTest {
@@ -23,7 +23,7 @@ class ScheduleForRouteServiceTest {
         val scheduleForRouteRetrieveResponse =
             scheduleForRouteService.retrieve(
                 ScheduleForRouteRetrieveParams.builder()
-                    .routeId("routeID")
+                    .routeId("1_100223")
                     .date(LocalDate.parse("2019-12-27"))
                     .build()
             )

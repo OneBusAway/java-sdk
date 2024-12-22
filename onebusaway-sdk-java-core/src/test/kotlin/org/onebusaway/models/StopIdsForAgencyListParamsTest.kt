@@ -4,7 +4,6 @@ package org.onebusaway.models
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.onebusaway.models.*
 
 class StopIdsForAgencyListParamsTest {
 
