@@ -16,8 +16,10 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** The string to search for. */
     fun input(): String = input
 
+    /** The max number of results to return. Defaults to 20. */
     fun maxCount(): Optional<Long> = Optional.ofNullable(maxCount)
 
     fun _additionalHeaders(): Headers = additionalHeaders

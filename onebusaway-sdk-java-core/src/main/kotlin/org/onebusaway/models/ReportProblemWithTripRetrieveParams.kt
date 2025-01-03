@@ -31,24 +31,34 @@ constructor(
 
     fun tripId(): String = tripId
 
+    /** A string code identifying the nature of the problem */
     fun code(): Optional<Code> = Optional.ofNullable(code)
 
+    /** The service date of the trip */
     fun serviceDate(): Optional<Long> = Optional.ofNullable(serviceDate)
 
+    /** A stop ID indicating where the user is experiencing the problem */
     fun stopId(): Optional<String> = Optional.ofNullable(stopId)
 
+    /** Additional comment text supplied by the user describing the problem */
     fun userComment(): Optional<String> = Optional.ofNullable(userComment)
 
+    /** The reporting user’s current latitude */
     fun userLat(): Optional<Double> = Optional.ofNullable(userLat)
 
+    /** The reporting user’s location accuracy, in meters */
     fun userLocationAccuracy(): Optional<Double> = Optional.ofNullable(userLocationAccuracy)
 
+    /** The reporting user’s current longitude */
     fun userLon(): Optional<Double> = Optional.ofNullable(userLon)
 
+    /** Indicator if the user is on the transit vehicle experiencing the problem */
     fun userOnVehicle(): Optional<Boolean> = Optional.ofNullable(userOnVehicle)
 
+    /** The vehicle number, as reported by the user */
     fun userVehicleNumber(): Optional<String> = Optional.ofNullable(userVehicleNumber)
 
+    /** The vehicle actively serving the trip */
     fun vehicleId(): Optional<String> = Optional.ofNullable(vehicleId)
 
     fun _additionalHeaders(): Headers = additionalHeaders

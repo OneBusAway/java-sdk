@@ -20,10 +20,16 @@ constructor(
 
     fun routeId(): String = routeId
 
+    /** Determine whether full schedule elements are included. Defaults to false. */
     fun includeSchedule(): Optional<Boolean> = Optional.ofNullable(includeSchedule)
 
+    /**
+     * Determine whether full tripStatus elements with real-time information are included. Defaults
+     * to false.
+     */
     fun includeStatus(): Optional<Boolean> = Optional.ofNullable(includeStatus)
 
+    /** Query the system at a specific time. Useful for testing. */
     fun time(): Optional<Long> = Optional.ofNullable(time)
 
     fun _additionalHeaders(): Headers = additionalHeaders

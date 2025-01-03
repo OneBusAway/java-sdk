@@ -21,12 +21,25 @@ constructor(
 
     fun vehicleId(): String = vehicleId
 
+    /**
+     * Determines whether full <schedule/> element is included in the <tripDetails/> section.
+     * Defaults to false.
+     */
     fun includeSchedule(): Optional<Boolean> = Optional.ofNullable(includeSchedule)
 
+    /**
+     * Determines whether the full <status/> element is included in the <tripDetails/> section.
+     * Defaults to true.
+     */
     fun includeStatus(): Optional<Boolean> = Optional.ofNullable(includeStatus)
 
+    /**
+     * Determines whether full <trip/> element is included in the <references/> section. Defaults to
+     * false.
+     */
     fun includeTrip(): Optional<Boolean> = Optional.ofNullable(includeTrip)
 
+    /** Time parameter to query the system at a specific time (optional). */
     fun time(): Optional<Long> = Optional.ofNullable(time)
 
     fun _additionalHeaders(): Headers = additionalHeaders
