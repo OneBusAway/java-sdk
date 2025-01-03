@@ -22,14 +22,21 @@ constructor(
 
     fun tripId(): String = tripId
 
+    /**
+     * Whether to include the full schedule element in the tripDetails section (defaults to true).
+     */
     fun includeSchedule(): Optional<Boolean> = Optional.ofNullable(includeSchedule)
 
+    /** Whether to include the full status element in the tripDetails section (defaults to true). */
     fun includeStatus(): Optional<Boolean> = Optional.ofNullable(includeStatus)
 
+    /** Whether to include the full trip element in the references section (defaults to true). */
     fun includeTrip(): Optional<Boolean> = Optional.ofNullable(includeTrip)
 
+    /** Service date for the trip as Unix time in milliseconds (optional). */
     fun serviceDate(): Optional<Long> = Optional.ofNullable(serviceDate)
 
+    /** Time parameter to query the system at a specific time (optional). */
     fun time(): Optional<Long> = Optional.ofNullable(time)
 
     fun _additionalHeaders(): Headers = additionalHeaders

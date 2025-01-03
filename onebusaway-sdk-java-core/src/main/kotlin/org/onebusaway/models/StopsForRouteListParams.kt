@@ -19,8 +19,10 @@ constructor(
 
     fun routeId(): String = routeId
 
+    /** Include polyline elements in the response (default true) */
     fun includePolylines(): Optional<Boolean> = Optional.ofNullable(includePolylines)
 
+    /** Specify service date (YYYY-MM-DD or epoch) (default today) */
     fun time(): Optional<String> = Optional.ofNullable(time)
 
     fun _additionalHeaders(): Headers = additionalHeaders

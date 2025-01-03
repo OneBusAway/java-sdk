@@ -18,6 +18,7 @@ constructor(
 
     fun agencyId(): String = agencyId
 
+    /** Specific time for querying the status (timestamp format) */
     fun time(): Optional<String> = Optional.ofNullable(time)
 
     fun _additionalHeaders(): Headers = additionalHeaders
