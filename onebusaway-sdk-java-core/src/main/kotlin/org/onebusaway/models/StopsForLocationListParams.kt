@@ -24,12 +24,16 @@ constructor(
 
     fun lon(): Double = lon
 
+    /** An alternative to radius to set the search bounding box (optional) */
     fun latSpan(): Optional<Double> = Optional.ofNullable(latSpan)
 
+    /** An alternative to radius to set the search bounding box (optional) */
     fun lonSpan(): Optional<Double> = Optional.ofNullable(lonSpan)
 
+    /** A search query string to filter the results */
     fun query(): Optional<String> = Optional.ofNullable(query)
 
+    /** The radius in meters to search within */
     fun radius(): Optional<Double> = Optional.ofNullable(radius)
 
     fun _additionalHeaders(): Headers = additionalHeaders

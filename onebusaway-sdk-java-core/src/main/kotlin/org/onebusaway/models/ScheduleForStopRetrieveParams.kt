@@ -19,6 +19,10 @@ constructor(
 
     fun stopId(): String = stopId
 
+    /**
+     * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
+     * defaults to the current date)
+     */
     fun date(): Optional<LocalDate> = Optional.ofNullable(date)
 
     fun _additionalHeaders(): Headers = additionalHeaders
