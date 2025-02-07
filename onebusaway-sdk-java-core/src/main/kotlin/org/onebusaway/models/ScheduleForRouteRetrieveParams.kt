@@ -6,16 +6,19 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Retrieve the full schedule for a route on a particular day */
 class ScheduleForRouteRetrieveParams
-constructor(
+private constructor(
     private val routeId: String,
     private val date: LocalDate?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun routeId(): String = routeId
 
@@ -29,10 +32,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.date?.let { queryParams.put("date", listOf(it.toString())) }
         queryParams.putAll(additionalQueryParams)
@@ -53,8 +55,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ScheduleForRouteRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var routeId: String? = null
         private var date: LocalDate? = null
@@ -75,7 +78,13 @@ constructor(
          * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
          * defaults to current date)
          */
-        fun date(date: LocalDate) = apply { this.date = date }
+        fun date(date: LocalDate?) = apply { this.date = date }
+
+        /**
+         * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
+         * defaults to current date)
+         */
+        fun date(date: Optional<LocalDate>) = date(date.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -177,7 +186,7 @@ constructor(
 
         fun build(): ScheduleForRouteRetrieveParams =
             ScheduleForRouteRetrieveParams(
-                checkNotNull(routeId) { "`routeId` is required but was not set" },
+                checkRequired("routeId", routeId),
                 date,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

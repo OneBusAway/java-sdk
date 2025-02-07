@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class RouteIdsForAgencyListParamsTest {
 
     @Test
-    fun createRouteIdsForAgencyListParams() {
+    fun create() {
         RouteIdsForAgencyListParams.builder().agencyId("agencyID").build()
     }
 

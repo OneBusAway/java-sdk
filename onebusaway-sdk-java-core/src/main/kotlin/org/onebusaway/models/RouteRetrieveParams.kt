@@ -4,15 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Retrieve information for a specific route identified by its unique ID. */
 class RouteRetrieveParams
-constructor(
+private constructor(
     private val routeId: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun routeId(): String = routeId
 
@@ -20,9 +23,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     fun getPathParam(index: Int): String {
         return when (index) {
@@ -38,8 +41,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [RouteRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var routeId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -154,7 +158,7 @@ constructor(
 
         fun build(): RouteRetrieveParams =
             RouteRetrieveParams(
-                checkNotNull(routeId) { "`routeId` is required but was not set" },
+                checkRequired("routeId", routeId),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

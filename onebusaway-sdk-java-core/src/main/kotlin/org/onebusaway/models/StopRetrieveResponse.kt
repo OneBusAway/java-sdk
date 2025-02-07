@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -42,15 +43,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,14 +68,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): StopRetrieveResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -84,13 +87,14 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [StopRetrieveResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -144,11 +148,11 @@ private constructor(
 
         fun build(): StopRetrieveResponse =
             StopRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -171,9 +175,11 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -182,11 +188,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -196,10 +204,11 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var entry: JsonField<Entry> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var entry: JsonField<Entry>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -240,8 +249,8 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    entry,
-                    references,
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -250,21 +259,12 @@ private constructor(
         class Entry
         @JsonCreator
         private constructor(
-            @JsonProperty("code")
-            @ExcludeMissing
-            private val code: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("direction")
-            @ExcludeMissing
-            private val direction: JsonField<String> = JsonMissing.of(),
             @JsonProperty("id")
             @ExcludeMissing
             private val id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("lat")
             @ExcludeMissing
             private val lat: JsonField<Double> = JsonMissing.of(),
-            @JsonProperty("locationType")
-            @ExcludeMissing
-            private val locationType: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("lon")
             @ExcludeMissing
             private val lon: JsonField<Double> = JsonMissing.of(),
@@ -280,6 +280,15 @@ private constructor(
             @JsonProperty("staticRouteIds")
             @ExcludeMissing
             private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("code")
+            @ExcludeMissing
+            private val code: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("direction")
+            @ExcludeMissing
+            private val direction: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("locationType")
+            @ExcludeMissing
+            private val locationType: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("wheelchairBoarding")
             @ExcludeMissing
             private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
@@ -287,17 +296,9 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            fun code(): Optional<String> = Optional.ofNullable(code.getNullable("code"))
-
-            fun direction(): Optional<String> =
-                Optional.ofNullable(direction.getNullable("direction"))
-
             fun id(): String = id.getRequired("id")
 
             fun lat(): Double = lat.getRequired("lat")
-
-            fun locationType(): Optional<Long> =
-                Optional.ofNullable(locationType.getNullable("locationType"))
 
             fun lon(): Double = lon.getRequired("lon")
 
@@ -309,32 +310,48 @@ private constructor(
 
             fun staticRouteIds(): List<String> = staticRouteIds.getRequired("staticRouteIds")
 
+            fun code(): Optional<String> = Optional.ofNullable(code.getNullable("code"))
+
+            fun direction(): Optional<String> =
+                Optional.ofNullable(direction.getNullable("direction"))
+
+            fun locationType(): Optional<Long> =
+                Optional.ofNullable(locationType.getNullable("locationType"))
+
             fun wheelchairBoarding(): Optional<String> =
                 Optional.ofNullable(wheelchairBoarding.getNullable("wheelchairBoarding"))
 
-            @JsonProperty("code") @ExcludeMissing fun _code() = code
+            @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-            @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
+            @JsonProperty("lat") @ExcludeMissing fun _lat(): JsonField<Double> = lat
 
-            @JsonProperty("id") @ExcludeMissing fun _id() = id
+            @JsonProperty("lon") @ExcludeMissing fun _lon(): JsonField<Double> = lon
 
-            @JsonProperty("lat") @ExcludeMissing fun _lat() = lat
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            @JsonProperty("locationType") @ExcludeMissing fun _locationType() = locationType
+            @JsonProperty("parent") @ExcludeMissing fun _parent(): JsonField<String> = parent
 
-            @JsonProperty("lon") @ExcludeMissing fun _lon() = lon
+            @JsonProperty("routeIds")
+            @ExcludeMissing
+            fun _routeIds(): JsonField<List<String>> = routeIds
 
-            @JsonProperty("name") @ExcludeMissing fun _name() = name
+            @JsonProperty("staticRouteIds")
+            @ExcludeMissing
+            fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
 
-            @JsonProperty("parent") @ExcludeMissing fun _parent() = parent
+            @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
 
-            @JsonProperty("routeIds") @ExcludeMissing fun _routeIds() = routeIds
+            @JsonProperty("direction")
+            @ExcludeMissing
+            fun _direction(): JsonField<String> = direction
 
-            @JsonProperty("staticRouteIds") @ExcludeMissing fun _staticRouteIds() = staticRouteIds
+            @JsonProperty("locationType")
+            @ExcludeMissing
+            fun _locationType(): JsonField<Long> = locationType
 
             @JsonProperty("wheelchairBoarding")
             @ExcludeMissing
-            fun _wheelchairBoarding() = wheelchairBoarding
+            fun _wheelchairBoarding(): JsonField<String> = wheelchairBoarding
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -343,20 +360,22 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): Entry = apply {
-                if (!validated) {
-                    code()
-                    direction()
-                    id()
-                    lat()
-                    locationType()
-                    lon()
-                    name()
-                    parent()
-                    routeIds()
-                    staticRouteIds()
-                    wheelchairBoarding()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                id()
+                lat()
+                lon()
+                name()
+                parent()
+                routeIds()
+                staticRouteIds()
+                code()
+                direction()
+                locationType()
+                wheelchairBoarding()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -366,44 +385,37 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [Entry]. */
+            class Builder internal constructor() {
 
+                private var id: JsonField<String>? = null
+                private var lat: JsonField<Double>? = null
+                private var lon: JsonField<Double>? = null
+                private var name: JsonField<String>? = null
+                private var parent: JsonField<String>? = null
+                private var routeIds: JsonField<MutableList<String>>? = null
+                private var staticRouteIds: JsonField<MutableList<String>>? = null
                 private var code: JsonField<String> = JsonMissing.of()
                 private var direction: JsonField<String> = JsonMissing.of()
-                private var id: JsonField<String> = JsonMissing.of()
-                private var lat: JsonField<Double> = JsonMissing.of()
                 private var locationType: JsonField<Long> = JsonMissing.of()
-                private var lon: JsonField<Double> = JsonMissing.of()
-                private var name: JsonField<String> = JsonMissing.of()
-                private var parent: JsonField<String> = JsonMissing.of()
-                private var routeIds: JsonField<List<String>> = JsonMissing.of()
-                private var staticRouteIds: JsonField<List<String>> = JsonMissing.of()
                 private var wheelchairBoarding: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(entry: Entry) = apply {
-                    code = entry.code
-                    direction = entry.direction
                     id = entry.id
                     lat = entry.lat
-                    locationType = entry.locationType
                     lon = entry.lon
                     name = entry.name
                     parent = entry.parent
-                    routeIds = entry.routeIds
-                    staticRouteIds = entry.staticRouteIds
+                    routeIds = entry.routeIds.map { it.toMutableList() }
+                    staticRouteIds = entry.staticRouteIds.map { it.toMutableList() }
+                    code = entry.code
+                    direction = entry.direction
+                    locationType = entry.locationType
                     wheelchairBoarding = entry.wheelchairBoarding
                     additionalProperties = entry.additionalProperties.toMutableMap()
                 }
-
-                fun code(code: String) = code(JsonField.of(code))
-
-                fun code(code: JsonField<String>) = apply { this.code = code }
-
-                fun direction(direction: String) = direction(JsonField.of(direction))
-
-                fun direction(direction: JsonField<String>) = apply { this.direction = direction }
 
                 fun id(id: String) = id(JsonField.of(id))
 
@@ -412,12 +424,6 @@ private constructor(
                 fun lat(lat: Double) = lat(JsonField.of(lat))
 
                 fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
-
-                fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
-
-                fun locationType(locationType: JsonField<Long>) = apply {
-                    this.locationType = locationType
-                }
 
                 fun lon(lon: Double) = lon(JsonField.of(lon))
 
@@ -433,13 +439,55 @@ private constructor(
 
                 fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
 
-                fun routeIds(routeIds: JsonField<List<String>>) = apply { this.routeIds = routeIds }
+                fun routeIds(routeIds: JsonField<List<String>>) = apply {
+                    this.routeIds = routeIds.map { it.toMutableList() }
+                }
+
+                fun addRouteId(routeId: String) = apply {
+                    routeIds =
+                        (routeIds ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(routeId)
+                        }
+                }
 
                 fun staticRouteIds(staticRouteIds: List<String>) =
                     staticRouteIds(JsonField.of(staticRouteIds))
 
                 fun staticRouteIds(staticRouteIds: JsonField<List<String>>) = apply {
-                    this.staticRouteIds = staticRouteIds
+                    this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
+                }
+
+                fun addStaticRouteId(staticRouteId: String) = apply {
+                    staticRouteIds =
+                        (staticRouteIds ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(staticRouteId)
+                        }
+                }
+
+                fun code(code: String) = code(JsonField.of(code))
+
+                fun code(code: JsonField<String>) = apply { this.code = code }
+
+                fun direction(direction: String) = direction(JsonField.of(direction))
+
+                fun direction(direction: JsonField<String>) = apply { this.direction = direction }
+
+                fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
+
+                fun locationType(locationType: JsonField<Long>) = apply {
+                    this.locationType = locationType
                 }
 
                 fun wheelchairBoarding(wheelchairBoarding: String) =
@@ -473,16 +521,16 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
+                        checkRequired("id", id),
+                        checkRequired("lat", lat),
+                        checkRequired("lon", lon),
+                        checkRequired("name", name),
+                        checkRequired("parent", parent),
+                        checkRequired("routeIds", routeIds).map { it.toImmutable() },
+                        checkRequired("staticRouteIds", staticRouteIds).map { it.toImmutable() },
                         code,
                         direction,
-                        id,
-                        lat,
                         locationType,
-                        lon,
-                        name,
-                        parent,
-                        routeIds.map { it.toImmutable() },
-                        staticRouteIds.map { it.toImmutable() },
                         wheelchairBoarding,
                         additionalProperties.toImmutable(),
                     )
@@ -493,17 +541,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && code == other.code && direction == other.direction && id == other.id && lat == other.lat && locationType == other.locationType && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Entry && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(code, direction, id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, wheelchairBoarding, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(id, lat, lon, name, parent, routeIds, staticRouteIds, code, direction, locationType, wheelchairBoarding, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Entry{code=$code, direction=$direction, id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
+                "Entry{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {

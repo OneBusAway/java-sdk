@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -41,15 +42,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -66,14 +67,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AgenciesWithCoverageListResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -83,13 +86,14 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [AgenciesWithCoverageListResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -145,11 +149,11 @@ private constructor(
 
         fun build(): AgenciesWithCoverageListResponse =
             AgenciesWithCoverageListResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -177,11 +181,15 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("limitExceeded") @ExcludeMissing fun _limitExceeded() = limitExceeded
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list() = list
+        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -190,12 +198,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                limitExceeded()
-                list().forEach { it.validate() }
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            limitExceeded()
+            list().forEach { it.validate() }
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -205,17 +215,18 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
-            private var list: JsonField<List<List>> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var limitExceeded: JsonField<Boolean>? = null
+            private var list: JsonField<MutableList<List>>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(data: Data) = apply {
                 limitExceeded = data.limitExceeded
-                list = data.list
+                list = data.list.map { it.toMutableList() }
                 references = data.references
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
@@ -228,7 +239,22 @@ private constructor(
 
             fun list(list: List<List>) = list(JsonField.of(list))
 
-            fun list(list: JsonField<List<List>>) = apply { this.list = list }
+            fun list(list: JsonField<List<List>>) = apply {
+                this.list = list.map { it.toMutableList() }
+            }
+
+            fun addList(list: List) = apply {
+                this.list =
+                    (this.list ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(list)
+                    }
+            }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -257,9 +283,9 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    limitExceeded,
-                    list.map { it.toImmutable() },
-                    references,
+                    checkRequired("limitExceeded", limitExceeded),
+                    checkRequired("list", list).map { it.toImmutable() },
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -297,15 +323,15 @@ private constructor(
 
             fun lonSpan(): Double = lonSpan.getRequired("lonSpan")
 
-            @JsonProperty("agencyId") @ExcludeMissing fun _agencyId() = agencyId
+            @JsonProperty("agencyId") @ExcludeMissing fun _agencyId(): JsonField<String> = agencyId
 
-            @JsonProperty("lat") @ExcludeMissing fun _lat() = lat
+            @JsonProperty("lat") @ExcludeMissing fun _lat(): JsonField<Double> = lat
 
-            @JsonProperty("latSpan") @ExcludeMissing fun _latSpan() = latSpan
+            @JsonProperty("latSpan") @ExcludeMissing fun _latSpan(): JsonField<Double> = latSpan
 
-            @JsonProperty("lon") @ExcludeMissing fun _lon() = lon
+            @JsonProperty("lon") @ExcludeMissing fun _lon(): JsonField<Double> = lon
 
-            @JsonProperty("lonSpan") @ExcludeMissing fun _lonSpan() = lonSpan
+            @JsonProperty("lonSpan") @ExcludeMissing fun _lonSpan(): JsonField<Double> = lonSpan
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -314,14 +340,16 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): List = apply {
-                if (!validated) {
-                    agencyId()
-                    lat()
-                    latSpan()
-                    lon()
-                    lonSpan()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                agencyId()
+                lat()
+                latSpan()
+                lon()
+                lonSpan()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -331,13 +359,14 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [List]. */
+            class Builder internal constructor() {
 
-                private var agencyId: JsonField<String> = JsonMissing.of()
-                private var lat: JsonField<Double> = JsonMissing.of()
-                private var latSpan: JsonField<Double> = JsonMissing.of()
-                private var lon: JsonField<Double> = JsonMissing.of()
-                private var lonSpan: JsonField<Double> = JsonMissing.of()
+                private var agencyId: JsonField<String>? = null
+                private var lat: JsonField<Double>? = null
+                private var latSpan: JsonField<Double>? = null
+                private var lon: JsonField<Double>? = null
+                private var lonSpan: JsonField<Double>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -394,11 +423,11 @@ private constructor(
 
                 fun build(): List =
                     List(
-                        agencyId,
-                        lat,
-                        latSpan,
-                        lon,
-                        lonSpan,
+                        checkRequired("agencyId", agencyId),
+                        checkRequired("lat", lat),
+                        checkRequired("latSpan", latSpan),
+                        checkRequired("lon", lon),
+                        checkRequired("lonSpan", lonSpan),
                         additionalProperties.toImmutable(),
                     )
             }

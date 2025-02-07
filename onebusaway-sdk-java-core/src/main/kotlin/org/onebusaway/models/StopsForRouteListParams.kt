@@ -5,17 +5,20 @@ package org.onebusaway.models
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Get stops for a specific route */
 class StopsForRouteListParams
-constructor(
+private constructor(
     private val routeId: String,
     private val includePolylines: Boolean?,
     private val time: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun routeId(): String = routeId
 
@@ -29,10 +32,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.includePolylines?.let { queryParams.put("includePolylines", listOf(it.toString())) }
         this.time?.let { queryParams.put("time", listOf(it.toString())) }
@@ -54,8 +56,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [StopsForRouteListParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var routeId: String? = null
         private var includePolylines: Boolean? = null
@@ -75,12 +78,24 @@ constructor(
         fun routeId(routeId: String) = apply { this.routeId = routeId }
 
         /** Include polyline elements in the response (default true) */
-        fun includePolylines(includePolylines: Boolean) = apply {
+        fun includePolylines(includePolylines: Boolean?) = apply {
             this.includePolylines = includePolylines
         }
 
+        /** Include polyline elements in the response (default true) */
+        fun includePolylines(includePolylines: Boolean) =
+            includePolylines(includePolylines as Boolean?)
+
+        /** Include polyline elements in the response (default true) */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun includePolylines(includePolylines: Optional<Boolean>) =
+            includePolylines(includePolylines.orElse(null) as Boolean?)
+
         /** Specify service date (YYYY-MM-DD or epoch) (default today) */
-        fun time(time: String) = apply { this.time = time }
+        fun time(time: String?) = apply { this.time = time }
+
+        /** Specify service date (YYYY-MM-DD or epoch) (default today) */
+        fun time(time: Optional<String>) = time(time.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -182,7 +197,7 @@ constructor(
 
         fun build(): StopsForRouteListParams =
             StopsForRouteListParams(
-                checkNotNull(routeId) { "`routeId` is required but was not set" },
+                checkRequired("routeId", routeId),
                 includePolylines,
                 time,
                 additionalHeaders.build(),

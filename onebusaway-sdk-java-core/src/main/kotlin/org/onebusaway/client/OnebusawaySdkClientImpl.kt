@@ -61,8 +61,7 @@ import org.onebusaway.services.blocking.TripsForRouteServiceImpl
 import org.onebusaway.services.blocking.VehiclesForAgencyService
 import org.onebusaway.services.blocking.VehiclesForAgencyServiceImpl
 
-class OnebusawaySdkClientImpl
-constructor(
+class OnebusawaySdkClientImpl(
     private val clientOptions: ClientOptions,
 ) : OnebusawaySdkClient {
 
@@ -234,4 +233,6 @@ constructor(
     override fun block(): BlockService = block
 
     override fun shape(): ShapeService = shape
+
+    override fun close() = clientOptions.httpClient.close()
 }

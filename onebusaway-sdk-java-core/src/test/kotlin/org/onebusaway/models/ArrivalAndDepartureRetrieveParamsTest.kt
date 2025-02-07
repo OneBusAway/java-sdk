@@ -9,7 +9,7 @@ import org.onebusaway.core.http.QueryParams
 class ArrivalAndDepartureRetrieveParamsTest {
 
     @Test
-    fun createArrivalAndDepartureRetrieveParams() {
+    fun create() {
         ArrivalAndDepartureRetrieveParams.builder()
             .stopId("1_75403")
             .serviceDate(0L)
@@ -21,7 +21,7 @@ class ArrivalAndDepartureRetrieveParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("1_75403")
@@ -37,11 +37,11 @@ class ArrivalAndDepartureRetrieveParamsTest {
         expected.put("stopSequence", "0")
         expected.put("time", "0")
         expected.put("vehicleId", "vehicleId")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("1_75403")
@@ -51,7 +51,7 @@ class ArrivalAndDepartureRetrieveParamsTest {
         val expected = QueryParams.builder()
         expected.put("serviceDate", "0")
         expected.put("tripId", "tripId")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

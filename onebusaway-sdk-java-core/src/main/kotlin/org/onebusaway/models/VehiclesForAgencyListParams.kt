@@ -5,16 +5,19 @@ package org.onebusaway.models
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Get vehicles for a specific agency */
 class VehiclesForAgencyListParams
-constructor(
+private constructor(
     private val agencyId: String,
     private val time: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun agencyId(): String = agencyId
 
@@ -25,10 +28,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.time?.let { queryParams.put("time", listOf(it.toString())) }
         queryParams.putAll(additionalQueryParams)
@@ -49,8 +51,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [VehiclesForAgencyListParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var agencyId: String? = null
         private var time: String? = null
@@ -68,7 +71,10 @@ constructor(
         fun agencyId(agencyId: String) = apply { this.agencyId = agencyId }
 
         /** Specific time for querying the status (timestamp format) */
-        fun time(time: String) = apply { this.time = time }
+        fun time(time: String?) = apply { this.time = time }
+
+        /** Specific time for querying the status (timestamp format) */
+        fun time(time: Optional<String>) = time(time.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -170,7 +176,7 @@ constructor(
 
         fun build(): VehiclesForAgencyListParams =
             VehiclesForAgencyListParams(
-                checkNotNull(agencyId) { "`agencyId` is required but was not set" },
+                checkRequired("agencyId", agencyId),
                 time,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

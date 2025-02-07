@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class BlockRetrieveParamsTest {
 
     @Test
-    fun createBlockRetrieveParams() {
+    fun create() {
         BlockRetrieveParams.builder().blockId("blockID").build()
     }
 

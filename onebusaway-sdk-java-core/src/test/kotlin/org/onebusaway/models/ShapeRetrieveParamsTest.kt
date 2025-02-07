@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class ShapeRetrieveParamsTest {
 
     @Test
-    fun createShapeRetrieveParams() {
+    fun create() {
         ShapeRetrieveParams.builder().shapeId("shapeID").build()
     }
 
