@@ -4,22 +4,24 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** current-time */
 class CurrentTimeRetrieveParams
-constructor(
+private constructor(
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
 
@@ -28,8 +30,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [CurrentTimeRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()

@@ -8,12 +8,15 @@ import java.util.Optional
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
+/** Submit a user-generated problem report for a particular trip. */
 class ReportProblemWithTripRetrieveParams
-constructor(
+private constructor(
     private val tripId: String,
     private val code: Code?,
     private val serviceDate: Long?,
@@ -27,7 +30,7 @@ constructor(
     private val vehicleId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun tripId(): String = tripId
 
@@ -65,10 +68,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.code?.let { queryParams.put("code", listOf(it.toString())) }
         this.serviceDate?.let { queryParams.put("serviceDate", listOf(it.toString())) }
@@ -100,8 +102,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [ReportProblemWithTripRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var tripId: String? = null
         private var code: Code? = null
@@ -140,38 +143,93 @@ constructor(
         fun tripId(tripId: String) = apply { this.tripId = tripId }
 
         /** A string code identifying the nature of the problem */
-        fun code(code: Code) = apply { this.code = code }
+        fun code(code: Code?) = apply { this.code = code }
+
+        /** A string code identifying the nature of the problem */
+        fun code(code: Optional<Code>) = code(code.orElse(null))
 
         /** The service date of the trip */
-        fun serviceDate(serviceDate: Long) = apply { this.serviceDate = serviceDate }
+        fun serviceDate(serviceDate: Long?) = apply { this.serviceDate = serviceDate }
+
+        /** The service date of the trip */
+        fun serviceDate(serviceDate: Long) = serviceDate(serviceDate as Long?)
+
+        /** The service date of the trip */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun serviceDate(serviceDate: Optional<Long>) =
+            serviceDate(serviceDate.orElse(null) as Long?)
 
         /** A stop ID indicating where the user is experiencing the problem */
-        fun stopId(stopId: String) = apply { this.stopId = stopId }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
+
+        /** A stop ID indicating where the user is experiencing the problem */
+        fun stopId(stopId: Optional<String>) = stopId(stopId.orElse(null))
 
         /** Additional comment text supplied by the user describing the problem */
-        fun userComment(userComment: String) = apply { this.userComment = userComment }
+        fun userComment(userComment: String?) = apply { this.userComment = userComment }
+
+        /** Additional comment text supplied by the user describing the problem */
+        fun userComment(userComment: Optional<String>) = userComment(userComment.orElse(null))
 
         /** The reporting user’s current latitude */
-        fun userLat(userLat: Double) = apply { this.userLat = userLat }
+        fun userLat(userLat: Double?) = apply { this.userLat = userLat }
+
+        /** The reporting user’s current latitude */
+        fun userLat(userLat: Double) = userLat(userLat as Double?)
+
+        /** The reporting user’s current latitude */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun userLat(userLat: Optional<Double>) = userLat(userLat.orElse(null) as Double?)
 
         /** The reporting user’s location accuracy, in meters */
-        fun userLocationAccuracy(userLocationAccuracy: Double) = apply {
+        fun userLocationAccuracy(userLocationAccuracy: Double?) = apply {
             this.userLocationAccuracy = userLocationAccuracy
         }
 
+        /** The reporting user’s location accuracy, in meters */
+        fun userLocationAccuracy(userLocationAccuracy: Double) =
+            userLocationAccuracy(userLocationAccuracy as Double?)
+
+        /** The reporting user’s location accuracy, in meters */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun userLocationAccuracy(userLocationAccuracy: Optional<Double>) =
+            userLocationAccuracy(userLocationAccuracy.orElse(null) as Double?)
+
         /** The reporting user’s current longitude */
-        fun userLon(userLon: Double) = apply { this.userLon = userLon }
+        fun userLon(userLon: Double?) = apply { this.userLon = userLon }
+
+        /** The reporting user’s current longitude */
+        fun userLon(userLon: Double) = userLon(userLon as Double?)
+
+        /** The reporting user’s current longitude */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun userLon(userLon: Optional<Double>) = userLon(userLon.orElse(null) as Double?)
 
         /** Indicator if the user is on the transit vehicle experiencing the problem */
-        fun userOnVehicle(userOnVehicle: Boolean) = apply { this.userOnVehicle = userOnVehicle }
+        fun userOnVehicle(userOnVehicle: Boolean?) = apply { this.userOnVehicle = userOnVehicle }
+
+        /** Indicator if the user is on the transit vehicle experiencing the problem */
+        fun userOnVehicle(userOnVehicle: Boolean) = userOnVehicle(userOnVehicle as Boolean?)
+
+        /** Indicator if the user is on the transit vehicle experiencing the problem */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun userOnVehicle(userOnVehicle: Optional<Boolean>) =
+            userOnVehicle(userOnVehicle.orElse(null) as Boolean?)
 
         /** The vehicle number, as reported by the user */
-        fun userVehicleNumber(userVehicleNumber: String) = apply {
+        fun userVehicleNumber(userVehicleNumber: String?) = apply {
             this.userVehicleNumber = userVehicleNumber
         }
 
+        /** The vehicle number, as reported by the user */
+        fun userVehicleNumber(userVehicleNumber: Optional<String>) =
+            userVehicleNumber(userVehicleNumber.orElse(null))
+
         /** The vehicle actively serving the trip */
-        fun vehicleId(vehicleId: String) = apply { this.vehicleId = vehicleId }
+        fun vehicleId(vehicleId: String?) = apply { this.vehicleId = vehicleId }
+
+        /** The vehicle actively serving the trip */
+        fun vehicleId(vehicleId: Optional<String>) = vehicleId(vehicleId.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -273,7 +331,7 @@ constructor(
 
         fun build(): ReportProblemWithTripRetrieveParams =
             ReportProblemWithTripRetrieveParams(
-                checkNotNull(tripId) { "`tripId` is required but was not set" },
+                checkRequired("tripId", tripId),
                 code,
                 serviceDate,
                 stopId,
@@ -289,12 +347,21 @@ constructor(
             )
     }
 
+    /** A string code identifying the nature of the problem */
     class Code
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
     ) : Enum {
 
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         companion object {
@@ -314,6 +381,7 @@ constructor(
             @JvmStatic fun of(value: String) = Code(JsonField.of(value))
         }
 
+        /** An enum containing [Code]'s known values. */
         enum class Known {
             VEHICLE_NEVER_CAME,
             VEHICLE_CAME_EARLY,
@@ -323,6 +391,15 @@ constructor(
             OTHER,
         }
 
+        /**
+         * An enum containing [Code]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Code] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
         enum class Value {
             VEHICLE_NEVER_CAME,
             VEHICLE_CAME_EARLY,
@@ -330,9 +407,17 @@ constructor(
             WRONG_HEADSIGN,
             VEHICLE_DOES_NOT_STOP_HERE,
             OTHER,
+            /** An enum member indicating that [Code] was instantiated with an unknown value. */
             _UNKNOWN,
         }
 
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
         fun value(): Value =
             when (this) {
                 VEHICLE_NEVER_CAME -> Value.VEHICLE_NEVER_CAME
@@ -344,6 +429,15 @@ constructor(
                 else -> Value._UNKNOWN
             }
 
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws OnebusawaySdkInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
         fun known(): Known =
             when (this) {
                 VEHICLE_NEVER_CAME -> Known.VEHICLE_NEVER_CAME

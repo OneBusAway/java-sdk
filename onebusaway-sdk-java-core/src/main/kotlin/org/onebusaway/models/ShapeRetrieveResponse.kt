@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -42,15 +43,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,14 +68,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ShapeRetrieveResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -84,13 +87,14 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [ShapeRetrieveResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -144,11 +148,11 @@ private constructor(
 
         fun build(): ShapeRetrieveResponse =
             ShapeRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -171,9 +175,11 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -182,11 +188,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -196,10 +204,11 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var entry: JsonField<Entry> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var entry: JsonField<Entry>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -240,8 +249,8 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    entry,
-                    references,
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -253,29 +262,29 @@ private constructor(
             @JsonProperty("length")
             @ExcludeMissing
             private val length: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("levels")
-            @ExcludeMissing
-            private val levels: JsonField<String> = JsonMissing.of(),
             @JsonProperty("points")
             @ExcludeMissing
             private val points: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("levels")
+            @ExcludeMissing
+            private val levels: JsonField<String> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
             fun length(): Long = length.getRequired("length")
 
-            fun levels(): Optional<String> = Optional.ofNullable(levels.getNullable("levels"))
-
             /** Encoded polyline format representing the shape of the path */
             fun points(): String = points.getRequired("points")
 
-            @JsonProperty("length") @ExcludeMissing fun _length() = length
+            fun levels(): Optional<String> = Optional.ofNullable(levels.getNullable("levels"))
 
-            @JsonProperty("levels") @ExcludeMissing fun _levels() = levels
+            @JsonProperty("length") @ExcludeMissing fun _length(): JsonField<Long> = length
 
             /** Encoded polyline format representing the shape of the path */
-            @JsonProperty("points") @ExcludeMissing fun _points() = points
+            @JsonProperty("points") @ExcludeMissing fun _points(): JsonField<String> = points
+
+            @JsonProperty("levels") @ExcludeMissing fun _levels(): JsonField<String> = levels
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -284,12 +293,14 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): Entry = apply {
-                if (!validated) {
-                    length()
-                    levels()
-                    points()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                length()
+                points()
+                levels()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -299,18 +310,19 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [Entry]. */
+            class Builder internal constructor() {
 
-                private var length: JsonField<Long> = JsonMissing.of()
+                private var length: JsonField<Long>? = null
+                private var points: JsonField<String>? = null
                 private var levels: JsonField<String> = JsonMissing.of()
-                private var points: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(entry: Entry) = apply {
                     length = entry.length
-                    levels = entry.levels
                     points = entry.points
+                    levels = entry.levels
                     additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
@@ -318,15 +330,15 @@ private constructor(
 
                 fun length(length: JsonField<Long>) = apply { this.length = length }
 
-                fun levels(levels: String) = levels(JsonField.of(levels))
-
-                fun levels(levels: JsonField<String>) = apply { this.levels = levels }
-
                 /** Encoded polyline format representing the shape of the path */
                 fun points(points: String) = points(JsonField.of(points))
 
                 /** Encoded polyline format representing the shape of the path */
                 fun points(points: JsonField<String>) = apply { this.points = points }
+
+                fun levels(levels: String) = levels(JsonField.of(levels))
+
+                fun levels(levels: JsonField<String>) = apply { this.levels = levels }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -352,9 +364,9 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
-                        length,
+                        checkRequired("length", length),
+                        checkRequired("points", points),
                         levels,
-                        points,
                         additionalProperties.toImmutable(),
                     )
             }
@@ -364,17 +376,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Entry && length == other.length && points == other.points && levels == other.levels && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(length, points, levels, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Entry{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
+                "Entry{length=$length, points=$points, levels=$levels, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {

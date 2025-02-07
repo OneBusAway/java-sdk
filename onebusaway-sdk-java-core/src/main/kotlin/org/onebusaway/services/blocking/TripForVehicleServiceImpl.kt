@@ -10,12 +10,13 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.prepare
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripForVehicleRetrieveParams
 import org.onebusaway.models.TripForVehicleRetrieveResponse
 
 class TripForVehicleServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TripForVehicleService {
 
@@ -39,19 +40,15 @@ constructor(
                     "trip-for-vehicle",
                     "${params.getPathParam(0)}.json"
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response
-                .use { retrieveHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
+                .prepare(clientOptions, params)
+        val response = clientOptions.httpClient.execute(request, requestOptions)
+        return response
+            .use { retrieveHandler.handle(it) }
+            .also {
+                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                    it.validate()
                 }
-        }
+            }
     }
 }

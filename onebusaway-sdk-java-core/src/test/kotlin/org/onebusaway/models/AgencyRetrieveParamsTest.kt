@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class AgencyRetrieveParamsTest {
 
     @Test
-    fun createAgencyRetrieveParams() {
+    fun create() {
         AgencyRetrieveParams.builder().agencyId("agencyID").build()
     }
 

@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -42,15 +43,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,14 +68,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AgencyRetrieveResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -84,13 +87,14 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [AgencyRetrieveResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -144,11 +148,11 @@ private constructor(
 
         fun build(): AgencyRetrieveResponse =
             AgencyRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -157,12 +161,12 @@ private constructor(
     class Data
     @JsonCreator
     private constructor(
-        @JsonProperty("limitExceeded")
-        @ExcludeMissing
-        private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("entry")
         @ExcludeMissing
         private val entry: JsonField<Entry> = JsonMissing.of(),
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("references")
         @ExcludeMissing
         private val references: JsonField<References> = JsonMissing.of(),
@@ -170,17 +174,21 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
-
         fun entry(): Entry = entry.getRequired("entry")
+
+        fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("limitExceeded") @ExcludeMissing fun _limitExceeded() = limitExceeded
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -189,12 +197,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                limitExceeded()
-                entry().validate()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            limitExceeded()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -204,30 +214,31 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
-            private var entry: JsonField<Entry> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var entry: JsonField<Entry>? = null
+            private var limitExceeded: JsonField<Boolean>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(data: Data) = apply {
-                limitExceeded = data.limitExceeded
                 entry = data.entry
+                limitExceeded = data.limitExceeded
                 references = data.references
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
+
+            fun entry(entry: Entry) = entry(JsonField.of(entry))
+
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
 
             fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
                 this.limitExceeded = limitExceeded
             }
-
-            fun entry(entry: Entry) = entry(JsonField.of(entry))
-
-            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -256,9 +267,9 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    limitExceeded,
-                    entry,
-                    references,
+                    checkRequired("entry", entry),
+                    checkRequired("limitExceeded", limitExceeded),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -267,6 +278,18 @@ private constructor(
         class Entry
         @JsonCreator
         private constructor(
+            @JsonProperty("id")
+            @ExcludeMissing
+            private val id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("name")
+            @ExcludeMissing
+            private val name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("timezone")
+            @ExcludeMissing
+            private val timezone: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("url")
+            @ExcludeMissing
+            private val url: JsonField<String> = JsonMissing.of(),
             @JsonProperty("disclaimer")
             @ExcludeMissing
             private val disclaimer: JsonField<String> = JsonMissing.of(),
@@ -276,30 +299,26 @@ private constructor(
             @JsonProperty("fareUrl")
             @ExcludeMissing
             private val fareUrl: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("id")
-            @ExcludeMissing
-            private val id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("lang")
             @ExcludeMissing
             private val lang: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
             @JsonProperty("phone")
             @ExcludeMissing
             private val phone: JsonField<String> = JsonMissing.of(),
             @JsonProperty("privateService")
             @ExcludeMissing
             private val privateService: JsonField<Boolean> = JsonMissing.of(),
-            @JsonProperty("timezone")
-            @ExcludeMissing
-            private val timezone: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("url")
-            @ExcludeMissing
-            private val url: JsonField<String> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
+
+            fun id(): String = id.getRequired("id")
+
+            fun name(): String = name.getRequired("name")
+
+            fun timezone(): String = timezone.getRequired("timezone")
+
+            fun url(): String = url.getRequired("url")
 
             fun disclaimer(): Optional<String> =
                 Optional.ofNullable(disclaimer.getNullable("disclaimer"))
@@ -308,40 +327,36 @@ private constructor(
 
             fun fareUrl(): Optional<String> = Optional.ofNullable(fareUrl.getNullable("fareUrl"))
 
-            fun id(): String = id.getRequired("id")
-
             fun lang(): Optional<String> = Optional.ofNullable(lang.getNullable("lang"))
-
-            fun name(): String = name.getRequired("name")
 
             fun phone(): Optional<String> = Optional.ofNullable(phone.getNullable("phone"))
 
             fun privateService(): Optional<Boolean> =
                 Optional.ofNullable(privateService.getNullable("privateService"))
 
-            fun timezone(): String = timezone.getRequired("timezone")
+            @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-            fun url(): String = url.getRequired("url")
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-            @JsonProperty("disclaimer") @ExcludeMissing fun _disclaimer() = disclaimer
+            @JsonProperty("timezone") @ExcludeMissing fun _timezone(): JsonField<String> = timezone
 
-            @JsonProperty("email") @ExcludeMissing fun _email() = email
+            @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
-            @JsonProperty("fareUrl") @ExcludeMissing fun _fareUrl() = fareUrl
+            @JsonProperty("disclaimer")
+            @ExcludeMissing
+            fun _disclaimer(): JsonField<String> = disclaimer
 
-            @JsonProperty("id") @ExcludeMissing fun _id() = id
+            @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
-            @JsonProperty("lang") @ExcludeMissing fun _lang() = lang
+            @JsonProperty("fareUrl") @ExcludeMissing fun _fareUrl(): JsonField<String> = fareUrl
 
-            @JsonProperty("name") @ExcludeMissing fun _name() = name
+            @JsonProperty("lang") @ExcludeMissing fun _lang(): JsonField<String> = lang
 
-            @JsonProperty("phone") @ExcludeMissing fun _phone() = phone
+            @JsonProperty("phone") @ExcludeMissing fun _phone(): JsonField<String> = phone
 
-            @JsonProperty("privateService") @ExcludeMissing fun _privateService() = privateService
-
-            @JsonProperty("timezone") @ExcludeMissing fun _timezone() = timezone
-
-            @JsonProperty("url") @ExcludeMissing fun _url() = url
+            @JsonProperty("privateService")
+            @ExcludeMissing
+            fun _privateService(): JsonField<Boolean> = privateService
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -350,19 +365,21 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): Entry = apply {
-                if (!validated) {
-                    disclaimer()
-                    email()
-                    fareUrl()
-                    id()
-                    lang()
-                    name()
-                    phone()
-                    privateService()
-                    timezone()
-                    url()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                id()
+                name()
+                timezone()
+                url()
+                disclaimer()
+                email()
+                fareUrl()
+                lang()
+                phone()
+                privateService()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -372,34 +389,51 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [Entry]. */
+            class Builder internal constructor() {
 
+                private var id: JsonField<String>? = null
+                private var name: JsonField<String>? = null
+                private var timezone: JsonField<String>? = null
+                private var url: JsonField<String>? = null
                 private var disclaimer: JsonField<String> = JsonMissing.of()
                 private var email: JsonField<String> = JsonMissing.of()
                 private var fareUrl: JsonField<String> = JsonMissing.of()
-                private var id: JsonField<String> = JsonMissing.of()
                 private var lang: JsonField<String> = JsonMissing.of()
-                private var name: JsonField<String> = JsonMissing.of()
                 private var phone: JsonField<String> = JsonMissing.of()
                 private var privateService: JsonField<Boolean> = JsonMissing.of()
-                private var timezone: JsonField<String> = JsonMissing.of()
-                private var url: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(entry: Entry) = apply {
+                    id = entry.id
+                    name = entry.name
+                    timezone = entry.timezone
+                    url = entry.url
                     disclaimer = entry.disclaimer
                     email = entry.email
                     fareUrl = entry.fareUrl
-                    id = entry.id
                     lang = entry.lang
-                    name = entry.name
                     phone = entry.phone
                     privateService = entry.privateService
-                    timezone = entry.timezone
-                    url = entry.url
                     additionalProperties = entry.additionalProperties.toMutableMap()
                 }
+
+                fun id(id: String) = id(JsonField.of(id))
+
+                fun id(id: JsonField<String>) = apply { this.id = id }
+
+                fun name(name: String) = name(JsonField.of(name))
+
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                fun timezone(timezone: String) = timezone(JsonField.of(timezone))
+
+                fun timezone(timezone: JsonField<String>) = apply { this.timezone = timezone }
+
+                fun url(url: String) = url(JsonField.of(url))
+
+                fun url(url: JsonField<String>) = apply { this.url = url }
 
                 fun disclaimer(disclaimer: String) = disclaimer(JsonField.of(disclaimer))
 
@@ -415,17 +449,9 @@ private constructor(
 
                 fun fareUrl(fareUrl: JsonField<String>) = apply { this.fareUrl = fareUrl }
 
-                fun id(id: String) = id(JsonField.of(id))
-
-                fun id(id: JsonField<String>) = apply { this.id = id }
-
                 fun lang(lang: String) = lang(JsonField.of(lang))
 
                 fun lang(lang: JsonField<String>) = apply { this.lang = lang }
-
-                fun name(name: String) = name(JsonField.of(name))
-
-                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 fun phone(phone: String) = phone(JsonField.of(phone))
 
@@ -437,14 +463,6 @@ private constructor(
                 fun privateService(privateService: JsonField<Boolean>) = apply {
                     this.privateService = privateService
                 }
-
-                fun timezone(timezone: String) = timezone(JsonField.of(timezone))
-
-                fun timezone(timezone: JsonField<String>) = apply { this.timezone = timezone }
-
-                fun url(url: String) = url(JsonField.of(url))
-
-                fun url(url: JsonField<String>) = apply { this.url = url }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -470,16 +488,16 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
+                        checkRequired("id", id),
+                        checkRequired("name", name),
+                        checkRequired("timezone", timezone),
+                        checkRequired("url", url),
                         disclaimer,
                         email,
                         fareUrl,
-                        id,
                         lang,
-                        name,
                         phone,
                         privateService,
-                        timezone,
-                        url,
                         additionalProperties.toImmutable(),
                     )
             }
@@ -489,17 +507,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && disclaimer == other.disclaimer && email == other.email && fareUrl == other.fareUrl && id == other.id && lang == other.lang && name == other.name && phone == other.phone && privateService == other.privateService && timezone == other.timezone && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Entry && id == other.id && name == other.name && timezone == other.timezone && url == other.url && disclaimer == other.disclaimer && email == other.email && fareUrl == other.fareUrl && lang == other.lang && phone == other.phone && privateService == other.privateService && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(disclaimer, email, fareUrl, id, lang, name, phone, privateService, timezone, url, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(id, name, timezone, url, disclaimer, email, fareUrl, lang, phone, privateService, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Entry{disclaimer=$disclaimer, email=$email, fareUrl=$fareUrl, id=$id, lang=$lang, name=$name, phone=$phone, privateService=$privateService, timezone=$timezone, url=$url, additionalProperties=$additionalProperties}"
+                "Entry{id=$id, name=$name, timezone=$timezone, url=$url, disclaimer=$disclaimer, email=$email, fareUrl=$fareUrl, lang=$lang, phone=$phone, privateService=$privateService, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -507,17 +525,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Data && entry == other.entry && limitExceeded == other.limitExceeded && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(limitExceeded, entry, references, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(entry, limitExceeded, references, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Data{limitExceeded=$limitExceeded, entry=$entry, references=$references, additionalProperties=$additionalProperties}"
+            "Data{entry=$entry, limitExceeded=$limitExceeded, references=$references, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

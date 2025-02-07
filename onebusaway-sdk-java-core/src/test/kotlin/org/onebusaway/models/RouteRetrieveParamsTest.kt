@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class RouteRetrieveParamsTest {
 
     @Test
-    fun createRouteRetrieveParams() {
+    fun create() {
         RouteRetrieveParams.builder().routeId("routeID").build()
     }
 

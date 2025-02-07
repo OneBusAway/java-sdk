@@ -18,6 +18,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.BufferedSink
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpClient
 import org.onebusaway.core.http.HttpMethod
@@ -30,7 +31,52 @@ class OkHttpClient
 private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val baseUrl: HttpUrl) :
     HttpClient {
 
-    private fun getClient(requestOptions: RequestOptions): okhttp3.OkHttpClient {
+    override fun execute(
+        request: HttpRequest,
+        requestOptions: RequestOptions,
+    ): HttpResponse {
+        val call = newCall(request, requestOptions)
+
+        return try {
+            call.execute().toResponse()
+        } catch (e: IOException) {
+            throw OnebusawaySdkIoException("Request failed", e)
+        } finally {
+            request.body?.close()
+        }
+    }
+
+    override fun executeAsync(
+        request: HttpRequest,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<HttpResponse> {
+        val future = CompletableFuture<HttpResponse>()
+
+        request.body?.run { future.whenComplete { _, _ -> close() } }
+
+        newCall(request, requestOptions)
+            .enqueue(
+                object : Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        future.complete(response.toResponse())
+                    }
+
+                    override fun onFailure(call: Call, e: IOException) {
+                        future.completeExceptionally(OnebusawaySdkIoException("Request failed", e))
+                    }
+                }
+            )
+
+        return future
+    }
+
+    override fun close() {
+        okHttpClient.dispatcher.executorService.shutdown()
+        okHttpClient.connectionPool.evictAll()
+        okHttpClient.cache?.close()
+    }
+
+    private fun newCall(request: HttpRequest, requestOptions: RequestOptions): Call {
         val clientBuilder = okHttpClient.newBuilder()
 
         val logLevel =
@@ -52,58 +98,13 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
                 .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
         }
 
-        return clientBuilder.build()
+        val client = clientBuilder.build()
+        return client.newCall(request.toRequest(client))
     }
 
-    override fun execute(
-        request: HttpRequest,
-        requestOptions: RequestOptions,
-    ): HttpResponse {
-        val call = getClient(requestOptions).newCall(request.toRequest())
-
-        return try {
-            call.execute().toResponse()
-        } catch (e: IOException) {
-            throw OnebusawaySdkIoException("Request failed", e)
-        } finally {
-            request.body?.close()
-        }
-    }
-
-    override fun executeAsync(
-        request: HttpRequest,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<HttpResponse> {
-        val future = CompletableFuture<HttpResponse>()
-
-        request.body?.run { future.whenComplete { _, _ -> close() } }
-
-        val call = getClient(requestOptions).newCall(request.toRequest())
-        call.enqueue(
-            object : Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    future.complete(response.toResponse())
-                }
-
-                override fun onFailure(call: Call, e: IOException) {
-                    future.completeExceptionally(OnebusawaySdkIoException("Request failed", e))
-                }
-            }
-        )
-
-        return future
-    }
-
-    override fun close() {
-        okHttpClient.dispatcher.executorService.shutdown()
-        okHttpClient.connectionPool.evictAll()
-        okHttpClient.cache?.close()
-    }
-
-    private fun HttpRequest.toRequest(): Request {
+    private fun HttpRequest.toRequest(client: okhttp3.OkHttpClient): Request {
         var body: RequestBody? = body?.toRequestBody()
-        // OkHttpClient always requires a request body for PUT and POST methods.
-        if (body == null && (method == HttpMethod.PUT || method == HttpMethod.POST)) {
+        if (body == null && requiresBody(method)) {
             body = "".toRequestBody()
         }
 
@@ -112,8 +113,32 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
             headers.values(name).forEach { builder.header(name, it) }
         }
 
+        if (
+            !headers.names().contains("X-Stainless-Read-Timeout") && client.readTimeoutMillis != 0
+        ) {
+            builder.header(
+                "X-Stainless-Read-Timeout",
+                Duration.ofMillis(client.readTimeoutMillis.toLong()).seconds.toString()
+            )
+        }
+        if (!headers.names().contains("X-Stainless-Timeout") && client.callTimeoutMillis != 0) {
+            builder.header(
+                "X-Stainless-Timeout",
+                Duration.ofMillis(client.callTimeoutMillis.toLong()).seconds.toString()
+            )
+        }
+
         return builder.build()
     }
+
+    /** `OkHttpClient` always requires a request body for some methods. */
+    private fun requiresBody(method: HttpMethod): Boolean =
+        when (method) {
+            HttpMethod.POST,
+            HttpMethod.PUT,
+            HttpMethod.PATCH -> true
+            else -> false
+        }
 
     private fun HttpRequest.toUrl(): String {
         url?.let {
@@ -168,7 +193,7 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var baseUrl: HttpUrl? = null
         // The default timeout is 1 minute.
@@ -190,7 +215,7 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
                     .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
                     .proxy(proxy)
                     .build(),
-                checkNotNull(baseUrl) { "`baseUrl` is required but was not set" },
+                checkRequired("baseUrl", baseUrl),
             )
     }
 }

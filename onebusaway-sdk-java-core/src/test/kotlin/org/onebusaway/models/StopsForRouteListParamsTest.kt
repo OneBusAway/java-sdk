@@ -9,7 +9,7 @@ import org.onebusaway.core.http.QueryParams
 class StopsForRouteListParamsTest {
 
     @Test
-    fun createStopsForRouteListParams() {
+    fun create() {
         StopsForRouteListParams.builder()
             .routeId("routeID")
             .includePolylines(true)
@@ -18,7 +18,7 @@ class StopsForRouteListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             StopsForRouteListParams.builder()
                 .routeId("routeID")
@@ -28,14 +28,14 @@ class StopsForRouteListParamsTest {
         val expected = QueryParams.builder()
         expected.put("includePolylines", "true")
         expected.put("time", "time")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = StopsForRouteListParams.builder().routeId("routeID").build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

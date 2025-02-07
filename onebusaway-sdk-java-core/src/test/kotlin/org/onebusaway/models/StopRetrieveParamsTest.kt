@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class StopRetrieveParamsTest {
 
     @Test
-    fun createStopRetrieveParams() {
+    fun create() {
         StopRetrieveParams.builder().stopId("stopID").build()
     }
 

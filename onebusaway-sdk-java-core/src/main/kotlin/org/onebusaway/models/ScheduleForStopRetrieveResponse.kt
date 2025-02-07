@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -42,15 +43,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,14 +68,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ScheduleForStopRetrieveResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -84,13 +87,14 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [ScheduleForStopRetrieveResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -146,11 +150,11 @@ private constructor(
 
         fun build(): ScheduleForStopRetrieveResponse =
             ScheduleForStopRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -173,9 +177,11 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -184,11 +190,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -198,10 +206,11 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var entry: JsonField<Entry> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var entry: JsonField<Entry>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -242,8 +251,8 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    entry,
-                    references,
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -272,13 +281,13 @@ private constructor(
             fun stopRouteSchedules(): List<StopRouteSchedule> =
                 stopRouteSchedules.getRequired("stopRouteSchedules")
 
-            @JsonProperty("date") @ExcludeMissing fun _date() = date
+            @JsonProperty("date") @ExcludeMissing fun _date(): JsonField<Long> = date
 
-            @JsonProperty("stopId") @ExcludeMissing fun _stopId() = stopId
+            @JsonProperty("stopId") @ExcludeMissing fun _stopId(): JsonField<String> = stopId
 
             @JsonProperty("stopRouteSchedules")
             @ExcludeMissing
-            fun _stopRouteSchedules() = stopRouteSchedules
+            fun _stopRouteSchedules(): JsonField<List<StopRouteSchedule>> = stopRouteSchedules
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -287,12 +296,14 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): Entry = apply {
-                if (!validated) {
-                    date()
-                    stopId()
-                    stopRouteSchedules().forEach { it.validate() }
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                date()
+                stopId()
+                stopRouteSchedules().forEach { it.validate() }
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -302,19 +313,19 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [Entry]. */
+            class Builder internal constructor() {
 
-                private var date: JsonField<Long> = JsonMissing.of()
-                private var stopId: JsonField<String> = JsonMissing.of()
-                private var stopRouteSchedules: JsonField<List<StopRouteSchedule>> =
-                    JsonMissing.of()
+                private var date: JsonField<Long>? = null
+                private var stopId: JsonField<String>? = null
+                private var stopRouteSchedules: JsonField<MutableList<StopRouteSchedule>>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(entry: Entry) = apply {
                     date = entry.date
                     stopId = entry.stopId
-                    stopRouteSchedules = entry.stopRouteSchedules
+                    stopRouteSchedules = entry.stopRouteSchedules.map { it.toMutableList() }
                     additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
@@ -331,8 +342,21 @@ private constructor(
 
                 fun stopRouteSchedules(stopRouteSchedules: JsonField<List<StopRouteSchedule>>) =
                     apply {
-                        this.stopRouteSchedules = stopRouteSchedules
+                        this.stopRouteSchedules = stopRouteSchedules.map { it.toMutableList() }
                     }
+
+                fun addStopRouteSchedule(stopRouteSchedule: StopRouteSchedule) = apply {
+                    stopRouteSchedules =
+                        (stopRouteSchedules ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(stopRouteSchedule)
+                        }
+                }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -358,9 +382,11 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
-                        date,
-                        stopId,
-                        stopRouteSchedules.map { it.toImmutable() },
+                        checkRequired("date", date),
+                        checkRequired("stopId", stopId),
+                        checkRequired("stopRouteSchedules", stopRouteSchedules).map {
+                            it.toImmutable()
+                        },
                         additionalProperties.toImmutable(),
                     )
             }
@@ -386,11 +412,12 @@ private constructor(
                 fun stopRouteDirectionSchedules(): List<StopRouteDirectionSchedule> =
                     stopRouteDirectionSchedules.getRequired("stopRouteDirectionSchedules")
 
-                @JsonProperty("routeId") @ExcludeMissing fun _routeId() = routeId
+                @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
 
                 @JsonProperty("stopRouteDirectionSchedules")
                 @ExcludeMissing
-                fun _stopRouteDirectionSchedules() = stopRouteDirectionSchedules
+                fun _stopRouteDirectionSchedules(): JsonField<List<StopRouteDirectionSchedule>> =
+                    stopRouteDirectionSchedules
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -399,11 +426,13 @@ private constructor(
                 private var validated: Boolean = false
 
                 fun validate(): StopRouteSchedule = apply {
-                    if (!validated) {
-                        routeId()
-                        stopRouteDirectionSchedules().forEach { it.validate() }
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    routeId()
+                    stopRouteDirectionSchedules().forEach { it.validate() }
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -413,18 +442,20 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                /** A builder for [StopRouteSchedule]. */
+                class Builder internal constructor() {
 
-                    private var routeId: JsonField<String> = JsonMissing.of()
+                    private var routeId: JsonField<String>? = null
                     private var stopRouteDirectionSchedules:
-                        JsonField<List<StopRouteDirectionSchedule>> =
-                        JsonMissing.of()
+                        JsonField<MutableList<StopRouteDirectionSchedule>>? =
+                        null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
                     internal fun from(stopRouteSchedule: StopRouteSchedule) = apply {
                         routeId = stopRouteSchedule.routeId
-                        stopRouteDirectionSchedules = stopRouteSchedule.stopRouteDirectionSchedules
+                        stopRouteDirectionSchedules =
+                            stopRouteSchedule.stopRouteDirectionSchedules.map { it.toMutableList() }
                         additionalProperties = stopRouteSchedule.additionalProperties.toMutableMap()
                     }
 
@@ -438,7 +469,25 @@ private constructor(
 
                     fun stopRouteDirectionSchedules(
                         stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>>
-                    ) = apply { this.stopRouteDirectionSchedules = stopRouteDirectionSchedules }
+                    ) = apply {
+                        this.stopRouteDirectionSchedules =
+                            stopRouteDirectionSchedules.map { it.toMutableList() }
+                    }
+
+                    fun addStopRouteDirectionSchedule(
+                        stopRouteDirectionSchedule: StopRouteDirectionSchedule
+                    ) = apply {
+                        stopRouteDirectionSchedules =
+                            (stopRouteDirectionSchedules ?: JsonField.of(mutableListOf())).apply {
+                                asKnown()
+                                    .orElseThrow {
+                                        IllegalStateException(
+                                            "Field was set to non-list type: ${javaClass.simpleName}"
+                                        )
+                                    }
+                                    .add(stopRouteDirectionSchedule)
+                            }
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -464,8 +513,12 @@ private constructor(
 
                     fun build(): StopRouteSchedule =
                         StopRouteSchedule(
-                            routeId,
-                            stopRouteDirectionSchedules.map { it.toImmutable() },
+                            checkRequired("routeId", routeId),
+                            checkRequired(
+                                    "stopRouteDirectionSchedules",
+                                    stopRouteDirectionSchedules
+                                )
+                                .map { it.toImmutable() },
                             additionalProperties.toImmutable(),
                         )
                 }
@@ -474,10 +527,6 @@ private constructor(
                 class StopRouteDirectionSchedule
                 @JsonCreator
                 private constructor(
-                    @JsonProperty("scheduleFrequencies")
-                    @ExcludeMissing
-                    private val scheduleFrequencies: JsonField<List<ScheduleFrequency>> =
-                        JsonMissing.of(),
                     @JsonProperty("scheduleStopTimes")
                     @ExcludeMissing
                     private val scheduleStopTimes: JsonField<List<ScheduleStopTime>> =
@@ -485,27 +534,34 @@ private constructor(
                     @JsonProperty("tripHeadsign")
                     @ExcludeMissing
                     private val tripHeadsign: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("scheduleFrequencies")
+                    @ExcludeMissing
+                    private val scheduleFrequencies: JsonField<List<ScheduleFrequency>> =
+                        JsonMissing.of(),
                     @JsonAnySetter
                     private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
-
-                    fun scheduleFrequencies(): Optional<List<ScheduleFrequency>> =
-                        Optional.ofNullable(scheduleFrequencies.getNullable("scheduleFrequencies"))
 
                     fun scheduleStopTimes(): List<ScheduleStopTime> =
                         scheduleStopTimes.getRequired("scheduleStopTimes")
 
                     fun tripHeadsign(): String = tripHeadsign.getRequired("tripHeadsign")
 
-                    @JsonProperty("scheduleFrequencies")
-                    @ExcludeMissing
-                    fun _scheduleFrequencies() = scheduleFrequencies
+                    fun scheduleFrequencies(): Optional<List<ScheduleFrequency>> =
+                        Optional.ofNullable(scheduleFrequencies.getNullable("scheduleFrequencies"))
 
                     @JsonProperty("scheduleStopTimes")
                     @ExcludeMissing
-                    fun _scheduleStopTimes() = scheduleStopTimes
+                    fun _scheduleStopTimes(): JsonField<List<ScheduleStopTime>> = scheduleStopTimes
 
-                    @JsonProperty("tripHeadsign") @ExcludeMissing fun _tripHeadsign() = tripHeadsign
+                    @JsonProperty("tripHeadsign")
+                    @ExcludeMissing
+                    fun _tripHeadsign(): JsonField<String> = tripHeadsign
+
+                    @JsonProperty("scheduleFrequencies")
+                    @ExcludeMissing
+                    fun _scheduleFrequencies(): JsonField<List<ScheduleFrequency>> =
+                        scheduleFrequencies
 
                     @JsonAnyGetter
                     @ExcludeMissing
@@ -514,12 +570,14 @@ private constructor(
                     private var validated: Boolean = false
 
                     fun validate(): StopRouteDirectionSchedule = apply {
-                        if (!validated) {
-                            scheduleFrequencies().map { it.forEach { it.validate() } }
-                            scheduleStopTimes().forEach { it.validate() }
-                            tripHeadsign()
-                            validated = true
+                        if (validated) {
+                            return@apply
                         }
+
+                        scheduleStopTimes().forEach { it.validate() }
+                        tripHeadsign()
+                        scheduleFrequencies().ifPresent { it.forEach { it.validate() } }
+                        validated = true
                     }
 
                     fun toBuilder() = Builder().from(this)
@@ -529,45 +587,84 @@ private constructor(
                         @JvmStatic fun builder() = Builder()
                     }
 
-                    class Builder {
+                    /** A builder for [StopRouteDirectionSchedule]. */
+                    class Builder internal constructor() {
 
-                        private var scheduleFrequencies: JsonField<List<ScheduleFrequency>> =
-                            JsonMissing.of()
-                        private var scheduleStopTimes: JsonField<List<ScheduleStopTime>> =
-                            JsonMissing.of()
-                        private var tripHeadsign: JsonField<String> = JsonMissing.of()
+                        private var scheduleStopTimes: JsonField<MutableList<ScheduleStopTime>>? =
+                            null
+                        private var tripHeadsign: JsonField<String>? = null
+                        private var scheduleFrequencies:
+                            JsonField<MutableList<ScheduleFrequency>>? =
+                            null
                         private var additionalProperties: MutableMap<String, JsonValue> =
                             mutableMapOf()
 
                         @JvmSynthetic
                         internal fun from(stopRouteDirectionSchedule: StopRouteDirectionSchedule) =
                             apply {
-                                scheduleFrequencies = stopRouteDirectionSchedule.scheduleFrequencies
-                                scheduleStopTimes = stopRouteDirectionSchedule.scheduleStopTimes
+                                scheduleStopTimes =
+                                    stopRouteDirectionSchedule.scheduleStopTimes.map {
+                                        it.toMutableList()
+                                    }
                                 tripHeadsign = stopRouteDirectionSchedule.tripHeadsign
+                                scheduleFrequencies =
+                                    stopRouteDirectionSchedule.scheduleFrequencies.map {
+                                        it.toMutableList()
+                                    }
                                 additionalProperties =
                                     stopRouteDirectionSchedule.additionalProperties.toMutableMap()
                             }
-
-                        fun scheduleFrequencies(scheduleFrequencies: List<ScheduleFrequency>) =
-                            scheduleFrequencies(JsonField.of(scheduleFrequencies))
-
-                        fun scheduleFrequencies(
-                            scheduleFrequencies: JsonField<List<ScheduleFrequency>>
-                        ) = apply { this.scheduleFrequencies = scheduleFrequencies }
 
                         fun scheduleStopTimes(scheduleStopTimes: List<ScheduleStopTime>) =
                             scheduleStopTimes(JsonField.of(scheduleStopTimes))
 
                         fun scheduleStopTimes(
                             scheduleStopTimes: JsonField<List<ScheduleStopTime>>
-                        ) = apply { this.scheduleStopTimes = scheduleStopTimes }
+                        ) = apply {
+                            this.scheduleStopTimes = scheduleStopTimes.map { it.toMutableList() }
+                        }
+
+                        fun addScheduleStopTime(scheduleStopTime: ScheduleStopTime) = apply {
+                            scheduleStopTimes =
+                                (scheduleStopTimes ?: JsonField.of(mutableListOf())).apply {
+                                    asKnown()
+                                        .orElseThrow {
+                                            IllegalStateException(
+                                                "Field was set to non-list type: ${javaClass.simpleName}"
+                                            )
+                                        }
+                                        .add(scheduleStopTime)
+                                }
+                        }
 
                         fun tripHeadsign(tripHeadsign: String) =
                             tripHeadsign(JsonField.of(tripHeadsign))
 
                         fun tripHeadsign(tripHeadsign: JsonField<String>) = apply {
                             this.tripHeadsign = tripHeadsign
+                        }
+
+                        fun scheduleFrequencies(scheduleFrequencies: List<ScheduleFrequency>) =
+                            scheduleFrequencies(JsonField.of(scheduleFrequencies))
+
+                        fun scheduleFrequencies(
+                            scheduleFrequencies: JsonField<List<ScheduleFrequency>>
+                        ) = apply {
+                            this.scheduleFrequencies =
+                                scheduleFrequencies.map { it.toMutableList() }
+                        }
+
+                        fun addScheduleFrequency(scheduleFrequency: ScheduleFrequency) = apply {
+                            scheduleFrequencies =
+                                (scheduleFrequencies ?: JsonField.of(mutableListOf())).apply {
+                                    asKnown()
+                                        .orElseThrow {
+                                            IllegalStateException(
+                                                "Field was set to non-list type: ${javaClass.simpleName}"
+                                            )
+                                        }
+                                        .add(scheduleFrequency)
+                                }
                         }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
@@ -594,9 +691,11 @@ private constructor(
 
                         fun build(): StopRouteDirectionSchedule =
                             StopRouteDirectionSchedule(
-                                scheduleFrequencies.map { it.toImmutable() },
-                                scheduleStopTimes.map { it.toImmutable() },
-                                tripHeadsign,
+                                checkRequired("scheduleStopTimes", scheduleStopTimes).map {
+                                    it.toImmutable()
+                                },
+                                checkRequired("tripHeadsign", tripHeadsign),
+                                (scheduleFrequencies ?: JsonMissing.of()).map { it.toImmutable() },
                                 additionalProperties.toImmutable(),
                             )
                     }
@@ -620,12 +719,12 @@ private constructor(
                         @JsonProperty("serviceId")
                         @ExcludeMissing
                         private val serviceId: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("stopHeadsign")
-                        @ExcludeMissing
-                        private val stopHeadsign: JsonField<String> = JsonMissing.of(),
                         @JsonProperty("tripId")
                         @ExcludeMissing
                         private val tripId: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("stopHeadsign")
+                        @ExcludeMissing
+                        private val stopHeadsign: JsonField<String> = JsonMissing.of(),
                         @JsonAnySetter
                         private val additionalProperties: Map<String, JsonValue> =
                             immutableEmptyMap(),
@@ -642,34 +741,38 @@ private constructor(
 
                         fun serviceId(): String = serviceId.getRequired("serviceId")
 
+                        fun tripId(): String = tripId.getRequired("tripId")
+
                         fun stopHeadsign(): Optional<String> =
                             Optional.ofNullable(stopHeadsign.getNullable("stopHeadsign"))
 
-                        fun tripId(): String = tripId.getRequired("tripId")
-
                         @JsonProperty("arrivalEnabled")
                         @ExcludeMissing
-                        fun _arrivalEnabled() = arrivalEnabled
+                        fun _arrivalEnabled(): JsonField<Boolean> = arrivalEnabled
 
                         @JsonProperty("arrivalTime")
                         @ExcludeMissing
-                        fun _arrivalTime() = arrivalTime
+                        fun _arrivalTime(): JsonField<Long> = arrivalTime
 
                         @JsonProperty("departureEnabled")
                         @ExcludeMissing
-                        fun _departureEnabled() = departureEnabled
+                        fun _departureEnabled(): JsonField<Boolean> = departureEnabled
 
                         @JsonProperty("departureTime")
                         @ExcludeMissing
-                        fun _departureTime() = departureTime
+                        fun _departureTime(): JsonField<Long> = departureTime
 
-                        @JsonProperty("serviceId") @ExcludeMissing fun _serviceId() = serviceId
+                        @JsonProperty("serviceId")
+                        @ExcludeMissing
+                        fun _serviceId(): JsonField<String> = serviceId
+
+                        @JsonProperty("tripId")
+                        @ExcludeMissing
+                        fun _tripId(): JsonField<String> = tripId
 
                         @JsonProperty("stopHeadsign")
                         @ExcludeMissing
-                        fun _stopHeadsign() = stopHeadsign
-
-                        @JsonProperty("tripId") @ExcludeMissing fun _tripId() = tripId
+                        fun _stopHeadsign(): JsonField<String> = stopHeadsign
 
                         @JsonAnyGetter
                         @ExcludeMissing
@@ -678,16 +781,18 @@ private constructor(
                         private var validated: Boolean = false
 
                         fun validate(): ScheduleStopTime = apply {
-                            if (!validated) {
-                                arrivalEnabled()
-                                arrivalTime()
-                                departureEnabled()
-                                departureTime()
-                                serviceId()
-                                stopHeadsign()
-                                tripId()
-                                validated = true
+                            if (validated) {
+                                return@apply
                             }
+
+                            arrivalEnabled()
+                            arrivalTime()
+                            departureEnabled()
+                            departureTime()
+                            serviceId()
+                            tripId()
+                            stopHeadsign()
+                            validated = true
                         }
 
                         fun toBuilder() = Builder().from(this)
@@ -697,15 +802,16 @@ private constructor(
                             @JvmStatic fun builder() = Builder()
                         }
 
-                        class Builder {
+                        /** A builder for [ScheduleStopTime]. */
+                        class Builder internal constructor() {
 
-                            private var arrivalEnabled: JsonField<Boolean> = JsonMissing.of()
-                            private var arrivalTime: JsonField<Long> = JsonMissing.of()
-                            private var departureEnabled: JsonField<Boolean> = JsonMissing.of()
-                            private var departureTime: JsonField<Long> = JsonMissing.of()
-                            private var serviceId: JsonField<String> = JsonMissing.of()
+                            private var arrivalEnabled: JsonField<Boolean>? = null
+                            private var arrivalTime: JsonField<Long>? = null
+                            private var departureEnabled: JsonField<Boolean>? = null
+                            private var departureTime: JsonField<Long>? = null
+                            private var serviceId: JsonField<String>? = null
+                            private var tripId: JsonField<String>? = null
                             private var stopHeadsign: JsonField<String> = JsonMissing.of()
-                            private var tripId: JsonField<String> = JsonMissing.of()
                             private var additionalProperties: MutableMap<String, JsonValue> =
                                 mutableMapOf()
 
@@ -716,8 +822,8 @@ private constructor(
                                 departureEnabled = scheduleStopTime.departureEnabled
                                 departureTime = scheduleStopTime.departureTime
                                 serviceId = scheduleStopTime.serviceId
-                                stopHeadsign = scheduleStopTime.stopHeadsign
                                 tripId = scheduleStopTime.tripId
+                                stopHeadsign = scheduleStopTime.stopHeadsign
                                 additionalProperties =
                                     scheduleStopTime.additionalProperties.toMutableMap()
                             }
@@ -756,16 +862,16 @@ private constructor(
                                 this.serviceId = serviceId
                             }
 
+                            fun tripId(tripId: String) = tripId(JsonField.of(tripId))
+
+                            fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
+
                             fun stopHeadsign(stopHeadsign: String) =
                                 stopHeadsign(JsonField.of(stopHeadsign))
 
                             fun stopHeadsign(stopHeadsign: JsonField<String>) = apply {
                                 this.stopHeadsign = stopHeadsign
                             }
-
-                            fun tripId(tripId: String) = tripId(JsonField.of(tripId))
-
-                            fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                             fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                                 apply {
@@ -791,13 +897,13 @@ private constructor(
 
                             fun build(): ScheduleStopTime =
                                 ScheduleStopTime(
-                                    arrivalEnabled,
-                                    arrivalTime,
-                                    departureEnabled,
-                                    departureTime,
-                                    serviceId,
+                                    checkRequired("arrivalEnabled", arrivalEnabled),
+                                    checkRequired("arrivalTime", arrivalTime),
+                                    checkRequired("departureEnabled", departureEnabled),
+                                    checkRequired("departureTime", departureTime),
+                                    checkRequired("serviceId", serviceId),
+                                    checkRequired("tripId", tripId),
                                     stopHeadsign,
-                                    tripId,
                                     additionalProperties.toImmutable(),
                                 )
                         }
@@ -807,38 +913,38 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is ScheduleStopTime && arrivalEnabled == other.arrivalEnabled && arrivalTime == other.arrivalTime && departureEnabled == other.departureEnabled && departureTime == other.departureTime && serviceId == other.serviceId && stopHeadsign == other.stopHeadsign && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
+                            return /* spotless:off */ other is ScheduleStopTime && arrivalEnabled == other.arrivalEnabled && arrivalTime == other.arrivalTime && departureEnabled == other.departureEnabled && departureTime == other.departureTime && serviceId == other.serviceId && tripId == other.tripId && stopHeadsign == other.stopHeadsign && additionalProperties == other.additionalProperties /* spotless:on */
                         }
 
                         /* spotless:off */
-                        private val hashCode: Int by lazy { Objects.hash(arrivalEnabled, arrivalTime, departureEnabled, departureTime, serviceId, stopHeadsign, tripId, additionalProperties) }
+                        private val hashCode: Int by lazy { Objects.hash(arrivalEnabled, arrivalTime, departureEnabled, departureTime, serviceId, tripId, stopHeadsign, additionalProperties) }
                         /* spotless:on */
 
                         override fun hashCode(): Int = hashCode
 
                         override fun toString() =
-                            "ScheduleStopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, stopHeadsign=$stopHeadsign, tripId=$tripId, additionalProperties=$additionalProperties}"
+                            "ScheduleStopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, tripId=$tripId, stopHeadsign=$stopHeadsign, additionalProperties=$additionalProperties}"
                     }
 
                     @NoAutoDetect
                     class ScheduleFrequency
                     @JsonCreator
                     private constructor(
-                        @JsonProperty("serviceDate")
-                        @ExcludeMissing
-                        private val serviceDate: JsonField<Long> = JsonMissing.of(),
-                        @JsonProperty("startTime")
-                        @ExcludeMissing
-                        private val startTime: JsonField<Long> = JsonMissing.of(),
                         @JsonProperty("endTime")
                         @ExcludeMissing
                         private val endTime: JsonField<Long> = JsonMissing.of(),
                         @JsonProperty("headway")
                         @ExcludeMissing
                         private val headway: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("serviceDate")
+                        @ExcludeMissing
+                        private val serviceDate: JsonField<Long> = JsonMissing.of(),
                         @JsonProperty("serviceId")
                         @ExcludeMissing
                         private val serviceId: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("startTime")
+                        @ExcludeMissing
+                        private val startTime: JsonField<Long> = JsonMissing.of(),
                         @JsonProperty("tripId")
                         @ExcludeMissing
                         private val tripId: JsonField<String> = JsonMissing.of(),
@@ -847,31 +953,41 @@ private constructor(
                             immutableEmptyMap(),
                     ) {
 
-                        fun serviceDate(): Long = serviceDate.getRequired("serviceDate")
-
-                        fun startTime(): Long = startTime.getRequired("startTime")
-
                         fun endTime(): Long = endTime.getRequired("endTime")
 
                         fun headway(): Long = headway.getRequired("headway")
 
+                        fun serviceDate(): Long = serviceDate.getRequired("serviceDate")
+
                         fun serviceId(): String = serviceId.getRequired("serviceId")
+
+                        fun startTime(): Long = startTime.getRequired("startTime")
 
                         fun tripId(): String = tripId.getRequired("tripId")
 
+                        @JsonProperty("endTime")
+                        @ExcludeMissing
+                        fun _endTime(): JsonField<Long> = endTime
+
+                        @JsonProperty("headway")
+                        @ExcludeMissing
+                        fun _headway(): JsonField<Long> = headway
+
                         @JsonProperty("serviceDate")
                         @ExcludeMissing
-                        fun _serviceDate() = serviceDate
+                        fun _serviceDate(): JsonField<Long> = serviceDate
 
-                        @JsonProperty("startTime") @ExcludeMissing fun _startTime() = startTime
+                        @JsonProperty("serviceId")
+                        @ExcludeMissing
+                        fun _serviceId(): JsonField<String> = serviceId
 
-                        @JsonProperty("endTime") @ExcludeMissing fun _endTime() = endTime
+                        @JsonProperty("startTime")
+                        @ExcludeMissing
+                        fun _startTime(): JsonField<Long> = startTime
 
-                        @JsonProperty("headway") @ExcludeMissing fun _headway() = headway
-
-                        @JsonProperty("serviceId") @ExcludeMissing fun _serviceId() = serviceId
-
-                        @JsonProperty("tripId") @ExcludeMissing fun _tripId() = tripId
+                        @JsonProperty("tripId")
+                        @ExcludeMissing
+                        fun _tripId(): JsonField<String> = tripId
 
                         @JsonAnyGetter
                         @ExcludeMissing
@@ -880,15 +996,17 @@ private constructor(
                         private var validated: Boolean = false
 
                         fun validate(): ScheduleFrequency = apply {
-                            if (!validated) {
-                                serviceDate()
-                                startTime()
-                                endTime()
-                                headway()
-                                serviceId()
-                                tripId()
-                                validated = true
+                            if (validated) {
+                                return@apply
                             }
+
+                            endTime()
+                            headway()
+                            serviceDate()
+                            serviceId()
+                            startTime()
+                            tripId()
+                            validated = true
                         }
 
                         fun toBuilder() = Builder().from(this)
@@ -898,40 +1016,28 @@ private constructor(
                             @JvmStatic fun builder() = Builder()
                         }
 
-                        class Builder {
+                        /** A builder for [ScheduleFrequency]. */
+                        class Builder internal constructor() {
 
-                            private var serviceDate: JsonField<Long> = JsonMissing.of()
-                            private var startTime: JsonField<Long> = JsonMissing.of()
-                            private var endTime: JsonField<Long> = JsonMissing.of()
-                            private var headway: JsonField<Long> = JsonMissing.of()
-                            private var serviceId: JsonField<String> = JsonMissing.of()
-                            private var tripId: JsonField<String> = JsonMissing.of()
+                            private var endTime: JsonField<Long>? = null
+                            private var headway: JsonField<Long>? = null
+                            private var serviceDate: JsonField<Long>? = null
+                            private var serviceId: JsonField<String>? = null
+                            private var startTime: JsonField<Long>? = null
+                            private var tripId: JsonField<String>? = null
                             private var additionalProperties: MutableMap<String, JsonValue> =
                                 mutableMapOf()
 
                             @JvmSynthetic
                             internal fun from(scheduleFrequency: ScheduleFrequency) = apply {
-                                serviceDate = scheduleFrequency.serviceDate
-                                startTime = scheduleFrequency.startTime
                                 endTime = scheduleFrequency.endTime
                                 headway = scheduleFrequency.headway
+                                serviceDate = scheduleFrequency.serviceDate
                                 serviceId = scheduleFrequency.serviceId
+                                startTime = scheduleFrequency.startTime
                                 tripId = scheduleFrequency.tripId
                                 additionalProperties =
                                     scheduleFrequency.additionalProperties.toMutableMap()
-                            }
-
-                            fun serviceDate(serviceDate: Long) =
-                                serviceDate(JsonField.of(serviceDate))
-
-                            fun serviceDate(serviceDate: JsonField<Long>) = apply {
-                                this.serviceDate = serviceDate
-                            }
-
-                            fun startTime(startTime: Long) = startTime(JsonField.of(startTime))
-
-                            fun startTime(startTime: JsonField<Long>) = apply {
-                                this.startTime = startTime
                             }
 
                             fun endTime(endTime: Long) = endTime(JsonField.of(endTime))
@@ -942,10 +1048,23 @@ private constructor(
 
                             fun headway(headway: JsonField<Long>) = apply { this.headway = headway }
 
+                            fun serviceDate(serviceDate: Long) =
+                                serviceDate(JsonField.of(serviceDate))
+
+                            fun serviceDate(serviceDate: JsonField<Long>) = apply {
+                                this.serviceDate = serviceDate
+                            }
+
                             fun serviceId(serviceId: String) = serviceId(JsonField.of(serviceId))
 
                             fun serviceId(serviceId: JsonField<String>) = apply {
                                 this.serviceId = serviceId
+                            }
+
+                            fun startTime(startTime: Long) = startTime(JsonField.of(startTime))
+
+                            fun startTime(startTime: JsonField<Long>) = apply {
+                                this.startTime = startTime
                             }
 
                             fun tripId(tripId: String) = tripId(JsonField.of(tripId))
@@ -976,12 +1095,12 @@ private constructor(
 
                             fun build(): ScheduleFrequency =
                                 ScheduleFrequency(
-                                    serviceDate,
-                                    startTime,
-                                    endTime,
-                                    headway,
-                                    serviceId,
-                                    tripId,
+                                    checkRequired("endTime", endTime),
+                                    checkRequired("headway", headway),
+                                    checkRequired("serviceDate", serviceDate),
+                                    checkRequired("serviceId", serviceId),
+                                    checkRequired("startTime", startTime),
+                                    checkRequired("tripId", tripId),
                                     additionalProperties.toImmutable(),
                                 )
                         }
@@ -991,17 +1110,17 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is ScheduleFrequency && serviceDate == other.serviceDate && startTime == other.startTime && endTime == other.endTime && headway == other.headway && serviceId == other.serviceId && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
+                            return /* spotless:off */ other is ScheduleFrequency && endTime == other.endTime && headway == other.headway && serviceDate == other.serviceDate && serviceId == other.serviceId && startTime == other.startTime && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
                         }
 
                         /* spotless:off */
-                        private val hashCode: Int by lazy { Objects.hash(serviceDate, startTime, endTime, headway, serviceId, tripId, additionalProperties) }
+                        private val hashCode: Int by lazy { Objects.hash(endTime, headway, serviceDate, serviceId, startTime, tripId, additionalProperties) }
                         /* spotless:on */
 
                         override fun hashCode(): Int = hashCode
 
                         override fun toString() =
-                            "ScheduleFrequency{serviceDate=$serviceDate, startTime=$startTime, endTime=$endTime, headway=$headway, serviceId=$serviceId, tripId=$tripId, additionalProperties=$additionalProperties}"
+                            "ScheduleFrequency{endTime=$endTime, headway=$headway, serviceDate=$serviceDate, serviceId=$serviceId, startTime=$startTime, tripId=$tripId, additionalProperties=$additionalProperties}"
                     }
 
                     override fun equals(other: Any?): Boolean {
@@ -1009,17 +1128,17 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is StopRouteDirectionSchedule && scheduleFrequencies == other.scheduleFrequencies && scheduleStopTimes == other.scheduleStopTimes && tripHeadsign == other.tripHeadsign && additionalProperties == other.additionalProperties /* spotless:on */
+                        return /* spotless:off */ other is StopRouteDirectionSchedule && scheduleStopTimes == other.scheduleStopTimes && tripHeadsign == other.tripHeadsign && scheduleFrequencies == other.scheduleFrequencies && additionalProperties == other.additionalProperties /* spotless:on */
                     }
 
                     /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(scheduleFrequencies, scheduleStopTimes, tripHeadsign, additionalProperties) }
+                    private val hashCode: Int by lazy { Objects.hash(scheduleStopTimes, tripHeadsign, scheduleFrequencies, additionalProperties) }
                     /* spotless:on */
 
                     override fun hashCode(): Int = hashCode
 
                     override fun toString() =
-                        "StopRouteDirectionSchedule{scheduleFrequencies=$scheduleFrequencies, scheduleStopTimes=$scheduleStopTimes, tripHeadsign=$tripHeadsign, additionalProperties=$additionalProperties}"
+                        "StopRouteDirectionSchedule{scheduleStopTimes=$scheduleStopTimes, tripHeadsign=$tripHeadsign, scheduleFrequencies=$scheduleFrequencies, additionalProperties=$additionalProperties}"
                 }
 
                 override fun equals(other: Any?): Boolean {

@@ -9,24 +9,24 @@ import org.onebusaway.core.http.QueryParams
 class SearchForStopListParamsTest {
 
     @Test
-    fun createSearchForStopListParams() {
+    fun create() {
         SearchForStopListParams.builder().input("input").maxCount(0L).build()
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params = SearchForStopListParams.builder().input("input").maxCount(0L).build()
         val expected = QueryParams.builder()
         expected.put("input", "input")
         expected.put("maxCount", "0")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = SearchForStopListParams.builder().input("input").build()
         val expected = QueryParams.builder()
         expected.put("input", "input")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

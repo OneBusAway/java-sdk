@@ -5,11 +5,14 @@ package org.onebusaway.models
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Retrieve Trip Details */
 class TripDetailRetrieveParams
-constructor(
+private constructor(
     private val tripId: String,
     private val includeSchedule: Boolean?,
     private val includeStatus: Boolean?,
@@ -18,7 +21,7 @@ constructor(
     private val time: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun tripId(): String = tripId
 
@@ -43,10 +46,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.includeSchedule?.let { queryParams.put("includeSchedule", listOf(it.toString())) }
         this.includeStatus?.let { queryParams.put("includeStatus", listOf(it.toString())) }
@@ -71,8 +73,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [TripDetailRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var tripId: String? = null
         private var includeSchedule: Boolean? = null
@@ -101,25 +104,78 @@ constructor(
          * Whether to include the full schedule element in the tripDetails section (defaults to
          * true).
          */
-        fun includeSchedule(includeSchedule: Boolean) = apply {
+        fun includeSchedule(includeSchedule: Boolean?) = apply {
             this.includeSchedule = includeSchedule
         }
 
         /**
+         * Whether to include the full schedule element in the tripDetails section (defaults to
+         * true).
+         */
+        fun includeSchedule(includeSchedule: Boolean) = includeSchedule(includeSchedule as Boolean?)
+
+        /**
+         * Whether to include the full schedule element in the tripDetails section (defaults to
+         * true).
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun includeSchedule(includeSchedule: Optional<Boolean>) =
+            includeSchedule(includeSchedule.orElse(null) as Boolean?)
+
+        /**
          * Whether to include the full status element in the tripDetails section (defaults to true).
          */
-        fun includeStatus(includeStatus: Boolean) = apply { this.includeStatus = includeStatus }
+        fun includeStatus(includeStatus: Boolean?) = apply { this.includeStatus = includeStatus }
+
+        /**
+         * Whether to include the full status element in the tripDetails section (defaults to true).
+         */
+        fun includeStatus(includeStatus: Boolean) = includeStatus(includeStatus as Boolean?)
+
+        /**
+         * Whether to include the full status element in the tripDetails section (defaults to true).
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun includeStatus(includeStatus: Optional<Boolean>) =
+            includeStatus(includeStatus.orElse(null) as Boolean?)
 
         /**
          * Whether to include the full trip element in the references section (defaults to true).
          */
-        fun includeTrip(includeTrip: Boolean) = apply { this.includeTrip = includeTrip }
+        fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
+
+        /**
+         * Whether to include the full trip element in the references section (defaults to true).
+         */
+        fun includeTrip(includeTrip: Boolean) = includeTrip(includeTrip as Boolean?)
+
+        /**
+         * Whether to include the full trip element in the references section (defaults to true).
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun includeTrip(includeTrip: Optional<Boolean>) =
+            includeTrip(includeTrip.orElse(null) as Boolean?)
 
         /** Service date for the trip as Unix time in milliseconds (optional). */
-        fun serviceDate(serviceDate: Long) = apply { this.serviceDate = serviceDate }
+        fun serviceDate(serviceDate: Long?) = apply { this.serviceDate = serviceDate }
+
+        /** Service date for the trip as Unix time in milliseconds (optional). */
+        fun serviceDate(serviceDate: Long) = serviceDate(serviceDate as Long?)
+
+        /** Service date for the trip as Unix time in milliseconds (optional). */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun serviceDate(serviceDate: Optional<Long>) =
+            serviceDate(serviceDate.orElse(null) as Long?)
 
         /** Time parameter to query the system at a specific time (optional). */
-        fun time(time: Long) = apply { this.time = time }
+        fun time(time: Long?) = apply { this.time = time }
+
+        /** Time parameter to query the system at a specific time (optional). */
+        fun time(time: Long) = time(time as Long?)
+
+        /** Time parameter to query the system at a specific time (optional). */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun time(time: Optional<Long>) = time(time.orElse(null) as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -221,7 +277,7 @@ constructor(
 
         fun build(): TripDetailRetrieveParams =
             TripDetailRetrieveParams(
-                checkNotNull(tripId) { "`tripId` is required but was not set" },
+                checkRequired("tripId", tripId),
                 includeSchedule,
                 includeStatus,
                 includeTrip,

@@ -4,15 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Get details of a specific block by ID */
 class BlockRetrieveParams
-constructor(
+private constructor(
     private val blockId: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun blockId(): String = blockId
 
@@ -20,9 +23,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     fun getPathParam(index: Int): String {
         return when (index) {
@@ -38,8 +41,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [BlockRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var blockId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -154,7 +158,7 @@ constructor(
 
         fun build(): BlockRetrieveParams =
             BlockRetrieveParams(
-                checkNotNull(blockId) { "`blockId` is required but was not set" },
+                checkRequired("blockId", blockId),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

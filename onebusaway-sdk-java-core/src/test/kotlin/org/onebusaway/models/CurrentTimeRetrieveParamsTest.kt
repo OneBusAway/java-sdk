@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class CurrentTimeRetrieveParamsTest {
 
     @Test
-    fun createCurrentTimeRetrieveParams() {
+    fun create() {
         CurrentTimeRetrieveParams.builder().build()
     }
 }

@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -42,15 +43,15 @@ private constructor(
 
     fun data(): Optional<Data> = Optional.ofNullable(data.getNullable("data"))
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,14 +68,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): SearchForRouteListResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().map { it.validate() }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().ifPresent { it.validate() }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -84,12 +87,13 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [SearchForRouteListResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
         private var data: JsonField<Data> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -144,10 +148,10 @@ private constructor(
 
         fun build(): SearchForRouteListResponse =
             SearchForRouteListResponse(
-                code,
-                currentTime,
-                text,
-                version,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
                 data,
                 additionalProperties.toImmutable(),
             )
@@ -181,13 +185,19 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("limitExceeded") @ExcludeMissing fun _limitExceeded() = limitExceeded
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list() = list
+        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
 
-        @JsonProperty("outOfRange") @ExcludeMissing fun _outOfRange() = outOfRange
+        @JsonProperty("outOfRange")
+        @ExcludeMissing
+        fun _outOfRange(): JsonField<Boolean> = outOfRange
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -196,13 +206,15 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                limitExceeded()
-                list().forEach { it.validate() }
-                outOfRange()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            limitExceeded()
+            list().forEach { it.validate() }
+            outOfRange()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -212,18 +224,19 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
-            private var list: JsonField<List<List>> = JsonMissing.of()
-            private var outOfRange: JsonField<Boolean> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var limitExceeded: JsonField<Boolean>? = null
+            private var list: JsonField<MutableList<List>>? = null
+            private var outOfRange: JsonField<Boolean>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(data: Data) = apply {
                 limitExceeded = data.limitExceeded
-                list = data.list
+                list = data.list.map { it.toMutableList() }
                 outOfRange = data.outOfRange
                 references = data.references
                 additionalProperties = data.additionalProperties.toMutableMap()
@@ -237,7 +250,22 @@ private constructor(
 
             fun list(list: List<List>) = list(JsonField.of(list))
 
-            fun list(list: JsonField<List<List>>) = apply { this.list = list }
+            fun list(list: JsonField<List<List>>) = apply {
+                this.list = list.map { it.toMutableList() }
+            }
+
+            fun addList(list: List) = apply {
+                this.list =
+                    (this.list ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(list)
+                    }
+            }
 
             fun outOfRange(outOfRange: Boolean) = outOfRange(JsonField.of(outOfRange))
 
@@ -270,10 +298,10 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    limitExceeded,
-                    list.map { it.toImmutable() },
-                    outOfRange,
-                    references,
+                    checkRequired("limitExceeded", limitExceeded),
+                    checkRequired("list", list).map { it.toImmutable() },
+                    checkRequired("outOfRange", outOfRange),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -282,18 +310,21 @@ private constructor(
         class List
         @JsonCreator
         private constructor(
+            @JsonProperty("id")
+            @ExcludeMissing
+            private val id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("agencyId")
             @ExcludeMissing
             private val agencyId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type")
+            @ExcludeMissing
+            private val type: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("color")
             @ExcludeMissing
             private val color: JsonField<String> = JsonMissing.of(),
             @JsonProperty("description")
             @ExcludeMissing
             private val description: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("id")
-            @ExcludeMissing
-            private val id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("longName")
             @ExcludeMissing
             private val longName: JsonField<String> = JsonMissing.of(),
@@ -306,9 +337,6 @@ private constructor(
             @JsonProperty("textColor")
             @ExcludeMissing
             private val textColor: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("type")
-            @ExcludeMissing
-            private val type: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("url")
             @ExcludeMissing
             private val url: JsonField<String> = JsonMissing.of(),
@@ -316,14 +344,16 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
+            fun id(): String = id.getRequired("id")
+
             fun agencyId(): String = agencyId.getRequired("agencyId")
+
+            fun type(): Long = type.getRequired("type")
 
             fun color(): Optional<String> = Optional.ofNullable(color.getNullable("color"))
 
             fun description(): Optional<String> =
                 Optional.ofNullable(description.getNullable("description"))
-
-            fun id(): String = id.getRequired("id")
 
             fun longName(): Optional<String> = Optional.ofNullable(longName.getNullable("longName"))
 
@@ -336,31 +366,35 @@ private constructor(
             fun textColor(): Optional<String> =
                 Optional.ofNullable(textColor.getNullable("textColor"))
 
-            fun type(): Long = type.getRequired("type")
-
             fun url(): Optional<String> = Optional.ofNullable(url.getNullable("url"))
 
-            @JsonProperty("agencyId") @ExcludeMissing fun _agencyId() = agencyId
+            @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-            @JsonProperty("color") @ExcludeMissing fun _color() = color
+            @JsonProperty("agencyId") @ExcludeMissing fun _agencyId(): JsonField<String> = agencyId
 
-            @JsonProperty("description") @ExcludeMissing fun _description() = description
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Long> = type
 
-            @JsonProperty("id") @ExcludeMissing fun _id() = id
+            @JsonProperty("color") @ExcludeMissing fun _color(): JsonField<String> = color
 
-            @JsonProperty("longName") @ExcludeMissing fun _longName() = longName
+            @JsonProperty("description")
+            @ExcludeMissing
+            fun _description(): JsonField<String> = description
+
+            @JsonProperty("longName") @ExcludeMissing fun _longName(): JsonField<String> = longName
 
             @JsonProperty("nullSafeShortName")
             @ExcludeMissing
-            fun _nullSafeShortName() = nullSafeShortName
+            fun _nullSafeShortName(): JsonField<String> = nullSafeShortName
 
-            @JsonProperty("shortName") @ExcludeMissing fun _shortName() = shortName
+            @JsonProperty("shortName")
+            @ExcludeMissing
+            fun _shortName(): JsonField<String> = shortName
 
-            @JsonProperty("textColor") @ExcludeMissing fun _textColor() = textColor
+            @JsonProperty("textColor")
+            @ExcludeMissing
+            fun _textColor(): JsonField<String> = textColor
 
-            @JsonProperty("type") @ExcludeMissing fun _type() = type
-
-            @JsonProperty("url") @ExcludeMissing fun _url() = url
+            @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -369,19 +403,21 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): List = apply {
-                if (!validated) {
-                    agencyId()
-                    color()
-                    description()
-                    id()
-                    longName()
-                    nullSafeShortName()
-                    shortName()
-                    textColor()
-                    type()
-                    url()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                id()
+                agencyId()
+                type()
+                color()
+                description()
+                longName()
+                nullSafeShortName()
+                shortName()
+                textColor()
+                url()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -391,38 +427,47 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [List]. */
+            class Builder internal constructor() {
 
-                private var agencyId: JsonField<String> = JsonMissing.of()
+                private var id: JsonField<String>? = null
+                private var agencyId: JsonField<String>? = null
+                private var type: JsonField<Long>? = null
                 private var color: JsonField<String> = JsonMissing.of()
                 private var description: JsonField<String> = JsonMissing.of()
-                private var id: JsonField<String> = JsonMissing.of()
                 private var longName: JsonField<String> = JsonMissing.of()
                 private var nullSafeShortName: JsonField<String> = JsonMissing.of()
                 private var shortName: JsonField<String> = JsonMissing.of()
                 private var textColor: JsonField<String> = JsonMissing.of()
-                private var type: JsonField<Long> = JsonMissing.of()
                 private var url: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(list: List) = apply {
+                    id = list.id
                     agencyId = list.agencyId
+                    type = list.type
                     color = list.color
                     description = list.description
-                    id = list.id
                     longName = list.longName
                     nullSafeShortName = list.nullSafeShortName
                     shortName = list.shortName
                     textColor = list.textColor
-                    type = list.type
                     url = list.url
                     additionalProperties = list.additionalProperties.toMutableMap()
                 }
 
+                fun id(id: String) = id(JsonField.of(id))
+
+                fun id(id: JsonField<String>) = apply { this.id = id }
+
                 fun agencyId(agencyId: String) = agencyId(JsonField.of(agencyId))
 
                 fun agencyId(agencyId: JsonField<String>) = apply { this.agencyId = agencyId }
+
+                fun type(type: Long) = type(JsonField.of(type))
+
+                fun type(type: JsonField<Long>) = apply { this.type = type }
 
                 fun color(color: String) = color(JsonField.of(color))
 
@@ -433,10 +478,6 @@ private constructor(
                 fun description(description: JsonField<String>) = apply {
                     this.description = description
                 }
-
-                fun id(id: String) = id(JsonField.of(id))
-
-                fun id(id: JsonField<String>) = apply { this.id = id }
 
                 fun longName(longName: String) = longName(JsonField.of(longName))
 
@@ -456,10 +497,6 @@ private constructor(
                 fun textColor(textColor: String) = textColor(JsonField.of(textColor))
 
                 fun textColor(textColor: JsonField<String>) = apply { this.textColor = textColor }
-
-                fun type(type: Long) = type(JsonField.of(type))
-
-                fun type(type: JsonField<Long>) = apply { this.type = type }
 
                 fun url(url: String) = url(JsonField.of(url))
 
@@ -489,15 +526,15 @@ private constructor(
 
                 fun build(): List =
                     List(
-                        agencyId,
+                        checkRequired("id", id),
+                        checkRequired("agencyId", agencyId),
+                        checkRequired("type", type),
                         color,
                         description,
-                        id,
                         longName,
                         nullSafeShortName,
                         shortName,
                         textColor,
-                        type,
                         url,
                         additionalProperties.toImmutable(),
                     )
@@ -508,17 +545,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is List && agencyId == other.agencyId && color == other.color && description == other.description && id == other.id && longName == other.longName && nullSafeShortName == other.nullSafeShortName && shortName == other.shortName && textColor == other.textColor && type == other.type && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is List && id == other.id && agencyId == other.agencyId && type == other.type && color == other.color && description == other.description && longName == other.longName && nullSafeShortName == other.nullSafeShortName && shortName == other.shortName && textColor == other.textColor && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(agencyId, color, description, id, longName, nullSafeShortName, shortName, textColor, type, url, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(id, agencyId, type, color, description, longName, nullSafeShortName, shortName, textColor, url, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "List{agencyId=$agencyId, color=$color, description=$description, id=$id, longName=$longName, nullSafeShortName=$nullSafeShortName, shortName=$shortName, textColor=$textColor, type=$type, url=$url, additionalProperties=$additionalProperties}"
+                "List{id=$id, agencyId=$agencyId, type=$type, color=$color, description=$description, longName=$longName, nullSafeShortName=$nullSafeShortName, shortName=$shortName, textColor=$textColor, url=$url, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {

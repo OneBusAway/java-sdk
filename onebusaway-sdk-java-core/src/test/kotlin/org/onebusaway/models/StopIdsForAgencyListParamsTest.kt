@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class StopIdsForAgencyListParamsTest {
 
     @Test
-    fun createStopIdsForAgencyListParams() {
+    fun create() {
         StopIdsForAgencyListParams.builder().agencyId("agencyID").build()
     }
 

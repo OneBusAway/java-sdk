@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class ConfigRetrieveParamsTest {
 
     @Test
-    fun createConfigRetrieveParams() {
+    fun create() {
         ConfigRetrieveParams.builder().build()
     }
 }

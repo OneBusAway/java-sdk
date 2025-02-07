@@ -9,7 +9,7 @@ import org.onebusaway.core.http.QueryParams
 class ReportProblemWithStopRetrieveParamsTest {
 
     @Test
-    fun createReportProblemWithStopRetrieveParams() {
+    fun create() {
         ReportProblemWithStopRetrieveParams.builder()
             .stopId("stopID")
             .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
@@ -21,7 +21,7 @@ class ReportProblemWithStopRetrieveParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ReportProblemWithStopRetrieveParams.builder()
                 .stopId("stopID")
@@ -37,14 +37,14 @@ class ReportProblemWithStopRetrieveParamsTest {
         expected.put("userLat", "0.0")
         expected.put("userLocationAccuracy", "0.0")
         expected.put("userLon", "0.0")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = ReportProblemWithStopRetrieveParams.builder().stopId("stopID").build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

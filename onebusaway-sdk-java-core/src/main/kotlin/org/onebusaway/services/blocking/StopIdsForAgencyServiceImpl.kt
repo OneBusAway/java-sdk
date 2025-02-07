@@ -10,12 +10,13 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.prepare
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopIdsForAgencyListParams
 import org.onebusaway.models.StopIdsForAgencyListResponse
 
 class StopIdsForAgencyServiceImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : StopIdsForAgencyService {
 
@@ -39,19 +40,15 @@ constructor(
                     "stop-ids-for-agency",
                     "${params.getPathParam(0)}.json"
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
+                .prepare(clientOptions, params)
+        val response = clientOptions.httpClient.execute(request, requestOptions)
+        return response
+            .use { listHandler.handle(it) }
+            .also {
+                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                    it.validate()
                 }
-        }
+            }
     }
 }
