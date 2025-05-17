@@ -317,6 +317,9 @@ private constructor(
             @JsonProperty("lat")
             @ExcludeMissing
             private val lat: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("locationType")
+            @ExcludeMissing
+            private val locationType: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("lon")
             @ExcludeMissing
             private val lon: JsonField<Double> = JsonMissing.of(),
@@ -338,9 +341,6 @@ private constructor(
             @JsonProperty("direction")
             @ExcludeMissing
             private val direction: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("locationType")
-            @ExcludeMissing
-            private val locationType: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("wheelchairBoarding")
             @ExcludeMissing
             private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
@@ -351,6 +351,8 @@ private constructor(
             fun id(): String = id.getRequired("id")
 
             fun lat(): Double = lat.getRequired("lat")
+
+            fun locationType(): Long = locationType.getRequired("locationType")
 
             fun lon(): Double = lon.getRequired("lon")
 
@@ -367,15 +369,16 @@ private constructor(
             fun direction(): Optional<String> =
                 Optional.ofNullable(direction.getNullable("direction"))
 
-            fun locationType(): Optional<Long> =
-                Optional.ofNullable(locationType.getNullable("locationType"))
-
             fun wheelchairBoarding(): Optional<String> =
                 Optional.ofNullable(wheelchairBoarding.getNullable("wheelchairBoarding"))
 
             @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
             @JsonProperty("lat") @ExcludeMissing fun _lat(): JsonField<Double> = lat
+
+            @JsonProperty("locationType")
+            @ExcludeMissing
+            fun _locationType(): JsonField<Long> = locationType
 
             @JsonProperty("lon") @ExcludeMissing fun _lon(): JsonField<Double> = lon
 
@@ -397,10 +400,6 @@ private constructor(
             @ExcludeMissing
             fun _direction(): JsonField<String> = direction
 
-            @JsonProperty("locationType")
-            @ExcludeMissing
-            fun _locationType(): JsonField<Long> = locationType
-
             @JsonProperty("wheelchairBoarding")
             @ExcludeMissing
             fun _wheelchairBoarding(): JsonField<String> = wheelchairBoarding
@@ -418,6 +417,7 @@ private constructor(
 
                 id()
                 lat()
+                locationType()
                 lon()
                 name()
                 parent()
@@ -425,7 +425,6 @@ private constructor(
                 staticRouteIds()
                 code()
                 direction()
-                locationType()
                 wheelchairBoarding()
                 validated = true
             }
@@ -442,6 +441,7 @@ private constructor(
 
                 private var id: JsonField<String>? = null
                 private var lat: JsonField<Double>? = null
+                private var locationType: JsonField<Long>? = null
                 private var lon: JsonField<Double>? = null
                 private var name: JsonField<String>? = null
                 private var parent: JsonField<String>? = null
@@ -449,7 +449,6 @@ private constructor(
                 private var staticRouteIds: JsonField<MutableList<String>>? = null
                 private var code: JsonField<String> = JsonMissing.of()
                 private var direction: JsonField<String> = JsonMissing.of()
-                private var locationType: JsonField<Long> = JsonMissing.of()
                 private var wheelchairBoarding: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -457,6 +456,7 @@ private constructor(
                 internal fun from(list: List) = apply {
                     id = list.id
                     lat = list.lat
+                    locationType = list.locationType
                     lon = list.lon
                     name = list.name
                     parent = list.parent
@@ -464,7 +464,6 @@ private constructor(
                     staticRouteIds = list.staticRouteIds.map { it.toMutableList() }
                     code = list.code
                     direction = list.direction
-                    locationType = list.locationType
                     wheelchairBoarding = list.wheelchairBoarding
                     additionalProperties = list.additionalProperties.toMutableMap()
                 }
@@ -476,6 +475,12 @@ private constructor(
                 fun lat(lat: Double) = lat(JsonField.of(lat))
 
                 fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
+
+                fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
+
+                fun locationType(locationType: JsonField<Long>) = apply {
+                    this.locationType = locationType
+                }
 
                 fun lon(lon: Double) = lon(JsonField.of(lon))
 
@@ -536,12 +541,6 @@ private constructor(
 
                 fun direction(direction: JsonField<String>) = apply { this.direction = direction }
 
-                fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
-
-                fun locationType(locationType: JsonField<Long>) = apply {
-                    this.locationType = locationType
-                }
-
                 fun wheelchairBoarding(wheelchairBoarding: String) =
                     wheelchairBoarding(JsonField.of(wheelchairBoarding))
 
@@ -575,6 +574,7 @@ private constructor(
                     List(
                         checkRequired("id", id),
                         checkRequired("lat", lat),
+                        checkRequired("locationType", locationType),
                         checkRequired("lon", lon),
                         checkRequired("name", name),
                         checkRequired("parent", parent),
@@ -582,7 +582,6 @@ private constructor(
                         checkRequired("staticRouteIds", staticRouteIds).map { it.toImmutable() },
                         code,
                         direction,
-                        locationType,
                         wheelchairBoarding,
                         additionalProperties.toImmutable(),
                     )
@@ -593,17 +592,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is List && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is List && id == other.id && lat == other.lat && locationType == other.locationType && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(id, lat, lon, name, parent, routeIds, staticRouteIds, code, direction, locationType, wheelchairBoarding, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, code, direction, wheelchairBoarding, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "List{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
+                "List{id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
