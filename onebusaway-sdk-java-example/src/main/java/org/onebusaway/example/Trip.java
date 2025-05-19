@@ -7,8 +7,11 @@ import org.onebusaway.models.*;
 public class Trip {
 
     // Retrieve constants from environment variables or fallback to default values
-    static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
-    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null ? System.getenv("ONEBUSAWAY_BASE_URL") : "https://api.pugetsound.onebusaway.org";
+    static final String API_KEY =
+            System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
+    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null
+            ? System.getenv("ONEBUSAWAY_BASE_URL")
+            : "https://api.pugetsound.onebusaway.org";
 
     // Initialize the Onebusaway SDK client
     static final OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
@@ -22,14 +25,11 @@ public class Trip {
         String tripId = "40_608344966";
 
         // Create the parameters for the trip retrieve request
-        TripRetrieveParams params = TripRetrieveParams.builder()
-                .tripId(tripId)
-                .build();
+        TripRetrieveParams params = TripRetrieveParams.builder().tripId(tripId).build();
 
         // Retrieve the trip
         TripRetrieveResponse trip = client.trip().retrieve(params);
 
         System.out.println(trip);
     }
-
 }

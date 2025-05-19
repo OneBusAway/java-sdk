@@ -1,18 +1,20 @@
 package org.onebusaway.example;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.models.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class StopsForLocation {
 
     // Retrieve constants from environment variables or fallback to default values
-    static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
-    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null ? System.getenv("ONEBUSAWAY_BASE_URL") : "https://api.pugetsound.onebusaway.org";
+    static final String API_KEY =
+            System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
+    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null
+            ? System.getenv("ONEBUSAWAY_BASE_URL")
+            : "https://api.pugetsound.onebusaway.org";
 
     // Initialize the Onebusaway SDK client
     static final OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
@@ -56,14 +58,14 @@ public class StopsForLocation {
             // For each stop, print associated routes
             for (String routeId : stop.routeIds()) {
                 References.Route route = referenceMap.get(routeId);
-                if (route == null) continue;  // Skip if route is not found
+                if (route == null) continue; // Skip if route is not found
 
                 // Build a description for the route
                 String routeDescription = buildRouteDescription(route);
                 System.out.printf("    %s\n", routeDescription);
             }
 
-            System.out.println();  // Add a blank line between stops for clarity
+            System.out.println(); // Add a blank line between stops for clarity
         }
     }
 
@@ -76,7 +78,7 @@ public class StopsForLocation {
 
         // Append description if present
         route.description().ifPresent(desc -> {
-            if (!description.isEmpty()) {
+            if (description.length() > 0) {
                 description.append(" - ");
             }
             description.append(desc);

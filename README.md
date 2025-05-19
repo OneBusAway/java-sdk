@@ -58,6 +58,9 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
 Alternately, set the environment with `ONEBUSAWAY_API_KEY`, and use `OnebusawaySdkOkHttpClient.fromEnv()` to read from the environment.
 
 ```java
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.fromEnv();
 
 // Note: you can also call fromEnv() from the client builder, for example if you need to set additional properties
@@ -77,8 +80,7 @@ Read the documentation for more configuration options.
 
 ### Example: creating a resource
 
-To create a new current time, first use the `CurrentTimeRetrieveParams` builder to specify attributes,
-then pass that to the `retrieve` method of the `currentTime` service.
+To create a new current time, first use the `CurrentTimeRetrieveParams` builder to specify attributes, then pass that to the `retrieve` method of the `currentTime` service.
 
 ```java
 import org.onebusaway.models.CurrentTimeRetrieveParams;
@@ -96,14 +98,14 @@ CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(params);
 
 To make a request to the Onebusaway SDK API, you generally build an instance of the appropriate `Params` class.
 
-In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to
-the `retrieve` method of the `currentTime` service.
+In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to the `retrieve` method of the `currentTime` service.
 
-Sometimes, the API may support other properties that are not yet supported in the Java SDK types. In that case,
-you can attach them using the `putAdditionalProperty` method.
+Sometimes, the API may support other properties that are not yet supported in the Java SDK types. In that case, you can attach them using the `putAdditionalProperty` method.
 
 ```java
-import org.onebusaway.models.core.JsonValue;
+import org.onebusaway.core.JsonValue;
+import org.onebusaway.models.CurrentTimeRetrieveParams;
+
 CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder()
     // ... normal properties
     .putAdditionalProperty("secret_param", JsonValue.from("4242"))
@@ -117,15 +119,19 @@ CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder()
 When receiving a response, the Onebusaway SDK Java SDK will deserialize it into instances of the typed model classes. In rare cases, the API may return a response property that doesn't match the expected Java type. If you directly access the mistaken property, the SDK will throw an unchecked `OnebusawaySdkInvalidDataException` at runtime. If you would prefer to check in advance that that response is completely well-typed, call `.validate()` on the returned model.
 
 ```java
+import org.onebusaway.models.CurrentTimeRetrieveResponse;
+
 CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve().validate();
 ```
 
 ### Response properties as JSON
 
-In rare cases, you may want to access the underlying JSON value for a response property rather than using the typed version provided by
-this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
+In rare cases, you may want to access the underlying JSON value for a response property rather than using the typed version provided by this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
 
 ```java
+import java.util.Optional;
+import org.onebusaway.core.JsonField;
+
 JsonField field = responseObj._field();
 
 if (field.isMissing()) {
@@ -147,6 +153,8 @@ if (field.isMissing()) {
 Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
 
 ```java
+import org.onebusaway.core.JsonValue;
+
 JsonValue secret = references._additionalProperties().get("secret_field");
 ```
 
@@ -160,31 +168,33 @@ This library throws exceptions in a single hierarchy for easy handling:
 
 - **`OnebusawaySdkException`** - Base exception for all exceptions
 
-  - **`OnebusawaySdkServiceException`** - HTTP errors with a well-formed response body we were able to parse. The exception message and the `.debuggingRequestId()` will be set by the server.
+- **`OnebusawaySdkServiceException`** - HTTP errors with a well-formed response body we were able to parse. The exception message and the `.debuggingRequestId()` will be set by the server.
 
-    | 400    | BadRequestException           |
-    | ------ | ----------------------------- |
-    | 401    | AuthenticationException       |
-    | 403    | PermissionDeniedException     |
-    | 404    | NotFoundException             |
-    | 422    | UnprocessableEntityException  |
-    | 429    | RateLimitException            |
-    | 5xx    | InternalServerException       |
-    | others | UnexpectedStatusCodeException |
+  | 400    | BadRequestException           |
+  | ------ | ----------------------------- |
+  | 401    | AuthenticationException       |
+  | 403    | PermissionDeniedException     |
+  | 404    | NotFoundException             |
+  | 422    | UnprocessableEntityException  |
+  | 429    | RateLimitException            |
+  | 5xx    | InternalServerException       |
+  | others | UnexpectedStatusCodeException |
 
-  - **`OnebusawaySdkIoException`** - I/O networking errors
-  - **`OnebusawaySdkInvalidDataException`** - any other exceptions on the client side, e.g.:
-    - We failed to serialize the request body
-    - We failed to parse the response body (has access to response code and body)
+- **`OnebusawaySdkIoException`** - I/O networking errors
+- **`OnebusawaySdkInvalidDataException`** - any other exceptions on the client side, e.g.:
+  - We failed to serialize the request body
+  - We failed to parse the response body (has access to response code and body)
 
 ## Network options
 
 ### Retries
 
-Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default.
-You can provide a `maxRetries` on the client builder to configure this:
+Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default. You can provide a `maxRetries` on the client builder to configure this:
 
 ```java
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .maxRetries(4)
@@ -196,6 +206,10 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
 Requests time out after 1 minute by default. You can configure this on the client builder:
 
 ```java
+import java.time.Duration;
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .timeout(Duration.ofSeconds(30))
@@ -207,26 +221,26 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
 Requests can be routed through a proxy. You can configure this on the client builder:
 
 ```java
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
-    .proxy(new Proxy(
-        Type.HTTP,
-        new InetSocketAddress("proxy.com", 8080)
-    ))
+    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("example.com", 8080)))
     .build();
 ```
 
 ## Making custom/undocumented requests
 
-This library is typed for convenient access to the documented API. If you need to access undocumented
-params or response properties, the library can still be used.
+This library is typed for convenient access to the documented API. If you need to access undocumented params or response properties, the library can still be used.
 
 ### Undocumented request params
 
-To make requests using undocumented parameters, you can provide or override parameters on the params object
-while building it.
+To make requests using undocumented parameters, you can provide or override parameters on the params object while building it.
 
-```kotlin
+```java
 FooCreateParams address = FooCreateParams.builder()
     .id("my_id")
     .putAdditionalProperty("secret_prop", JsonValue.from("hello"))
@@ -235,10 +249,7 @@ FooCreateParams address = FooCreateParams.builder()
 
 ### Undocumented response properties
 
-To access undocumented response properties, you can use `res._additionalProperties()` on a response object to
-get a map of untyped fields of type `Map<String, JsonValue>`. You can then access fields like
-`._additionalProperties().get("secret_prop").asString()` or use other helpers defined on the `JsonValue` class
-to extract it to a desired type.
+To access undocumented response properties, you can use `res._additionalProperties()` on a response object to get a map of untyped fields of type `Map<String, JsonValue>`. You can then access fields like `._additionalProperties().get("secret_prop").asString()` or use other helpers defined on the `JsonValue` class to extract it to a desired type.
 
 ## Logging
 

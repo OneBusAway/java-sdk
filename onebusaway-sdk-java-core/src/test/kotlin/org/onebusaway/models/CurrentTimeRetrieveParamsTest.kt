@@ -3,7 +3,6 @@
 package org.onebusaway.models
 
 import org.junit.jupiter.api.Test
-import org.onebusaway.models.*
 
 class CurrentTimeRetrieveParamsTest {
 

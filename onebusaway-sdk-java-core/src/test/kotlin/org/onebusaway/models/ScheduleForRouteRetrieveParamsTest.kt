@@ -6,14 +6,13 @@ import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.onebusaway.core.http.QueryParams
-import org.onebusaway.models.*
 
 class ScheduleForRouteRetrieveParamsTest {
 
     @Test
     fun createScheduleForRouteRetrieveParams() {
         ScheduleForRouteRetrieveParams.builder()
-            .routeId("routeID")
+            .routeId("1_100223")
             .date(LocalDate.parse("2019-12-27"))
             .build()
     }
@@ -22,7 +21,7 @@ class ScheduleForRouteRetrieveParamsTest {
     fun getQueryParams() {
         val params =
             ScheduleForRouteRetrieveParams.builder()
-                .routeId("routeID")
+                .routeId("1_100223")
                 .date(LocalDate.parse("2019-12-27"))
                 .build()
         val expected = QueryParams.builder()
@@ -32,17 +31,17 @@ class ScheduleForRouteRetrieveParamsTest {
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
-        val params = ScheduleForRouteRetrieveParams.builder().routeId("routeID").build()
+        val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
         val expected = QueryParams.builder()
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getPathParam() {
-        val params = ScheduleForRouteRetrieveParams.builder().routeId("routeID").build()
+        val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
         assertThat(params).isNotNull
         // path param "routeId"
-        assertThat(params.getPathParam(0)).isEqualTo("routeID")
+        assertThat(params.getPathParam(0)).isEqualTo("1_100223")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }

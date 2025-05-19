@@ -7,12 +7,10 @@ import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
-import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
-import org.onebusaway.models.*
 
 class ReportProblemWithTripRetrieveParams
 constructor(
@@ -289,32 +287,19 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val VEHICLE_NEVER_CAME = Code(JsonField.of("vehicle_never_came"))
+            @JvmField val VEHICLE_NEVER_CAME = of("vehicle_never_came")
 
-            @JvmField val VEHICLE_CAME_EARLY = Code(JsonField.of("vehicle_came_early"))
+            @JvmField val VEHICLE_CAME_EARLY = of("vehicle_came_early")
 
-            @JvmField val VEHICLE_CAME_LATE = Code(JsonField.of("vehicle_came_late"))
+            @JvmField val VEHICLE_CAME_LATE = of("vehicle_came_late")
 
-            @JvmField val WRONG_HEADSIGN = Code(JsonField.of("wrong_headsign"))
+            @JvmField val WRONG_HEADSIGN = of("wrong_headsign")
 
-            @JvmField
-            val VEHICLE_DOES_NOT_STOP_HERE = Code(JsonField.of("vehicle_does_not_stop_here"))
+            @JvmField val VEHICLE_DOES_NOT_STOP_HERE = of("vehicle_does_not_stop_here")
 
-            @JvmField val OTHER = Code(JsonField.of("other"))
+            @JvmField val OTHER = of("other")
 
             @JvmStatic fun of(value: String) = Code(JsonField.of(value))
         }
@@ -361,6 +346,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

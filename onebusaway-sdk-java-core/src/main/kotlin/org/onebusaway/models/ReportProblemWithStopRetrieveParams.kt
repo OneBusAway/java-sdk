@@ -7,12 +7,10 @@ import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
-import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
-import org.onebusaway.models.*
 
 class ReportProblemWithStopRetrieveParams
 constructor(
@@ -237,29 +235,17 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val STOP_NAME_WRONG = Code(JsonField.of("stop_name_wrong"))
+            @JvmField val STOP_NAME_WRONG = of("stop_name_wrong")
 
-            @JvmField val STOP_NUMBER_WRONG = Code(JsonField.of("stop_number_wrong"))
+            @JvmField val STOP_NUMBER_WRONG = of("stop_number_wrong")
 
-            @JvmField val STOP_LOCATION_WRONG = Code(JsonField.of("stop_location_wrong"))
+            @JvmField val STOP_LOCATION_WRONG = of("stop_location_wrong")
 
-            @JvmField val ROUTE_OR_TRIP_MISSING = Code(JsonField.of("route_or_trip_missing"))
+            @JvmField val ROUTE_OR_TRIP_MISSING = of("route_or_trip_missing")
 
-            @JvmField val OTHER = Code(JsonField.of("other"))
+            @JvmField val OTHER = of("other")
 
             @JvmStatic fun of(value: String) = Code(JsonField.of(value))
         }
@@ -302,6 +288,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

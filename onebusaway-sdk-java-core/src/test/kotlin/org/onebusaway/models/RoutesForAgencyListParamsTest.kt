@@ -4,21 +4,20 @@ package org.onebusaway.models
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.onebusaway.models.*
 
 class RoutesForAgencyListParamsTest {
 
     @Test
     fun createRoutesForAgencyListParams() {
-        RoutesForAgencyListParams.builder().agencyId("agencyID").build()
+        RoutesForAgencyListParams.builder().agencyId("40").build()
     }
 
     @Test
     fun getPathParam() {
-        val params = RoutesForAgencyListParams.builder().agencyId("agencyID").build()
+        val params = RoutesForAgencyListParams.builder().agencyId("40").build()
         assertThat(params).isNotNull
         // path param "agencyId"
-        assertThat(params.getPathParam(0)).isEqualTo("agencyID")
+        assertThat(params.getPathParam(0)).isEqualTo("40")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }

@@ -7,8 +7,11 @@ import org.onebusaway.models.*;
 public class StopsIdsForAgency {
 
     // Retrieve constants from environment variables or fallback to default values
-    static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
-    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null ? System.getenv("ONEBUSAWAY_BASE_URL") : "https://api.pugetsound.onebusaway.org";
+    static final String API_KEY =
+            System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
+    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null
+            ? System.getenv("ONEBUSAWAY_BASE_URL")
+            : "https://api.pugetsound.onebusaway.org";
 
     // Initialize the Onebusaway SDK client
     static final OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
@@ -20,7 +23,8 @@ public class StopsIdsForAgency {
         // Define the agency ID
         String agencyId = "1";
 
-        StopIdsForAgencyListParams params = StopIdsForAgencyListParams.builder().agencyId(agencyId).build();
+        StopIdsForAgencyListParams params =
+                StopIdsForAgencyListParams.builder().agencyId(agencyId).build();
         // Get the list of stop IDs for the agency
         StopIdsForAgencyListResponse stopIds = client.stopIdsForAgency().list(params);
 
@@ -29,5 +33,4 @@ public class StopsIdsForAgency {
             System.out.println(stopId);
         }
     }
-
 }

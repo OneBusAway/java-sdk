@@ -9,6 +9,7 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
@@ -32,6 +33,9 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
     private fun getClient(requestOptions: RequestOptions): okhttp3.OkHttpClient {
         val clientBuilder = okHttpClient.newBuilder()
+
+        // Custom logging interceptor for URL logging
+        clientBuilder.addNetworkInterceptor(LoggingInterceptor())
 
         val logLevel =
             when (System.getenv("ONEBUSAWAY_SDK_LOG")?.lowercase()) {
@@ -192,5 +196,16 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
                     .build(),
                 checkNotNull(baseUrl) { "`baseUrl` is required but was not set" },
             )
+    }
+}
+
+// --- ✅ New class added below ---
+class LoggingInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        println("➡️ Sending request: ${request.method} ${request.url}")
+        val response = chain.proceed(request)
+        println("⬅️ Received response: ${response.code} ${response.request.url}")
+        return response
     }
 }

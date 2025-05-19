@@ -4,8 +4,8 @@ package org.onebusaway.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.ExcludeMissing
@@ -13,24 +13,35 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
-@JsonDeserialize(builder = StopsForAgencyListResponse.Builder::class)
 @NoAutoDetect
 class StopsForAgencyListResponse
+@JsonCreator
 private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val limitExceeded: JsonField<Boolean>,
-    private val outOfRange: JsonField<Boolean>,
-    private val list: JsonField<kotlin.collections.List<List>>,
-    private val references: JsonField<References>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("version")
+    @ExcludeMissing
+    private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("limitExceeded")
+    @ExcludeMissing
+    private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("outOfRange")
+    @ExcludeMissing
+    private val outOfRange: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("list")
+    @ExcludeMissing
+    private val list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
+    @JsonProperty("references")
+    @ExcludeMissing
+    private val references: JsonField<References> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
-
-    private var validated: Boolean = false
 
     fun code(): Long = code.getRequired("code")
 
@@ -47,14 +58,6 @@ private constructor(
     fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
     fun references(): References = references.getRequired("references")
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
 
     @JsonProperty("code") @ExcludeMissing fun _code() = code
 
@@ -75,6 +78,16 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
+
+    private var validated: Boolean = false
 
     fun validate(): StopsForAgencyListResponse = apply {
         if (!validated) {
@@ -111,79 +124,68 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(stopsForAgencyListResponse: StopsForAgencyListResponse) = apply {
-            this.code = stopsForAgencyListResponse.code
-            this.currentTime = stopsForAgencyListResponse.currentTime
-            this.text = stopsForAgencyListResponse.text
-            this.version = stopsForAgencyListResponse.version
-            this.limitExceeded = stopsForAgencyListResponse.limitExceeded
-            this.outOfRange = stopsForAgencyListResponse.outOfRange
-            this.list = stopsForAgencyListResponse.list
-            this.references = stopsForAgencyListResponse.references
-            additionalProperties(stopsForAgencyListResponse.additionalProperties)
+            code = stopsForAgencyListResponse.code
+            currentTime = stopsForAgencyListResponse.currentTime
+            text = stopsForAgencyListResponse.text
+            version = stopsForAgencyListResponse.version
+            limitExceeded = stopsForAgencyListResponse.limitExceeded
+            outOfRange = stopsForAgencyListResponse.outOfRange
+            list = stopsForAgencyListResponse.list
+            references = stopsForAgencyListResponse.references
+            additionalProperties = stopsForAgencyListResponse.additionalProperties.toMutableMap()
         }
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        @JsonProperty("code")
-        @ExcludeMissing
         fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        @JsonProperty("currentTime")
-        @ExcludeMissing
         fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        @JsonProperty("text")
-        @ExcludeMissing
         fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        @JsonProperty("version")
-        @ExcludeMissing
         fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
 
-        @JsonProperty("limitExceeded")
-        @ExcludeMissing
         fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
             this.limitExceeded = limitExceeded
         }
 
         fun outOfRange(outOfRange: Boolean) = outOfRange(JsonField.of(outOfRange))
 
-        @JsonProperty("outOfRange")
-        @ExcludeMissing
         fun outOfRange(outOfRange: JsonField<Boolean>) = apply { this.outOfRange = outOfRange }
 
         fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
-        @JsonProperty("list")
-        @ExcludeMissing
         fun list(list: JsonField<kotlin.collections.List<List>>) = apply { this.list = list }
 
         fun references(references: References) = references(JsonField.of(references))
 
-        @JsonProperty("references")
-        @ExcludeMissing
         fun references(references: JsonField<References>) = apply { this.references = references }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): StopsForAgencyListResponse =
@@ -200,25 +202,40 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = List.Builder::class)
     @NoAutoDetect
     class List
+    @JsonCreator
     private constructor(
-        private val code: JsonField<String>,
-        private val direction: JsonField<String>,
-        private val id: JsonField<String>,
-        private val lat: JsonField<Double>,
-        private val locationType: JsonField<Long>,
-        private val lon: JsonField<Double>,
-        private val name: JsonField<String>,
-        private val parent: JsonField<String>,
-        private val routeIds: JsonField<kotlin.collections.List<String>>,
-        private val staticRouteIds: JsonField<kotlin.collections.List<String>>,
-        private val wheelchairBoarding: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("code")
+        @ExcludeMissing
+        private val code: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("direction")
+        @ExcludeMissing
+        private val direction: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("lat") @ExcludeMissing private val lat: JsonField<Double> = JsonMissing.of(),
+        @JsonProperty("locationType")
+        @ExcludeMissing
+        private val locationType: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("lon") @ExcludeMissing private val lon: JsonField<Double> = JsonMissing.of(),
+        @JsonProperty("name")
+        @ExcludeMissing
+        private val name: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parent")
+        @ExcludeMissing
+        private val parent: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("routeIds")
+        @ExcludeMissing
+        private val routeIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
+        @JsonProperty("staticRouteIds")
+        @ExcludeMissing
+        private val staticRouteIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
+        @JsonProperty("wheelchairBoarding")
+        @ExcludeMissing
+        private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
-
-        private var validated: Boolean = false
 
         fun code(): Optional<String> = Optional.ofNullable(code.getNullable("code"))
 
@@ -273,6 +290,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): List = apply {
             if (!validated) {
                 code()
@@ -315,75 +334,57 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(list: List) = apply {
-                this.code = list.code
-                this.direction = list.direction
-                this.id = list.id
-                this.lat = list.lat
-                this.locationType = list.locationType
-                this.lon = list.lon
-                this.name = list.name
-                this.parent = list.parent
-                this.routeIds = list.routeIds
-                this.staticRouteIds = list.staticRouteIds
-                this.wheelchairBoarding = list.wheelchairBoarding
-                additionalProperties(list.additionalProperties)
+                code = list.code
+                direction = list.direction
+                id = list.id
+                lat = list.lat
+                locationType = list.locationType
+                lon = list.lon
+                name = list.name
+                parent = list.parent
+                routeIds = list.routeIds
+                staticRouteIds = list.staticRouteIds
+                wheelchairBoarding = list.wheelchairBoarding
+                additionalProperties = list.additionalProperties.toMutableMap()
             }
 
             fun code(code: String) = code(JsonField.of(code))
 
-            @JsonProperty("code")
-            @ExcludeMissing
             fun code(code: JsonField<String>) = apply { this.code = code }
 
             fun direction(direction: String) = direction(JsonField.of(direction))
 
-            @JsonProperty("direction")
-            @ExcludeMissing
             fun direction(direction: JsonField<String>) = apply { this.direction = direction }
 
             fun id(id: String) = id(JsonField.of(id))
 
-            @JsonProperty("id")
-            @ExcludeMissing
             fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun lat(lat: Double) = lat(JsonField.of(lat))
 
-            @JsonProperty("lat")
-            @ExcludeMissing
             fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
             fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
 
-            @JsonProperty("locationType")
-            @ExcludeMissing
             fun locationType(locationType: JsonField<Long>) = apply {
                 this.locationType = locationType
             }
 
             fun lon(lon: Double) = lon(JsonField.of(lon))
 
-            @JsonProperty("lon")
-            @ExcludeMissing
             fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
             fun name(name: String) = name(JsonField.of(name))
 
-            @JsonProperty("name")
-            @ExcludeMissing
             fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun parent(parent: String) = parent(JsonField.of(parent))
 
-            @JsonProperty("parent")
-            @ExcludeMissing
             fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
             fun routeIds(routeIds: kotlin.collections.List<String>) =
                 routeIds(JsonField.of(routeIds))
 
-            @JsonProperty("routeIds")
-            @ExcludeMissing
             fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
                 this.routeIds = routeIds
             }
@@ -391,8 +392,6 @@ private constructor(
             fun staticRouteIds(staticRouteIds: kotlin.collections.List<String>) =
                 staticRouteIds(JsonField.of(staticRouteIds))
 
-            @JsonProperty("staticRouteIds")
-            @ExcludeMissing
             fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) = apply {
                 this.staticRouteIds = staticRouteIds
             }
@@ -400,24 +399,27 @@ private constructor(
             fun wheelchairBoarding(wheelchairBoarding: String) =
                 wheelchairBoarding(JsonField.of(wheelchairBoarding))
 
-            @JsonProperty("wheelchairBoarding")
-            @ExcludeMissing
             fun wheelchairBoarding(wheelchairBoarding: JsonField<String>) = apply {
                 this.wheelchairBoarding = wheelchairBoarding
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): List =
