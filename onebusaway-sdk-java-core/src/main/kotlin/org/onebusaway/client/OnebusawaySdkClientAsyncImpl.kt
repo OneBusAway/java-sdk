@@ -61,8 +61,7 @@ import org.onebusaway.services.async.TripsForRouteServiceAsyncImpl
 import org.onebusaway.services.async.VehiclesForAgencyServiceAsync
 import org.onebusaway.services.async.VehiclesForAgencyServiceAsyncImpl
 
-class OnebusawaySdkClientAsyncImpl
-constructor(
+class OnebusawaySdkClientAsyncImpl(
     private val clientOptions: ClientOptions,
 ) : OnebusawaySdkClientAsync {
 
@@ -242,4 +241,6 @@ constructor(
     override fun block(): BlockServiceAsync = block
 
     override fun shape(): ShapeServiceAsync = shape
+
+    override fun close() = clientOptions.httpClient.close()
 }

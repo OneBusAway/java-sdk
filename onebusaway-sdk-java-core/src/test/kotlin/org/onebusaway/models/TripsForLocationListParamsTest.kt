@@ -9,7 +9,7 @@ import org.onebusaway.core.http.QueryParams
 class TripsForLocationListParamsTest {
 
     @Test
-    fun createTripsForLocationListParams() {
+    fun create() {
         TripsForLocationListParams.builder()
             .lat(0.0)
             .latSpan(0.0)
@@ -22,7 +22,7 @@ class TripsForLocationListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             TripsForLocationListParams.builder()
                 .lat(0.0)
@@ -41,11 +41,11 @@ class TripsForLocationListParamsTest {
         expected.put("includeSchedule", "true")
         expected.put("includeTrip", "true")
         expected.put("time", "0")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params =
             TripsForLocationListParams.builder().lat(0.0).latSpan(0.0).lon(0.0).lonSpan(0.0).build()
         val expected = QueryParams.builder()
@@ -53,6 +53,6 @@ class TripsForLocationListParamsTest {
         expected.put("latSpan", "0.0")
         expected.put("lon", "0.0")
         expected.put("lonSpan", "0.0")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

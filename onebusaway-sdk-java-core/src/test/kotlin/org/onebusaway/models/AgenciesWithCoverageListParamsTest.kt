@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class AgenciesWithCoverageListParamsTest {
 
     @Test
-    fun createAgenciesWithCoverageListParams() {
+    fun create() {
         AgenciesWithCoverageListParams.builder().build()
     }
 }

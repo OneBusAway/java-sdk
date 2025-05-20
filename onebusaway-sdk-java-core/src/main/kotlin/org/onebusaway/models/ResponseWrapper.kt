@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -38,13 +39,13 @@ private constructor(
 
     fun version(): Long = version.getRequired("version")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -53,13 +54,15 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ResponseWrapper = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -69,12 +72,13 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [ResponseWrapper]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -123,10 +127,10 @@ private constructor(
 
         fun build(): ResponseWrapper =
             ResponseWrapper(
-                code,
-                currentTime,
-                text,
-                version,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
                 additionalProperties.toImmutable(),
             )
     }

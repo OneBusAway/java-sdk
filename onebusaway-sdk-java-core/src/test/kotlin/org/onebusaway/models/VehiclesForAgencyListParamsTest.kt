@@ -9,23 +9,23 @@ import org.onebusaway.core.http.QueryParams
 class VehiclesForAgencyListParamsTest {
 
     @Test
-    fun createVehiclesForAgencyListParams() {
+    fun create() {
         VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params = VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
         val expected = QueryParams.builder()
         expected.put("time", "time")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = VehiclesForAgencyListParams.builder().agencyId("agencyID").build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

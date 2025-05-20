@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -42,15 +43,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,14 +68,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): BlockRetrieveResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -84,13 +87,14 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [BlockRetrieveResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -144,11 +148,11 @@ private constructor(
 
         fun build(): BlockRetrieveResponse =
             BlockRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -171,9 +175,11 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -182,11 +188,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -196,10 +204,11 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var entry: JsonField<Entry> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var entry: JsonField<Entry>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -240,8 +249,8 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    entry,
-                    references,
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -264,9 +273,11 @@ private constructor(
 
             fun configurations(): List<Configuration> = configurations.getRequired("configurations")
 
-            @JsonProperty("id") @ExcludeMissing fun _id() = id
+            @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-            @JsonProperty("configurations") @ExcludeMissing fun _configurations() = configurations
+            @JsonProperty("configurations")
+            @ExcludeMissing
+            fun _configurations(): JsonField<List<Configuration>> = configurations
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -275,11 +286,13 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): Entry = apply {
-                if (!validated) {
-                    id()
-                    configurations().forEach { it.validate() }
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                id()
+                configurations().forEach { it.validate() }
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -289,16 +302,17 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [Entry]. */
+            class Builder internal constructor() {
 
-                private var id: JsonField<String> = JsonMissing.of()
-                private var configurations: JsonField<List<Configuration>> = JsonMissing.of()
+                private var id: JsonField<String>? = null
+                private var configurations: JsonField<MutableList<Configuration>>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(entry: Entry) = apply {
                     id = entry.id
-                    configurations = entry.configurations
+                    configurations = entry.configurations.map { it.toMutableList() }
                     additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
@@ -310,7 +324,20 @@ private constructor(
                     configurations(JsonField.of(configurations))
 
                 fun configurations(configurations: JsonField<List<Configuration>>) = apply {
-                    this.configurations = configurations
+                    this.configurations = configurations.map { it.toMutableList() }
+                }
+
+                fun addConfiguration(configuration: Configuration) = apply {
+                    configurations =
+                        (configurations ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(configuration)
+                        }
                 }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -337,8 +364,8 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
-                        id,
-                        configurations.map { it.toImmutable() },
+                        checkRequired("id", id),
+                        checkRequired("configurations", configurations).map { it.toImmutable() },
                         additionalProperties.toImmutable(),
                     )
             }
@@ -350,12 +377,12 @@ private constructor(
                 @JsonProperty("activeServiceIds")
                 @ExcludeMissing
                 private val activeServiceIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("inactiveServiceIds")
-                @ExcludeMissing
-                private val inactiveServiceIds: JsonField<List<String>> = JsonMissing.of(),
                 @JsonProperty("trips")
                 @ExcludeMissing
                 private val trips: JsonField<List<Trip>> = JsonMissing.of(),
+                @JsonProperty("inactiveServiceIds")
+                @ExcludeMissing
+                private val inactiveServiceIds: JsonField<List<String>> = JsonMissing.of(),
                 @JsonAnySetter
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
@@ -363,20 +390,20 @@ private constructor(
                 fun activeServiceIds(): List<String> =
                     activeServiceIds.getRequired("activeServiceIds")
 
+                fun trips(): List<Trip> = trips.getRequired("trips")
+
                 fun inactiveServiceIds(): Optional<List<String>> =
                     Optional.ofNullable(inactiveServiceIds.getNullable("inactiveServiceIds"))
 
-                fun trips(): List<Trip> = trips.getRequired("trips")
-
                 @JsonProperty("activeServiceIds")
                 @ExcludeMissing
-                fun _activeServiceIds() = activeServiceIds
+                fun _activeServiceIds(): JsonField<List<String>> = activeServiceIds
+
+                @JsonProperty("trips") @ExcludeMissing fun _trips(): JsonField<List<Trip>> = trips
 
                 @JsonProperty("inactiveServiceIds")
                 @ExcludeMissing
-                fun _inactiveServiceIds() = inactiveServiceIds
-
-                @JsonProperty("trips") @ExcludeMissing fun _trips() = trips
+                fun _inactiveServiceIds(): JsonField<List<String>> = inactiveServiceIds
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -385,12 +412,14 @@ private constructor(
                 private var validated: Boolean = false
 
                 fun validate(): Configuration = apply {
-                    if (!validated) {
-                        activeServiceIds()
-                        inactiveServiceIds()
-                        trips().forEach { it.validate() }
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    activeServiceIds()
+                    trips().forEach { it.validate() }
+                    inactiveServiceIds()
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -400,18 +429,20 @@ private constructor(
                     @JvmStatic fun builder() = Builder()
                 }
 
-                class Builder {
+                /** A builder for [Configuration]. */
+                class Builder internal constructor() {
 
-                    private var activeServiceIds: JsonField<List<String>> = JsonMissing.of()
-                    private var inactiveServiceIds: JsonField<List<String>> = JsonMissing.of()
-                    private var trips: JsonField<List<Trip>> = JsonMissing.of()
+                    private var activeServiceIds: JsonField<MutableList<String>>? = null
+                    private var trips: JsonField<MutableList<Trip>>? = null
+                    private var inactiveServiceIds: JsonField<MutableList<String>>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
                     internal fun from(configuration: Configuration) = apply {
-                        activeServiceIds = configuration.activeServiceIds
-                        inactiveServiceIds = configuration.inactiveServiceIds
-                        trips = configuration.trips
+                        activeServiceIds = configuration.activeServiceIds.map { it.toMutableList() }
+                        trips = configuration.trips.map { it.toMutableList() }
+                        inactiveServiceIds =
+                            configuration.inactiveServiceIds.map { it.toMutableList() }
                         additionalProperties = configuration.additionalProperties.toMutableMap()
                     }
 
@@ -419,19 +450,60 @@ private constructor(
                         activeServiceIds(JsonField.of(activeServiceIds))
 
                     fun activeServiceIds(activeServiceIds: JsonField<List<String>>) = apply {
-                        this.activeServiceIds = activeServiceIds
+                        this.activeServiceIds = activeServiceIds.map { it.toMutableList() }
+                    }
+
+                    fun addActiveServiceId(activeServiceId: String) = apply {
+                        activeServiceIds =
+                            (activeServiceIds ?: JsonField.of(mutableListOf())).apply {
+                                asKnown()
+                                    .orElseThrow {
+                                        IllegalStateException(
+                                            "Field was set to non-list type: ${javaClass.simpleName}"
+                                        )
+                                    }
+                                    .add(activeServiceId)
+                            }
+                    }
+
+                    fun trips(trips: List<Trip>) = trips(JsonField.of(trips))
+
+                    fun trips(trips: JsonField<List<Trip>>) = apply {
+                        this.trips = trips.map { it.toMutableList() }
+                    }
+
+                    fun addTrip(trip: Trip) = apply {
+                        trips =
+                            (trips ?: JsonField.of(mutableListOf())).apply {
+                                asKnown()
+                                    .orElseThrow {
+                                        IllegalStateException(
+                                            "Field was set to non-list type: ${javaClass.simpleName}"
+                                        )
+                                    }
+                                    .add(trip)
+                            }
                     }
 
                     fun inactiveServiceIds(inactiveServiceIds: List<String>) =
                         inactiveServiceIds(JsonField.of(inactiveServiceIds))
 
                     fun inactiveServiceIds(inactiveServiceIds: JsonField<List<String>>) = apply {
-                        this.inactiveServiceIds = inactiveServiceIds
+                        this.inactiveServiceIds = inactiveServiceIds.map { it.toMutableList() }
                     }
 
-                    fun trips(trips: List<Trip>) = trips(JsonField.of(trips))
-
-                    fun trips(trips: JsonField<List<Trip>>) = apply { this.trips = trips }
+                    fun addInactiveServiceId(inactiveServiceId: String) = apply {
+                        inactiveServiceIds =
+                            (inactiveServiceIds ?: JsonField.of(mutableListOf())).apply {
+                                asKnown()
+                                    .orElseThrow {
+                                        IllegalStateException(
+                                            "Field was set to non-list type: ${javaClass.simpleName}"
+                                        )
+                                    }
+                                    .add(inactiveServiceId)
+                            }
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -457,9 +529,11 @@ private constructor(
 
                     fun build(): Configuration =
                         Configuration(
-                            activeServiceIds.map { it.toImmutable() },
-                            inactiveServiceIds.map { it.toImmutable() },
-                            trips.map { it.toImmutable() },
+                            checkRequired("activeServiceIds", activeServiceIds).map {
+                                it.toImmutable()
+                            },
+                            checkRequired("trips", trips).map { it.toImmutable() },
+                            (inactiveServiceIds ?: JsonMissing.of()).map { it.toImmutable() },
                             additionalProperties.toImmutable(),
                         )
                 }
@@ -468,26 +542,21 @@ private constructor(
                 class Trip
                 @JsonCreator
                 private constructor(
-                    @JsonProperty("tripId")
-                    @ExcludeMissing
-                    private val tripId: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("distanceAlongBlock")
-                    @ExcludeMissing
-                    private val distanceAlongBlock: JsonField<Double> = JsonMissing.of(),
                     @JsonProperty("accumulatedSlackTime")
                     @ExcludeMissing
                     private val accumulatedSlackTime: JsonField<Double> = JsonMissing.of(),
                     @JsonProperty("blockStopTimes")
                     @ExcludeMissing
                     private val blockStopTimes: JsonField<List<BlockStopTime>> = JsonMissing.of(),
+                    @JsonProperty("distanceAlongBlock")
+                    @ExcludeMissing
+                    private val distanceAlongBlock: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("tripId")
+                    @ExcludeMissing
+                    private val tripId: JsonField<String> = JsonMissing.of(),
                     @JsonAnySetter
                     private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
-
-                    fun tripId(): String = tripId.getRequired("tripId")
-
-                    fun distanceAlongBlock(): Double =
-                        distanceAlongBlock.getRequired("distanceAlongBlock")
 
                     fun accumulatedSlackTime(): Double =
                         accumulatedSlackTime.getRequired("accumulatedSlackTime")
@@ -495,19 +564,26 @@ private constructor(
                     fun blockStopTimes(): List<BlockStopTime> =
                         blockStopTimes.getRequired("blockStopTimes")
 
-                    @JsonProperty("tripId") @ExcludeMissing fun _tripId() = tripId
+                    fun distanceAlongBlock(): Double =
+                        distanceAlongBlock.getRequired("distanceAlongBlock")
 
-                    @JsonProperty("distanceAlongBlock")
-                    @ExcludeMissing
-                    fun _distanceAlongBlock() = distanceAlongBlock
+                    fun tripId(): String = tripId.getRequired("tripId")
 
                     @JsonProperty("accumulatedSlackTime")
                     @ExcludeMissing
-                    fun _accumulatedSlackTime() = accumulatedSlackTime
+                    fun _accumulatedSlackTime(): JsonField<Double> = accumulatedSlackTime
 
                     @JsonProperty("blockStopTimes")
                     @ExcludeMissing
-                    fun _blockStopTimes() = blockStopTimes
+                    fun _blockStopTimes(): JsonField<List<BlockStopTime>> = blockStopTimes
+
+                    @JsonProperty("distanceAlongBlock")
+                    @ExcludeMissing
+                    fun _distanceAlongBlock(): JsonField<Double> = distanceAlongBlock
+
+                    @JsonProperty("tripId")
+                    @ExcludeMissing
+                    fun _tripId(): JsonField<String> = tripId
 
                     @JsonAnyGetter
                     @ExcludeMissing
@@ -516,13 +592,15 @@ private constructor(
                     private var validated: Boolean = false
 
                     fun validate(): Trip = apply {
-                        if (!validated) {
-                            tripId()
-                            distanceAlongBlock()
-                            accumulatedSlackTime()
-                            blockStopTimes().forEach { it.validate() }
-                            validated = true
+                        if (validated) {
+                            return@apply
                         }
+
+                        accumulatedSlackTime()
+                        blockStopTimes().forEach { it.validate() }
+                        distanceAlongBlock()
+                        tripId()
+                        validated = true
                     }
 
                     fun toBuilder() = Builder().from(this)
@@ -532,34 +610,23 @@ private constructor(
                         @JvmStatic fun builder() = Builder()
                     }
 
-                    class Builder {
+                    /** A builder for [Trip]. */
+                    class Builder internal constructor() {
 
-                        private var tripId: JsonField<String> = JsonMissing.of()
-                        private var distanceAlongBlock: JsonField<Double> = JsonMissing.of()
-                        private var accumulatedSlackTime: JsonField<Double> = JsonMissing.of()
-                        private var blockStopTimes: JsonField<List<BlockStopTime>> =
-                            JsonMissing.of()
+                        private var accumulatedSlackTime: JsonField<Double>? = null
+                        private var blockStopTimes: JsonField<MutableList<BlockStopTime>>? = null
+                        private var distanceAlongBlock: JsonField<Double>? = null
+                        private var tripId: JsonField<String>? = null
                         private var additionalProperties: MutableMap<String, JsonValue> =
                             mutableMapOf()
 
                         @JvmSynthetic
                         internal fun from(trip: Trip) = apply {
-                            tripId = trip.tripId
-                            distanceAlongBlock = trip.distanceAlongBlock
                             accumulatedSlackTime = trip.accumulatedSlackTime
-                            blockStopTimes = trip.blockStopTimes
+                            blockStopTimes = trip.blockStopTimes.map { it.toMutableList() }
+                            distanceAlongBlock = trip.distanceAlongBlock
+                            tripId = trip.tripId
                             additionalProperties = trip.additionalProperties.toMutableMap()
-                        }
-
-                        fun tripId(tripId: String) = tripId(JsonField.of(tripId))
-
-                        fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
-
-                        fun distanceAlongBlock(distanceAlongBlock: Double) =
-                            distanceAlongBlock(JsonField.of(distanceAlongBlock))
-
-                        fun distanceAlongBlock(distanceAlongBlock: JsonField<Double>) = apply {
-                            this.distanceAlongBlock = distanceAlongBlock
                         }
 
                         fun accumulatedSlackTime(accumulatedSlackTime: Double) =
@@ -573,8 +640,32 @@ private constructor(
                             blockStopTimes(JsonField.of(blockStopTimes))
 
                         fun blockStopTimes(blockStopTimes: JsonField<List<BlockStopTime>>) = apply {
-                            this.blockStopTimes = blockStopTimes
+                            this.blockStopTimes = blockStopTimes.map { it.toMutableList() }
                         }
+
+                        fun addBlockStopTime(blockStopTime: BlockStopTime) = apply {
+                            blockStopTimes =
+                                (blockStopTimes ?: JsonField.of(mutableListOf())).apply {
+                                    asKnown()
+                                        .orElseThrow {
+                                            IllegalStateException(
+                                                "Field was set to non-list type: ${javaClass.simpleName}"
+                                            )
+                                        }
+                                        .add(blockStopTime)
+                                }
+                        }
+
+                        fun distanceAlongBlock(distanceAlongBlock: Double) =
+                            distanceAlongBlock(JsonField.of(distanceAlongBlock))
+
+                        fun distanceAlongBlock(distanceAlongBlock: JsonField<Double>) = apply {
+                            this.distanceAlongBlock = distanceAlongBlock
+                        }
+
+                        fun tripId(tripId: String) = tripId(JsonField.of(tripId))
+
+                        fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -600,10 +691,12 @@ private constructor(
 
                         fun build(): Trip =
                             Trip(
-                                tripId,
-                                distanceAlongBlock,
-                                accumulatedSlackTime,
-                                blockStopTimes.map { it.toImmutable() },
+                                checkRequired("accumulatedSlackTime", accumulatedSlackTime),
+                                checkRequired("blockStopTimes", blockStopTimes).map {
+                                    it.toImmutable()
+                                },
+                                checkRequired("distanceAlongBlock", distanceAlongBlock),
+                                checkRequired("tripId", tripId),
                                 additionalProperties.toImmutable(),
                             )
                     }
@@ -612,15 +705,15 @@ private constructor(
                     class BlockStopTime
                     @JsonCreator
                     private constructor(
+                        @JsonProperty("accumulatedSlackTime")
+                        @ExcludeMissing
+                        private val accumulatedSlackTime: JsonField<Double> = JsonMissing.of(),
                         @JsonProperty("blockSequence")
                         @ExcludeMissing
                         private val blockSequence: JsonField<Long> = JsonMissing.of(),
                         @JsonProperty("distanceAlongBlock")
                         @ExcludeMissing
                         private val distanceAlongBlock: JsonField<Double> = JsonMissing.of(),
-                        @JsonProperty("accumulatedSlackTime")
-                        @ExcludeMissing
-                        private val accumulatedSlackTime: JsonField<Double> = JsonMissing.of(),
                         @JsonProperty("stopTime")
                         @ExcludeMissing
                         private val stopTime: JsonField<StopTime> = JsonMissing.of(),
@@ -629,29 +722,31 @@ private constructor(
                             immutableEmptyMap(),
                     ) {
 
+                        fun accumulatedSlackTime(): Double =
+                            accumulatedSlackTime.getRequired("accumulatedSlackTime")
+
                         fun blockSequence(): Long = blockSequence.getRequired("blockSequence")
 
                         fun distanceAlongBlock(): Double =
                             distanceAlongBlock.getRequired("distanceAlongBlock")
 
-                        fun accumulatedSlackTime(): Double =
-                            accumulatedSlackTime.getRequired("accumulatedSlackTime")
-
                         fun stopTime(): StopTime = stopTime.getRequired("stopTime")
-
-                        @JsonProperty("blockSequence")
-                        @ExcludeMissing
-                        fun _blockSequence() = blockSequence
-
-                        @JsonProperty("distanceAlongBlock")
-                        @ExcludeMissing
-                        fun _distanceAlongBlock() = distanceAlongBlock
 
                         @JsonProperty("accumulatedSlackTime")
                         @ExcludeMissing
-                        fun _accumulatedSlackTime() = accumulatedSlackTime
+                        fun _accumulatedSlackTime(): JsonField<Double> = accumulatedSlackTime
 
-                        @JsonProperty("stopTime") @ExcludeMissing fun _stopTime() = stopTime
+                        @JsonProperty("blockSequence")
+                        @ExcludeMissing
+                        fun _blockSequence(): JsonField<Long> = blockSequence
+
+                        @JsonProperty("distanceAlongBlock")
+                        @ExcludeMissing
+                        fun _distanceAlongBlock(): JsonField<Double> = distanceAlongBlock
+
+                        @JsonProperty("stopTime")
+                        @ExcludeMissing
+                        fun _stopTime(): JsonField<StopTime> = stopTime
 
                         @JsonAnyGetter
                         @ExcludeMissing
@@ -660,13 +755,15 @@ private constructor(
                         private var validated: Boolean = false
 
                         fun validate(): BlockStopTime = apply {
-                            if (!validated) {
-                                blockSequence()
-                                distanceAlongBlock()
-                                accumulatedSlackTime()
-                                stopTime().validate()
-                                validated = true
+                            if (validated) {
+                                return@apply
                             }
+
+                            accumulatedSlackTime()
+                            blockSequence()
+                            distanceAlongBlock()
+                            stopTime().validate()
+                            validated = true
                         }
 
                         fun toBuilder() = Builder().from(this)
@@ -676,24 +773,33 @@ private constructor(
                             @JvmStatic fun builder() = Builder()
                         }
 
-                        class Builder {
+                        /** A builder for [BlockStopTime]. */
+                        class Builder internal constructor() {
 
-                            private var blockSequence: JsonField<Long> = JsonMissing.of()
-                            private var distanceAlongBlock: JsonField<Double> = JsonMissing.of()
-                            private var accumulatedSlackTime: JsonField<Double> = JsonMissing.of()
-                            private var stopTime: JsonField<StopTime> = JsonMissing.of()
+                            private var accumulatedSlackTime: JsonField<Double>? = null
+                            private var blockSequence: JsonField<Long>? = null
+                            private var distanceAlongBlock: JsonField<Double>? = null
+                            private var stopTime: JsonField<StopTime>? = null
                             private var additionalProperties: MutableMap<String, JsonValue> =
                                 mutableMapOf()
 
                             @JvmSynthetic
                             internal fun from(blockStopTime: BlockStopTime) = apply {
+                                accumulatedSlackTime = blockStopTime.accumulatedSlackTime
                                 blockSequence = blockStopTime.blockSequence
                                 distanceAlongBlock = blockStopTime.distanceAlongBlock
-                                accumulatedSlackTime = blockStopTime.accumulatedSlackTime
                                 stopTime = blockStopTime.stopTime
                                 additionalProperties =
                                     blockStopTime.additionalProperties.toMutableMap()
                             }
+
+                            fun accumulatedSlackTime(accumulatedSlackTime: Double) =
+                                accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
+
+                            fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) =
+                                apply {
+                                    this.accumulatedSlackTime = accumulatedSlackTime
+                                }
 
                             fun blockSequence(blockSequence: Long) =
                                 blockSequence(JsonField.of(blockSequence))
@@ -708,14 +814,6 @@ private constructor(
                             fun distanceAlongBlock(distanceAlongBlock: JsonField<Double>) = apply {
                                 this.distanceAlongBlock = distanceAlongBlock
                             }
-
-                            fun accumulatedSlackTime(accumulatedSlackTime: Double) =
-                                accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
-
-                            fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) =
-                                apply {
-                                    this.accumulatedSlackTime = accumulatedSlackTime
-                                }
 
                             fun stopTime(stopTime: StopTime) = stopTime(JsonField.of(stopTime))
 
@@ -747,10 +845,10 @@ private constructor(
 
                             fun build(): BlockStopTime =
                                 BlockStopTime(
-                                    blockSequence,
-                                    distanceAlongBlock,
-                                    accumulatedSlackTime,
-                                    stopTime,
+                                    checkRequired("accumulatedSlackTime", accumulatedSlackTime),
+                                    checkRequired("blockSequence", blockSequence),
+                                    checkRequired("distanceAlongBlock", distanceAlongBlock),
+                                    checkRequired("stopTime", stopTime),
                                     additionalProperties.toImmutable(),
                                 )
                         }
@@ -759,55 +857,57 @@ private constructor(
                         class StopTime
                         @JsonCreator
                         private constructor(
-                            @JsonProperty("stopId")
-                            @ExcludeMissing
-                            private val stopId: JsonField<String> = JsonMissing.of(),
                             @JsonProperty("arrivalTime")
                             @ExcludeMissing
                             private val arrivalTime: JsonField<Long> = JsonMissing.of(),
                             @JsonProperty("departureTime")
                             @ExcludeMissing
                             private val departureTime: JsonField<Long> = JsonMissing.of(),
-                            @JsonProperty("pickupType")
+                            @JsonProperty("stopId")
                             @ExcludeMissing
-                            private val pickupType: JsonField<Long> = JsonMissing.of(),
+                            private val stopId: JsonField<String> = JsonMissing.of(),
                             @JsonProperty("dropOffType")
                             @ExcludeMissing
                             private val dropOffType: JsonField<Long> = JsonMissing.of(),
+                            @JsonProperty("pickupType")
+                            @ExcludeMissing
+                            private val pickupType: JsonField<Long> = JsonMissing.of(),
                             @JsonAnySetter
                             private val additionalProperties: Map<String, JsonValue> =
                                 immutableEmptyMap(),
                         ) {
 
-                            fun stopId(): String = stopId.getRequired("stopId")
-
                             fun arrivalTime(): Long = arrivalTime.getRequired("arrivalTime")
 
                             fun departureTime(): Long = departureTime.getRequired("departureTime")
 
-                            fun pickupType(): Optional<Long> =
-                                Optional.ofNullable(pickupType.getNullable("pickupType"))
+                            fun stopId(): String = stopId.getRequired("stopId")
 
                             fun dropOffType(): Optional<Long> =
                                 Optional.ofNullable(dropOffType.getNullable("dropOffType"))
 
-                            @JsonProperty("stopId") @ExcludeMissing fun _stopId() = stopId
+                            fun pickupType(): Optional<Long> =
+                                Optional.ofNullable(pickupType.getNullable("pickupType"))
 
                             @JsonProperty("arrivalTime")
                             @ExcludeMissing
-                            fun _arrivalTime() = arrivalTime
+                            fun _arrivalTime(): JsonField<Long> = arrivalTime
 
                             @JsonProperty("departureTime")
                             @ExcludeMissing
-                            fun _departureTime() = departureTime
+                            fun _departureTime(): JsonField<Long> = departureTime
 
-                            @JsonProperty("pickupType")
+                            @JsonProperty("stopId")
                             @ExcludeMissing
-                            fun _pickupType() = pickupType
+                            fun _stopId(): JsonField<String> = stopId
 
                             @JsonProperty("dropOffType")
                             @ExcludeMissing
-                            fun _dropOffType() = dropOffType
+                            fun _dropOffType(): JsonField<Long> = dropOffType
+
+                            @JsonProperty("pickupType")
+                            @ExcludeMissing
+                            fun _pickupType(): JsonField<Long> = pickupType
 
                             @JsonAnyGetter
                             @ExcludeMissing
@@ -817,14 +917,16 @@ private constructor(
                             private var validated: Boolean = false
 
                             fun validate(): StopTime = apply {
-                                if (!validated) {
-                                    stopId()
-                                    arrivalTime()
-                                    departureTime()
-                                    pickupType()
-                                    dropOffType()
-                                    validated = true
+                                if (validated) {
+                                    return@apply
                                 }
+
+                                arrivalTime()
+                                departureTime()
+                                stopId()
+                                dropOffType()
+                                pickupType()
+                                validated = true
                             }
 
                             fun toBuilder() = Builder().from(this)
@@ -834,31 +936,26 @@ private constructor(
                                 @JvmStatic fun builder() = Builder()
                             }
 
-                            class Builder {
+                            /** A builder for [StopTime]. */
+                            class Builder internal constructor() {
 
-                                private var stopId: JsonField<String> = JsonMissing.of()
-                                private var arrivalTime: JsonField<Long> = JsonMissing.of()
-                                private var departureTime: JsonField<Long> = JsonMissing.of()
-                                private var pickupType: JsonField<Long> = JsonMissing.of()
+                                private var arrivalTime: JsonField<Long>? = null
+                                private var departureTime: JsonField<Long>? = null
+                                private var stopId: JsonField<String>? = null
                                 private var dropOffType: JsonField<Long> = JsonMissing.of()
+                                private var pickupType: JsonField<Long> = JsonMissing.of()
                                 private var additionalProperties: MutableMap<String, JsonValue> =
                                     mutableMapOf()
 
                                 @JvmSynthetic
                                 internal fun from(stopTime: StopTime) = apply {
-                                    stopId = stopTime.stopId
                                     arrivalTime = stopTime.arrivalTime
                                     departureTime = stopTime.departureTime
-                                    pickupType = stopTime.pickupType
+                                    stopId = stopTime.stopId
                                     dropOffType = stopTime.dropOffType
+                                    pickupType = stopTime.pickupType
                                     additionalProperties =
                                         stopTime.additionalProperties.toMutableMap()
-                                }
-
-                                fun stopId(stopId: String) = stopId(JsonField.of(stopId))
-
-                                fun stopId(stopId: JsonField<String>) = apply {
-                                    this.stopId = stopId
                                 }
 
                                 fun arrivalTime(arrivalTime: Long) =
@@ -875,11 +972,10 @@ private constructor(
                                     this.departureTime = departureTime
                                 }
 
-                                fun pickupType(pickupType: Long) =
-                                    pickupType(JsonField.of(pickupType))
+                                fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
-                                fun pickupType(pickupType: JsonField<Long>) = apply {
-                                    this.pickupType = pickupType
+                                fun stopId(stopId: JsonField<String>) = apply {
+                                    this.stopId = stopId
                                 }
 
                                 fun dropOffType(dropOffType: Long) =
@@ -887,6 +983,13 @@ private constructor(
 
                                 fun dropOffType(dropOffType: JsonField<Long>) = apply {
                                     this.dropOffType = dropOffType
+                                }
+
+                                fun pickupType(pickupType: Long) =
+                                    pickupType(JsonField.of(pickupType))
+
+                                fun pickupType(pickupType: JsonField<Long>) = apply {
+                                    this.pickupType = pickupType
                                 }
 
                                 fun additionalProperties(
@@ -914,11 +1017,11 @@ private constructor(
 
                                 fun build(): StopTime =
                                     StopTime(
-                                        stopId,
-                                        arrivalTime,
-                                        departureTime,
-                                        pickupType,
+                                        checkRequired("arrivalTime", arrivalTime),
+                                        checkRequired("departureTime", departureTime),
+                                        checkRequired("stopId", stopId),
                                         dropOffType,
+                                        pickupType,
                                         additionalProperties.toImmutable(),
                                     )
                             }
@@ -928,17 +1031,17 @@ private constructor(
                                     return true
                                 }
 
-                                return /* spotless:off */ other is StopTime && stopId == other.stopId && arrivalTime == other.arrivalTime && departureTime == other.departureTime && pickupType == other.pickupType && dropOffType == other.dropOffType && additionalProperties == other.additionalProperties /* spotless:on */
+                                return /* spotless:off */ other is StopTime && arrivalTime == other.arrivalTime && departureTime == other.departureTime && stopId == other.stopId && dropOffType == other.dropOffType && pickupType == other.pickupType && additionalProperties == other.additionalProperties /* spotless:on */
                             }
 
                             /* spotless:off */
-                            private val hashCode: Int by lazy { Objects.hash(stopId, arrivalTime, departureTime, pickupType, dropOffType, additionalProperties) }
+                            private val hashCode: Int by lazy { Objects.hash(arrivalTime, departureTime, stopId, dropOffType, pickupType, additionalProperties) }
                             /* spotless:on */
 
                             override fun hashCode(): Int = hashCode
 
                             override fun toString() =
-                                "StopTime{stopId=$stopId, arrivalTime=$arrivalTime, departureTime=$departureTime, pickupType=$pickupType, dropOffType=$dropOffType, additionalProperties=$additionalProperties}"
+                                "StopTime{arrivalTime=$arrivalTime, departureTime=$departureTime, stopId=$stopId, dropOffType=$dropOffType, pickupType=$pickupType, additionalProperties=$additionalProperties}"
                         }
 
                         override fun equals(other: Any?): Boolean {
@@ -946,17 +1049,17 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is BlockStopTime && blockSequence == other.blockSequence && distanceAlongBlock == other.distanceAlongBlock && accumulatedSlackTime == other.accumulatedSlackTime && stopTime == other.stopTime && additionalProperties == other.additionalProperties /* spotless:on */
+                            return /* spotless:off */ other is BlockStopTime && accumulatedSlackTime == other.accumulatedSlackTime && blockSequence == other.blockSequence && distanceAlongBlock == other.distanceAlongBlock && stopTime == other.stopTime && additionalProperties == other.additionalProperties /* spotless:on */
                         }
 
                         /* spotless:off */
-                        private val hashCode: Int by lazy { Objects.hash(blockSequence, distanceAlongBlock, accumulatedSlackTime, stopTime, additionalProperties) }
+                        private val hashCode: Int by lazy { Objects.hash(accumulatedSlackTime, blockSequence, distanceAlongBlock, stopTime, additionalProperties) }
                         /* spotless:on */
 
                         override fun hashCode(): Int = hashCode
 
                         override fun toString() =
-                            "BlockStopTime{blockSequence=$blockSequence, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, stopTime=$stopTime, additionalProperties=$additionalProperties}"
+                            "BlockStopTime{accumulatedSlackTime=$accumulatedSlackTime, blockSequence=$blockSequence, distanceAlongBlock=$distanceAlongBlock, stopTime=$stopTime, additionalProperties=$additionalProperties}"
                     }
 
                     override fun equals(other: Any?): Boolean {
@@ -964,17 +1067,17 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Trip && tripId == other.tripId && distanceAlongBlock == other.distanceAlongBlock && accumulatedSlackTime == other.accumulatedSlackTime && blockStopTimes == other.blockStopTimes && additionalProperties == other.additionalProperties /* spotless:on */
+                        return /* spotless:off */ other is Trip && accumulatedSlackTime == other.accumulatedSlackTime && blockStopTimes == other.blockStopTimes && distanceAlongBlock == other.distanceAlongBlock && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
                     }
 
                     /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(tripId, distanceAlongBlock, accumulatedSlackTime, blockStopTimes, additionalProperties) }
+                    private val hashCode: Int by lazy { Objects.hash(accumulatedSlackTime, blockStopTimes, distanceAlongBlock, tripId, additionalProperties) }
                     /* spotless:on */
 
                     override fun hashCode(): Int = hashCode
 
                     override fun toString() =
-                        "Trip{tripId=$tripId, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, blockStopTimes=$blockStopTimes, additionalProperties=$additionalProperties}"
+                        "Trip{accumulatedSlackTime=$accumulatedSlackTime, blockStopTimes=$blockStopTimes, distanceAlongBlock=$distanceAlongBlock, tripId=$tripId, additionalProperties=$additionalProperties}"
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -982,17 +1085,17 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Configuration && activeServiceIds == other.activeServiceIds && inactiveServiceIds == other.inactiveServiceIds && trips == other.trips && additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Configuration && activeServiceIds == other.activeServiceIds && trips == other.trips && inactiveServiceIds == other.inactiveServiceIds && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(activeServiceIds, inactiveServiceIds, trips, additionalProperties) }
+                private val hashCode: Int by lazy { Objects.hash(activeServiceIds, trips, inactiveServiceIds, additionalProperties) }
                 /* spotless:on */
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "Configuration{activeServiceIds=$activeServiceIds, inactiveServiceIds=$inactiveServiceIds, trips=$trips, additionalProperties=$additionalProperties}"
+                    "Configuration{activeServiceIds=$activeServiceIds, trips=$trips, inactiveServiceIds=$inactiveServiceIds, additionalProperties=$additionalProperties}"
             }
 
             override fun equals(other: Any?): Boolean {

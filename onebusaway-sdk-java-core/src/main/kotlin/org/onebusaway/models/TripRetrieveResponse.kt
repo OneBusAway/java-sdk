@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -42,15 +43,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,14 +68,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): TripRetrieveResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -84,13 +87,14 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [TripRetrieveResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -144,11 +148,11 @@ private constructor(
 
         fun build(): TripRetrieveResponse =
             TripRetrieveResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -171,9 +175,11 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -182,11 +188,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -196,10 +204,11 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var entry: JsonField<Entry> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var entry: JsonField<Entry>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -240,8 +249,8 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    entry,
-                    references,
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -250,27 +259,27 @@ private constructor(
         class Entry
         @JsonCreator
         private constructor(
+            @JsonProperty("id")
+            @ExcludeMissing
+            private val id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("routeId")
+            @ExcludeMissing
+            private val routeId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("serviceId")
+            @ExcludeMissing
+            private val serviceId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("blockId")
             @ExcludeMissing
             private val blockId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("directionId")
             @ExcludeMissing
             private val directionId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("id")
-            @ExcludeMissing
-            private val id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("peakOffpeak")
             @ExcludeMissing
             private val peakOffpeak: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("routeId")
-            @ExcludeMissing
-            private val routeId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("routeShortName")
             @ExcludeMissing
             private val routeShortName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("serviceId")
-            @ExcludeMissing
-            private val serviceId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("shapeId")
             @ExcludeMissing
             private val shapeId: JsonField<String> = JsonMissing.of(),
@@ -287,22 +296,22 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
+            fun id(): String = id.getRequired("id")
+
+            fun routeId(): String = routeId.getRequired("routeId")
+
+            fun serviceId(): String = serviceId.getRequired("serviceId")
+
             fun blockId(): Optional<String> = Optional.ofNullable(blockId.getNullable("blockId"))
 
             fun directionId(): Optional<String> =
                 Optional.ofNullable(directionId.getNullable("directionId"))
 
-            fun id(): String = id.getRequired("id")
-
             fun peakOffpeak(): Optional<Long> =
                 Optional.ofNullable(peakOffpeak.getNullable("peakOffpeak"))
 
-            fun routeId(): String = routeId.getRequired("routeId")
-
             fun routeShortName(): Optional<String> =
                 Optional.ofNullable(routeShortName.getNullable("routeShortName"))
-
-            fun serviceId(): String = serviceId.getRequired("serviceId")
 
             fun shapeId(): Optional<String> = Optional.ofNullable(shapeId.getNullable("shapeId"))
 
@@ -314,27 +323,39 @@ private constructor(
             fun tripShortName(): Optional<String> =
                 Optional.ofNullable(tripShortName.getNullable("tripShortName"))
 
-            @JsonProperty("blockId") @ExcludeMissing fun _blockId() = blockId
+            @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-            @JsonProperty("directionId") @ExcludeMissing fun _directionId() = directionId
+            @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
 
-            @JsonProperty("id") @ExcludeMissing fun _id() = id
+            @JsonProperty("serviceId")
+            @ExcludeMissing
+            fun _serviceId(): JsonField<String> = serviceId
 
-            @JsonProperty("peakOffpeak") @ExcludeMissing fun _peakOffpeak() = peakOffpeak
+            @JsonProperty("blockId") @ExcludeMissing fun _blockId(): JsonField<String> = blockId
 
-            @JsonProperty("routeId") @ExcludeMissing fun _routeId() = routeId
+            @JsonProperty("directionId")
+            @ExcludeMissing
+            fun _directionId(): JsonField<String> = directionId
 
-            @JsonProperty("routeShortName") @ExcludeMissing fun _routeShortName() = routeShortName
+            @JsonProperty("peakOffpeak")
+            @ExcludeMissing
+            fun _peakOffpeak(): JsonField<Long> = peakOffpeak
 
-            @JsonProperty("serviceId") @ExcludeMissing fun _serviceId() = serviceId
+            @JsonProperty("routeShortName")
+            @ExcludeMissing
+            fun _routeShortName(): JsonField<String> = routeShortName
 
-            @JsonProperty("shapeId") @ExcludeMissing fun _shapeId() = shapeId
+            @JsonProperty("shapeId") @ExcludeMissing fun _shapeId(): JsonField<String> = shapeId
 
-            @JsonProperty("timeZone") @ExcludeMissing fun _timeZone() = timeZone
+            @JsonProperty("timeZone") @ExcludeMissing fun _timeZone(): JsonField<String> = timeZone
 
-            @JsonProperty("tripHeadsign") @ExcludeMissing fun _tripHeadsign() = tripHeadsign
+            @JsonProperty("tripHeadsign")
+            @ExcludeMissing
+            fun _tripHeadsign(): JsonField<String> = tripHeadsign
 
-            @JsonProperty("tripShortName") @ExcludeMissing fun _tripShortName() = tripShortName
+            @JsonProperty("tripShortName")
+            @ExcludeMissing
+            fun _tripShortName(): JsonField<String> = tripShortName
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -343,20 +364,22 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): Entry = apply {
-                if (!validated) {
-                    blockId()
-                    directionId()
-                    id()
-                    peakOffpeak()
-                    routeId()
-                    routeShortName()
-                    serviceId()
-                    shapeId()
-                    timeZone()
-                    tripHeadsign()
-                    tripShortName()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                id()
+                routeId()
+                serviceId()
+                blockId()
+                directionId()
+                peakOffpeak()
+                routeShortName()
+                shapeId()
+                timeZone()
+                tripHeadsign()
+                tripShortName()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -366,15 +389,16 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [Entry]. */
+            class Builder internal constructor() {
 
+                private var id: JsonField<String>? = null
+                private var routeId: JsonField<String>? = null
+                private var serviceId: JsonField<String>? = null
                 private var blockId: JsonField<String> = JsonMissing.of()
                 private var directionId: JsonField<String> = JsonMissing.of()
-                private var id: JsonField<String> = JsonMissing.of()
                 private var peakOffpeak: JsonField<Long> = JsonMissing.of()
-                private var routeId: JsonField<String> = JsonMissing.of()
                 private var routeShortName: JsonField<String> = JsonMissing.of()
-                private var serviceId: JsonField<String> = JsonMissing.of()
                 private var shapeId: JsonField<String> = JsonMissing.of()
                 private var timeZone: JsonField<String> = JsonMissing.of()
                 private var tripHeadsign: JsonField<String> = JsonMissing.of()
@@ -383,19 +407,31 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(entry: Entry) = apply {
+                    id = entry.id
+                    routeId = entry.routeId
+                    serviceId = entry.serviceId
                     blockId = entry.blockId
                     directionId = entry.directionId
-                    id = entry.id
                     peakOffpeak = entry.peakOffpeak
-                    routeId = entry.routeId
                     routeShortName = entry.routeShortName
-                    serviceId = entry.serviceId
                     shapeId = entry.shapeId
                     timeZone = entry.timeZone
                     tripHeadsign = entry.tripHeadsign
                     tripShortName = entry.tripShortName
                     additionalProperties = entry.additionalProperties.toMutableMap()
                 }
+
+                fun id(id: String) = id(JsonField.of(id))
+
+                fun id(id: JsonField<String>) = apply { this.id = id }
+
+                fun routeId(routeId: String) = routeId(JsonField.of(routeId))
+
+                fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
+
+                fun serviceId(serviceId: String) = serviceId(JsonField.of(serviceId))
+
+                fun serviceId(serviceId: JsonField<String>) = apply { this.serviceId = serviceId }
 
                 fun blockId(blockId: String) = blockId(JsonField.of(blockId))
 
@@ -407,19 +443,11 @@ private constructor(
                     this.directionId = directionId
                 }
 
-                fun id(id: String) = id(JsonField.of(id))
-
-                fun id(id: JsonField<String>) = apply { this.id = id }
-
                 fun peakOffpeak(peakOffpeak: Long) = peakOffpeak(JsonField.of(peakOffpeak))
 
                 fun peakOffpeak(peakOffpeak: JsonField<Long>) = apply {
                     this.peakOffpeak = peakOffpeak
                 }
-
-                fun routeId(routeId: String) = routeId(JsonField.of(routeId))
-
-                fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                 fun routeShortName(routeShortName: String) =
                     routeShortName(JsonField.of(routeShortName))
@@ -427,10 +455,6 @@ private constructor(
                 fun routeShortName(routeShortName: JsonField<String>) = apply {
                     this.routeShortName = routeShortName
                 }
-
-                fun serviceId(serviceId: String) = serviceId(JsonField.of(serviceId))
-
-                fun serviceId(serviceId: JsonField<String>) = apply { this.serviceId = serviceId }
 
                 fun shapeId(shapeId: String) = shapeId(JsonField.of(shapeId))
 
@@ -477,13 +501,13 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
+                        checkRequired("id", id),
+                        checkRequired("routeId", routeId),
+                        checkRequired("serviceId", serviceId),
                         blockId,
                         directionId,
-                        id,
                         peakOffpeak,
-                        routeId,
                         routeShortName,
-                        serviceId,
                         shapeId,
                         timeZone,
                         tripHeadsign,
@@ -497,17 +521,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && blockId == other.blockId && directionId == other.directionId && id == other.id && peakOffpeak == other.peakOffpeak && routeId == other.routeId && routeShortName == other.routeShortName && serviceId == other.serviceId && shapeId == other.shapeId && timeZone == other.timeZone && tripHeadsign == other.tripHeadsign && tripShortName == other.tripShortName && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Entry && id == other.id && routeId == other.routeId && serviceId == other.serviceId && blockId == other.blockId && directionId == other.directionId && peakOffpeak == other.peakOffpeak && routeShortName == other.routeShortName && shapeId == other.shapeId && timeZone == other.timeZone && tripHeadsign == other.tripHeadsign && tripShortName == other.tripShortName && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(blockId, directionId, id, peakOffpeak, routeId, routeShortName, serviceId, shapeId, timeZone, tripHeadsign, tripShortName, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(id, routeId, serviceId, blockId, directionId, peakOffpeak, routeShortName, shapeId, timeZone, tripHeadsign, tripShortName, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Entry{blockId=$blockId, directionId=$directionId, id=$id, peakOffpeak=$peakOffpeak, routeId=$routeId, routeShortName=$routeShortName, serviceId=$serviceId, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
+                "Entry{id=$id, routeId=$routeId, serviceId=$serviceId, blockId=$blockId, directionId=$directionId, peakOffpeak=$peakOffpeak, routeShortName=$routeShortName, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {

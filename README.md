@@ -6,31 +6,25 @@
 
 <!-- x-release-please-end -->
 
-The Onebusaway SDK Java SDK provides convenient access to the Onebusaway SDK REST API from applications written in Java. It includes helper classes with helpful types and documentation for every request and response property.
+The Onebusaway SDK Java SDK provides convenient access to the Onebusaway SDK REST API from applications written in Java.
 
 The Onebusaway SDK Java SDK is similar to the Onebusaway SDK Kotlin SDK but with minor differences that make it more ergonomic for use in Java, such as `Optional` instead of nullable values, `Stream` instead of `Sequence`, and `CompletableFuture` instead of suspend functions.
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
-## Documentation
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org).
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org).
-
----
-
-## Getting started
-
-### Install dependencies
-
-#### Gradle
+## Installation
 
 <!-- x-release-please-start-version -->
+
+### Gradle
 
 ```kotlin
 implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.23")
 ```
 
-#### Maven
+### Maven
 
 ```xml
 <dependency>
@@ -41,6 +35,12 @@ implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.23")
 ```
 
 <!-- x-release-please-end -->
+
+## Requirements
+
+This library requires Java 8 or later.
+
+## Usage
 
 ### Configure the client
 
@@ -98,19 +98,7 @@ CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(params);
 
 To make a request to the Onebusaway SDK API, you generally build an instance of the appropriate `Params` class.
 
-In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to the `retrieve` method of the `currentTime` service.
-
-Sometimes, the API may support other properties that are not yet supported in the Java SDK types. In that case, you can attach them using the `putAdditionalProperty` method.
-
-```java
-import org.onebusaway.core.JsonValue;
-import org.onebusaway.models.CurrentTimeRetrieveParams;
-
-CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder()
-    // ... normal properties
-    .putAdditionalProperty("secret_param", JsonValue.from("4242"))
-    .build();
-```
+See [Undocumented request params](#undocumented-request-params) for how to send arbitrary parameters.
 
 ## Responses
 
@@ -238,18 +226,26 @@ This library is typed for convenient access to the documented API. If you need t
 
 ### Undocumented request params
 
-To make requests using undocumented parameters, you can provide or override parameters on the params object while building it.
+In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to the `retrieve` method of the `currentTime` service.
+
+Sometimes, the API may support other properties that are not yet supported in the Java SDK types. In that case, you can attach them using raw setters:
 
 ```java
-FooCreateParams address = FooCreateParams.builder()
-    .id("my_id")
-    .putAdditionalProperty("secret_prop", JsonValue.from("hello"))
+import org.onebusaway.core.JsonValue;
+import org.onebusaway.models.CurrentTimeRetrieveParams;
+
+CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder()
+    .putAdditionalHeader("Secret-Header", "42")
+    .putAdditionalQueryParam("secret_query_param", "42")
+    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
     .build();
 ```
 
+You can also use the `putAdditionalProperty` method on nested headers, query params, or body objects.
+
 ### Undocumented response properties
 
-To access undocumented response properties, you can use `res._additionalProperties()` on a response object to get a map of untyped fields of type `Map<String, JsonValue>`. You can then access fields like `._additionalProperties().get("secret_prop").asString()` or use other helpers defined on the `JsonValue` class to extract it to a desired type.
+To access undocumented response properties, you can use `res._additionalProperties()` on a response object to get a map of untyped fields of type `Map<String, JsonValue>`. You can then access fields like `res._additionalProperties().get("secret_prop").asString()` or use other helpers defined on the `JsonValue` class to extract it to a desired type.
 
 ## Logging
 
@@ -271,13 +267,9 @@ $ export ONEBUSAWAY_SDK_LOG=debug
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
-1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals)_.
+1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
 2. Changes that we do not expect to impact the vast majority of users in practice.
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
 We are keen for your feedback; please open an [issue](https://www.github.com/OneBusAway/java-sdk/issues) with questions, bugs, or suggestions.
-
-## Requirements
-
-This library requires Java 8 or later.

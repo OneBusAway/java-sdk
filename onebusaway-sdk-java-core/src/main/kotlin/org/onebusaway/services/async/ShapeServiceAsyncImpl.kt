@@ -11,12 +11,13 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.prepareAsync
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ShapeRetrieveParams
 import org.onebusaway.models.ShapeRetrieveResponse
 
 class ShapeServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : ShapeServiceAsync {
 
@@ -34,20 +35,18 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("api", "where", "shape", "${params.getPathParam(0)}.json")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { retrieveHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            it.validate()
+                        }
                     }
-                }
-        }
+            }
     }
 }

@@ -5,11 +5,14 @@ package org.onebusaway.models
 import java.util.Objects
 import java.util.Optional
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** routes-for-location */
 class RoutesForLocationListParams
-constructor(
+private constructor(
     private val lat: Double,
     private val lon: Double,
     private val latSpan: Double?,
@@ -18,7 +21,7 @@ constructor(
     private val radius: Double?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun lat(): Double = lat
 
@@ -36,10 +39,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    @JvmSynthetic
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.lat.let { queryParams.put("lat", listOf(it.toString())) }
         this.lon.let { queryParams.put("lon", listOf(it.toString())) }
@@ -58,8 +60,9 @@ constructor(
         @JvmStatic fun builder() = Builder()
     }
 
+    /** A builder for [RoutesForLocationListParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var lat: Double? = null
         private var lon: Double? = null
@@ -86,13 +89,30 @@ constructor(
 
         fun lon(lon: Double) = apply { this.lon = lon }
 
-        fun latSpan(latSpan: Double) = apply { this.latSpan = latSpan }
+        fun latSpan(latSpan: Double?) = apply { this.latSpan = latSpan }
 
-        fun lonSpan(lonSpan: Double) = apply { this.lonSpan = lonSpan }
+        fun latSpan(latSpan: Double) = latSpan(latSpan as Double?)
 
-        fun query(query: String) = apply { this.query = query }
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun latSpan(latSpan: Optional<Double>) = latSpan(latSpan.orElse(null) as Double?)
 
-        fun radius(radius: Double) = apply { this.radius = radius }
+        fun lonSpan(lonSpan: Double?) = apply { this.lonSpan = lonSpan }
+
+        fun lonSpan(lonSpan: Double) = lonSpan(lonSpan as Double?)
+
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun lonSpan(lonSpan: Optional<Double>) = lonSpan(lonSpan.orElse(null) as Double?)
+
+        fun query(query: String?) = apply { this.query = query }
+
+        fun query(query: Optional<String>) = query(query.orElse(null))
+
+        fun radius(radius: Double?) = apply { this.radius = radius }
+
+        fun radius(radius: Double) = radius(radius as Double?)
+
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun radius(radius: Optional<Double>) = radius(radius.orElse(null) as Double?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -194,8 +214,8 @@ constructor(
 
         fun build(): RoutesForLocationListParams =
             RoutesForLocationListParams(
-                checkNotNull(lat) { "`lat` is required but was not set" },
-                checkNotNull(lon) { "`lon` is required but was not set" },
+                checkRequired("lat", lat),
+                checkRequired("lon", lon),
                 latSpan,
                 lonSpan,
                 query,

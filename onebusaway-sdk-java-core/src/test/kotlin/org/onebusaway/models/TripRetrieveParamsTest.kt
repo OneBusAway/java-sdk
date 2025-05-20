@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class TripRetrieveParamsTest {
 
     @Test
-    fun createTripRetrieveParams() {
+    fun create() {
         TripRetrieveParams.builder().tripId("tripID").build()
     }
 

@@ -11,12 +11,13 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.prepareAsync
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripsForLocationListParams
 import org.onebusaway.models.TripsForLocationListResponse
 
 class TripsForLocationServiceAsyncImpl
-constructor(
+internal constructor(
     private val clientOptions: ClientOptions,
 ) : TripsForLocationServiceAsync {
 
@@ -35,20 +36,18 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("api", "where", "trips-for-location.json")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+                .prepareAsync(clientOptions, params)
+        return request
+            .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+            .thenApply { response ->
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                            it.validate()
+                        }
                     }
-                }
-        }
+            }
     }
 }

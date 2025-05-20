@@ -10,7 +10,7 @@ import org.onebusaway.core.http.QueryParams
 class ArrivalAndDepartureListParamsTest {
 
     @Test
-    fun createArrivalAndDepartureListParams() {
+    fun create() {
         ArrivalAndDepartureListParams.builder()
             .stopId("1_75403")
             .minutesAfter(0L)
@@ -20,7 +20,7 @@ class ArrivalAndDepartureListParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ArrivalAndDepartureListParams.builder()
                 .stopId("1_75403")
@@ -32,14 +32,14 @@ class ArrivalAndDepartureListParamsTest {
         expected.put("minutesAfter", "0")
         expected.put("minutesBefore", "0")
         expected.put("time", "2019-12-27T18:11:19.117Z")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = ArrivalAndDepartureListParams.builder().stopId("1_75403").build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test

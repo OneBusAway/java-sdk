@@ -10,7 +10,7 @@ import org.onebusaway.core.http.QueryParams
 class ScheduleForRouteRetrieveParamsTest {
 
     @Test
-    fun createScheduleForRouteRetrieveParams() {
+    fun create() {
         ScheduleForRouteRetrieveParams.builder()
             .routeId("1_100223")
             .date(LocalDate.parse("2019-12-27"))
@@ -18,7 +18,7 @@ class ScheduleForRouteRetrieveParamsTest {
     }
 
     @Test
-    fun getQueryParams() {
+    fun queryParams() {
         val params =
             ScheduleForRouteRetrieveParams.builder()
                 .routeId("1_100223")
@@ -26,14 +26,14 @@ class ScheduleForRouteRetrieveParamsTest {
                 .build()
         val expected = QueryParams.builder()
         expected.put("date", "2019-12-27")
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
-    fun getQueryParamsWithoutOptionalFields() {
+    fun queryParamsWithoutOptionalFields() {
         val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
         val expected = QueryParams.builder()
-        assertThat(params.getQueryParams()).isEqualTo(expected.build())
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
