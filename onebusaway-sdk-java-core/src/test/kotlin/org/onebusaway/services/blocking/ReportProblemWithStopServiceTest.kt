@@ -6,31 +6,32 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.ReportProblemWithStopRetrieveParams
+import org.onebusaway.models.reportproblemwithstop.ReportProblemWithStopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ReportProblemWithStopServiceTest {
+internal class ReportProblemWithStopServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val reportProblemWithStopService = client.reportProblemWithStop()
+
         val responseWrapper =
             reportProblemWithStopService.retrieve(
                 ReportProblemWithStopRetrieveParams.builder()
                     .stopId("stopID")
                     .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
                     .userComment("userComment")
-                    .userLat(0.0)
-                    .userLocationAccuracy(0.0)
-                    .userLon(0.0)
+                    .userLat(0.0f)
+                    .userLocationAccuracy(0.0f)
+                    .userLon(0.0f)
                     .build()
             )
-        println(responseWrapper)
+
         responseWrapper.validate()
     }
 }

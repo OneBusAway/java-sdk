@@ -1,23 +1,17 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package org.onebusaway.errors
 
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.http.Headers
 
 abstract class OnebusawaySdkServiceException
-@JvmOverloads
-constructor(
-    private val statusCode: Int,
-    private val headers: Headers,
-    private val body: String,
-    private val error: OnebusawaySdkError,
-    message: String = "$statusCode: $error",
-    cause: Throwable? = null
-) : OnebusawaySdkException(message, cause) {
+protected constructor(message: String, cause: Throwable? = null) :
+    OnebusawaySdkException(message, cause) {
 
-    fun statusCode(): Int = statusCode
+    abstract fun statusCode(): Int
 
-    fun headers(): Headers = headers
+    abstract fun headers(): Headers
 
-    fun body(): String = body
-
-    fun error(): OnebusawaySdkError = error
+    abstract fun body(): JsonValue
 }

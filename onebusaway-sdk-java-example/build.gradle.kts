@@ -1,7 +1,10 @@
 plugins {
-    id("onebusaway-sdk.kotlin")
-    id("java")
+    id("onebusaway-sdk.java")
     application
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {

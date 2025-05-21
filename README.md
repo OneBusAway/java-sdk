@@ -3,16 +3,21 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.23)
+[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.23/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.23)
 
 <!-- x-release-please-end -->
 
-The Onebusaway SDK Java SDK provides convenient access to the Onebusaway SDK REST API from applications written in Java.
+The Onebusaway SDK Java SDK provides convenient access to the [Onebusaway SDK REST API](https://developer.onebusaway.org) from applications written in Java.
 
 The Onebusaway SDK Java SDK is similar to the Onebusaway SDK Kotlin SDK but with minor differences that make it more ergonomic for use in Java, such as `Optional` instead of nullable values, `Stream` instead of `Sequence`, and `CompletableFuture` instead of suspend functions.
 
-It is generated with [Stainless](https://www.stainlessapi.com/).
+It is generated with [Stainless](https://www.stainless.com/).
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org).
+<!-- x-release-please-start-version -->
+
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). Javadocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.23).
+
+<!-- x-release-please-end -->
 
 ## Installation
 
@@ -28,9 +33,9 @@ implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.23")
 
 ```xml
 <dependency>
-    <groupId>org.onebusaway</groupId>
-    <artifactId>onebusaway-sdk-java</artifactId>
-    <version>0.1.0-alpha.23</version>
+  <groupId>org.onebusaway</groupId>
+  <artifactId>onebusaway-sdk-java</artifactId>
+  <version>0.1.0-alpha.23</version>
 </dependency>
 ```
 
@@ -42,9 +47,31 @@ This library requires Java 8 or later.
 
 ## Usage
 
-### Configure the client
+```java
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
 
-Use `OnebusawaySdkOkHttpClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
+OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.fromEnv();
+
+CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve();
+```
+
+## Client configuration
+
+Configure the client using environment variables:
+
+```java
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
+OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.fromEnv();
+```
+
+Or manually:
 
 ```java
 import org.onebusaway.client.OnebusawaySdkClient;
@@ -55,129 +82,171 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     .build();
 ```
 
-Alternately, set the environment with `ONEBUSAWAY_API_KEY`, and use `OnebusawaySdkOkHttpClient.fromEnv()` to read from the environment.
+Or using a combination of the two approaches:
 
 ```java
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 
-OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.fromEnv();
-
-// Note: you can also call fromEnv() from the client builder, for example if you need to set additional properties
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
+    // Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
     .fromEnv()
-    // ... set properties on the builder
+    .apiKey("My API Key")
     .build();
 ```
 
-| Property | Environment variable | Required | Default value |
-| -------- | -------------------- | -------- | ------------- |
-| apiKey   | `ONEBUSAWAY_API_KEY` | true     | —             |
+See this table for the available options:
 
-Read the documentation for more configuration options.
+| Setter    | Environment variable      | Required | Default value                             |
+| --------- | ------------------------- | -------- | ----------------------------------------- |
+| `apiKey`  | `ONEBUSAWAY_API_KEY`      | true     | -                                         |
+| `baseUrl` | `ONEBUSAWAY_SDK_BASE_URL` | true     | `"https://api.pugetsound.onebusaway.org"` |
 
----
+> [!TIP]
+> Don't create more than one client in the same application. Each client has a connection pool and
+> thread pools, which are more efficient to share between requests.
 
-### Example: creating a resource
+## Requests and responses
 
-To create a new current time, first use the `CurrentTimeRetrieveParams` builder to specify attributes, then pass that to the `retrieve` method of the `currentTime` service.
+To send a request to the Onebusaway SDK API, build an instance of some `Params` class and pass it to the corresponding client method. When the response is received, it will be deserialized into an instance of a Java class.
 
-```java
-import org.onebusaway.models.CurrentTimeRetrieveParams;
-import org.onebusaway.models.CurrentTimeRetrieveResponse;
+For example, `client.currentTime().retrieve(...)` should be called with an instance of `CurrentTimeRetrieveParams`, and it will return an instance of `CurrentTimeRetrieveResponse`.
 
-CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder().build();
-CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(params);
-```
+## Immutability
 
----
+Each class in the SDK has an associated [builder](https://blogs.oracle.com/javamagazine/post/exploring-joshua-blochs-builder-design-pattern-in-java) or factory method for constructing it.
 
-## Requests
+Each class is [immutable](https://docs.oracle.com/javase/tutorial/essential/concurrency/immutable.html) once constructed. If the class has an associated builder, then it has a `toBuilder()` method, which can be used to convert it back to a builder for making a modified copy.
 
-### Parameters and bodies
+Because each class is immutable, builder modification will _never_ affect already built class instances.
 
-To make a request to the Onebusaway SDK API, you generally build an instance of the appropriate `Params` class.
+## Asynchronous execution
 
-See [Undocumented request params](#undocumented-request-params) for how to send arbitrary parameters.
-
-## Responses
-
-### Response validation
-
-When receiving a response, the Onebusaway SDK Java SDK will deserialize it into instances of the typed model classes. In rare cases, the API may return a response property that doesn't match the expected Java type. If you directly access the mistaken property, the SDK will throw an unchecked `OnebusawaySdkInvalidDataException` at runtime. If you would prefer to check in advance that that response is completely well-typed, call `.validate()` on the returned model.
+The default client is synchronous. To switch to asynchronous execution, call the `async()` method:
 
 ```java
-import org.onebusaway.models.CurrentTimeRetrieveResponse;
+import java.util.concurrent.CompletableFuture;
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
 
-CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve().validate();
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
+OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.fromEnv();
+
+CompletableFuture<CurrentTimeRetrieveResponse> currentTime = client.async().currentTime().retrieve();
 ```
 
-### Response properties as JSON
-
-In rare cases, you may want to access the underlying JSON value for a response property rather than using the typed version provided by this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
+Or create an asynchronous client from the beginning:
 
 ```java
-import java.util.Optional;
-import org.onebusaway.core.JsonField;
+import java.util.concurrent.CompletableFuture;
+import org.onebusaway.client.OnebusawaySdkClientAsync;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
 
-JsonField field = responseObj._field();
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
+OnebusawaySdkClientAsync client = OnebusawaySdkOkHttpClientAsync.fromEnv();
 
-if (field.isMissing()) {
-  // Value was not specified in the JSON response
-} else if (field.isNull()) {
-  // Value was provided as a literal null
-} else {
-  // See if value was provided as a string
-  Optional<String> jsonString = field.asString();
-
-  // If the value given by the API did not match the shape that the SDK expects
-  // you can deserialise into a custom type
-  MyClass myObj = responseObj._field().asUnknown().orElseThrow().convert(MyClass.class);
-}
+CompletableFuture<CurrentTimeRetrieveResponse> currentTime = client.currentTime().retrieve();
 ```
 
-### Additional model properties
+The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
 
-Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
+## Raw responses
+
+The SDK defines methods that deserialize responses into instances of Java classes. However, these methods don't provide access to the response headers, status code, or the raw response body.
+
+To access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:
 
 ```java
-import org.onebusaway.core.JsonValue;
+import org.onebusaway.core.http.Headers;
+import org.onebusaway.core.http.HttpResponseFor;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
 
-JsonValue secret = references._additionalProperties().get("secret_field");
+HttpResponseFor<CurrentTimeRetrieveResponse> currentTime = client.currentTime().withRawResponse().retrieve();
+
+int statusCode = currentTime.statusCode();
+Headers headers = currentTime.headers();
 ```
 
----
+You can still deserialize the response into an instance of a Java class if needed:
 
----
+```java
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
+
+CurrentTimeRetrieveResponse parsedCurrentTime = currentTime.parse();
+```
 
 ## Error handling
 
-This library throws exceptions in a single hierarchy for easy handling:
+The SDK throws custom unchecked exception types:
 
-- **`OnebusawaySdkException`** - Base exception for all exceptions
+- [`OnebusawaySdkServiceException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-- **`OnebusawaySdkServiceException`** - HTTP errors with a well-formed response body we were able to parse. The exception message and the `.debuggingRequestId()` will be set by the server.
+  | Status | Exception                                                                                                                          |
+  | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+  | 400    | [`BadRequestException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/UnexpectedStatusCodeException.kt) |
 
-  | 400    | BadRequestException           |
-  | ------ | ----------------------------- |
-  | 401    | AuthenticationException       |
-  | 403    | PermissionDeniedException     |
-  | 404    | NotFoundException             |
-  | 422    | UnprocessableEntityException  |
-  | 429    | RateLimitException            |
-  | 5xx    | InternalServerException       |
-  | others | UnexpectedStatusCodeException |
+- [`OnebusawaySdkIoException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkIoException.kt): I/O networking errors.
 
-- **`OnebusawaySdkIoException`** - I/O networking errors
-- **`OnebusawaySdkInvalidDataException`** - any other exceptions on the client side, e.g.:
-  - We failed to serialize the request body
-  - We failed to parse the response body (has access to response code and body)
+- [`OnebusawaySdkInvalidDataException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+
+- [`OnebusawaySdkException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
+
+## Logging
+
+The SDK uses the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
+
+Enable logging by setting the `ONEBUSAWAY_SDK_LOG` environment variable to `info`:
+
+```sh
+$ export ONEBUSAWAY_SDK_LOG=info
+```
+
+Or to `debug` for more verbose logging:
+
+```sh
+$ export ONEBUSAWAY_SDK_LOG=debug
+```
+
+## Jackson
+
+The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
+
+The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
+
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt).
+
+> [!CAUTION]
+> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
 
 ## Network options
 
 ### Retries
 
-Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default. You can provide a `maxRetries` on the client builder to configure this:
+The SDK automatically retries 2 times by default, with a short exponential backoff.
+
+Only the following error types are retried:
+
+- Connection errors (for example, due to a network connectivity problem)
+- 408 Request Timeout
+- 409 Conflict
+- 429 Rate Limit
+- 5xx Internal
+
+The API may also explicitly instruct the SDK to retry or not retry a response.
+
+To set a custom number of retries, configure the client using the `maxRetries` method:
 
 ```java
 import org.onebusaway.client.OnebusawaySdkClient;
@@ -191,7 +260,17 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
 
 ### Timeouts
 
-Requests time out after 1 minute by default. You can configure this on the client builder:
+Requests time out after 1 minute by default.
+
+To set a custom timeout, configure the method call using the `timeout` method:
+
+```java
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
+
+CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
+```
+
+Or configure the default for all method calls at the client level:
 
 ```java
 import java.time.Duration;
@@ -206,7 +285,7 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
 
 ### Proxies
 
-Requests can be routed through a proxy. You can configure this on the client builder:
+To route requests through a proxy, configure the client using the `proxy` method:
 
 ```java
 import java.net.InetSocketAddress;
@@ -216,23 +295,61 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
-    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("example.com", 8080)))
+    .proxy(new Proxy(
+      Proxy.Type.HTTP, new InetSocketAddress(
+        "https://example.com", 8080
+      )
+    ))
     .build();
 ```
 
-## Making custom/undocumented requests
+### Custom HTTP client
 
-This library is typed for convenient access to the documented API. If you need to access undocumented params or response properties, the library can still be used.
+The SDK consists of three artifacts:
 
-### Undocumented request params
+- `onebusaway-sdk-java-core`
+  - Contains core SDK logic
+  - Does not depend on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`OnebusawaySdkClient`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClient.kt), [`OnebusawaySdkClientAsync`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsync.kt), [`OnebusawaySdkClientImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt), and [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), all of which can work with any HTTP client
+- `onebusaway-sdk-java-client-okhttp`
+  - Depends on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) and [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), which provide a way to construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) and [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), respectively, using OkHttp
+- `onebusaway-sdk-java`
+  - Depends on and exposes the APIs of both `onebusaway-sdk-java-core` and `onebusaway-sdk-java-client-okhttp`
+  - Does not have its own logic
 
-In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to the `retrieve` method of the `currentTime` service.
+This structure allows replacing the SDK's default HTTP client without pulling in unnecessary dependencies.
 
-Sometimes, the API may support other properties that are not yet supported in the Java SDK types. In that case, you can attach them using raw setters:
+#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)
+
+> [!TIP]
+> Try the available [network options](#network-options) before replacing the default client.
+
+To use a customized `OkHttpClient`:
+
+1. Replace your [`onebusaway-sdk-java` dependency](#installation) with `onebusaway-sdk-java-core`
+2. Copy `onebusaway-sdk-java-client-okhttp`'s [`OkHttpClient`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) or [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), similarly to [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), using your customized client
+
+### Completely custom HTTP client
+
+To use a completely custom HTTP client:
+
+1. Replace your [`onebusaway-sdk-java` dependency](#installation) with `onebusaway-sdk-java-core`
+2. Write a class that implements the [`HttpClient`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/core/http/HttpClient.kt) interface
+3. Construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) or [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), similarly to [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-java-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), using your new client class
+
+## Undocumented API functionality
+
+The SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.
+
+### Parameters
+
+To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or `putAdditionalBodyProperty` methods on any `Params` class:
 
 ```java
 import org.onebusaway.core.JsonValue;
-import org.onebusaway.models.CurrentTimeRetrieveParams;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams;
 
 CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
@@ -241,27 +358,185 @@ CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder()
     .build();
 ```
 
-You can also use the `putAdditionalProperty` method on nested headers, query params, or body objects.
+These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.
 
-### Undocumented response properties
+To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/core/Values.kt) object to its setter:
 
-To access undocumented response properties, you can use `res._additionalProperties()` on a response object to get a map of untyped fields of type `Map<String, JsonValue>`. You can then access fields like `res._additionalProperties().get("secret_prop").asString()` or use other helpers defined on the `JsonValue` class to extract it to a desired type.
+```java
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams;
 
-## Logging
-
-We use the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
-
-You can enable logging by setting the environment variable `ONEBUSAWAY_SDK_LOG` to `info`.
-
-```sh
-$ export ONEBUSAWAY_SDK_LOG=info
+CurrentTimeRetrieveParams params = CurrentTimeRetrieveParams.builder().build();
 ```
 
-Or to `debug` for more verbose logging.
+The most straightforward way to create a [`JsonValue`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/core/Values.kt) is using its `from(...)` method:
 
-```sh
-$ export ONEBUSAWAY_SDK_LOG=debug
+```java
+import java.util.List;
+import java.util.Map;
+import org.onebusaway.core.JsonValue;
+
+// Create primitive JSON values
+JsonValue nullValue = JsonValue.from(null);
+JsonValue booleanValue = JsonValue.from(true);
+JsonValue numberValue = JsonValue.from(42);
+JsonValue stringValue = JsonValue.from("Hello World!");
+
+// Create a JSON array value equivalent to `["Hello", "World"]`
+JsonValue arrayValue = JsonValue.from(List.of(
+  "Hello", "World"
+));
+
+// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`
+JsonValue objectValue = JsonValue.from(Map.of(
+  "a", 1,
+  "b", 2
+));
+
+// Create an arbitrarily nested JSON equivalent to:
+// {
+//   "a": [1, 2],
+//   "b": [3, 4]
+// }
+JsonValue complexValue = JsonValue.from(Map.of(
+  "a", List.of(
+    1, 2
+  ),
+  "b", List.of(
+    3, 4
+  )
+));
 ```
+
+Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
+
+To forcibly omit a required parameter or property, pass [`JsonMissing`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/core/Values.kt):
+
+```java
+import org.onebusaway.core.JsonMissing;
+import org.onebusaway.models.agency.AgencyRetrieveParams;
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams;
+
+CurrentTimeRetrieveParams params = AgencyRetrieveParams.builder()
+    .agencyId(JsonMissing.of())
+    .build();
+```
+
+### Response properties
+
+To access undocumented response properties, call the `_additionalProperties()` method:
+
+```java
+import java.util.Map;
+import org.onebusaway.core.JsonValue;
+
+Map<String, JsonValue> additionalProperties = client.currentTime().retrieve(params)._additionalProperties();
+JsonValue secretPropertyValue = additionalProperties.get("secretProperty");
+
+String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
+    @Override
+    public String visitNull() {
+        return "It's null!";
+    }
+
+    @Override
+    public String visitBoolean(boolean value) {
+        return "It's a boolean!";
+    }
+
+    @Override
+    public String visitNumber(Number value) {
+        return "It's a number!";
+    }
+
+    // Other methods include `visitMissing`, `visitString`, `visitArray`, and `visitObject`
+    // The default implementation of each unimplemented method delegates to `visitDefault`, which throws by default, but can also be overridden
+});
+```
+
+To access a property's raw JSON value, which may be undocumented, call its `_` prefixed method:
+
+```java
+import java.util.Optional;
+import org.onebusaway.core.JsonField;
+
+JsonField<Object> field = client.currentTime().retrieve(params)._field();
+
+if (field.isMissing()) {
+  // The property is absent from the JSON response
+} else if (field.isNull()) {
+  // The property was set to literal null
+} else {
+  // Check if value was provided as a string
+  // Other methods include `asNumber()`, `asBoolean()`, etc.
+  Optional<String> jsonString = field.asString();
+
+  // Try to deserialize into a custom type
+  MyClass myObject = field.asUnknown().orElseThrow().convert(MyClass.class);
+}
+```
+
+### Response validation
+
+In rare cases, the API may return a response that doesn't match the expected type. For example, the SDK may expect a property to contain a `String`, but the API could return something else.
+
+By default, the SDK will not throw an exception in this case. It will throw [`OnebusawaySdkInvalidDataException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkInvalidDataException.kt) only if you directly access the property.
+
+If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
+
+```java
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
+
+CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(params).validate();
+```
+
+Or configure the method call to validate the response using the `responseValidation` method:
+
+```java
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse;
+
+CurrentTimeRetrieveResponse currentTime = client.currentTime().retrieve(RequestOptions.builder().responseValidation(true).build());
+```
+
+Or configure the default for all method calls at the client level:
+
+```java
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
+OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
+    .fromEnv()
+    .responseValidation(true)
+    .build();
+```
+
+## FAQ
+
+### Why don't you use plain `enum` classes?
+
+Java `enum` classes are not trivially [forwards compatible](https://www.stainless.com/blog/making-java-enums-forwards-compatible). Using them in the SDK could cause runtime exceptions if the API is updated to respond with a new enum value.
+
+### Why do you represent fields using `JsonField<T>` instead of just plain `T`?
+
+Using `JsonField<T>` enables a few features:
+
+- Allowing usage of [undocumented API functionality](#undocumented-api-functionality)
+- Lazily [validating the API response against the expected shape](#response-validation)
+- Representing absent vs explicitly null values
+
+### Why don't you use [`data` classes](https://kotlinlang.org/docs/data-classes.html)?
+
+It is not [backwards compatible to add new fields to a data class](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#avoid-using-data-classes-in-your-api) and we don't want to introduce a breaking change every time we add a field to a class.
+
+### Why don't you use checked exceptions?
+
+Checked exceptions are widely considered a mistake in the Java programming language. In fact, they were omitted from Kotlin for this reason.
+
+Checked exceptions:
+
+- Are verbose to handle
+- Encourage error handling at the wrong level of abstraction, where nothing can be done about the error
+- Are tedious to propagate due to the [function coloring problem](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function)
+- Don't play well with lambdas (also due to the function coloring problem)
 
 ## Semantic versioning
 
