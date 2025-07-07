@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.block.BlockRetrieveParams
@@ -15,6 +16,13 @@ interface BlockServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): BlockServiceAsync
 
     /** Get details of a specific block by ID */
     fun retrieve(blockId: String): CompletableFuture<BlockRetrieveResponse> =
@@ -55,15 +63,22 @@ interface BlockServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BlockServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/block/{blockID}.json`, but is otherwise
          * the same as [BlockServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(blockId: String): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
             retrieve(blockId, BlockRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             blockId: String,
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
@@ -72,7 +87,6 @@ interface BlockServiceAsync {
             retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             blockId: String,
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
@@ -80,21 +94,18 @@ interface BlockServiceAsync {
             retrieve(blockId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: BlockRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: BlockRetrieveParams
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             blockId: String,
             requestOptions: RequestOptions,

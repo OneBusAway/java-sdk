@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -26,6 +27,9 @@ class StopsForLocationServiceImpl internal constructor(private val clientOptions
 
     override fun withRawResponse(): StopsForLocationService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StopsForLocationService =
+        StopsForLocationServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun list(
         params: StopsForLocationListParams,
         requestOptions: RequestOptions,
@@ -38,6 +42,13 @@ class StopsForLocationServiceImpl internal constructor(private val clientOptions
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StopsForLocationService.WithRawResponse =
+            StopsForLocationServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<StopsForLocationListResponse> =
             jsonHandler<StopsForLocationListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +60,7 @@ class StopsForLocationServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "stops-for-location.json")
                     .build()
                     .prepare(clientOptions, params)

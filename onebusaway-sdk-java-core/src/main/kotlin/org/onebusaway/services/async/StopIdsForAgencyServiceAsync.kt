@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.stopidsforagency.StopIdsForAgencyListParams
@@ -15,6 +16,13 @@ interface StopIdsForAgencyServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): StopIdsForAgencyServiceAsync
 
     /** Get stop IDs for a specific agency */
     fun list(agencyId: String): CompletableFuture<StopIdsForAgencyListResponse> =
@@ -59,17 +67,24 @@ interface StopIdsForAgencyServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StopIdsForAgencyServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/stop-ids-for-agency/{agencyID}.json`, but
          * is otherwise the same as [StopIdsForAgencyServiceAsync.list].
          */
-        @MustBeClosed
         fun list(
             agencyId: String
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>> =
             list(agencyId, StopIdsForAgencyListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             agencyId: String,
             params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
@@ -78,7 +93,6 @@ interface StopIdsForAgencyServiceAsync {
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             agencyId: String,
             params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
@@ -86,21 +100,18 @@ interface StopIdsForAgencyServiceAsync {
             list(agencyId, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: StopIdsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: StopIdsForAgencyListParams
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             agencyId: String,
             requestOptions: RequestOptions,

@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -27,6 +28,9 @@ class CurrentTimeServiceAsyncImpl internal constructor(private val clientOptions
 
     override fun withRawResponse(): CurrentTimeServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CurrentTimeServiceAsync =
+        CurrentTimeServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: CurrentTimeRetrieveParams,
         requestOptions: RequestOptions,
@@ -39,6 +43,13 @@ class CurrentTimeServiceAsyncImpl internal constructor(private val clientOptions
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CurrentTimeServiceAsync.WithRawResponse =
+            CurrentTimeServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<CurrentTimeRetrieveResponse> =
             jsonHandler<CurrentTimeRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -50,6 +61,7 @@ class CurrentTimeServiceAsyncImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "current-time.json")
                     .build()
                     .prepareAsync(clientOptions, params)

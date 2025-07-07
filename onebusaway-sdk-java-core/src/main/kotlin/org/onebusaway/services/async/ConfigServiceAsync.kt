@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.config.ConfigRetrieveParams
@@ -15,6 +16,13 @@ interface ConfigServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ConfigServiceAsync
 
     /** config */
     fun retrieve(): CompletableFuture<ConfigRetrieveResponse> =
@@ -41,29 +49,34 @@ interface ConfigServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ConfigServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/config.json`, but is otherwise the same
          * as [ConfigServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(): CompletableFuture<HttpResponseFor<ConfigRetrieveResponse>> =
             retrieve(ConfigRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ConfigRetrieveParams = ConfigRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ConfigRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ConfigRetrieveParams = ConfigRetrieveParams.none()
         ): CompletableFuture<HttpResponseFor<ConfigRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ConfigRetrieveResponse>> =

@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -27,6 +28,11 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForLocatio
 
     override fun withRawResponse(): StopsForLocationServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): StopsForLocationServiceAsync =
+        StopsForLocationServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun list(
         params: StopsForLocationListParams,
         requestOptions: RequestOptions,
@@ -39,6 +45,13 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForLocatio
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StopsForLocationServiceAsync.WithRawResponse =
+            StopsForLocationServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<StopsForLocationListResponse> =
             jsonHandler<StopsForLocationListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -50,6 +63,7 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForLocatio
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "stops-for-location.json")
                     .build()
                     .prepareAsync(clientOptions, params)

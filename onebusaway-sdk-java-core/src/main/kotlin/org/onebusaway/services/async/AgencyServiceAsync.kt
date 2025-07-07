@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.agency.AgencyRetrieveParams
@@ -15,6 +16,13 @@ interface AgencyServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): AgencyServiceAsync
 
     /** Retrieve information for a specific transit agency identified by its unique ID. */
     fun retrieve(agencyId: String): CompletableFuture<AgencyRetrieveResponse> =
@@ -57,15 +65,22 @@ interface AgencyServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AgencyServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/agency/{agencyID}.json`, but is otherwise
          * the same as [AgencyServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(agencyId: String): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
             retrieve(agencyId, AgencyRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             agencyId: String,
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
@@ -74,7 +89,6 @@ interface AgencyServiceAsync {
             retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             agencyId: String,
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
@@ -82,21 +96,18 @@ interface AgencyServiceAsync {
             retrieve(agencyId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: AgencyRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: AgencyRetrieveParams
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             agencyId: String,
             requestOptions: RequestOptions,

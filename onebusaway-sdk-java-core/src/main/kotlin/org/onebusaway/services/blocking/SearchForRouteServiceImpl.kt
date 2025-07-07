@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -26,6 +27,9 @@ class SearchForRouteServiceImpl internal constructor(private val clientOptions: 
 
     override fun withRawResponse(): SearchForRouteService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SearchForRouteService =
+        SearchForRouteServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun list(
         params: SearchForRouteListParams,
         requestOptions: RequestOptions,
@@ -38,6 +42,13 @@ class SearchForRouteServiceImpl internal constructor(private val clientOptions: 
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SearchForRouteService.WithRawResponse =
+            SearchForRouteServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<SearchForRouteListResponse> =
             jsonHandler<SearchForRouteListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +60,7 @@ class SearchForRouteServiceImpl internal constructor(private val clientOptions: 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "route.json")
                     .build()
                     .prepare(clientOptions, params)

@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -26,6 +27,9 @@ class SearchForStopServiceImpl internal constructor(private val clientOptions: C
 
     override fun withRawResponse(): SearchForStopService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SearchForStopService =
+        SearchForStopServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun list(
         params: SearchForStopListParams,
         requestOptions: RequestOptions,
@@ -38,6 +42,13 @@ class SearchForStopServiceImpl internal constructor(private val clientOptions: C
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SearchForStopService.WithRawResponse =
+            SearchForStopServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<SearchForStopListResponse> =
             jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +60,7 @@ class SearchForStopServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "stop.json")
                     .build()
                     .prepare(clientOptions, params)

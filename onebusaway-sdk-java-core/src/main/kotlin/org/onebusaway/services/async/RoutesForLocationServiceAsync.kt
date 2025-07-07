@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.routesforlocation.RoutesForLocationListParams
@@ -15,6 +16,13 @@ interface RoutesForLocationServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): RoutesForLocationServiceAsync
 
     /** routes-for-location */
     fun list(
@@ -34,17 +42,24 @@ interface RoutesForLocationServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): RoutesForLocationServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/routes-for-location.json`, but is
          * otherwise the same as [RoutesForLocationServiceAsync.list].
          */
-        @MustBeClosed
         fun list(
             params: RoutesForLocationListParams
         ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: RoutesForLocationListParams,
             requestOptions: RequestOptions = RequestOptions.none(),

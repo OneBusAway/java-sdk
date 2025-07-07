@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -26,6 +27,9 @@ class CurrentTimeServiceImpl internal constructor(private val clientOptions: Cli
 
     override fun withRawResponse(): CurrentTimeService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): CurrentTimeService =
+        CurrentTimeServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: CurrentTimeRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +42,13 @@ class CurrentTimeServiceImpl internal constructor(private val clientOptions: Cli
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CurrentTimeService.WithRawResponse =
+            CurrentTimeServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<CurrentTimeRetrieveResponse> =
             jsonHandler<CurrentTimeRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +60,7 @@ class CurrentTimeServiceImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "current-time.json")
                     .build()
                     .prepare(clientOptions, params)

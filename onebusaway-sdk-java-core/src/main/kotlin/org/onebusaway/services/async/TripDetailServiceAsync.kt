@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.tripdetails.TripDetailRetrieveParams
@@ -15,6 +16,13 @@ interface TripDetailServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): TripDetailServiceAsync
 
     /** Retrieve Trip Details */
     fun retrieve(tripId: String): CompletableFuture<TripDetailRetrieveResponse> =
@@ -59,17 +67,24 @@ interface TripDetailServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TripDetailServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/trip-details/{tripID}.json`, but is
          * otherwise the same as [TripDetailServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             tripId: String
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>> =
             retrieve(tripId, TripDetailRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tripId: String,
             params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
@@ -78,7 +93,6 @@ interface TripDetailServiceAsync {
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tripId: String,
             params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
@@ -86,21 +100,18 @@ interface TripDetailServiceAsync {
             retrieve(tripId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TripDetailRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TripDetailRetrieveParams
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tripId: String,
             requestOptions: RequestOptions,

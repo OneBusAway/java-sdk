@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.scheduleforstop.ScheduleForStopRetrieveParams
@@ -15,6 +16,13 @@ interface ScheduleForStopServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ScheduleForStopServiceAsync
 
     /** Get schedule for a specific stop */
     fun retrieve(stopId: String): CompletableFuture<ScheduleForStopRetrieveResponse> =
@@ -60,17 +68,24 @@ interface ScheduleForStopServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ScheduleForStopServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/schedule-for-stop/{stopID}.json`, but is
          * otherwise the same as [ScheduleForStopServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             stopId: String
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>> =
             retrieve(stopId, ScheduleForStopRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             stopId: String,
             params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
@@ -79,7 +94,6 @@ interface ScheduleForStopServiceAsync {
             retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             stopId: String,
             params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
@@ -87,21 +101,18 @@ interface ScheduleForStopServiceAsync {
             retrieve(stopId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ScheduleForStopRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ScheduleForStopRetrieveParams
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             stopId: String,
             requestOptions: RequestOptions,

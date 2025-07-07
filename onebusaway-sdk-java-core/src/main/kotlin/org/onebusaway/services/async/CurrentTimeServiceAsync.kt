@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
@@ -15,6 +16,13 @@ interface CurrentTimeServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): CurrentTimeServiceAsync
 
     /** current-time */
     fun retrieve(): CompletableFuture<CurrentTimeRetrieveResponse> =
@@ -42,29 +50,34 @@ interface CurrentTimeServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): CurrentTimeServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/current-time.json`, but is otherwise the
          * same as [CurrentTimeServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =
             retrieve(CurrentTimeRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none()
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =

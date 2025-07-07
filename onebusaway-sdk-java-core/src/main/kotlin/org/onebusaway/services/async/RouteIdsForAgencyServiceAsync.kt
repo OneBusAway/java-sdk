@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.routeidsforagency.RouteIdsForAgencyListParams
@@ -15,6 +16,13 @@ interface RouteIdsForAgencyServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): RouteIdsForAgencyServiceAsync
 
     /** Get route IDs for a specific agency */
     fun list(agencyId: String): CompletableFuture<RouteIdsForAgencyListResponse> =
@@ -60,17 +68,24 @@ interface RouteIdsForAgencyServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): RouteIdsForAgencyServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/route-ids-for-agency/{agencyID}.json`,
          * but is otherwise the same as [RouteIdsForAgencyServiceAsync.list].
          */
-        @MustBeClosed
         fun list(
             agencyId: String
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>> =
             list(agencyId, RouteIdsForAgencyListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             agencyId: String,
             params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
@@ -79,7 +94,6 @@ interface RouteIdsForAgencyServiceAsync {
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             agencyId: String,
             params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
@@ -87,21 +101,18 @@ interface RouteIdsForAgencyServiceAsync {
             list(agencyId, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: RouteIdsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: RouteIdsForAgencyListParams
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             agencyId: String,
             requestOptions: RequestOptions,

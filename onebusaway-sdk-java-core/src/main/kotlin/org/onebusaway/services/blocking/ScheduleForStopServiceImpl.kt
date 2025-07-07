@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -28,6 +29,9 @@ class ScheduleForStopServiceImpl internal constructor(private val clientOptions:
 
     override fun withRawResponse(): ScheduleForStopService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ScheduleForStopService =
+        ScheduleForStopServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: ScheduleForStopRetrieveParams,
         requestOptions: RequestOptions,
@@ -39,6 +43,13 @@ class ScheduleForStopServiceImpl internal constructor(private val clientOptions:
         ScheduleForStopService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ScheduleForStopService.WithRawResponse =
+            ScheduleForStopServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<ScheduleForStopRetrieveResponse> =
             jsonHandler<ScheduleForStopRetrieveResponse>(clientOptions.jsonMapper)
@@ -54,6 +65,7 @@ class ScheduleForStopServiceImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

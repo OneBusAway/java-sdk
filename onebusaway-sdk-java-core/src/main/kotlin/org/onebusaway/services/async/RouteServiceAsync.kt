@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.route.RouteRetrieveParams
@@ -15,6 +16,13 @@ interface RouteServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): RouteServiceAsync
 
     /** Retrieve information for a specific route identified by its unique ID. */
     fun retrieve(routeId: String): CompletableFuture<RouteRetrieveResponse> =
@@ -55,15 +63,22 @@ interface RouteServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): RouteServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/route/{routeID}.json`, but is otherwise
          * the same as [RouteServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(routeId: String): CompletableFuture<HttpResponseFor<RouteRetrieveResponse>> =
             retrieve(routeId, RouteRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             routeId: String,
             params: RouteRetrieveParams = RouteRetrieveParams.none(),
@@ -72,7 +87,6 @@ interface RouteServiceAsync {
             retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             routeId: String,
             params: RouteRetrieveParams = RouteRetrieveParams.none(),
@@ -80,21 +94,18 @@ interface RouteServiceAsync {
             retrieve(routeId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: RouteRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<RouteRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: RouteRetrieveParams
         ): CompletableFuture<HttpResponseFor<RouteRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             routeId: String,
             requestOptions: RequestOptions,
