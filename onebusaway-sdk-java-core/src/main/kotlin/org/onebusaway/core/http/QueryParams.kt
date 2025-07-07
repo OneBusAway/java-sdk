@@ -1,3 +1,5 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package org.onebusaway.core.http
 
 import org.onebusaway.core.toImmutable
@@ -5,7 +7,7 @@ import org.onebusaway.core.toImmutable
 class QueryParams
 private constructor(
     private val map: Map<String, List<String>>,
-    @get:JvmName("size") val size: Int
+    @get:JvmName("size") val size: Int,
 ) {
 
     fun isEmpty(): Boolean = map.isEmpty()

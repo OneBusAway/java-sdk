@@ -23,15 +23,13 @@ import org.onebusaway.errors.OnebusawaySdkIoException
 class RetryingHttpClient
 private constructor(
     private val httpClient: HttpClient,
+    private val sleeper: Sleeper,
     private val clock: Clock,
     private val maxRetries: Int,
     private val idempotencyHeader: String?,
 ) : HttpClient {
 
-    override fun execute(
-        request: HttpRequest,
-        requestOptions: RequestOptions,
-    ): HttpResponse {
+    override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
         if (!isRetryable(request) || maxRetries <= 0) {
             return httpClient.execute(request, requestOptions)
         }
@@ -65,10 +63,10 @@ private constructor(
                     null
                 }
 
-            val backoffMillis = getRetryBackoffMillis(retries, response)
+            val backoffDuration = getRetryBackoffDuration(retries, response)
             // All responses must be closed, so close the failed one before retrying.
             response?.close()
-            Thread.sleep(backoffMillis.toMillis())
+            sleeper.sleep(backoffDuration)
         }
     }
 
@@ -100,7 +98,7 @@ private constructor(
                 .handleAsync(
                     fun(
                         response: HttpResponse?,
-                        throwable: Throwable?
+                        throwable: Throwable?,
                     ): CompletableFuture<HttpResponse> {
                         if (response != null) {
                             if (++retries > maxRetries || !shouldRetry(response)) {
@@ -114,13 +112,13 @@ private constructor(
                             }
                         }
 
-                        val backoffMillis = getRetryBackoffMillis(retries, response)
+                        val backoffDuration = getRetryBackoffDuration(retries, response)
                         // All responses must be closed, so close the failed one before retrying.
                         response?.close()
-                        return sleepAsync(backoffMillis.toMillis()).thenCompose {
+                        return sleeper.sleepAsync(backoffDuration).thenCompose {
                             executeWithRetries(requestWithRetryCount, requestOptions)
                         }
-                    },
+                    }
                 ) {
                     // Run in the same thread.
                     it.run()
@@ -183,7 +181,7 @@ private constructor(
         // retried.
         throwable is IOException || throwable is OnebusawaySdkIoException
 
-    private fun getRetryBackoffMillis(retries: Int, response: HttpResponse?): Duration {
+    private fun getRetryBackoffDuration(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
         response
@@ -201,8 +199,8 @@ private constructor(
                                     OffsetDateTime.now(clock),
                                     OffsetDateTime.parse(
                                         retryAfter,
-                                        DateTimeFormatter.RFC_1123_DATE_TIME
-                                    )
+                                        DateTimeFormatter.RFC_1123_DATE_TIME,
+                                    ),
                                 )
                             } catch (e: DateTimeParseException) {
                                 null
@@ -230,32 +228,39 @@ private constructor(
 
     companion object {
 
-        private val TIMER = Timer("RetryingHttpClient", true)
-
-        private fun sleepAsync(millis: Long): CompletableFuture<Void> {
-            val future = CompletableFuture<Void>()
-            TIMER.schedule(
-                object : TimerTask() {
-                    override fun run() {
-                        future.complete(null)
-                    }
-                },
-                millis
-            )
-            return future
-        }
-
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder internal constructor() {
 
         private var httpClient: HttpClient? = null
+        private var sleeper: Sleeper =
+            object : Sleeper {
+
+                private val timer = Timer("RetryingHttpClient", true)
+
+                override fun sleep(duration: Duration) = Thread.sleep(duration.toMillis())
+
+                override fun sleepAsync(duration: Duration): CompletableFuture<Void> {
+                    val future = CompletableFuture<Void>()
+                    timer.schedule(
+                        object : TimerTask() {
+                            override fun run() {
+                                future.complete(null)
+                            }
+                        },
+                        duration.toMillis(),
+                    )
+                    return future
+                }
+            }
         private var clock: Clock = Clock.systemUTC()
         private var maxRetries: Int = 2
         private var idempotencyHeader: String? = null
 
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
+
+        @JvmSynthetic internal fun sleeper(sleeper: Sleeper) = apply { this.sleeper = sleeper }
 
         fun clock(clock: Clock) = apply { this.clock = clock }
 
@@ -266,9 +271,17 @@ private constructor(
         fun build(): HttpClient =
             RetryingHttpClient(
                 checkRequired("httpClient", httpClient),
+                sleeper,
                 clock,
                 maxRetries,
                 idempotencyHeader,
             )
+    }
+
+    internal interface Sleeper {
+
+        fun sleep(duration: Duration)
+
+        fun sleepAsync(duration: Duration): CompletableFuture<Void>
     }
 }

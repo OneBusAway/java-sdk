@@ -2,7 +2,8 @@ package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
-import org.onebusaway.models.*;
+import org.onebusaway.models.routesforlocation.RoutesForLocationListParams;
+import org.onebusaway.models.routesforlocation.RoutesForLocationListResponse;
 
 public class RoutesForLocation {
 

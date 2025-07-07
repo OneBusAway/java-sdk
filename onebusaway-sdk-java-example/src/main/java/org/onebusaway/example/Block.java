@@ -3,7 +3,8 @@ package org.onebusaway.example;
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.errors.OnebusawaySdkServiceException;
-import org.onebusaway.models.*;
+import org.onebusaway.models.block.BlockRetrieveParams;
+import org.onebusaway.models.block.BlockRetrieveResponse;
 
 public class Block {
 

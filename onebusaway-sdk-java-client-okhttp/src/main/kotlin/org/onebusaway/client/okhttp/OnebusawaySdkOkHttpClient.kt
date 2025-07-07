@@ -9,6 +9,7 @@ import java.time.Duration
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.OnebusawaySdkClientImpl
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.Timeout
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
@@ -16,6 +17,9 @@ class OnebusawaySdkOkHttpClient private constructor() {
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [OnebusawaySdkOkHttpClient].
+         */
         @JvmStatic fun builder() = Builder()
 
         @JvmStatic fun fromEnv(): OnebusawaySdkClient = builder().fromEnv().build()
@@ -25,14 +29,20 @@ class OnebusawaySdkOkHttpClient private constructor() {
     class Builder internal constructor() {
 
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()
-        private var baseUrl: String = ClientOptions.PRODUCTION_URL
-        // The default timeout for the client is 1 minute.
-        private var timeout: Duration = Duration.ofSeconds(60)
+        private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
-        fun baseUrl(baseUrl: String) = apply {
-            clientOptions.baseUrl(baseUrl)
-            this.baseUrl = baseUrl
+        fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
+
+        /**
+         * Whether to throw an exception if any of the Jackson versions detected at runtime are
+         * incompatible with the SDK's minimum supported Jackson version (2.13.4).
+         *
+         * Defaults to true. Use extreme caution when disabling this option. There is no guarantee
+         * that the SDK will work correctly when using an incompatible Jackson version.
+         */
+        fun checkJacksonVersionCompatibility(checkJacksonVersionCompatibility: Boolean) = apply {
+            clientOptions.checkJacksonVersionCompatibility(checkJacksonVersionCompatibility)
         }
 
         fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
@@ -119,7 +129,19 @@ class OnebusawaySdkOkHttpClient private constructor() {
             clientOptions.removeAllQueryParams(keys)
         }
 
-        fun timeout(timeout: Duration) = apply { this.timeout = timeout }
+        fun timeout(timeout: Timeout) = apply {
+            clientOptions.timeout(timeout)
+            this.timeout = timeout
+        }
+
+        /**
+         * Sets the maximum time allowed for a complete HTTP call, not including retries.
+         *
+         * See [Timeout.request] for more details.
+         *
+         * For fine-grained control, pass a [Timeout] object.
+         */
+        fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
 
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
 
@@ -133,12 +155,17 @@ class OnebusawaySdkOkHttpClient private constructor() {
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
+        /**
+         * Returns an immutable instance of [OnebusawaySdkClient].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): OnebusawaySdkClient =
             OnebusawaySdkClientImpl(
                 clientOptions
                     .httpClient(
                         OkHttpClient.builder()
-                            .baseUrl(baseUrl)
+                            .baseUrl(clientOptions.baseUrl())
                             .timeout(timeout)
                             .proxy(proxy)
                             .build()

@@ -55,6 +55,11 @@ interface OnebusawaySdkClient {
      */
     fun async(): OnebusawaySdkClientAsync
 
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
+
     fun agenciesWithCoverage(): AgenciesWithCoverageService
 
     fun agency(): AgencyService
@@ -123,4 +128,66 @@ interface OnebusawaySdkClient {
      * method.
      */
     fun close()
+
+    /**
+     * A view of [OnebusawaySdkClient] that provides access to raw HTTP responses for each method.
+     */
+    interface WithRawResponse {
+
+        fun agenciesWithCoverage(): AgenciesWithCoverageService.WithRawResponse
+
+        fun agency(): AgencyService.WithRawResponse
+
+        fun vehiclesForAgency(): VehiclesForAgencyService.WithRawResponse
+
+        fun config(): ConfigService.WithRawResponse
+
+        fun currentTime(): CurrentTimeService.WithRawResponse
+
+        fun stopsForLocation(): StopsForLocationService.WithRawResponse
+
+        fun stopsForRoute(): StopsForRouteService.WithRawResponse
+
+        fun stopsForAgency(): StopsForAgencyService.WithRawResponse
+
+        fun stop(): StopService.WithRawResponse
+
+        fun stopIdsForAgency(): StopIdsForAgencyService.WithRawResponse
+
+        fun scheduleForStop(): ScheduleForStopService.WithRawResponse
+
+        fun route(): RouteService.WithRawResponse
+
+        fun routeIdsForAgency(): RouteIdsForAgencyService.WithRawResponse
+
+        fun routesForLocation(): RoutesForLocationService.WithRawResponse
+
+        fun routesForAgency(): RoutesForAgencyService.WithRawResponse
+
+        fun scheduleForRoute(): ScheduleForRouteService.WithRawResponse
+
+        fun arrivalAndDeparture(): ArrivalAndDepartureService.WithRawResponse
+
+        fun trip(): TripService.WithRawResponse
+
+        fun tripsForLocation(): TripsForLocationService.WithRawResponse
+
+        fun tripDetails(): TripDetailService.WithRawResponse
+
+        fun tripForVehicle(): TripForVehicleService.WithRawResponse
+
+        fun tripsForRoute(): TripsForRouteService.WithRawResponse
+
+        fun reportProblemWithStop(): ReportProblemWithStopService.WithRawResponse
+
+        fun reportProblemWithTrip(): ReportProblemWithTripService.WithRawResponse
+
+        fun searchForStop(): SearchForStopService.WithRawResponse
+
+        fun searchForRoute(): SearchForRouteService.WithRawResponse
+
+        fun block(): BlockService.WithRawResponse
+
+        fun shape(): ShapeService.WithRawResponse
+    }
 }

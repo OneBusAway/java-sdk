@@ -61,9 +61,7 @@ import org.onebusaway.services.blocking.TripsForRouteServiceImpl
 import org.onebusaway.services.blocking.VehiclesForAgencyService
 import org.onebusaway.services.blocking.VehiclesForAgencyServiceImpl
 
-class OnebusawaySdkClientImpl(
-    private val clientOptions: ClientOptions,
-) : OnebusawaySdkClient {
+class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : OnebusawaySdkClient {
 
     private val clientOptionsWithUserAgent =
         if (clientOptions.headers.names().contains("User-Agent")) clientOptions
@@ -76,6 +74,10 @@ class OnebusawaySdkClientImpl(
     // Pass the original clientOptions so that this client sets its own User-Agent.
     private val async: OnebusawaySdkClientAsync by lazy {
         OnebusawaySdkClientAsyncImpl(clientOptions)
+    }
+
+    private val withRawResponse: OnebusawaySdkClient.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
     }
 
     private val agenciesWithCoverage: AgenciesWithCoverageService by lazy {
@@ -178,6 +180,8 @@ class OnebusawaySdkClientImpl(
 
     override fun async(): OnebusawaySdkClientAsync = async
 
+    override fun withRawResponse(): OnebusawaySdkClient.WithRawResponse = withRawResponse
+
     override fun agenciesWithCoverage(): AgenciesWithCoverageService = agenciesWithCoverage
 
     override fun agency(): AgencyService = agency
@@ -235,4 +239,183 @@ class OnebusawaySdkClientImpl(
     override fun shape(): ShapeService = shape
 
     override fun close() = clientOptions.httpClient.close()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        OnebusawaySdkClient.WithRawResponse {
+
+        private val agenciesWithCoverage: AgenciesWithCoverageService.WithRawResponse by lazy {
+            AgenciesWithCoverageServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val agency: AgencyService.WithRawResponse by lazy {
+            AgencyServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val vehiclesForAgency: VehiclesForAgencyService.WithRawResponse by lazy {
+            VehiclesForAgencyServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val config: ConfigService.WithRawResponse by lazy {
+            ConfigServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val currentTime: CurrentTimeService.WithRawResponse by lazy {
+            CurrentTimeServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val stopsForLocation: StopsForLocationService.WithRawResponse by lazy {
+            StopsForLocationServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val stopsForRoute: StopsForRouteService.WithRawResponse by lazy {
+            StopsForRouteServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val stopsForAgency: StopsForAgencyService.WithRawResponse by lazy {
+            StopsForAgencyServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val stop: StopService.WithRawResponse by lazy {
+            StopServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val stopIdsForAgency: StopIdsForAgencyService.WithRawResponse by lazy {
+            StopIdsForAgencyServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val scheduleForStop: ScheduleForStopService.WithRawResponse by lazy {
+            ScheduleForStopServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val route: RouteService.WithRawResponse by lazy {
+            RouteServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val routeIdsForAgency: RouteIdsForAgencyService.WithRawResponse by lazy {
+            RouteIdsForAgencyServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val routesForLocation: RoutesForLocationService.WithRawResponse by lazy {
+            RoutesForLocationServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val routesForAgency: RoutesForAgencyService.WithRawResponse by lazy {
+            RoutesForAgencyServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val scheduleForRoute: ScheduleForRouteService.WithRawResponse by lazy {
+            ScheduleForRouteServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val arrivalAndDeparture: ArrivalAndDepartureService.WithRawResponse by lazy {
+            ArrivalAndDepartureServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val trip: TripService.WithRawResponse by lazy {
+            TripServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val tripsForLocation: TripsForLocationService.WithRawResponse by lazy {
+            TripsForLocationServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val tripDetails: TripDetailService.WithRawResponse by lazy {
+            TripDetailServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val tripForVehicle: TripForVehicleService.WithRawResponse by lazy {
+            TripForVehicleServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val tripsForRoute: TripsForRouteService.WithRawResponse by lazy {
+            TripsForRouteServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val reportProblemWithStop: ReportProblemWithStopService.WithRawResponse by lazy {
+            ReportProblemWithStopServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val reportProblemWithTrip: ReportProblemWithTripService.WithRawResponse by lazy {
+            ReportProblemWithTripServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val searchForStop: SearchForStopService.WithRawResponse by lazy {
+            SearchForStopServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val searchForRoute: SearchForRouteService.WithRawResponse by lazy {
+            SearchForRouteServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val block: BlockService.WithRawResponse by lazy {
+            BlockServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val shape: ShapeService.WithRawResponse by lazy {
+            ShapeServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        override fun agenciesWithCoverage(): AgenciesWithCoverageService.WithRawResponse =
+            agenciesWithCoverage
+
+        override fun agency(): AgencyService.WithRawResponse = agency
+
+        override fun vehiclesForAgency(): VehiclesForAgencyService.WithRawResponse =
+            vehiclesForAgency
+
+        override fun config(): ConfigService.WithRawResponse = config
+
+        override fun currentTime(): CurrentTimeService.WithRawResponse = currentTime
+
+        override fun stopsForLocation(): StopsForLocationService.WithRawResponse = stopsForLocation
+
+        override fun stopsForRoute(): StopsForRouteService.WithRawResponse = stopsForRoute
+
+        override fun stopsForAgency(): StopsForAgencyService.WithRawResponse = stopsForAgency
+
+        override fun stop(): StopService.WithRawResponse = stop
+
+        override fun stopIdsForAgency(): StopIdsForAgencyService.WithRawResponse = stopIdsForAgency
+
+        override fun scheduleForStop(): ScheduleForStopService.WithRawResponse = scheduleForStop
+
+        override fun route(): RouteService.WithRawResponse = route
+
+        override fun routeIdsForAgency(): RouteIdsForAgencyService.WithRawResponse =
+            routeIdsForAgency
+
+        override fun routesForLocation(): RoutesForLocationService.WithRawResponse =
+            routesForLocation
+
+        override fun routesForAgency(): RoutesForAgencyService.WithRawResponse = routesForAgency
+
+        override fun scheduleForRoute(): ScheduleForRouteService.WithRawResponse = scheduleForRoute
+
+        override fun arrivalAndDeparture(): ArrivalAndDepartureService.WithRawResponse =
+            arrivalAndDeparture
+
+        override fun trip(): TripService.WithRawResponse = trip
+
+        override fun tripsForLocation(): TripsForLocationService.WithRawResponse = tripsForLocation
+
+        override fun tripDetails(): TripDetailService.WithRawResponse = tripDetails
+
+        override fun tripForVehicle(): TripForVehicleService.WithRawResponse = tripForVehicle
+
+        override fun tripsForRoute(): TripsForRouteService.WithRawResponse = tripsForRoute
+
+        override fun reportProblemWithStop(): ReportProblemWithStopService.WithRawResponse =
+            reportProblemWithStop
+
+        override fun reportProblemWithTrip(): ReportProblemWithTripService.WithRawResponse =
+            reportProblemWithTrip
+
+        override fun searchForStop(): SearchForStopService.WithRawResponse = searchForStop
+
+        override fun searchForRoute(): SearchForRouteService.WithRawResponse = searchForRoute
+
+        override fun block(): BlockService.WithRawResponse = block
+
+        override fun shape(): ShapeService.WithRawResponse = shape
+    }
 }

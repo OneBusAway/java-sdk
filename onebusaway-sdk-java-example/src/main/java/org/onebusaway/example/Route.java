@@ -2,7 +2,8 @@ package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
-import org.onebusaway.models.*;
+import org.onebusaway.models.route.RouteRetrieveParams;
+import org.onebusaway.models.route.RouteRetrieveResponse;
 
 public class Route {
 
@@ -26,9 +27,8 @@ public class Route {
 
         try {
 
-            RouteRetrieveParams params = org.onebusaway.models.RouteRetrieveParams.builder()
-                    .routeId(routeId)
-                    .build();
+            RouteRetrieveParams params =
+                    RouteRetrieveParams.builder().routeId(routeId).build();
 
             RouteRetrieveResponse route = client.route().retrieve(params);
 

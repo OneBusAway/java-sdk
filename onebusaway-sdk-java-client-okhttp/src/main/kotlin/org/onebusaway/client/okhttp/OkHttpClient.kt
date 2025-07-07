@@ -19,6 +19,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.BufferedSink
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.Timeout
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpClient
@@ -32,10 +33,7 @@ class OkHttpClient
 private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val baseUrl: HttpUrl) :
     HttpClient {
 
-    override fun execute(
-        request: HttpRequest,
-        requestOptions: RequestOptions,
-    ): HttpResponse {
+    override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
         val call = newCall(request, requestOptions)
 
         return try {
@@ -93,13 +91,12 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
             clientBuilder.addNetworkInterceptor(HttpLoggingInterceptor().setLevel(logLevel))
         }
 
-        val timeout = requestOptions.timeout
-        if (timeout != null) {
+        requestOptions.timeout?.let {
             clientBuilder
-                .connectTimeout(timeout)
-                .readTimeout(timeout)
-                .writeTimeout(timeout)
-                .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
+                .connectTimeout(it.connect())
+                .readTimeout(it.read())
+                .writeTimeout(it.write())
+                .callTimeout(it.request())
         }
 
         val client = clientBuilder.build()
@@ -122,13 +119,13 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         ) {
             builder.header(
                 "X-Stainless-Read-Timeout",
-                Duration.ofMillis(client.readTimeoutMillis.toLong()).seconds.toString()
+                Duration.ofMillis(client.readTimeoutMillis.toLong()).seconds.toString(),
             )
         }
         if (!headers.names().contains("X-Stainless-Timeout") && client.callTimeoutMillis != 0) {
             builder.header(
                 "X-Stainless-Timeout",
-                Duration.ofMillis(client.callTimeoutMillis.toLong()).seconds.toString()
+                Duration.ofMillis(client.callTimeoutMillis.toLong()).seconds.toString(),
             )
         }
 
@@ -200,23 +197,24 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
     class Builder internal constructor() {
 
         private var baseUrl: HttpUrl? = null
-        // The default timeout is 1 minute.
-        private var timeout: Duration = Duration.ofSeconds(60)
+        private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl.toHttpUrl() }
 
-        fun timeout(timeout: Duration) = apply { this.timeout = timeout }
+        fun timeout(timeout: Timeout) = apply { this.timeout = timeout }
+
+        fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
 
         fun proxy(proxy: Proxy?) = apply { this.proxy = proxy }
 
         fun build(): OkHttpClient =
             OkHttpClient(
                 okhttp3.OkHttpClient.Builder()
-                    .connectTimeout(timeout)
-                    .readTimeout(timeout)
-                    .writeTimeout(timeout)
-                    .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
+                    .connectTimeout(timeout.connect())
+                    .readTimeout(timeout.read())
+                    .writeTimeout(timeout.write())
+                    .callTimeout(timeout.request())
                     .proxy(proxy)
                     .build(),
                 checkRequired("baseUrl", baseUrl),

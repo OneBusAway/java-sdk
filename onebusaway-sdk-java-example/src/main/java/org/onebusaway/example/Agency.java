@@ -2,7 +2,8 @@ package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
-import org.onebusaway.models.*;
+import org.onebusaway.models.agency.AgencyRetrieveParams;
+import org.onebusaway.models.agency.AgencyRetrieveResponse;
 
 public class Agency {
 

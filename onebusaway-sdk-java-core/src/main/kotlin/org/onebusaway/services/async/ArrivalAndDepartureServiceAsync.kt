@@ -1,29 +1,176 @@
 // File generated from our OpenAPI spec by Stainless.
 
-@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
-
 package org.onebusaway.services.async
 
+import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 import org.onebusaway.core.RequestOptions
-import org.onebusaway.models.ArrivalAndDepartureListParams
-import org.onebusaway.models.ArrivalAndDepartureListResponse
-import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
-import org.onebusaway.models.ArrivalAndDepartureRetrieveResponse
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListResponse
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveResponse
 
 interface ArrivalAndDepartureServiceAsync {
 
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
+
     /** arrival-and-departure-for-stop */
-    @JvmOverloads
+    fun retrieve(
+        stopId: String,
+        params: ArrivalAndDepartureRetrieveParams,
+    ): CompletableFuture<ArrivalAndDepartureRetrieveResponse> =
+        retrieve(stopId, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        stopId: String,
+        params: ArrivalAndDepartureRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ArrivalAndDepartureRetrieveResponse> =
+        retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        params: ArrivalAndDepartureRetrieveParams
+    ): CompletableFuture<ArrivalAndDepartureRetrieveResponse> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
     fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ArrivalAndDepartureRetrieveResponse>
 
     /** arrivals-and-departures-for-stop */
-    @JvmOverloads
+    fun list(stopId: String): CompletableFuture<ArrivalAndDepartureListResponse> =
+        list(stopId, ArrivalAndDepartureListParams.none())
+
+    /** @see [list] */
+    fun list(
+        stopId: String,
+        params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ArrivalAndDepartureListResponse> =
+        list(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
+        stopId: String,
+        params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
+    ): CompletableFuture<ArrivalAndDepartureListResponse> =
+        list(stopId, params, RequestOptions.none())
+
+    /** @see [list] */
     fun list(
         params: ArrivalAndDepartureListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ArrivalAndDepartureListResponse>
+
+    /** @see [list] */
+    fun list(
+        params: ArrivalAndDepartureListParams
+    ): CompletableFuture<ArrivalAndDepartureListResponse> = list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(
+        stopId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ArrivalAndDepartureListResponse> =
+        list(stopId, ArrivalAndDepartureListParams.none(), requestOptions)
+
+    /**
+     * A view of [ArrivalAndDepartureServiceAsync] that provides access to raw HTTP responses for
+     * each method.
+     */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /api/where/arrival-and-departure-for-stop/{stopID}.json`, but is otherwise the same as
+         * [ArrivalAndDepartureServiceAsync.retrieve].
+         */
+        @MustBeClosed
+        fun retrieve(
+            stopId: String,
+            params: ArrivalAndDepartureRetrieveParams,
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureRetrieveResponse>> =
+            retrieve(stopId, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            stopId: String,
+            params: ArrivalAndDepartureRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureRetrieveResponse>> =
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: ArrivalAndDepartureRetrieveParams
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureRetrieveResponse>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: ArrivalAndDepartureRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureRetrieveResponse>>
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /api/where/arrivals-and-departures-for-stop/{stopID}.json`, but is otherwise the same as
+         * [ArrivalAndDepartureServiceAsync.list].
+         */
+        @MustBeClosed
+        fun list(
+            stopId: String
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureListResponse>> =
+            list(stopId, ArrivalAndDepartureListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            stopId: String,
+            params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureListResponse>> =
+            list(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            stopId: String,
+            params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureListResponse>> =
+            list(stopId, params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ArrivalAndDepartureListParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureListResponse>>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            params: ArrivalAndDepartureListParams
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureListResponse>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            stopId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ArrivalAndDepartureListResponse>> =
+            list(stopId, ArrivalAndDepartureListParams.none(), requestOptions)
+    }
 }

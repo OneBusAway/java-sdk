@@ -21,8 +21,11 @@ configure<SpotlessExtension> {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -39,8 +42,12 @@ tasks.named<Jar>("jar") {
     }
 }
 
-tasks.named<Test>("test") {
+tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+
+    // Run tests in parallel to some degree.
+    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
+    forkEvery = 100
 
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
