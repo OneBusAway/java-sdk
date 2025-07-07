@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -28,6 +29,11 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
 
     override fun withRawResponse(): ReportProblemWithTripService.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ReportProblemWithTripService =
+        ReportProblemWithTripServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
         requestOptions: RequestOptions,
@@ -39,6 +45,13 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
         ReportProblemWithTripService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ReportProblemWithTripService.WithRawResponse =
+            ReportProblemWithTripServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<ResponseWrapper> =
             jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
@@ -53,6 +66,7 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

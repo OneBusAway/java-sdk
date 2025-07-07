@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -29,6 +30,9 @@ class AgencyServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
     override fun withRawResponse(): AgencyServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AgencyServiceAsync =
+        AgencyServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: AgencyRetrieveParams,
         requestOptions: RequestOptions,
@@ -40,6 +44,13 @@ class AgencyServiceAsyncImpl internal constructor(private val clientOptions: Cli
         AgencyServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AgencyServiceAsync.WithRawResponse =
+            AgencyServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<AgencyRetrieveResponse> =
             jsonHandler<AgencyRetrieveResponse>(clientOptions.jsonMapper)
@@ -55,6 +66,7 @@ class AgencyServiceAsyncImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "agency", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

@@ -7,7 +7,6 @@ import java.time.Duration
 import java.util.concurrent.CompletableFuture
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Interceptor
 import okhttp3.MediaType
@@ -20,7 +19,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okio.BufferedSink
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.Timeout
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpClient
 import org.onebusaway.core.http.HttpMethod
@@ -29,8 +27,7 @@ import org.onebusaway.core.http.HttpRequestBody
 import org.onebusaway.core.http.HttpResponse
 import org.onebusaway.errors.OnebusawaySdkIoException
 
-class OkHttpClient
-private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val baseUrl: HttpUrl) :
+class OkHttpClient private constructor(private val okHttpClient: okhttp3.OkHttpClient) :
     HttpClient {
 
     override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
@@ -142,11 +139,7 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         }
 
     private fun HttpRequest.toUrl(): String {
-        url?.let {
-            return it
-        }
-
-        val builder = baseUrl.newBuilder()
+        val builder = baseUrl.toHttpUrl().newBuilder()
         pathSegments.forEach(builder::addPathSegment)
         queryParams.keys().forEach { key ->
             queryParams.values(key).forEach { builder.addQueryParameter(key, it) }
@@ -196,11 +189,8 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
     class Builder internal constructor() {
 
-        private var baseUrl: HttpUrl? = null
         private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
-
-        fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl.toHttpUrl() }
 
         fun timeout(timeout: Timeout) = apply { this.timeout = timeout }
 
@@ -216,8 +206,12 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
                     .writeTimeout(timeout.write())
                     .callTimeout(timeout.request())
                     .proxy(proxy)
-                    .build(),
-                checkRequired("baseUrl", baseUrl),
+                    .build()
+                    .apply {
+                        // We usually make all our requests to the same host so it makes sense to
+                        // raise the per-host limit to the overall limit.
+                        dispatcher.maxRequestsPerHost = dispatcher.maxRequests
+                    }
             )
     }
 }

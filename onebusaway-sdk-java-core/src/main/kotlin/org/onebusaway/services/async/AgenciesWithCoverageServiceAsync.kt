@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.agencieswithcoverage.AgenciesWithCoverageListParams
@@ -15,6 +16,13 @@ interface AgenciesWithCoverageServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): AgenciesWithCoverageServiceAsync
 
     /**
      * Returns a list of all transit agencies currently supported by OneBusAway along with the
@@ -45,29 +53,34 @@ interface AgenciesWithCoverageServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AgenciesWithCoverageServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/agencies-with-coverage.json`, but is
          * otherwise the same as [AgenciesWithCoverageServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =
             list(AgenciesWithCoverageListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =

@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -26,6 +27,9 @@ class ConfigServiceImpl internal constructor(private val clientOptions: ClientOp
 
     override fun withRawResponse(): ConfigService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ConfigService =
+        ConfigServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: ConfigRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +42,13 @@ class ConfigServiceImpl internal constructor(private val clientOptions: ClientOp
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ConfigService.WithRawResponse =
+            ConfigServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<ConfigRetrieveResponse> =
             jsonHandler<ConfigRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +60,7 @@ class ConfigServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "config.json")
                     .build()
                     .prepare(clientOptions, params)

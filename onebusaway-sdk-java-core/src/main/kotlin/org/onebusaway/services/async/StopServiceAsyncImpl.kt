@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -29,6 +30,9 @@ class StopServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     override fun withRawResponse(): StopServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StopServiceAsync =
+        StopServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: StopRetrieveParams,
         requestOptions: RequestOptions,
@@ -40,6 +44,13 @@ class StopServiceAsyncImpl internal constructor(private val clientOptions: Clien
         StopServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StopServiceAsync.WithRawResponse =
+            StopServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<StopRetrieveResponse> =
             jsonHandler<StopRetrieveResponse>(clientOptions.jsonMapper)
@@ -55,6 +66,7 @@ class StopServiceAsyncImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "stop", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

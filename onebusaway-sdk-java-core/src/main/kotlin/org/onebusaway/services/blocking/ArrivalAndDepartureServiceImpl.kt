@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -30,6 +31,11 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
 
     override fun withRawResponse(): ArrivalAndDepartureService.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): ArrivalAndDepartureService =
+        ArrivalAndDepartureServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
         requestOptions: RequestOptions,
@@ -49,6 +55,13 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ArrivalAndDepartureService.WithRawResponse =
+            ArrivalAndDepartureServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<ArrivalAndDepartureRetrieveResponse> =
             jsonHandler<ArrivalAndDepartureRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -63,6 +76,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",
@@ -98,6 +112,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",
