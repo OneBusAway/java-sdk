@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0-alpha.24 (2025-07-07)
+
+Full Changelog: [v0.1.0-alpha.23...v0.1.0-alpha.24](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.23...v0.1.0-alpha.24)
+
+### Features
+
+* **api:** api update ([a9266bd](https://github.com/OneBusAway/java-sdk/commit/a9266bd3053952157431e4aee9b36aae6b637164))
+* **api:** manual updates ([#74](https://github.com/OneBusAway/java-sdk/issues/74)) ([ddda17b](https://github.com/OneBusAway/java-sdk/commit/ddda17b7186ef701720740c946250b5fa902a4cc))
+
+
+### Chores
+
+* **internal:** codegen related update ([8f6f893](https://github.com/OneBusAway/java-sdk/commit/8f6f893129b9b061d933432fc8ecc36be5e5ad7f))
+* **internal:** codegen related update ([#71](https://github.com/OneBusAway/java-sdk/issues/71)) ([c5e90c0](https://github.com/OneBusAway/java-sdk/commit/c5e90c0cda29a9131fd81e60d22711794a2f0a71))
+* **internal:** codegen related update ([#73](https://github.com/OneBusAway/java-sdk/issues/73)) ([a45c6b0](https://github.com/OneBusAway/java-sdk/commit/a45c6b0bc2f45328c1365db12b9ed2fca0d85ce6))
+* **internal:** codegen related update ([#75](https://github.com/OneBusAway/java-sdk/issues/75)) ([a433a99](https://github.com/OneBusAway/java-sdk/commit/a433a99937fdc1729f36a4e7d16a8d90137758e8))
+* **internal:** codegen related update ([#76](https://github.com/OneBusAway/java-sdk/issues/76)) ([a8f595e](https://github.com/OneBusAway/java-sdk/commit/a8f595e2ee1038f8161ab784fd189d074f375d07))
+* **internal:** codegen related update ([#77](https://github.com/OneBusAway/java-sdk/issues/77)) ([14ea7b7](https://github.com/OneBusAway/java-sdk/commit/14ea7b7438268138410dca70f28807ec06f5c5b0))
+* **internal:** codegen related update ([#78](https://github.com/OneBusAway/java-sdk/issues/78)) ([51a4c8c](https://github.com/OneBusAway/java-sdk/commit/51a4c8cab3782706a773525083c4b17da4543064))
+* **internal:** update example values ([#72](https://github.com/OneBusAway/java-sdk/issues/72)) ([9f7aadf](https://github.com/OneBusAway/java-sdk/commit/9f7aadf0b9229f441f1dbfed4b64035f195c3b1e))
+
 ## 0.1.0-alpha.23 (2024-11-29)
 
 Full Changelog: [v0.1.0-alpha.22...v0.1.0-alpha.23](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.22...v0.1.0-alpha.23)
