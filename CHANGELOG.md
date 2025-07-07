@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.25 (2025-07-07)
+
+Full Changelog: [v0.1.0-alpha.24...v0.1.0-alpha.25](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.24...v0.1.0-alpha.25)
+
+### Chores
+
+* **internal:** version bump ([97b8b21](https://github.com/OneBusAway/java-sdk/commit/97b8b21fb686dbf3ec55c42b57a69353a14ee6e8))
+
 ## 0.1.0-alpha.24 (2025-07-07)
 
 Full Changelog: [v0.1.0-alpha.23...v0.1.0-alpha.24](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.23...v0.1.0-alpha.24)
