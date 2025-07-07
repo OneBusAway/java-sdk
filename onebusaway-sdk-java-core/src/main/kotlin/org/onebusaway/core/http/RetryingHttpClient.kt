@@ -17,54 +17,56 @@ import java.util.function.Function
 import kotlin.math.min
 import kotlin.math.pow
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.errors.OnebusawaySdkIoException
 
 class RetryingHttpClient
 private constructor(
     private val httpClient: HttpClient,
+    private val sleeper: Sleeper,
     private val clock: Clock,
     private val maxRetries: Int,
     private val idempotencyHeader: String?,
 ) : HttpClient {
 
-    override fun execute(
-        request: HttpRequest,
-        requestOptions: RequestOptions,
-    ): HttpResponse {
+    override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
         if (!isRetryable(request) || maxRetries <= 0) {
             return httpClient.execute(request, requestOptions)
         }
 
-        maybeAddIdempotencyHeader(request)
+        var modifiedRequest = maybeAddIdempotencyHeader(request)
 
         // Don't send the current retry count in the headers if the caller set their own value.
-        val shouldSendRetryCount = !request.headers.containsKey("x-stainless-retry-count")
+        val shouldSendRetryCount =
+            !modifiedRequest.headers.names().contains("X-Stainless-Retry-Count")
 
         var retries = 0
 
         while (true) {
             if (shouldSendRetryCount) {
-                setRetryCountHeader(request, retries)
+                modifiedRequest = setRetryCountHeader(modifiedRequest, retries)
             }
 
             val response =
                 try {
-                    val response = httpClient.execute(request, requestOptions)
+                    val response = httpClient.execute(modifiedRequest, requestOptions)
                     if (++retries > maxRetries || !shouldRetry(response)) {
                         return response
                     }
 
                     response
-                } catch (t: Throwable) {
-                    if (++retries > maxRetries || !shouldRetry(t)) {
-                        throw t
+                } catch (throwable: Throwable) {
+                    if (++retries > maxRetries || !shouldRetry(throwable)) {
+                        throw throwable
                     }
 
                     null
                 }
 
-            val backoffMillis = getRetryBackoffMillis(retries, response)
-            Thread.sleep(backoffMillis.toMillis())
+            val backoffDuration = getRetryBackoffDuration(retries, response)
+            // All responses must be closed, so close the failed one before retrying.
+            response?.close()
+            sleeper.sleep(backoffDuration)
         }
     }
 
@@ -76,10 +78,11 @@ private constructor(
             return httpClient.executeAsync(request, requestOptions)
         }
 
-        maybeAddIdempotencyHeader(request)
+        val modifiedRequest = maybeAddIdempotencyHeader(request)
 
         // Don't send the current retry count in the headers if the caller set their own value.
-        val shouldSendRetryCount = !request.headers.containsKey("x-stainless-retry-count")
+        val shouldSendRetryCount =
+            !modifiedRequest.headers.names().contains("X-Stainless-Retry-Count")
 
         var retries = 0
 
@@ -87,16 +90,15 @@ private constructor(
             request: HttpRequest,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> {
-            if (shouldSendRetryCount) {
-                setRetryCountHeader(request, retries)
-            }
+            val requestWithRetryCount =
+                if (shouldSendRetryCount) setRetryCountHeader(request, retries) else request
 
             return httpClient
-                .executeAsync(request, requestOptions)
+                .executeAsync(requestWithRetryCount, requestOptions)
                 .handleAsync(
                     fun(
                         response: HttpResponse?,
-                        throwable: Throwable?
+                        throwable: Throwable?,
                     ): CompletableFuture<HttpResponse> {
                         if (response != null) {
                             if (++retries > maxRetries || !shouldRetry(response)) {
@@ -110,11 +112,13 @@ private constructor(
                             }
                         }
 
-                        val backoffMillis = getRetryBackoffMillis(retries, response)
-                        return sleepAsync(backoffMillis.toMillis()).thenCompose {
-                            executeWithRetries(request, requestOptions)
+                        val backoffDuration = getRetryBackoffDuration(retries, response)
+                        // All responses must be closed, so close the failed one before retrying.
+                        response?.close()
+                        return sleeper.sleepAsync(backoffDuration).thenCompose {
+                            executeWithRetries(requestWithRetryCount, requestOptions)
                         }
-                    },
+                    }
                 ) {
                     // Run in the same thread.
                     it.run()
@@ -122,7 +126,7 @@ private constructor(
                 .thenCompose(Function.identity())
         }
 
-        return executeWithRetries(request, requestOptions)
+        return executeWithRetries(modifiedRequest, requestOptions)
     }
 
     override fun close() = httpClient.close()
@@ -132,23 +136,26 @@ private constructor(
         // the body data aren't available on subsequent attempts.
         request.body?.repeatable() ?: true
 
-    private fun setRetryCountHeader(request: HttpRequest, retries: Int) {
-        request.headers.removeAll("x-stainless-retry-count")
-        request.headers.put("x-stainless-retry-count", retries.toString())
-    }
+    private fun setRetryCountHeader(request: HttpRequest, retries: Int): HttpRequest =
+        request.toBuilder().replaceHeaders("X-Stainless-Retry-Count", retries.toString()).build()
 
     private fun idempotencyKey(): String = "stainless-java-retry-${UUID.randomUUID()}"
 
-    private fun maybeAddIdempotencyHeader(request: HttpRequest) {
-        if (idempotencyHeader != null && !request.headers.containsKey(idempotencyHeader)) {
-            // Set a header to uniquely identify the request when retried
-            request.headers.put(idempotencyHeader, idempotencyKey())
+    private fun maybeAddIdempotencyHeader(request: HttpRequest): HttpRequest {
+        if (idempotencyHeader == null || request.headers.names().contains(idempotencyHeader)) {
+            return request
         }
+
+        return request
+            .toBuilder()
+            // Set a header to uniquely identify the request when retried.
+            .putHeader(idempotencyHeader, idempotencyKey())
+            .build()
     }
 
     private fun shouldRetry(response: HttpResponse): Boolean {
         // Note: this is not a standard header
-        val shouldRetryHeader = response.headers().get("x-should-retry").getOrNull(0)
+        val shouldRetryHeader = response.headers().values("X-Should-Retry").getOrNull(0)
         val statusCode = response.statusCode()
 
         return when {
@@ -174,26 +181,26 @@ private constructor(
         // retried.
         throwable is IOException || throwable is OnebusawaySdkIoException
 
-    private fun getRetryBackoffMillis(retries: Int, response: HttpResponse?): Duration {
+    private fun getRetryBackoffDuration(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
         response
             ?.headers()
             ?.let { headers ->
                 headers
-                    .get("Retry-After-Ms")
+                    .values("Retry-After-Ms")
                     .getOrNull(0)
                     ?.toFloatOrNull()
                     ?.times(TimeUnit.MILLISECONDS.toNanos(1))
-                    ?: headers.get("Retry-After").getOrNull(0)?.let { retryAfter ->
+                    ?: headers.values("Retry-After").getOrNull(0)?.let { retryAfter ->
                         retryAfter.toFloatOrNull()?.times(TimeUnit.SECONDS.toNanos(1))
                             ?: try {
                                 ChronoUnit.MILLIS.between(
                                     OffsetDateTime.now(clock),
                                     OffsetDateTime.parse(
                                         retryAfter,
-                                        DateTimeFormatter.RFC_1123_DATE_TIME
-                                    )
+                                        DateTimeFormatter.RFC_1123_DATE_TIME,
+                                    ),
                                 )
                             } catch (e: DateTimeParseException) {
                                 null
@@ -219,34 +226,41 @@ private constructor(
         return Duration.ofNanos((TimeUnit.SECONDS.toNanos(1) * backoffSeconds * jitter).toLong())
     }
 
-    private fun sleepAsync(millis: Long): CompletableFuture<Void> {
-        val future = CompletableFuture<Void>()
-        TIMER.schedule(
-            object : TimerTask() {
-                override fun run() {
-                    future.complete(null)
-                }
-            },
-            millis
-        )
-        return future
-    }
-
     companion object {
-
-        private val TIMER = Timer("RetryingHttpClient", true)
 
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var httpClient: HttpClient? = null
+        private var sleeper: Sleeper =
+            object : Sleeper {
+
+                private val timer = Timer("RetryingHttpClient", true)
+
+                override fun sleep(duration: Duration) = Thread.sleep(duration.toMillis())
+
+                override fun sleepAsync(duration: Duration): CompletableFuture<Void> {
+                    val future = CompletableFuture<Void>()
+                    timer.schedule(
+                        object : TimerTask() {
+                            override fun run() {
+                                future.complete(null)
+                            }
+                        },
+                        duration.toMillis(),
+                    )
+                    return future
+                }
+            }
         private var clock: Clock = Clock.systemUTC()
         private var maxRetries: Int = 2
         private var idempotencyHeader: String? = null
 
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
+
+        @JvmSynthetic internal fun sleeper(sleeper: Sleeper) = apply { this.sleeper = sleeper }
 
         fun clock(clock: Clock) = apply { this.clock = clock }
 
@@ -256,10 +270,18 @@ private constructor(
 
         fun build(): HttpClient =
             RetryingHttpClient(
-                checkNotNull(httpClient) { "`httpClient` is required but was not set" },
+                checkRequired("httpClient", httpClient),
+                sleeper,
                 clock,
                 maxRetries,
                 idempotencyHeader,
             )
+    }
+
+    internal interface Sleeper {
+
+        fun sleep(duration: Duration)
+
+        fun sleepAsync(duration: Duration): CompletableFuture<Void>
     }
 }

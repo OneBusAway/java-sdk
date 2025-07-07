@@ -2,13 +2,17 @@ package org.onebusaway.example;
 
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
-import org.onebusaway.models.*;
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveParams;
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveResponse;
 
 public class ArrivalAndDepartureForStop {
 
     // Retrieve constants from environment variables or fallback to default values
-    static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
-    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null ? System.getenv("ONEBUSAWAY_BASE_URL") : "https://api.pugetsound.onebusaway.org";
+    static final String API_KEY =
+            System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
+    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null
+            ? System.getenv("ONEBUSAWAY_BASE_URL")
+            : "https://api.pugetsound.onebusaway.org";
 
     // Initialize the Onebusaway SDK client
     static final OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
@@ -32,8 +36,9 @@ public class ArrivalAndDepartureForStop {
                 .serviceDate(serviceDate) // Use the Unix timestamp directly
                 .build();
 
-            // Retrieve arrival and departure information
-            ArrivalAndDepartureRetrieveResponse arrivalAndDepartureForStop = client.arrivalAndDeparture().retrieve(params);
-            System.out.println(arrivalAndDepartureForStop);
+        // Retrieve arrival and departure information
+        ArrivalAndDepartureRetrieveResponse arrivalAndDepartureForStop =
+                client.arrivalAndDeparture().retrieve(params);
+        System.out.println(arrivalAndDepartureForStop);
     }
 }

@@ -7,26 +7,28 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.*
+import org.onebusaway.models.scheduleforstop.ScheduleForStopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ScheduleForStopServiceTest {
+internal class ScheduleForStopServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val scheduleForStopService = client.scheduleForStop()
-        val scheduleForStopRetrieveResponse =
+
+        val scheduleForStop =
             scheduleForStopService.retrieve(
                 ScheduleForStopRetrieveParams.builder()
                     .stopId("stopID")
                     .date(LocalDate.parse("2019-12-27"))
                     .build()
             )
-        println(scheduleForStopRetrieveResponse)
+
+        scheduleForStop.validate()
     }
 }

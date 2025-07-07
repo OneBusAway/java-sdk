@@ -6,30 +6,32 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.*
+import org.onebusaway.models.tripdetails.TripDetailRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class TripDetailServiceTest {
+internal class TripDetailServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val tripDetailService = client.tripDetails()
-        val tripDetailRetrieveResponse =
+
+        val tripDetail =
             tripDetailService.retrieve(
                 TripDetailRetrieveParams.builder()
                     .tripId("tripID")
                     .includeSchedule(true)
                     .includeStatus(true)
                     .includeTrip(true)
-                    .serviceDate(123L)
-                    .time(123L)
+                    .serviceDate(0L)
+                    .time(0L)
                     .build()
             )
-        println(tripDetailRetrieveResponse)
+
+        tripDetail.validate()
     }
 }

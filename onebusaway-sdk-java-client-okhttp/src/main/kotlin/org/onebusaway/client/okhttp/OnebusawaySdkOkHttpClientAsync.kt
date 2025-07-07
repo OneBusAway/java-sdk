@@ -9,32 +9,48 @@ import java.time.Duration
 import org.onebusaway.client.OnebusawaySdkClientAsync
 import org.onebusaway.client.OnebusawaySdkClientAsyncImpl
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.Timeout
+import org.onebusaway.core.http.Headers
+import org.onebusaway.core.http.QueryParams
 
 class OnebusawaySdkOkHttpClientAsync private constructor() {
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [OnebusawaySdkOkHttpClientAsync].
+         */
         @JvmStatic fun builder() = Builder()
 
         @JvmStatic fun fromEnv(): OnebusawaySdkClientAsync = builder().fromEnv().build()
     }
 
-    class Builder {
+    /** A builder for [OnebusawaySdkOkHttpClientAsync]. */
+    class Builder internal constructor() {
 
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()
-        private var baseUrl: String = ClientOptions.PRODUCTION_URL
-        // The default timeout for the client is 1 minute.
-        private var timeout: Duration = Duration.ofSeconds(60)
+        private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
-        fun baseUrl(baseUrl: String) = apply {
-            clientOptions.baseUrl(baseUrl)
-            this.baseUrl = baseUrl
+        fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
+
+        /**
+         * Whether to throw an exception if any of the Jackson versions detected at runtime are
+         * incompatible with the SDK's minimum supported Jackson version (2.13.4).
+         *
+         * Defaults to true. Use extreme caution when disabling this option. There is no guarantee
+         * that the SDK will work correctly when using an incompatible Jackson version.
+         */
+        fun checkJacksonVersionCompatibility(checkJacksonVersionCompatibility: Boolean) = apply {
+            clientOptions.checkJacksonVersionCompatibility(checkJacksonVersionCompatibility)
         }
 
         fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
 
         fun clock(clock: Clock) = apply { clientOptions.clock(clock) }
+
+        fun headers(headers: Headers) = apply { clientOptions.headers(headers) }
 
         fun headers(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.headers(headers)
@@ -45,6 +61,8 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
         fun putHeaders(name: String, values: Iterable<String>) = apply {
             clientOptions.putHeaders(name, values)
         }
+
+        fun putAllHeaders(headers: Headers) = apply { clientOptions.putAllHeaders(headers) }
 
         fun putAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.putAllHeaders(headers)
@@ -58,6 +76,8 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
             clientOptions.replaceHeaders(name, values)
         }
 
+        fun replaceAllHeaders(headers: Headers) = apply { clientOptions.replaceAllHeaders(headers) }
+
         fun replaceAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.replaceAllHeaders(headers)
         }
@@ -65,6 +85,8 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
         fun removeHeaders(name: String) = apply { clientOptions.removeHeaders(name) }
 
         fun removeAllHeaders(names: Set<String>) = apply { clientOptions.removeAllHeaders(names) }
+
+        fun queryParams(queryParams: QueryParams) = apply { clientOptions.queryParams(queryParams) }
 
         fun queryParams(queryParams: Map<String, Iterable<String>>) = apply {
             clientOptions.queryParams(queryParams)
@@ -76,6 +98,10 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
 
         fun putQueryParams(key: String, values: Iterable<String>) = apply {
             clientOptions.putQueryParams(key, values)
+        }
+
+        fun putAllQueryParams(queryParams: QueryParams) = apply {
+            clientOptions.putAllQueryParams(queryParams)
         }
 
         fun putAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
@@ -90,6 +116,10 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
             clientOptions.replaceQueryParams(key, values)
         }
 
+        fun replaceAllQueryParams(queryParams: QueryParams) = apply {
+            clientOptions.replaceAllQueryParams(queryParams)
+        }
+
         fun replaceAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
             clientOptions.replaceAllQueryParams(queryParams)
         }
@@ -100,7 +130,19 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
             clientOptions.removeAllQueryParams(keys)
         }
 
-        fun timeout(timeout: Duration) = apply { this.timeout = timeout }
+        fun timeout(timeout: Timeout) = apply {
+            clientOptions.timeout(timeout)
+            this.timeout = timeout
+        }
+
+        /**
+         * Sets the maximum time allowed for a complete HTTP call, not including retries.
+         *
+         * See [Timeout.request] for more details.
+         *
+         * For fine-grained control, pass a [Timeout] object.
+         */
+        fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
 
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
 
@@ -114,12 +156,17 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
+        /**
+         * Returns an immutable instance of [OnebusawaySdkClientAsync].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): OnebusawaySdkClientAsync =
             OnebusawaySdkClientAsyncImpl(
                 clientOptions
                     .httpClient(
                         OkHttpClient.builder()
-                            .baseUrl(baseUrl)
+                            .baseUrl(clientOptions.baseUrl())
                             .timeout(timeout)
                             .proxy(proxy)
                             .build()

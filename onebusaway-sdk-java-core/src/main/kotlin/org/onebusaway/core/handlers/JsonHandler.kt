@@ -6,16 +6,15 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.onebusaway.core.http.HttpResponse
 import org.onebusaway.core.http.HttpResponse.Handler
-import org.onebusaway.errors.OnebusawaySdkException
+import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
 @JvmSynthetic
 internal inline fun <reified T> jsonHandler(jsonMapper: JsonMapper): Handler<T> =
     object : Handler<T> {
-        override fun handle(response: HttpResponse): T {
+        override fun handle(response: HttpResponse): T =
             try {
-                return jsonMapper.readValue(response.body(), jacksonTypeRef())
+                jsonMapper.readValue(response.body(), jacksonTypeRef())
             } catch (e: Exception) {
-                throw OnebusawaySdkException("Error reading response", e)
+                throw OnebusawaySdkInvalidDataException("Error reading response", e)
             }
-        }
     }

@@ -6,21 +6,21 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.*
 
 @ExtendWith(TestServerExtension::class)
-class AgenciesWithCoverageServiceTest {
+internal class AgenciesWithCoverageServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val agenciesWithCoverageService = client.agenciesWithCoverage()
-        val agenciesWithCoverageListResponse =
-            agenciesWithCoverageService.list(AgenciesWithCoverageListParams.builder().build())
-        println(agenciesWithCoverageListResponse)
+
+        val agenciesWithCoverages = agenciesWithCoverageService.list()
+
+        agenciesWithCoverages.validate()
     }
 }

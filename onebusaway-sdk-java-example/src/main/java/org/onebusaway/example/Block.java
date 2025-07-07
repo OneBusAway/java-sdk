@@ -3,19 +3,23 @@ package org.onebusaway.example;
 import org.onebusaway.client.OnebusawaySdkClient;
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 import org.onebusaway.errors.OnebusawaySdkServiceException;
-import org.onebusaway.models.*;
+import org.onebusaway.models.block.BlockRetrieveParams;
+import org.onebusaway.models.block.BlockRetrieveResponse;
+
 public class Block {
 
     // Retrieve constants from environment variables or fallback to default values
-    static final String API_KEY = System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
-    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null ? System.getenv("ONEBUSAWAY_BASE_URL") : "https://api.pugetsound.onebusaway.org";
+    static final String API_KEY =
+            System.getenv("ONEBUSAWAY_API_KEY") != null ? System.getenv("ONEBUSAWAY_API_KEY") : "TEST";
+    static final String BASE_URL = System.getenv("ONEBUSAWAY_BASE_URL") != null
+            ? System.getenv("ONEBUSAWAY_BASE_URL")
+            : "https://api.pugetsound.onebusaway.org";
 
     // Initialize the Onebusaway SDK client
     static final OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
             .apiKey(API_KEY)
             .baseUrl(BASE_URL)
             .build();
-
 
     public static void main(String[] args) {
 
@@ -24,7 +28,8 @@ public class Block {
 
         try {
             // Define the parameters for the block retrieval request
-            BlockRetrieveParams params = BlockRetrieveParams.builder().blockId(blockId).build();
+            BlockRetrieveParams params =
+                    BlockRetrieveParams.builder().blockId(blockId).build();
 
             // Retrieve the block information
             BlockRetrieveResponse block = client.block().retrieve(params);

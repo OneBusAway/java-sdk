@@ -4,6 +4,7 @@ package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
@@ -11,42 +12,59 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.SearchForStopListParams
-import org.onebusaway.models.SearchForStopListResponse
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.core.http.parseable
+import org.onebusaway.core.prepareAsync
+import org.onebusaway.models.searchforstop.SearchForStopListParams
+import org.onebusaway.models.searchforstop.SearchForStopListResponse
 
-class SearchForStopServiceAsyncImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : SearchForStopServiceAsync {
+class SearchForStopServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    SearchForStopServiceAsync {
 
-    private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: SearchForStopServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val listHandler: Handler<SearchForStopListResponse> =
-        jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    override fun withRawResponse(): SearchForStopServiceAsync.WithRawResponse = withRawResponse
 
-    /** Search for a stop based on its name. */
     override fun list(
         params: SearchForStopListParams,
-        requestOptions: RequestOptions
-    ): CompletableFuture<SearchForStopListResponse> {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "search", "stop.json")
-                .putAllQueryParams(clientOptions.queryParams.asMap())
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
-                .replaceAllHeaders(params.getHeaders())
-                .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
-            ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
+        requestOptions: RequestOptions,
+    ): CompletableFuture<SearchForStopListResponse> =
+        // get /api/where/search/stop.json
+        withRawResponse().list(params, requestOptions).thenApply { it.parse() }
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        SearchForStopServiceAsync.WithRawResponse {
+
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        private val listHandler: Handler<SearchForStopListResponse> =
+            jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: SearchForStopListParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<SearchForStopListResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "search", "stop.json")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { listHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
                     }
                 }
         }

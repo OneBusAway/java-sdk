@@ -1,16 +1,19 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package org.onebusaway.core.http
 
-import com.google.common.collect.ListMultimap
 import java.io.InputStream
-import java.lang.AutoCloseable
 
 interface HttpResponse : AutoCloseable {
 
     fun statusCode(): Int
 
-    fun headers(): ListMultimap<String, String>
+    fun headers(): Headers
 
     fun body(): InputStream
+
+    /** Overridden from [AutoCloseable] to not have a checked exception in its signature. */
+    override fun close()
 
     interface Handler<T> {
 

@@ -1,7 +1,5 @@
 package org.onebusaway.client.okhttp
 
-import com.google.common.collect.ListMultimap
-import com.google.common.collect.MultimapBuilder
 import java.io.IOException
 import java.io.InputStream
 import java.net.Proxy
@@ -9,17 +7,21 @@ import java.time.Duration
 import java.util.concurrent.CompletableFuture
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.Headers
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import okio.BufferedSink
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.Timeout
+import org.onebusaway.core.checkRequired
+import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpClient
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
@@ -31,22 +33,8 @@ class OkHttpClient
 private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val baseUrl: HttpUrl) :
     HttpClient {
 
-    private fun getClient(requestOptions: RequestOptions): okhttp3.OkHttpClient {
-        val timeout = requestOptions.timeout ?: return okHttpClient
-        return okHttpClient
-            .newBuilder()
-            .connectTimeout(timeout)
-            .readTimeout(timeout)
-            .writeTimeout(timeout)
-            .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
-            .build()
-    }
-
-    override fun execute(
-        request: HttpRequest,
-        requestOptions: RequestOptions,
-    ): HttpResponse {
-        val call = getClient(requestOptions).newCall(request.toRequest())
+    override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
+        val call = newCall(request, requestOptions)
 
         return try {
             call.execute().toResponse()
@@ -65,18 +53,18 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
         request.body?.run { future.whenComplete { _, _ -> close() } }
 
-        val call = getClient(requestOptions).newCall(request.toRequest())
-        call.enqueue(
-            object : Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    future.complete(response.toResponse())
-                }
+        newCall(request, requestOptions)
+            .enqueue(
+                object : Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        future.complete(response.toResponse())
+                    }
 
-                override fun onFailure(call: Call, e: IOException) {
-                    future.completeExceptionally(OnebusawaySdkIoException("Request failed", e))
+                    override fun onFailure(call: Call, e: IOException) {
+                        future.completeExceptionally(OnebusawaySdkIoException("Request failed", e))
+                    }
                 }
-            }
-        )
+            )
 
         return future
     }
@@ -87,18 +75,71 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         okHttpClient.cache?.close()
     }
 
-    private fun HttpRequest.toRequest(): Request {
+    private fun newCall(request: HttpRequest, requestOptions: RequestOptions): Call {
+        val clientBuilder = okHttpClient.newBuilder()
+
+        // Custom logging interceptor for URL logging
+        clientBuilder.addNetworkInterceptor(LoggingInterceptor())
+
+        val logLevel =
+            when (System.getenv("ONEBUSAWAY_SDK_LOG")?.lowercase()) {
+                "info" -> HttpLoggingInterceptor.Level.BASIC
+                "debug" -> HttpLoggingInterceptor.Level.BODY
+                else -> null
+            }
+        if (logLevel != null) {
+            clientBuilder.addNetworkInterceptor(HttpLoggingInterceptor().setLevel(logLevel))
+        }
+
+        requestOptions.timeout?.let {
+            clientBuilder
+                .connectTimeout(it.connect())
+                .readTimeout(it.read())
+                .writeTimeout(it.write())
+                .callTimeout(it.request())
+        }
+
+        val client = clientBuilder.build()
+        return client.newCall(request.toRequest(client))
+    }
+
+    private fun HttpRequest.toRequest(client: okhttp3.OkHttpClient): Request {
         var body: RequestBody? = body?.toRequestBody()
-        // OkHttpClient always requires a request body for PUT and POST methods.
-        if (body == null && (method == HttpMethod.PUT || method == HttpMethod.POST)) {
+        if (body == null && requiresBody(method)) {
             body = "".toRequestBody()
         }
 
         val builder = Request.Builder().url(toUrl()).method(method.name, body)
-        headers.forEach(builder::header)
+        headers.names().forEach { name ->
+            headers.values(name).forEach { builder.header(name, it) }
+        }
+
+        if (
+            !headers.names().contains("X-Stainless-Read-Timeout") && client.readTimeoutMillis != 0
+        ) {
+            builder.header(
+                "X-Stainless-Read-Timeout",
+                Duration.ofMillis(client.readTimeoutMillis.toLong()).seconds.toString(),
+            )
+        }
+        if (!headers.names().contains("X-Stainless-Timeout") && client.callTimeoutMillis != 0) {
+            builder.header(
+                "X-Stainless-Timeout",
+                Duration.ofMillis(client.callTimeoutMillis.toLong()).seconds.toString(),
+            )
+        }
 
         return builder.build()
     }
+
+    /** `OkHttpClient` always requires a request body for some methods. */
+    private fun requiresBody(method: HttpMethod): Boolean =
+        when (method) {
+            HttpMethod.POST,
+            HttpMethod.PUT,
+            HttpMethod.PATCH -> true
+            else -> false
+        }
 
     private fun HttpRequest.toUrl(): String {
         url?.let {
@@ -107,7 +148,9 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
         val builder = baseUrl.newBuilder()
         pathSegments.forEach(builder::addPathSegment)
-        queryParams.forEach(builder::addQueryParameter)
+        queryParams.keys().forEach { key ->
+            queryParams.values(key).forEach { builder.addQueryParameter(key, it) }
+        }
 
         return builder.toString()
     }
@@ -133,7 +176,7 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         return object : HttpResponse {
             override fun statusCode(): Int = code
 
-            override fun headers(): ListMultimap<String, String> = headers
+            override fun headers(): Headers = headers
 
             override fun body(): InputStream = body!!.byteStream()
 
@@ -141,42 +184,51 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         }
     }
 
-    private fun Headers.toHeaders(): ListMultimap<String, String> {
-        val headers =
-            MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER)
-                .arrayListValues()
-                .build<String, String>()
-        forEach { pair -> headers.put(pair.first, pair.second) }
-        return headers
+    private fun okhttp3.Headers.toHeaders(): Headers {
+        val headersBuilder = Headers.builder()
+        forEach { (name, value) -> headersBuilder.put(name, value) }
+        return headersBuilder.build()
     }
 
     companion object {
         @JvmStatic fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var baseUrl: HttpUrl? = null
-        // The default timeout is 1 minute.
-        private var timeout: Duration = Duration.ofSeconds(60)
+        private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl.toHttpUrl() }
 
-        fun timeout(timeout: Duration) = apply { this.timeout = timeout }
+        fun timeout(timeout: Timeout) = apply { this.timeout = timeout }
+
+        fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
 
         fun proxy(proxy: Proxy?) = apply { this.proxy = proxy }
 
         fun build(): OkHttpClient =
             OkHttpClient(
                 okhttp3.OkHttpClient.Builder()
-                    .connectTimeout(timeout)
-                    .readTimeout(timeout)
-                    .writeTimeout(timeout)
-                    .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
+                    .connectTimeout(timeout.connect())
+                    .readTimeout(timeout.read())
+                    .writeTimeout(timeout.write())
+                    .callTimeout(timeout.request())
                     .proxy(proxy)
                     .build(),
-                checkNotNull(baseUrl) { "`baseUrl` is required but was not set" },
+                checkRequired("baseUrl", baseUrl),
             )
+    }
+}
+
+// --- ✅ New class added below ---
+class LoggingInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        println("➡️ Sending request: ${request.method} ${request.url}")
+        val response = chain.proceed(request)
+        println("⬅️ Received response: ${response.code} ${response.request.url}")
+        return response
     }
 }
