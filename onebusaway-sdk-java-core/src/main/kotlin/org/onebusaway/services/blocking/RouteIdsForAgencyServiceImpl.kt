@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -28,6 +29,9 @@ class RouteIdsForAgencyServiceImpl internal constructor(private val clientOption
 
     override fun withRawResponse(): RouteIdsForAgencyService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): RouteIdsForAgencyService =
+        RouteIdsForAgencyServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun list(
         params: RouteIdsForAgencyListParams,
         requestOptions: RequestOptions,
@@ -39,6 +43,13 @@ class RouteIdsForAgencyServiceImpl internal constructor(private val clientOption
         RouteIdsForAgencyService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): RouteIdsForAgencyService.WithRawResponse =
+            RouteIdsForAgencyServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<RouteIdsForAgencyListResponse> =
             jsonHandler<RouteIdsForAgencyListResponse>(clientOptions.jsonMapper)
@@ -54,6 +65,7 @@ class RouteIdsForAgencyServiceImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

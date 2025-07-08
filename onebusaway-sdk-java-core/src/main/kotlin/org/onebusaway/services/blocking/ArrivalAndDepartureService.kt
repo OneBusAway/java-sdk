@@ -3,6 +3,8 @@
 package org.onebusaway.services.blocking
 
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListParams
@@ -16,6 +18,13 @@ interface ArrivalAndDepartureService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ArrivalAndDepartureService
 
     /** arrival-and-departure-for-stop */
     fun retrieve(
@@ -78,6 +87,15 @@ interface ArrivalAndDepartureService {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ArrivalAndDepartureService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

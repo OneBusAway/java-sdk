@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.tripforvehicle.TripForVehicleRetrieveParams
@@ -15,6 +16,13 @@ interface TripForVehicleServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): TripForVehicleServiceAsync
 
     /** Retrieve trip for a specific vehicle */
     fun retrieve(vehicleId: String): CompletableFuture<TripForVehicleRetrieveResponse> =
@@ -60,17 +68,24 @@ interface TripForVehicleServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TripForVehicleServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/trip-for-vehicle/{vehicleID}.json`, but
          * is otherwise the same as [TripForVehicleServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             vehicleId: String
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>> =
             retrieve(vehicleId, TripForVehicleRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             vehicleId: String,
             params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
@@ -79,7 +94,6 @@ interface TripForVehicleServiceAsync {
             retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             vehicleId: String,
             params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
@@ -87,21 +101,18 @@ interface TripForVehicleServiceAsync {
             retrieve(vehicleId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TripForVehicleRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: TripForVehicleRetrieveParams
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             vehicleId: String,
             requestOptions: RequestOptions,

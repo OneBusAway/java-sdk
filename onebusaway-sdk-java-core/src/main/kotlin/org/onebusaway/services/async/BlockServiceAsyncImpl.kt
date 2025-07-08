@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -29,6 +30,9 @@ class BlockServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
     override fun withRawResponse(): BlockServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): BlockServiceAsync =
+        BlockServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions,
@@ -40,6 +44,13 @@ class BlockServiceAsyncImpl internal constructor(private val clientOptions: Clie
         BlockServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): BlockServiceAsync.WithRawResponse =
+            BlockServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<BlockRetrieveResponse> =
             jsonHandler<BlockRetrieveResponse>(clientOptions.jsonMapper)
@@ -55,6 +66,7 @@ class BlockServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "block", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

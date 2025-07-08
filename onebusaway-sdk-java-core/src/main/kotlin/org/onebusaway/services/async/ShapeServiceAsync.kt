@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.shape.ShapeRetrieveParams
@@ -15,6 +16,13 @@ interface ShapeServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ShapeServiceAsync
 
     /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
     fun retrieve(shapeId: String): CompletableFuture<ShapeRetrieveResponse> =
@@ -55,15 +63,22 @@ interface ShapeServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ShapeServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/shape/{shapeID}.json`, but is otherwise
          * the same as [ShapeServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(shapeId: String): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
             retrieve(shapeId, ShapeRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             shapeId: String,
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
@@ -72,7 +87,6 @@ interface ShapeServiceAsync {
             retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             shapeId: String,
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
@@ -80,21 +94,18 @@ interface ShapeServiceAsync {
             retrieve(shapeId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ShapeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ShapeRetrieveParams
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             shapeId: String,
             requestOptions: RequestOptions,

@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -28,6 +29,13 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
     override fun withRawResponse(): AgenciesWithCoverageServiceAsync.WithRawResponse =
         withRawResponse
 
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): AgenciesWithCoverageServiceAsync =
+        AgenciesWithCoverageServiceAsyncImpl(
+            clientOptions.toBuilder().apply(modifier::accept).build()
+        )
+
     override fun list(
         params: AgenciesWithCoverageListParams,
         requestOptions: RequestOptions,
@@ -40,6 +48,13 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AgenciesWithCoverageServiceAsync.WithRawResponse =
+            AgenciesWithCoverageServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<AgenciesWithCoverageListResponse> =
             jsonHandler<AgenciesWithCoverageListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -51,6 +66,7 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "agencies-with-coverage.json")
                     .build()
                     .prepareAsync(clientOptions, params)

@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
@@ -29,6 +30,9 @@ class TripDetailServiceAsyncImpl internal constructor(private val clientOptions:
 
     override fun withRawResponse(): TripDetailServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TripDetailServiceAsync =
+        TripDetailServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions,
@@ -40,6 +44,13 @@ class TripDetailServiceAsyncImpl internal constructor(private val clientOptions:
         TripDetailServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TripDetailServiceAsync.WithRawResponse =
+            TripDetailServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<TripDetailRetrieveResponse> =
             jsonHandler<TripDetailRetrieveResponse>(clientOptions.jsonMapper)
@@ -55,6 +66,7 @@ class TripDetailServiceAsyncImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "trip-details", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

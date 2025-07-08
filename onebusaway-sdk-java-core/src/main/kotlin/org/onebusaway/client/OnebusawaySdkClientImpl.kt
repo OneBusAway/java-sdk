@@ -2,6 +2,7 @@
 
 package org.onebusaway.client
 
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.getPackageVersion
 import org.onebusaway.services.blocking.AgenciesWithCoverageService
@@ -182,6 +183,9 @@ class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : Onebus
 
     override fun withRawResponse(): OnebusawaySdkClient.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OnebusawaySdkClient =
+        OnebusawaySdkClientImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun agenciesWithCoverage(): AgenciesWithCoverageService = agenciesWithCoverage
 
     override fun agency(): AgencyService = agency
@@ -354,6 +358,13 @@ class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : Onebus
         private val shape: ShapeService.WithRawResponse by lazy {
             ShapeServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OnebusawaySdkClient.WithRawResponse =
+            OnebusawaySdkClientImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun agenciesWithCoverage(): AgenciesWithCoverageService.WithRawResponse =
             agenciesWithCoverage

@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.ResponseWrapper
@@ -15,6 +16,13 @@ interface ReportProblemWithTripServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ReportProblemWithTripServiceAsync
 
     /** Submit a user-generated problem report for a particular trip. */
     fun retrieve(tripId: String): CompletableFuture<ResponseWrapper> =
@@ -58,15 +66,22 @@ interface ReportProblemWithTripServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ReportProblemWithTripServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/report-problem-with-trip/{tripID}.json`,
          * but is otherwise the same as [ReportProblemWithTripServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(tripId: String): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
             retrieve(tripId, ReportProblemWithTripRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tripId: String,
             params: ReportProblemWithTripRetrieveParams =
@@ -76,7 +91,6 @@ interface ReportProblemWithTripServiceAsync {
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tripId: String,
             params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
@@ -84,21 +98,18 @@ interface ReportProblemWithTripServiceAsync {
             retrieve(tripId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ReportProblemWithTripRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: ReportProblemWithTripRetrieveParams
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             tripId: String,
             requestOptions: RequestOptions,

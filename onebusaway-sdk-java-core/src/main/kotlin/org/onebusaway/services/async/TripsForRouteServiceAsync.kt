@@ -2,8 +2,9 @@
 
 package org.onebusaway.services.async
 
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.tripsforroute.TripsForRouteListParams
@@ -15,6 +16,13 @@ interface TripsForRouteServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): TripsForRouteServiceAsync
 
     /** Search for active trips for a specific route. */
     fun list(routeId: String): CompletableFuture<TripsForRouteListResponse> =
@@ -58,15 +66,22 @@ interface TripsForRouteServiceAsync {
     interface WithRawResponse {
 
         /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TripsForRouteServiceAsync.WithRawResponse
+
+        /**
          * Returns a raw HTTP response for `get /api/where/trips-for-route/{routeID}.json`, but is
          * otherwise the same as [TripsForRouteServiceAsync.list].
          */
-        @MustBeClosed
         fun list(routeId: String): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
             list(routeId, TripsForRouteListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             routeId: String,
             params: TripsForRouteListParams = TripsForRouteListParams.none(),
@@ -75,7 +90,6 @@ interface TripsForRouteServiceAsync {
             list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             routeId: String,
             params: TripsForRouteListParams = TripsForRouteListParams.none(),
@@ -83,21 +97,18 @@ interface TripsForRouteServiceAsync {
             list(routeId, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: TripsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: TripsForRouteListParams
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             routeId: String,
             requestOptions: RequestOptions,

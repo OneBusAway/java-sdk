@@ -2,6 +2,7 @@
 
 package org.onebusaway.services.blocking
 
+import java.util.function.Consumer
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
@@ -26,6 +27,9 @@ class TripsForLocationServiceImpl internal constructor(private val clientOptions
 
     override fun withRawResponse(): TripsForLocationService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TripsForLocationService =
+        TripsForLocationServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun list(
         params: TripsForLocationListParams,
         requestOptions: RequestOptions,
@@ -38,6 +42,13 @@ class TripsForLocationServiceImpl internal constructor(private val clientOptions
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): TripsForLocationService.WithRawResponse =
+            TripsForLocationServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<TripsForLocationListResponse> =
             jsonHandler<TripsForLocationListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +60,7 @@ class TripsForLocationServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "trips-for-location.json")
                     .build()
                     .prepare(clientOptions, params)
