@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.27 (2025-07-17)
+
+Full Changelog: [v0.1.0-alpha.26...v0.1.0-alpha.27](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.26...v0.1.0-alpha.27)
+
+### Chores
+
+* **ci:** bump `actions/setup-java` to v4 ([152dd66](https://github.com/OneBusAway/java-sdk/commit/152dd6617f35f4b040410306f394dd63c7df95e8))
+* **internal:** allow running specific example from cli ([ac73bf1](https://github.com/OneBusAway/java-sdk/commit/ac73bf1bd0d3cd74dfb3a0bd46d47e79debd6d61))
+
 ## 0.1.0-alpha.26 (2025-07-09)
 
 Full Changelog: [v0.1.0-alpha.25...v0.1.0-alpha.26](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.25...v0.1.0-alpha.26)
