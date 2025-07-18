@@ -6,14 +6,14 @@ import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ClientOptions
-import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.checkRequired
+import org.onebusaway.core.handlers.errorBodyHandler
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
-import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
+import org.onebusaway.core.http.HttpResponse
 import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
@@ -48,7 +48,8 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ReportProblemWithTripServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -58,7 +59,7 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
             )
 
         private val retrieveHandler: Handler<ResponseWrapper> =
-            jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<ResponseWrapper>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: ReportProblemWithTripRetrieveParams,
@@ -83,7 +84,7 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
