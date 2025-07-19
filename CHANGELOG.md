@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0-alpha.28 (2025-07-19)
+
+Full Changelog: [v0.1.0-alpha.27...v0.1.0-alpha.28](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.27...v0.1.0-alpha.28)
+
+### Features
+
+* **client:** add https config options ([33a2005](https://github.com/OneBusAway/java-sdk/commit/33a20057b47858e95ed95e55929f53de8d1ea730))
+
+
+### Bug Fixes
+
+* **client:** ensure error handling always occurs ([2673594](https://github.com/OneBusAway/java-sdk/commit/2673594be236598da80ba68129dbf43f6c6c9c63))
+
+
+### Chores
+
+* **internal:** refactor delegating from client to options ([4fcb8ab](https://github.com/OneBusAway/java-sdk/commit/4fcb8abd83fe8b32a232364375a8f5e0051f8416))
+
 ## 0.1.0-alpha.27 (2025-07-17)
 
 Full Changelog: [v0.1.0-alpha.26...v0.1.0-alpha.27](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.26...v0.1.0-alpha.27)
