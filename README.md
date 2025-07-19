@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.27)
-[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.27/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.27)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.28)
+[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.28/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.28)
 
 <!-- x-release-please-end -->
 
@@ -15,7 +15,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). Javadocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.27).
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). Javadocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.28).
 
 <!-- x-release-please-end -->
 
@@ -26,7 +26,7 @@ The REST API documentation can be found on [developer.onebusaway.org](https://de
 ### Gradle
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.27")
+implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.28")
 ```
 
 ### Maven
@@ -35,7 +35,7 @@ implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.27")
 <dependency>
   <groupId>org.onebusaway</groupId>
   <artifactId>onebusaway-sdk-java</artifactId>
-  <version>0.1.0-alpha.27</version>
+  <version>0.1.0-alpha.28</version>
 </dependency>
 ```
 
@@ -315,6 +315,27 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
         "https://example.com", 8080
       )
     ))
+    .build();
+```
+
+### HTTPS
+
+> [!NOTE]
+> Most applications should not call these methods, and instead use the system defaults. The defaults include
+> special optimizations that can be lost if the implementations are modified.
+
+To configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`, `trustManager`, and `hostnameVerifier` methods:
+
+```java
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
+OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
+    .fromEnv()
+    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.
+    .sslSocketFactory(yourSSLSocketFactory)
+    .trustManager(yourTrustManager)
+    .hostnameVerifier(yourHostnameVerifier)
     .build();
 ```
 
