@@ -75,8 +75,42 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun currentTimeRetrieve400WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(400).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<BadRequestException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(400)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun currentTimeRetrieve401() {
         val currentTimeService = client.currentTime()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(401).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<UnauthorizedException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(401)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun currentTimeRetrieve401WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -109,8 +143,42 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun currentTimeRetrieve403WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(403).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<PermissionDeniedException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(403)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun currentTimeRetrieve404() {
         val currentTimeService = client.currentTime()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(404).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<NotFoundException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(404)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun currentTimeRetrieve404WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -143,8 +211,42 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun currentTimeRetrieve422WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(422).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<UnprocessableEntityException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(422)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun currentTimeRetrieve429() {
         val currentTimeService = client.currentTime()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(429).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<RateLimitException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(429)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun currentTimeRetrieve429WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -177,8 +279,42 @@ internal class ErrorHandlingTest {
     }
 
     @Test
+    fun currentTimeRetrieve500WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(500).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<InternalServerException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(500)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
     fun currentTimeRetrieve999() {
         val currentTimeService = client.currentTime()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(999).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<UnexpectedStatusCodeException> { currentTimeService.retrieve() }
+
+        assertThat(e.statusCode()).isEqualTo(999)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Test
+    fun currentTimeRetrieve999WithRawResponse() {
+        val currentTimeService = client.currentTime().withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
