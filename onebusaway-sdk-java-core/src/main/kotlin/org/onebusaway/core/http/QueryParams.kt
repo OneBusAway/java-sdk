@@ -2,6 +2,14 @@
 
 package org.onebusaway.core.http
 
+import org.onebusaway.core.JsonArray
+import org.onebusaway.core.JsonBoolean
+import org.onebusaway.core.JsonMissing
+import org.onebusaway.core.JsonNull
+import org.onebusaway.core.JsonNumber
+import org.onebusaway.core.JsonObject
+import org.onebusaway.core.JsonString
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.toImmutable
 
 class QueryParams
@@ -27,6 +35,19 @@ private constructor(
 
         private val map: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var size: Int = 0
+
+        fun put(key: String, value: JsonValue): Builder = apply {
+            when (value) {
+                is JsonMissing,
+                is JsonNull -> {}
+                is JsonBoolean -> put(key, value.value.toString())
+                is JsonNumber -> put(key, value.value.toString())
+                is JsonString -> put(key, value.value)
+                is JsonArray -> value.values.forEach { put(key, it) }
+                is JsonObject ->
+                    value.values.forEach { (nestedKey, value) -> put("$key[$nestedKey]", value) }
+            }
+        }
 
         fun put(key: String, value: String) = apply {
             map.getOrPut(key) { mutableListOf() }.add(value)
