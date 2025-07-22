@@ -220,8 +220,12 @@ private constructor(
         fun timeout(): Timeout = timeout
 
         fun fromEnv() = apply {
-            System.getenv("ONEBUSAWAY_SDK_BASE_URL")?.let { baseUrl(it) }
-            System.getenv("ONEBUSAWAY_API_KEY")?.let { apiKey(it) }
+            (System.getProperty("onebusawaysdk.baseUrl")
+                    ?: System.getenv("ONEBUSAWAY_SDK_BASE_URL"))
+                ?.let { baseUrl(it) }
+            (System.getProperty("onebusawaysdk.onebusawayApiKey")
+                    ?: System.getenv("ONEBUSAWAY_API_KEY"))
+                ?.let { apiKey(it) }
         }
 
         /**
