@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.29 (2025-07-22)
+
+Full Changelog: [v0.1.0-alpha.28...v0.1.0-alpha.29](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.28...v0.1.0-alpha.29)
+
+### Features
+
+* **client:** add `{QueryParams,Headers}#put(String, JsonValue)` methods ([6994f02](https://github.com/OneBusAway/java-sdk/commit/6994f026a6c7abb90a0bfec9ebb213f51dcf9347))
+* **client:** allow configuring env via system properties ([8f26ee5](https://github.com/OneBusAway/java-sdk/commit/8f26ee53d24819972943490215990c79d929b2fd))
+
 ## 0.1.0-alpha.28 (2025-07-19)
 
 Full Changelog: [v0.1.0-alpha.27...v0.1.0-alpha.28](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.27...v0.1.0-alpha.28)
