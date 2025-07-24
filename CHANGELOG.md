@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.30 (2025-07-24)
+
+Full Changelog: [v0.1.0-alpha.29...v0.1.0-alpha.30](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.29...v0.1.0-alpha.30)
+
+### Documentation
+
+* fix missing readme comment ([a9d4615](https://github.com/OneBusAway/java-sdk/commit/a9d4615d619845152576922ee4869bdb2a74ae4e))
+
 ## 0.1.0-alpha.29 (2025-07-22)
 
 Full Changelog: [v0.1.0-alpha.28...v0.1.0-alpha.29](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.28...v0.1.0-alpha.29)
