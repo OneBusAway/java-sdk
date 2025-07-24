@@ -92,7 +92,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
 
 OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     // Configures using the `onebusawaysdk.onebusawayApiKey` and `onebusawaysdk.baseUrl` system properties
-    Or configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
+    // Or configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
