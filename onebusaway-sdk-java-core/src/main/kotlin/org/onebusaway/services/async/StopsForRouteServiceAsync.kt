@@ -28,7 +28,7 @@ interface StopsForRouteServiceAsync {
     fun list(routeId: String): CompletableFuture<StopsForRouteListResponse> =
         list(routeId, StopsForRouteListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         params: StopsForRouteListParams = StopsForRouteListParams.none(),
@@ -36,23 +36,23 @@ interface StopsForRouteServiceAsync {
     ): CompletableFuture<StopsForRouteListResponse> =
         list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         params: StopsForRouteListParams = StopsForRouteListParams.none(),
     ): CompletableFuture<StopsForRouteListResponse> = list(routeId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StopsForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StopsForRouteListResponse>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: StopsForRouteListParams): CompletableFuture<StopsForRouteListResponse> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         requestOptions: RequestOptions,
@@ -81,7 +81,7 @@ interface StopsForRouteServiceAsync {
         fun list(routeId: String): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
             list(routeId, StopsForRouteListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             routeId: String,
             params: StopsForRouteListParams = StopsForRouteListParams.none(),
@@ -89,26 +89,26 @@ interface StopsForRouteServiceAsync {
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
             list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             routeId: String,
             params: StopsForRouteListParams = StopsForRouteListParams.none(),
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
             list(routeId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: StopsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: StopsForRouteListParams
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             routeId: String,
             requestOptions: RequestOptions,

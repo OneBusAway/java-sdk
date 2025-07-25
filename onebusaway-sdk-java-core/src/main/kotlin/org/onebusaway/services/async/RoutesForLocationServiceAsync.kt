@@ -29,7 +29,7 @@ interface RoutesForLocationServiceAsync {
         params: RoutesForLocationListParams
     ): CompletableFuture<RoutesForLocationListResponse> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: RoutesForLocationListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -59,7 +59,7 @@ interface RoutesForLocationServiceAsync {
         ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: RoutesForLocationListParams,
             requestOptions: RequestOptions = RequestOptions.none(),

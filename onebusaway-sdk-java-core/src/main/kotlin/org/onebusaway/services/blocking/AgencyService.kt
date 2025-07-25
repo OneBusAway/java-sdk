@@ -28,7 +28,7 @@ interface AgencyService {
     fun retrieve(agencyId: String): AgencyRetrieveResponse =
         retrieve(agencyId, AgencyRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         agencyId: String,
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
@@ -36,23 +36,23 @@ interface AgencyService {
     ): AgencyRetrieveResponse =
         retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         agencyId: String,
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
     ): AgencyRetrieveResponse = retrieve(agencyId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AgencyRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgencyRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AgencyRetrieveParams): AgencyRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(agencyId: String, requestOptions: RequestOptions): AgencyRetrieveResponse =
         retrieve(agencyId, AgencyRetrieveParams.none(), requestOptions)
 
@@ -74,7 +74,7 @@ interface AgencyService {
         fun retrieve(agencyId: String): HttpResponseFor<AgencyRetrieveResponse> =
             retrieve(agencyId, AgencyRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             agencyId: String,
@@ -83,7 +83,7 @@ interface AgencyService {
         ): HttpResponseFor<AgencyRetrieveResponse> =
             retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             agencyId: String,
@@ -91,19 +91,19 @@ interface AgencyService {
         ): HttpResponseFor<AgencyRetrieveResponse> =
             retrieve(agencyId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: AgencyRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AgencyRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: AgencyRetrieveParams): HttpResponseFor<AgencyRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             agencyId: String,

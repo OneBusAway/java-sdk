@@ -31,18 +31,18 @@ interface AgenciesWithCoverageServiceAsync {
     fun list(): CompletableFuture<AgenciesWithCoverageListResponse> =
         list(AgenciesWithCoverageListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AgenciesWithCoverageListResponse>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
     ): CompletableFuture<AgenciesWithCoverageListResponse> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<AgenciesWithCoverageListResponse> =
         list(AgenciesWithCoverageListParams.none(), requestOptions)
 
@@ -68,19 +68,19 @@ interface AgenciesWithCoverageServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =
             list(AgenciesWithCoverageListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =

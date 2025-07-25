@@ -28,7 +28,7 @@ interface StopServiceAsync {
     fun retrieve(stopId: String): CompletableFuture<StopRetrieveResponse> =
         retrieve(stopId, StopRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: StopRetrieveParams = StopRetrieveParams.none(),
@@ -36,23 +36,23 @@ interface StopServiceAsync {
     ): CompletableFuture<StopRetrieveResponse> =
         retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: StopRetrieveParams = StopRetrieveParams.none(),
     ): CompletableFuture<StopRetrieveResponse> = retrieve(stopId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: StopRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StopRetrieveResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: StopRetrieveParams): CompletableFuture<StopRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         stopId: String,
         requestOptions: RequestOptions,
@@ -76,7 +76,7 @@ interface StopServiceAsync {
         fun retrieve(stopId: String): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
             retrieve(stopId, StopRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             stopId: String,
             params: StopRetrieveParams = StopRetrieveParams.none(),
@@ -84,26 +84,26 @@ interface StopServiceAsync {
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
             retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             stopId: String,
             params: StopRetrieveParams = StopRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
             retrieve(stopId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: StopRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: StopRetrieveParams
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             stopId: String,
             requestOptions: RequestOptions,

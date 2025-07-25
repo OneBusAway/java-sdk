@@ -28,7 +28,7 @@ interface StopIdsForAgencyServiceAsync {
     fun list(agencyId: String): CompletableFuture<StopIdsForAgencyListResponse> =
         list(agencyId, StopIdsForAgencyListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         agencyId: String,
         params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
@@ -36,24 +36,24 @@ interface StopIdsForAgencyServiceAsync {
     ): CompletableFuture<StopIdsForAgencyListResponse> =
         list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         agencyId: String,
         params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
     ): CompletableFuture<StopIdsForAgencyListResponse> =
         list(agencyId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StopIdsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StopIdsForAgencyListResponse>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: StopIdsForAgencyListParams): CompletableFuture<StopIdsForAgencyListResponse> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         agencyId: String,
         requestOptions: RequestOptions,
@@ -84,7 +84,7 @@ interface StopIdsForAgencyServiceAsync {
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>> =
             list(agencyId, StopIdsForAgencyListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             agencyId: String,
             params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
@@ -92,26 +92,26 @@ interface StopIdsForAgencyServiceAsync {
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>> =
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             agencyId: String,
             params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>> =
             list(agencyId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: StopIdsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: StopIdsForAgencyListParams
         ): CompletableFuture<HttpResponseFor<StopIdsForAgencyListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             agencyId: String,
             requestOptions: RequestOptions,

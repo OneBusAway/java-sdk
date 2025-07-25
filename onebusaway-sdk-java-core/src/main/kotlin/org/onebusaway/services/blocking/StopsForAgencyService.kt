@@ -28,7 +28,7 @@ interface StopsForAgencyService {
     fun list(agencyId: String): StopsForAgencyListResponse =
         list(agencyId, StopsForAgencyListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         agencyId: String,
         params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
@@ -36,23 +36,23 @@ interface StopsForAgencyService {
     ): StopsForAgencyListResponse =
         list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         agencyId: String,
         params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
     ): StopsForAgencyListResponse = list(agencyId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StopsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForAgencyListResponse
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: StopsForAgencyListParams): StopsForAgencyListResponse =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): StopsForAgencyListResponse =
         list(agencyId, StopsForAgencyListParams.none(), requestOptions)
 
@@ -78,7 +78,7 @@ interface StopsForAgencyService {
         fun list(agencyId: String): HttpResponseFor<StopsForAgencyListResponse> =
             list(agencyId, StopsForAgencyListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,
@@ -87,7 +87,7 @@ interface StopsForAgencyService {
         ): HttpResponseFor<StopsForAgencyListResponse> =
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,
@@ -95,19 +95,19 @@ interface StopsForAgencyService {
         ): HttpResponseFor<StopsForAgencyListResponse> =
             list(agencyId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: StopsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForAgencyListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(params: StopsForAgencyListParams): HttpResponseFor<StopsForAgencyListResponse> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,

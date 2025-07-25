@@ -28,30 +28,30 @@ interface BlockService {
     fun retrieve(blockId: String): BlockRetrieveResponse =
         retrieve(blockId, BlockRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         blockId: String,
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BlockRetrieveResponse = retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         blockId: String,
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
     ): BlockRetrieveResponse = retrieve(blockId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BlockRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: BlockRetrieveParams): BlockRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(blockId: String, requestOptions: RequestOptions): BlockRetrieveResponse =
         retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
 
@@ -73,7 +73,7 @@ interface BlockService {
         fun retrieve(blockId: String): HttpResponseFor<BlockRetrieveResponse> =
             retrieve(blockId, BlockRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             blockId: String,
@@ -82,26 +82,26 @@ interface BlockService {
         ): HttpResponseFor<BlockRetrieveResponse> =
             retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             blockId: String,
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
         ): HttpResponseFor<BlockRetrieveResponse> = retrieve(blockId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: BlockRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BlockRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: BlockRetrieveParams): HttpResponseFor<BlockRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             blockId: String,

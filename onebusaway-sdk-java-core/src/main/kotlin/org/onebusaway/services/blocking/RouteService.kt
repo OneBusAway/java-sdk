@@ -28,30 +28,30 @@ interface RouteService {
     fun retrieve(routeId: String): RouteRetrieveResponse =
         retrieve(routeId, RouteRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: RouteRetrieveParams = RouteRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse = retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: RouteRetrieveParams = RouteRetrieveParams.none(),
     ): RouteRetrieveResponse = retrieve(routeId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: RouteRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: RouteRetrieveParams): RouteRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(routeId: String, requestOptions: RequestOptions): RouteRetrieveResponse =
         retrieve(routeId, RouteRetrieveParams.none(), requestOptions)
 
@@ -73,7 +73,7 @@ interface RouteService {
         fun retrieve(routeId: String): HttpResponseFor<RouteRetrieveResponse> =
             retrieve(routeId, RouteRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,
@@ -82,26 +82,26 @@ interface RouteService {
         ): HttpResponseFor<RouteRetrieveResponse> =
             retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,
             params: RouteRetrieveParams = RouteRetrieveParams.none(),
         ): HttpResponseFor<RouteRetrieveResponse> = retrieve(routeId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: RouteRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RouteRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: RouteRetrieveParams): HttpResponseFor<RouteRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,

@@ -27,18 +27,18 @@ interface CurrentTimeService {
     /** current-time */
     fun retrieve(): CurrentTimeRetrieveResponse = retrieve(CurrentTimeRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CurrentTimeRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none()
     ): CurrentTimeRetrieveResponse = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): CurrentTimeRetrieveResponse =
         retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
 
@@ -64,20 +64,20 @@ interface CurrentTimeService {
         fun retrieve(): HttpResponseFor<CurrentTimeRetrieveResponse> =
             retrieve(CurrentTimeRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CurrentTimeRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none()
         ): HttpResponseFor<CurrentTimeRetrieveResponse> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<CurrentTimeRetrieveResponse> =
             retrieve(CurrentTimeRetrieveParams.none(), requestOptions)

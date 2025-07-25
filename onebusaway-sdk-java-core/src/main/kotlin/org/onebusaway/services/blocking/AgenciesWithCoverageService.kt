@@ -30,18 +30,18 @@ interface AgenciesWithCoverageService {
      */
     fun list(): AgenciesWithCoverageListResponse = list(AgenciesWithCoverageListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgenciesWithCoverageListResponse
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
     ): AgenciesWithCoverageListResponse = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): AgenciesWithCoverageListResponse =
         list(AgenciesWithCoverageListParams.none(), requestOptions)
 
@@ -68,20 +68,20 @@ interface AgenciesWithCoverageService {
         fun list(): HttpResponseFor<AgenciesWithCoverageListResponse> =
             list(AgenciesWithCoverageListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AgenciesWithCoverageListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
         ): HttpResponseFor<AgenciesWithCoverageListResponse> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
