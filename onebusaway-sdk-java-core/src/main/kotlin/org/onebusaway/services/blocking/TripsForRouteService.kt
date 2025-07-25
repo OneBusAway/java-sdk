@@ -28,30 +28,30 @@ interface TripsForRouteService {
     fun list(routeId: String): TripsForRouteListResponse =
         list(routeId, TripsForRouteListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         params: TripsForRouteListParams = TripsForRouteListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForRouteListResponse = list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         params: TripsForRouteListParams = TripsForRouteListParams.none(),
     ): TripsForRouteListResponse = list(routeId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: TripsForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForRouteListResponse
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: TripsForRouteListParams): TripsForRouteListResponse =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(routeId: String, requestOptions: RequestOptions): TripsForRouteListResponse =
         list(routeId, TripsForRouteListParams.none(), requestOptions)
 
@@ -77,7 +77,7 @@ interface TripsForRouteService {
         fun list(routeId: String): HttpResponseFor<TripsForRouteListResponse> =
             list(routeId, TripsForRouteListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             routeId: String,
@@ -86,26 +86,26 @@ interface TripsForRouteService {
         ): HttpResponseFor<TripsForRouteListResponse> =
             list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             routeId: String,
             params: TripsForRouteListParams = TripsForRouteListParams.none(),
         ): HttpResponseFor<TripsForRouteListResponse> = list(routeId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: TripsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripsForRouteListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(params: TripsForRouteListParams): HttpResponseFor<TripsForRouteListResponse> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             routeId: String,

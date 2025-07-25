@@ -28,7 +28,7 @@ interface AgencyServiceAsync {
     fun retrieve(agencyId: String): CompletableFuture<AgencyRetrieveResponse> =
         retrieve(agencyId, AgencyRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         agencyId: String,
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
@@ -36,23 +36,23 @@ interface AgencyServiceAsync {
     ): CompletableFuture<AgencyRetrieveResponse> =
         retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         agencyId: String,
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
     ): CompletableFuture<AgencyRetrieveResponse> = retrieve(agencyId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AgencyRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AgencyRetrieveResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AgencyRetrieveParams): CompletableFuture<AgencyRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         agencyId: String,
         requestOptions: RequestOptions,
@@ -80,7 +80,7 @@ interface AgencyServiceAsync {
         fun retrieve(agencyId: String): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
             retrieve(agencyId, AgencyRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             agencyId: String,
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
@@ -88,26 +88,26 @@ interface AgencyServiceAsync {
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
             retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             agencyId: String,
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
             retrieve(agencyId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AgencyRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AgencyRetrieveParams
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             agencyId: String,
             requestOptions: RequestOptions,

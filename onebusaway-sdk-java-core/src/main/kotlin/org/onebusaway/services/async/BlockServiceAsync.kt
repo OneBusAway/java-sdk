@@ -28,7 +28,7 @@ interface BlockServiceAsync {
     fun retrieve(blockId: String): CompletableFuture<BlockRetrieveResponse> =
         retrieve(blockId, BlockRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         blockId: String,
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
@@ -36,23 +36,23 @@ interface BlockServiceAsync {
     ): CompletableFuture<BlockRetrieveResponse> =
         retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         blockId: String,
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
     ): CompletableFuture<BlockRetrieveResponse> = retrieve(blockId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BlockRetrieveResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: BlockRetrieveParams): CompletableFuture<BlockRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         blockId: String,
         requestOptions: RequestOptions,
@@ -78,7 +78,7 @@ interface BlockServiceAsync {
         fun retrieve(blockId: String): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
             retrieve(blockId, BlockRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             blockId: String,
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
@@ -86,26 +86,26 @@ interface BlockServiceAsync {
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
             retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             blockId: String,
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
             retrieve(blockId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: BlockRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: BlockRetrieveParams
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             blockId: String,
             requestOptions: RequestOptions,

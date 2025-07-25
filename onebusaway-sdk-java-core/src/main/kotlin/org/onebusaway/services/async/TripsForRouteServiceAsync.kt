@@ -28,7 +28,7 @@ interface TripsForRouteServiceAsync {
     fun list(routeId: String): CompletableFuture<TripsForRouteListResponse> =
         list(routeId, TripsForRouteListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         params: TripsForRouteListParams = TripsForRouteListParams.none(),
@@ -36,23 +36,23 @@ interface TripsForRouteServiceAsync {
     ): CompletableFuture<TripsForRouteListResponse> =
         list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         params: TripsForRouteListParams = TripsForRouteListParams.none(),
     ): CompletableFuture<TripsForRouteListResponse> = list(routeId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: TripsForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TripsForRouteListResponse>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: TripsForRouteListParams): CompletableFuture<TripsForRouteListResponse> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         routeId: String,
         requestOptions: RequestOptions,
@@ -81,7 +81,7 @@ interface TripsForRouteServiceAsync {
         fun list(routeId: String): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
             list(routeId, TripsForRouteListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             routeId: String,
             params: TripsForRouteListParams = TripsForRouteListParams.none(),
@@ -89,26 +89,26 @@ interface TripsForRouteServiceAsync {
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
             list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             routeId: String,
             params: TripsForRouteListParams = TripsForRouteListParams.none(),
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
             list(routeId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: TripsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: TripsForRouteListParams
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             routeId: String,
             requestOptions: RequestOptions,

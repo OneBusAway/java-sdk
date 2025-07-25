@@ -25,8 +25,10 @@ private constructor(
     /** The max number of results to return. Defaults to 20. */
     fun maxCount(): Optional<Long> = Optional.ofNullable(maxCount)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)

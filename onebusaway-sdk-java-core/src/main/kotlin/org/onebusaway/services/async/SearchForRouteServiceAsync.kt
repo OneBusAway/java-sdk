@@ -28,7 +28,7 @@ interface SearchForRouteServiceAsync {
     fun list(params: SearchForRouteListParams): CompletableFuture<SearchForRouteListResponse> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: SearchForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -58,7 +58,7 @@ interface SearchForRouteServiceAsync {
         ): CompletableFuture<HttpResponseFor<SearchForRouteListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: SearchForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),

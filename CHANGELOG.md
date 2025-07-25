@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.31 (2025-07-25)
+
+Full Changelog: [v0.1.0-alpha.30...v0.1.0-alpha.31](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.30...v0.1.0-alpha.31)
+
+### Chores
+
+* **internal:** remove unnecessary `[...]` in `[@see](https://github.com/see)` ([bb19ff1](https://github.com/OneBusAway/java-sdk/commit/bb19ff1cd43642f3023f3e521509c424142e9f36))
+
+
+### Documentation
+
+* more code comments ([07cd62d](https://github.com/OneBusAway/java-sdk/commit/07cd62d5e4d6479f61961f0e75eb3a507fd4516c))
+
 ## 0.1.0-alpha.30 (2025-07-24)
 
 Full Changelog: [v0.1.0-alpha.29...v0.1.0-alpha.30](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.29...v0.1.0-alpha.30)

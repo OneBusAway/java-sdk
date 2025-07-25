@@ -28,18 +28,18 @@ interface CurrentTimeServiceAsync {
     fun retrieve(): CompletableFuture<CurrentTimeRetrieveResponse> =
         retrieve(CurrentTimeRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CurrentTimeRetrieveResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none()
     ): CompletableFuture<CurrentTimeRetrieveResponse> = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): CompletableFuture<CurrentTimeRetrieveResponse> =
         retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
 
@@ -65,19 +65,19 @@ interface CurrentTimeServiceAsync {
         fun retrieve(): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =
             retrieve(CurrentTimeRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none()
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =

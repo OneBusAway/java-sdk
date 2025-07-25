@@ -28,30 +28,30 @@ interface ReportProblemWithTripService {
     fun retrieve(tripId: String): ResponseWrapper =
         retrieve(tripId, ReportProblemWithTripRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper = retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
     ): ResponseWrapper = retrieve(tripId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ReportProblemWithTripRetrieveParams): ResponseWrapper =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(tripId: String, requestOptions: RequestOptions): ResponseWrapper =
         retrieve(tripId, ReportProblemWithTripRetrieveParams.none(), requestOptions)
 
@@ -78,7 +78,7 @@ interface ReportProblemWithTripService {
         fun retrieve(tripId: String): HttpResponseFor<ResponseWrapper> =
             retrieve(tripId, ReportProblemWithTripRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,
@@ -88,27 +88,27 @@ interface ReportProblemWithTripService {
         ): HttpResponseFor<ResponseWrapper> =
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,
             params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
         ): HttpResponseFor<ResponseWrapper> = retrieve(tripId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ReportProblemWithTripRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ResponseWrapper>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ReportProblemWithTripRetrieveParams
         ): HttpResponseFor<ResponseWrapper> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,

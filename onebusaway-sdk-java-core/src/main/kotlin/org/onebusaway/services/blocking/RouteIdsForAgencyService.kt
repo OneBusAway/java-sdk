@@ -28,7 +28,7 @@ interface RouteIdsForAgencyService {
     fun list(agencyId: String): RouteIdsForAgencyListResponse =
         list(agencyId, RouteIdsForAgencyListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         agencyId: String,
         params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
@@ -36,23 +36,23 @@ interface RouteIdsForAgencyService {
     ): RouteIdsForAgencyListResponse =
         list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         agencyId: String,
         params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
     ): RouteIdsForAgencyListResponse = list(agencyId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: RouteIdsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteIdsForAgencyListResponse
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: RouteIdsForAgencyListParams): RouteIdsForAgencyListResponse =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): RouteIdsForAgencyListResponse =
         list(agencyId, RouteIdsForAgencyListParams.none(), requestOptions)
 
@@ -79,7 +79,7 @@ interface RouteIdsForAgencyService {
         fun list(agencyId: String): HttpResponseFor<RouteIdsForAgencyListResponse> =
             list(agencyId, RouteIdsForAgencyListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,
@@ -88,7 +88,7 @@ interface RouteIdsForAgencyService {
         ): HttpResponseFor<RouteIdsForAgencyListResponse> =
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,
@@ -96,20 +96,20 @@ interface RouteIdsForAgencyService {
         ): HttpResponseFor<RouteIdsForAgencyListResponse> =
             list(agencyId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: RouteIdsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RouteIdsForAgencyListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: RouteIdsForAgencyListParams
         ): HttpResponseFor<RouteIdsForAgencyListResponse> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,

@@ -28,30 +28,30 @@ interface ShapeService {
     fun retrieve(shapeId: String): ShapeRetrieveResponse =
         retrieve(shapeId, ShapeRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         shapeId: String,
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ShapeRetrieveResponse = retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         shapeId: String,
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
     ): ShapeRetrieveResponse = retrieve(shapeId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ShapeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ShapeRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ShapeRetrieveParams): ShapeRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(shapeId: String, requestOptions: RequestOptions): ShapeRetrieveResponse =
         retrieve(shapeId, ShapeRetrieveParams.none(), requestOptions)
 
@@ -73,7 +73,7 @@ interface ShapeService {
         fun retrieve(shapeId: String): HttpResponseFor<ShapeRetrieveResponse> =
             retrieve(shapeId, ShapeRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             shapeId: String,
@@ -82,26 +82,26 @@ interface ShapeService {
         ): HttpResponseFor<ShapeRetrieveResponse> =
             retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             shapeId: String,
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
         ): HttpResponseFor<ShapeRetrieveResponse> = retrieve(shapeId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ShapeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ShapeRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: ShapeRetrieveParams): HttpResponseFor<ShapeRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             shapeId: String,
