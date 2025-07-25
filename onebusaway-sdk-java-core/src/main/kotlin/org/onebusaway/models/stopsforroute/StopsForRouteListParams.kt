@@ -27,8 +27,10 @@ private constructor(
     /** Specify service date (YYYY-MM-DD or epoch) (default today) */
     fun time(): Optional<String> = Optional.ofNullable(time)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
