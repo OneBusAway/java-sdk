@@ -27,30 +27,30 @@ interface TripService {
     /** Get details of a specific trip */
     fun retrieve(tripId: String): TripRetrieveResponse = retrieve(tripId, TripRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripRetrieveParams = TripRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripRetrieveResponse = retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripRetrieveParams = TripRetrieveParams.none(),
     ): TripRetrieveResponse = retrieve(tripId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: TripRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: TripRetrieveParams): TripRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(tripId: String, requestOptions: RequestOptions): TripRetrieveResponse =
         retrieve(tripId, TripRetrieveParams.none(), requestOptions)
 
@@ -72,7 +72,7 @@ interface TripService {
         fun retrieve(tripId: String): HttpResponseFor<TripRetrieveResponse> =
             retrieve(tripId, TripRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,
@@ -81,26 +81,26 @@ interface TripService {
         ): HttpResponseFor<TripRetrieveResponse> =
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,
             params: TripRetrieveParams = TripRetrieveParams.none(),
         ): HttpResponseFor<TripRetrieveResponse> = retrieve(tripId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: TripRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: TripRetrieveParams): HttpResponseFor<TripRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,

@@ -28,7 +28,7 @@ interface StopsForLocationServiceAsync {
     fun list(params: StopsForLocationListParams): CompletableFuture<StopsForLocationListResponse> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StopsForLocationListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -58,7 +58,7 @@ interface StopsForLocationServiceAsync {
         ): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: StopsForLocationListParams,
             requestOptions: RequestOptions = RequestOptions.none(),

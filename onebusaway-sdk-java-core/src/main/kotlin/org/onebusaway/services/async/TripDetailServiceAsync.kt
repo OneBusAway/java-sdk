@@ -28,7 +28,7 @@ interface TripDetailServiceAsync {
     fun retrieve(tripId: String): CompletableFuture<TripDetailRetrieveResponse> =
         retrieve(tripId, TripDetailRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
@@ -36,24 +36,24 @@ interface TripDetailServiceAsync {
     ): CompletableFuture<TripDetailRetrieveResponse> =
         retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
     ): CompletableFuture<TripDetailRetrieveResponse> =
         retrieve(tripId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TripDetailRetrieveResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: TripDetailRetrieveParams): CompletableFuture<TripDetailRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         tripId: String,
         requestOptions: RequestOptions,
@@ -84,7 +84,7 @@ interface TripDetailServiceAsync {
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>> =
             retrieve(tripId, TripDetailRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             tripId: String,
             params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
@@ -92,26 +92,26 @@ interface TripDetailServiceAsync {
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>> =
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             tripId: String,
             params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>> =
             retrieve(tripId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: TripDetailRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: TripDetailRetrieveParams
         ): CompletableFuture<HttpResponseFor<TripDetailRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             tripId: String,
             requestOptions: RequestOptions,

@@ -28,7 +28,7 @@ interface ScheduleForRouteService {
     fun retrieve(routeId: String): ScheduleForRouteRetrieveResponse =
         retrieve(routeId, ScheduleForRouteRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
@@ -36,23 +36,23 @@ interface ScheduleForRouteService {
     ): ScheduleForRouteRetrieveResponse =
         retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
     ): ScheduleForRouteRetrieveResponse = retrieve(routeId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ScheduleForRouteRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForRouteRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ScheduleForRouteRetrieveParams): ScheduleForRouteRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         routeId: String,
         requestOptions: RequestOptions,
@@ -82,7 +82,7 @@ interface ScheduleForRouteService {
         fun retrieve(routeId: String): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
             retrieve(routeId, ScheduleForRouteRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,
@@ -91,7 +91,7 @@ interface ScheduleForRouteService {
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
             retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,
@@ -99,21 +99,21 @@ interface ScheduleForRouteService {
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
             retrieve(routeId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ScheduleForRouteRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ScheduleForRouteRetrieveParams
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,

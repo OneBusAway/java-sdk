@@ -28,7 +28,7 @@ interface ScheduleForStopService {
     fun retrieve(stopId: String): ScheduleForStopRetrieveResponse =
         retrieve(stopId, ScheduleForStopRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
@@ -36,23 +36,23 @@ interface ScheduleForStopService {
     ): ScheduleForStopRetrieveResponse =
         retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
     ): ScheduleForStopRetrieveResponse = retrieve(stopId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ScheduleForStopRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForStopRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ScheduleForStopRetrieveParams): ScheduleForStopRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(stopId: String, requestOptions: RequestOptions): ScheduleForStopRetrieveResponse =
         retrieve(stopId, ScheduleForStopRetrieveParams.none(), requestOptions)
 
@@ -79,7 +79,7 @@ interface ScheduleForStopService {
         fun retrieve(stopId: String): HttpResponseFor<ScheduleForStopRetrieveResponse> =
             retrieve(stopId, ScheduleForStopRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,
@@ -88,7 +88,7 @@ interface ScheduleForStopService {
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
             retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,
@@ -96,21 +96,21 @@ interface ScheduleForStopService {
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
             retrieve(stopId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ScheduleForStopRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ScheduleForStopRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ScheduleForStopRetrieveParams
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,

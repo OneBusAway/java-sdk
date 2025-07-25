@@ -28,30 +28,30 @@ interface ReportProblemWithStopService {
     fun retrieve(stopId: String): ResponseWrapper =
         retrieve(stopId, ReportProblemWithStopRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper = retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
     ): ResponseWrapper = retrieve(stopId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ReportProblemWithStopRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ReportProblemWithStopRetrieveParams): ResponseWrapper =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(stopId: String, requestOptions: RequestOptions): ResponseWrapper =
         retrieve(stopId, ReportProblemWithStopRetrieveParams.none(), requestOptions)
 
@@ -78,7 +78,7 @@ interface ReportProblemWithStopService {
         fun retrieve(stopId: String): HttpResponseFor<ResponseWrapper> =
             retrieve(stopId, ReportProblemWithStopRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,
@@ -88,27 +88,27 @@ interface ReportProblemWithStopService {
         ): HttpResponseFor<ResponseWrapper> =
             retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,
             params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
         ): HttpResponseFor<ResponseWrapper> = retrieve(stopId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ReportProblemWithStopRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ResponseWrapper>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ReportProblemWithStopRetrieveParams
         ): HttpResponseFor<ResponseWrapper> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,

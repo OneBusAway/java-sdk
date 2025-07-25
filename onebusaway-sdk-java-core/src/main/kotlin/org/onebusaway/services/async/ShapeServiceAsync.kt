@@ -28,7 +28,7 @@ interface ShapeServiceAsync {
     fun retrieve(shapeId: String): CompletableFuture<ShapeRetrieveResponse> =
         retrieve(shapeId, ShapeRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         shapeId: String,
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
@@ -36,23 +36,23 @@ interface ShapeServiceAsync {
     ): CompletableFuture<ShapeRetrieveResponse> =
         retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         shapeId: String,
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
     ): CompletableFuture<ShapeRetrieveResponse> = retrieve(shapeId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ShapeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ShapeRetrieveResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: ShapeRetrieveParams): CompletableFuture<ShapeRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         shapeId: String,
         requestOptions: RequestOptions,
@@ -78,7 +78,7 @@ interface ShapeServiceAsync {
         fun retrieve(shapeId: String): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
             retrieve(shapeId, ShapeRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             shapeId: String,
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
@@ -86,26 +86,26 @@ interface ShapeServiceAsync {
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
             retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             shapeId: String,
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
             retrieve(shapeId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: ShapeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: ShapeRetrieveParams
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             shapeId: String,
             requestOptions: RequestOptions,

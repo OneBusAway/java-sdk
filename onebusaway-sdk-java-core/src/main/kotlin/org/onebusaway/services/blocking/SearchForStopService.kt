@@ -28,7 +28,7 @@ interface SearchForStopService {
     fun list(params: SearchForStopListParams): SearchForStopListResponse =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: SearchForStopListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -56,7 +56,7 @@ interface SearchForStopService {
         fun list(params: SearchForStopListParams): HttpResponseFor<SearchForStopListResponse> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: SearchForStopListParams,

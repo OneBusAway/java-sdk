@@ -27,18 +27,18 @@ interface ConfigService {
     /** config */
     fun retrieve(): ConfigRetrieveResponse = retrieve(ConfigRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ConfigRetrieveParams = ConfigRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ConfigRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ConfigRetrieveParams = ConfigRetrieveParams.none()
     ): ConfigRetrieveResponse = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
         retrieve(ConfigRetrieveParams.none(), requestOptions)
 
@@ -60,20 +60,20 @@ interface ConfigService {
         fun retrieve(): HttpResponseFor<ConfigRetrieveResponse> =
             retrieve(ConfigRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ConfigRetrieveParams = ConfigRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ConfigRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ConfigRetrieveParams = ConfigRetrieveParams.none()
         ): HttpResponseFor<ConfigRetrieveResponse> = retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<ConfigRetrieveResponse> =
             retrieve(ConfigRetrieveParams.none(), requestOptions)

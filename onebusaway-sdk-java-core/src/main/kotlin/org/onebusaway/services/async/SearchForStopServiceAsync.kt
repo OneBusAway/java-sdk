@@ -28,7 +28,7 @@ interface SearchForStopServiceAsync {
     fun list(params: SearchForStopListParams): CompletableFuture<SearchForStopListResponse> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: SearchForStopListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -58,7 +58,7 @@ interface SearchForStopServiceAsync {
         ): CompletableFuture<HttpResponseFor<SearchForStopListResponse>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: SearchForStopListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
