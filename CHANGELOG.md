@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.32 (2025-07-29)
+
+Full Changelog: [v0.1.0-alpha.31...v0.1.0-alpha.32](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.31...v0.1.0-alpha.32)
+
+### Features
+
+* **client:** ensure compat with proguard ([06bc3af](https://github.com/OneBusAway/java-sdk/commit/06bc3afc80e34e726f835bbe3eca0ec8dc3c4d43))
+
 ## 0.1.0-alpha.31 (2025-07-25)
 
 Full Changelog: [v0.1.0-alpha.30...v0.1.0-alpha.31](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.30...v0.1.0-alpha.31)
