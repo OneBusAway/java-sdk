@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.33 (2025-07-30)
+
+Full Changelog: [v0.1.0-alpha.32...v0.1.0-alpha.33](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.32...v0.1.0-alpha.33)
+
+### Features
+
+* add retryable exception ([f679fac](https://github.com/OneBusAway/java-sdk/commit/f679fac35bb7b6695d80dc3819f7d6ec884e9cc8))
+
 ## 0.1.0-alpha.32 (2025-07-29)
 
 Full Changelog: [v0.1.0-alpha.31...v0.1.0-alpha.32](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.31...v0.1.0-alpha.32)
