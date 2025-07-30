@@ -221,6 +221,8 @@ The SDK throws custom unchecked exception types:
 
 - [`OnebusawaySdkIoException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkIoException.kt): I/O networking errors.
 
+- [`OnebusawaySdkRetryableException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+
 - [`OnebusawaySdkInvalidDataException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - [`OnebusawaySdkException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
