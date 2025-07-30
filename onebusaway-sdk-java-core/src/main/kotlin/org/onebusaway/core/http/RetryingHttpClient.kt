@@ -19,6 +19,7 @@ import kotlin.math.pow
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.checkRequired
 import org.onebusaway.errors.OnebusawaySdkIoException
+import org.onebusaway.errors.OnebusawaySdkRetryableException
 
 class RetryingHttpClient
 private constructor(
@@ -176,10 +177,10 @@ private constructor(
     }
 
     private fun shouldRetry(throwable: Throwable): Boolean =
-        // Only retry IOException and OnebusawaySdkIoException, other exceptions are not intended to
-        // be
-        // retried.
-        throwable is IOException || throwable is OnebusawaySdkIoException
+        // Only retry known retryable exceptions, other exceptions are not intended to be retried.
+        throwable is IOException ||
+            throwable is OnebusawaySdkIoException ||
+            throwable is OnebusawaySdkRetryableException
 
     private fun getRetryBackoffDuration(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
