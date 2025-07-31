@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.32)
-[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.32/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.32)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.33)
+[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.33/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.33)
 
 <!-- x-release-please-end -->
 
@@ -15,7 +15,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). Javadocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.32).
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). Javadocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.33).
 
 <!-- x-release-please-end -->
 
@@ -26,7 +26,7 @@ The REST API documentation can be found on [developer.onebusaway.org](https://de
 ### Gradle
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.32")
+implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.33")
 ```
 
 ### Maven
@@ -35,7 +35,7 @@ implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.32")
 <dependency>
   <groupId>org.onebusaway</groupId>
   <artifactId>onebusaway-sdk-java</artifactId>
-  <version>0.1.0-alpha.32</version>
+  <version>0.1.0-alpha.33</version>
 </dependency>
 ```
 
@@ -220,6 +220,8 @@ The SDK throws custom unchecked exception types:
   | others | [`UnexpectedStatusCodeException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/UnexpectedStatusCodeException.kt) |
 
 - [`OnebusawaySdkIoException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkIoException.kt): I/O networking errors.
+
+- [`OnebusawaySdkRetryableException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkRetryableException.kt): Generic error indicating a failure that could be retried by the client.
 
 - [`OnebusawaySdkInvalidDataException`](onebusaway-sdk-java-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
