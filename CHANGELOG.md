@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.34 (2025-08-01)
+
+Full Changelog: [v0.1.0-alpha.33...v0.1.0-alpha.34](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.33...v0.1.0-alpha.34)
+
+### Bug Fixes
+
+* **client:** r8 support ([dbca2b6](https://github.com/OneBusAway/java-sdk/commit/dbca2b6f65b33feb5dac137c43976ee53adf1586))
+
+
+### Chores
+
+* **internal:** bump ci test timeout ([6139a45](https://github.com/OneBusAway/java-sdk/commit/6139a454dea5b2df944e1ff9e51ee68102048eb1))
+* **internal:** reduce proguard ci logging ([0953534](https://github.com/OneBusAway/java-sdk/commit/09535340857380e8bb7ec1112aafd2b84efb55dc))
+
 ## 0.1.0-alpha.33 (2025-07-30)
 
 Full Changelog: [v0.1.0-alpha.32...v0.1.0-alpha.33](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.32...v0.1.0-alpha.33)
