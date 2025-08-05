@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.35 (2025-08-05)
+
+Full Changelog: [v0.1.0-alpha.34...v0.1.0-alpha.35](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.34...v0.1.0-alpha.35)
+
+### Chores
+
+* **internal:** add async lock helper ([63451dd](https://github.com/OneBusAway/java-sdk/commit/63451dd73826cddeb322fe779cf797b06c4b490a))
+
 ## 0.1.0-alpha.34 (2025-08-01)
 
 Full Changelog: [v0.1.0-alpha.33...v0.1.0-alpha.34](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.33...v0.1.0-alpha.34)
