@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.36 (2025-08-06)
+
+Full Changelog: [v0.1.0-alpha.35...v0.1.0-alpha.36](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.35...v0.1.0-alpha.36)
+
+### Chores
+
+* **example:** fix run example comment ([0e6c265](https://github.com/OneBusAway/java-sdk/commit/0e6c265bb71ed5edbe6d556cad5b864f853f2441))
+
 ## 0.1.0-alpha.35 (2025-08-05)
 
 Full Changelog: [v0.1.0-alpha.34...v0.1.0-alpha.35](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.34...v0.1.0-alpha.35)
