@@ -18,7 +18,7 @@ tasks.withType<JavaCompile>().configureEach {
 
 application {
     // Use `./gradlew :onebusaway-sdk-java-example:run` to run `Main`
-    // Use `./gradlew :onebusaway-sdk-java-example:run -Dexample=Something` to run `SomethingExample`
+    // Use `./gradlew :onebusaway-sdk-java-example:run -Pexample=Something` to run `SomethingExample`
     mainClass = "org.onebusaway.example.${
         if (project.hasProperty("example"))
             "${project.property("example")}Example"
