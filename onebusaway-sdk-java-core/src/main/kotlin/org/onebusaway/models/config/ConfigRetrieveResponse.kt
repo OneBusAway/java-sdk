@@ -1663,12 +1663,55 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is GitProperties && gitBranch == other.gitBranch && gitBuildHost == other.gitBuildHost && gitBuildTime == other.gitBuildTime && gitBuildUserEmail == other.gitBuildUserEmail && gitBuildUserName == other.gitBuildUserName && gitBuildVersion == other.gitBuildVersion && gitClosestTagCommitCount == other.gitClosestTagCommitCount && gitClosestTagName == other.gitClosestTagName && gitCommitId == other.gitCommitId && gitCommitIdAbbrev == other.gitCommitIdAbbrev && gitCommitIdDescribe == other.gitCommitIdDescribe && gitCommitIdDescribeShort == other.gitCommitIdDescribeShort && gitCommitMessageFull == other.gitCommitMessageFull && gitCommitMessageShort == other.gitCommitMessageShort && gitCommitTime == other.gitCommitTime && gitCommitUserEmail == other.gitCommitUserEmail && gitCommitUserName == other.gitCommitUserName && gitDirty == other.gitDirty && gitRemoteOriginUrl == other.gitRemoteOriginUrl && gitTags == other.gitTags && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is GitProperties &&
+                        gitBranch == other.gitBranch &&
+                        gitBuildHost == other.gitBuildHost &&
+                        gitBuildTime == other.gitBuildTime &&
+                        gitBuildUserEmail == other.gitBuildUserEmail &&
+                        gitBuildUserName == other.gitBuildUserName &&
+                        gitBuildVersion == other.gitBuildVersion &&
+                        gitClosestTagCommitCount == other.gitClosestTagCommitCount &&
+                        gitClosestTagName == other.gitClosestTagName &&
+                        gitCommitId == other.gitCommitId &&
+                        gitCommitIdAbbrev == other.gitCommitIdAbbrev &&
+                        gitCommitIdDescribe == other.gitCommitIdDescribe &&
+                        gitCommitIdDescribeShort == other.gitCommitIdDescribeShort &&
+                        gitCommitMessageFull == other.gitCommitMessageFull &&
+                        gitCommitMessageShort == other.gitCommitMessageShort &&
+                        gitCommitTime == other.gitCommitTime &&
+                        gitCommitUserEmail == other.gitCommitUserEmail &&
+                        gitCommitUserName == other.gitCommitUserName &&
+                        gitDirty == other.gitDirty &&
+                        gitRemoteOriginUrl == other.gitRemoteOriginUrl &&
+                        gitTags == other.gitTags &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(gitBranch, gitBuildHost, gitBuildTime, gitBuildUserEmail, gitBuildUserName, gitBuildVersion, gitClosestTagCommitCount, gitClosestTagName, gitCommitId, gitCommitIdAbbrev, gitCommitIdDescribe, gitCommitIdDescribeShort, gitCommitMessageFull, gitCommitMessageShort, gitCommitTime, gitCommitUserEmail, gitCommitUserName, gitDirty, gitRemoteOriginUrl, gitTags, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(
+                        gitBranch,
+                        gitBuildHost,
+                        gitBuildTime,
+                        gitBuildUserEmail,
+                        gitBuildUserName,
+                        gitBuildVersion,
+                        gitClosestTagCommitCount,
+                        gitClosestTagName,
+                        gitCommitId,
+                        gitCommitIdAbbrev,
+                        gitCommitIdDescribe,
+                        gitCommitIdDescribeShort,
+                        gitCommitMessageFull,
+                        gitCommitMessageShort,
+                        gitCommitTime,
+                        gitCommitUserEmail,
+                        gitCommitUserName,
+                        gitDirty,
+                        gitRemoteOriginUrl,
+                        gitTags,
+                        additionalProperties,
+                    )
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1681,12 +1724,25 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && id == other.id && gitProperties == other.gitProperties && name == other.name && serviceDateFrom == other.serviceDateFrom && serviceDateTo == other.serviceDateTo && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    id == other.id &&
+                    gitProperties == other.gitProperties &&
+                    name == other.name &&
+                    serviceDateFrom == other.serviceDateFrom &&
+                    serviceDateTo == other.serviceDateTo &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(id, gitProperties, name, serviceDateFrom, serviceDateTo, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    id,
+                    gitProperties,
+                    name,
+                    serviceDateFrom,
+                    serviceDateTo,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1699,12 +1755,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1717,12 +1774,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ConfigRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ConfigRetrieveResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

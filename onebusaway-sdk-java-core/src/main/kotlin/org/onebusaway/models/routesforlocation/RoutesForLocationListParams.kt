@@ -270,10 +270,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is RoutesForLocationListParams && lat == other.lat && lon == other.lon && latSpan == other.latSpan && lonSpan == other.lonSpan && query == other.query && radius == other.radius && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is RoutesForLocationListParams &&
+            lat == other.lat &&
+            lon == other.lon &&
+            latSpan == other.latSpan &&
+            lonSpan == other.lonSpan &&
+            query == other.query &&
+            radius == other.radius &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(lat, lon, latSpan, lonSpan, query, radius, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            lat,
+            lon,
+            latSpan,
+            lonSpan,
+            query,
+            radius,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "RoutesForLocationListParams{lat=$lat, lon=$lon, latSpan=$latSpan, lonSpan=$lonSpan, query=$query, radius=$radius, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

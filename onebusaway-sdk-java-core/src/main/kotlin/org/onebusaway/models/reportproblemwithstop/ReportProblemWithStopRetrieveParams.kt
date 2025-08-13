@@ -426,7 +426,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
+            return other is Code && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -439,10 +439,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportProblemWithStopRetrieveParams && stopId == other.stopId && code == other.code && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ReportProblemWithStopRetrieveParams &&
+            stopId == other.stopId &&
+            code == other.code &&
+            userComment == other.userComment &&
+            userLat == other.userLat &&
+            userLocationAccuracy == other.userLocationAccuracy &&
+            userLon == other.userLon &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, code, userComment, userLat, userLocationAccuracy, userLon, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            stopId,
+            code,
+            userComment,
+            userLat,
+            userLocationAccuracy,
+            userLon,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "ReportProblemWithStopRetrieveParams{stopId=$stopId, code=$code, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

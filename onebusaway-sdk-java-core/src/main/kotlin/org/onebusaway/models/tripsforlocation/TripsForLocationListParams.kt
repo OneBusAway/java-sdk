@@ -299,10 +299,30 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TripsForLocationListParams && lat == other.lat && latSpan == other.latSpan && lon == other.lon && lonSpan == other.lonSpan && includeSchedule == other.includeSchedule && includeTrip == other.includeTrip && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is TripsForLocationListParams &&
+            lat == other.lat &&
+            latSpan == other.latSpan &&
+            lon == other.lon &&
+            lonSpan == other.lonSpan &&
+            includeSchedule == other.includeSchedule &&
+            includeTrip == other.includeTrip &&
+            time == other.time &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(lat, latSpan, lon, lonSpan, includeSchedule, includeTrip, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            lat,
+            latSpan,
+            lon,
+            lonSpan,
+            includeSchedule,
+            includeTrip,
+            time,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "TripsForLocationListParams{lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, includeSchedule=$includeSchedule, includeTrip=$includeTrip, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
