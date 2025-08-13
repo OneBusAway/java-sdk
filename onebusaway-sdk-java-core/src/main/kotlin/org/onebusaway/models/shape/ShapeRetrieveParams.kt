@@ -176,10 +176,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ShapeRetrieveParams && shapeId == other.shapeId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ShapeRetrieveParams &&
+            shapeId == other.shapeId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(shapeId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(shapeId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ShapeRetrieveParams{shapeId=$shapeId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

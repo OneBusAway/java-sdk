@@ -967,12 +967,37 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is List && id == other.id && lat == other.lat && locationType == other.locationType && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is List &&
+                id == other.id &&
+                lat == other.lat &&
+                locationType == other.locationType &&
+                lon == other.lon &&
+                name == other.name &&
+                parent == other.parent &&
+                routeIds == other.routeIds &&
+                staticRouteIds == other.staticRouteIds &&
+                code == other.code &&
+                direction == other.direction &&
+                wheelchairBoarding == other.wheelchairBoarding &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, code, direction, wheelchairBoarding, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                id,
+                lat,
+                locationType,
+                lon,
+                name,
+                parent,
+                routeIds,
+                staticRouteIds,
+                code,
+                direction,
+                wheelchairBoarding,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -985,12 +1010,31 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StopsForAgencyListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && limitExceeded == other.limitExceeded && list == other.list && references == other.references && outOfRange == other.outOfRange && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StopsForAgencyListResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            limitExceeded == other.limitExceeded &&
+            list == other.list &&
+            references == other.references &&
+            outOfRange == other.outOfRange &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, limitExceeded, list, references, outOfRange, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            code,
+            currentTime,
+            text,
+            version,
+            limitExceeded,
+            list,
+            references,
+            outOfRange,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -822,12 +822,18 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is List && agencyId == other.agencyId && lat == other.lat && latSpan == other.latSpan && lon == other.lon && lonSpan == other.lonSpan && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is List &&
+                    agencyId == other.agencyId &&
+                    lat == other.lat &&
+                    latSpan == other.latSpan &&
+                    lon == other.lon &&
+                    lonSpan == other.lonSpan &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(agencyId, lat, latSpan, lon, lonSpan, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(agencyId, lat, latSpan, lon, lonSpan, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -840,12 +846,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                limitExceeded == other.limitExceeded &&
+                list == other.list &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(limitExceeded, list, references, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(limitExceeded, list, references, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -858,12 +868,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgenciesWithCoverageListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AgenciesWithCoverageListResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
