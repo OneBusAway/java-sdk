@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.0-alpha.37 (2025-08-31)
+
+Full Changelog: [v0.1.0-alpha.36...v0.1.0-alpha.37](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.36...v0.1.0-alpha.37)
+
+### Performance Improvements
+
+* **internal:** make formatting faster ([99fbd78](https://github.com/OneBusAway/java-sdk/commit/99fbd78f052b7bd28679a4e4ca63e5486909b40c))
+
+
+### Chores
+
+* **ci:** add build job ([e9a4334](https://github.com/OneBusAway/java-sdk/commit/e9a4334ed4def5ff07ef7ad9fc959d86531423d4))
+* **ci:** reduce log noise ([a44cd60](https://github.com/OneBusAway/java-sdk/commit/a44cd60b985c90043721fdd5e59913bbee7001ef))
+* **client:** refactor closing / shutdown ([1a3f6c5](https://github.com/OneBusAway/java-sdk/commit/1a3f6c59f0a6215188bbce3d1117f1008b7e4008))
+* increase max gradle JVM heap to 8GB ([09fe22c](https://github.com/OneBusAway/java-sdk/commit/09fe22c50fd3025c2f1da7a37218d6cbfc8a04d9))
+* **internal:** codegen related update ([fcda4f9](https://github.com/OneBusAway/java-sdk/commit/fcda4f9e3cadf6574f110689ddb80fda9fe3e87b))
+* **internal:** dynamically determine included projects ([87d4c56](https://github.com/OneBusAway/java-sdk/commit/87d4c56d8a6f24de52544ade996e83dd65bedbe0))
+* **internal:** support passing arguments to test script ([7bad9c0](https://github.com/OneBusAway/java-sdk/commit/7bad9c0a8741e9ffd6432856434a48a9d76af7af))
+* **internal:** support running formatters directly ([bd33d83](https://github.com/OneBusAway/java-sdk/commit/bd33d83283a843365951f3b6f7de65367ae7bcd7))
+* **internal:** update comment in script ([d037c17](https://github.com/OneBusAway/java-sdk/commit/d037c17a5b778fc55c8e30534bfd50f23f4d0984))
+* remove memory upper bound from publishing step ([9710ffe](https://github.com/OneBusAway/java-sdk/commit/9710ffe8cbce1fbc8870aa4de279524e40ea4153))
+* update @stainless-api/prism-cli to v5.15.0 ([3f2a043](https://github.com/OneBusAway/java-sdk/commit/3f2a043a8a41078b57b5d2afa8052824b60d6a43))
+
 ## 0.1.0-alpha.36 (2025-08-06)
 
 Full Changelog: [v0.1.0-alpha.35...v0.1.0-alpha.36](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.35...v0.1.0-alpha.36)

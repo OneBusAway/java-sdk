@@ -258,10 +258,24 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TripsForRouteListParams && routeId == other.routeId && includeSchedule == other.includeSchedule && includeStatus == other.includeStatus && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is TripsForRouteListParams &&
+            routeId == other.routeId &&
+            includeSchedule == other.includeSchedule &&
+            includeStatus == other.includeStatus &&
+            time == other.time &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, includeSchedule, includeStatus, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            routeId,
+            includeSchedule,
+            includeStatus,
+            time,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "TripsForRouteListParams{routeId=$routeId, includeSchedule=$includeSchedule, includeStatus=$includeStatus, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

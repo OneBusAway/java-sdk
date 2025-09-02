@@ -8,7 +8,20 @@ repositories {
 
 allprojects {
     group = "org.onebusaway"
-    version = "0.1.0-alpha.36" // x-release-please-version
+    version = "0.1.0-alpha.37" // x-release-please-version
+}
+
+subprojects {
+    // These are populated with dependencies by `buildSrc` scripts.
+    tasks.register("format") {
+        group = "Verification"
+        description = "Formats all source files."
+    }
+    tasks.register("lint") {
+        group = "Verification"
+        description = "Verifies all source files are formatted."
+    }
+    apply(plugin = "org.jetbrains.dokka")
 }
 
 subprojects {

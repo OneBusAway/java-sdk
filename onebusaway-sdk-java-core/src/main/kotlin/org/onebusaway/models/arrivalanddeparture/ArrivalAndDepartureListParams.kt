@@ -246,10 +246,24 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ArrivalAndDepartureListParams && stopId == other.stopId && minutesAfter == other.minutesAfter && minutesBefore == other.minutesBefore && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ArrivalAndDepartureListParams &&
+            stopId == other.stopId &&
+            minutesAfter == other.minutesAfter &&
+            minutesBefore == other.minutesBefore &&
+            time == other.time &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, minutesAfter, minutesBefore, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            stopId,
+            minutesAfter,
+            minutesBefore,
+            time,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "ArrivalAndDepartureListParams{stopId=$stopId, minutesAfter=$minutesAfter, minutesBefore=$minutesBefore, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

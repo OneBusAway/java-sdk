@@ -955,12 +955,16 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Polyline && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is Polyline &&
+                        length == other.length &&
+                        levels == other.levels &&
+                        points == other.points &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(length, levels, points, additionalProperties)
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1450,12 +1454,16 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Name && name == other.name && names == other.names && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is Name &&
+                            name == other.name &&
+                            names == other.names &&
+                            type == other.type &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(name, names, type, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(name, names, type, additionalProperties)
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -1667,12 +1675,16 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Polyline && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is Polyline &&
+                            length == other.length &&
+                            levels == other.levels &&
+                            points == other.points &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(length, levels, points, additionalProperties)
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -1685,12 +1697,17 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is StopGrouping && id == other.id && name == other.name && polylines == other.polylines && stopIds == other.stopIds && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is StopGrouping &&
+                        id == other.id &&
+                        name == other.name &&
+                        polylines == other.polylines &&
+                        stopIds == other.stopIds &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(id, name, polylines, stopIds, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(id, name, polylines, stopIds, additionalProperties)
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1703,12 +1720,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && polylines == other.polylines && routeId == other.routeId && stopGroupings == other.stopGroupings && stopIds == other.stopIds && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    polylines == other.polylines &&
+                    routeId == other.routeId &&
+                    stopGroupings == other.stopGroupings &&
+                    stopIds == other.stopIds &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(polylines, routeId, stopGroupings, stopIds, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(polylines, routeId, stopGroupings, stopIds, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1721,12 +1743,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1739,12 +1762,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StopsForRouteListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StopsForRouteListResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

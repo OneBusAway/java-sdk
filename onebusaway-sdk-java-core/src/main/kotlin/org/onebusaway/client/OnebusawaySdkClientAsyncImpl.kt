@@ -251,7 +251,7 @@ class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
 
     override fun shape(): ShapeServiceAsync = shape
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         OnebusawaySdkClientAsync.WithRawResponse {

@@ -1,7 +1,14 @@
 rootProject.name = "onebusaway-sdk-java-root"
 
-include("onebusaway-sdk-java")
-include("onebusaway-sdk-java-client-okhttp")
-include("onebusaway-sdk-java-core")
-include("onebusaway-sdk-java-proguard-test")
-include("onebusaway-sdk-java-example")
+val projectNames = rootDir.listFiles()
+    ?.asSequence()
+    .orEmpty()
+    .filter { file ->
+        file.isDirectory &&
+        file.name.startsWith("onebusaway-sdk-java") &&
+        file.listFiles()?.asSequence().orEmpty().any { it.name == "build.gradle.kts" }
+    }
+    .map { it.name }
+    .toList()
+println("projects: $projectNames")
+projectNames.forEach { include(it) }
