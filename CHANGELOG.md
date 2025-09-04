@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.38 (2025-09-04)
+
+Full Changelog: [v0.1.0-alpha.37...v0.1.0-alpha.38](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.37...v0.1.0-alpha.38)
+
+### Bug Fixes
+
+* **ci:** use java-version 21 for publish step ([a49cd4d](https://github.com/OneBusAway/java-sdk/commit/a49cd4dbfc8864b62779ef104947a631f5c41455))
+
 ## 0.1.0-alpha.37 (2025-08-31)
 
 Full Changelog: [v0.1.0-alpha.36...v0.1.0-alpha.37](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.36...v0.1.0-alpha.37)
