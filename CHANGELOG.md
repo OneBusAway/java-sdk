@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.39 (2025-09-13)
+
+Full Changelog: [v0.1.0-alpha.38...v0.1.0-alpha.39](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.38...v0.1.0-alpha.39)
+
+### Chores
+
+* improve formatter performance ([34a4390](https://github.com/OneBusAway/java-sdk/commit/34a4390f6087d3d532aeeab138e10a02199f3cc3))
+* **internal:** codegen related update ([f52bc12](https://github.com/OneBusAway/java-sdk/commit/f52bc129a49fcbdeff69f8d93bea0fa2bb4a319e))
+* **internal:** codegen related update ([691195c](https://github.com/OneBusAway/java-sdk/commit/691195c6e62b0d805ae1a013193e1713df612877))
+
 ## 0.1.0-alpha.38 (2025-09-04)
 
 Full Changelog: [v0.1.0-alpha.37...v0.1.0-alpha.38](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.37...v0.1.0-alpha.38)
