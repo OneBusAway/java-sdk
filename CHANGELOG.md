@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0-alpha.40 (2025-09-20)
+
+Full Changelog: [v0.1.0-alpha.39...v0.1.0-alpha.40](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.39...v0.1.0-alpha.40)
+
+### Features
+
+* **client:** expose sleeper option ([9c57ef5](https://github.com/OneBusAway/java-sdk/commit/9c57ef569421965bce99ce27f8358c5eb20caa52))
+
+
+### Bug Fixes
+
+* **client:** ensure single timer is created per client ([9c57ef5](https://github.com/OneBusAway/java-sdk/commit/9c57ef569421965bce99ce27f8358c5eb20caa52))
+
+
+### Chores
+
+* **internal:** codegen related update ([ccef12d](https://github.com/OneBusAway/java-sdk/commit/ccef12dd603250750b17aaeded659ea7c0b4b82d))
+* **internal:** codegen related update ([96fbb1e](https://github.com/OneBusAway/java-sdk/commit/96fbb1e00da731ee2f86acfa8ec03b9868661bd7))
+
 ## 0.1.0-alpha.39 (2025-09-13)
 
 Full Changelog: [v0.1.0-alpha.38...v0.1.0-alpha.39](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.38...v0.1.0-alpha.39)
