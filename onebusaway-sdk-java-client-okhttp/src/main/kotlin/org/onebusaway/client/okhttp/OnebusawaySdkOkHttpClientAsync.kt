@@ -14,6 +14,7 @@ import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.client.OnebusawaySdkClientAsync
 import org.onebusaway.client.OnebusawaySdkClientAsyncImpl
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.Sleeper
 import org.onebusaway.core.Timeout
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpClient
@@ -119,6 +120,17 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
          * rarely needs to be overridden.
          */
         fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
+
+        /**
+         * The interface to use for delaying execution, like during retries.
+         *
+         * This is primarily useful for using fake delays in tests.
+         *
+         * Defaults to real execution delays.
+         *
+         * This class takes ownership of the sleeper and closes it when closed.
+         */
+        fun sleeper(sleeper: Sleeper) = apply { clientOptions.sleeper(sleeper) }
 
         /**
          * The clock to use for operations that require timing, like retries.
