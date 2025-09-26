@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.41 (2025-09-26)
+
+Full Changelog: [v0.1.0-alpha.40...v0.1.0-alpha.41](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.40...v0.1.0-alpha.41)
+
+### Bug Fixes
+
+* **client:** deserialization of empty objects ([7061257](https://github.com/OneBusAway/java-sdk/commit/70612576669e680829aabd44e20d3d89e445ab91))
+
 ## 0.1.0-alpha.40 (2025-09-20)
 
 Full Changelog: [v0.1.0-alpha.39...v0.1.0-alpha.40](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.39...v0.1.0-alpha.40)
