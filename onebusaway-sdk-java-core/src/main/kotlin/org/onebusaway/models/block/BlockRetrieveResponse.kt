@@ -22,6 +22,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class BlockRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -298,6 +299,7 @@ private constructor(
             (data.asKnown().getOrNull()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -476,6 +478,7 @@ private constructor(
                 (references.asKnown().getOrNull()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val id: JsonField<String>,
             private val configurations: JsonField<List<Configuration>>,
@@ -673,6 +676,7 @@ private constructor(
                     (configurations.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
             class Configuration
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val activeServiceIds: JsonField<List<String>>,
                 private val trips: JsonField<List<Trip>>,
@@ -943,6 +947,7 @@ private constructor(
                         (inactiveServiceIds.asKnown().getOrNull()?.size ?: 0)
 
                 class Trip
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val accumulatedSlackTime: JsonField<Float>,
                     private val blockStopTimes: JsonField<List<BlockStopTime>>,
@@ -1243,6 +1248,7 @@ private constructor(
                             (if (tripId.asKnown().isPresent) 1 else 0)
 
                     class BlockStopTime
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val accumulatedSlackTime: JsonField<Float>,
                         private val blockSequence: JsonField<Long>,
@@ -1532,6 +1538,7 @@ private constructor(
                                 (stopTime.asKnown().getOrNull()?.validity() ?: 0)
 
                         class StopTime
+                        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                         private constructor(
                             private val arrivalTime: JsonField<Long>,
                             private val departureTime: JsonField<Long>,

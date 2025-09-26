@@ -22,6 +22,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class VehiclesForAgencyListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -299,6 +300,7 @@ private constructor(
             (data.asKnown().getOrNull()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val limitExceeded: JsonField<Boolean>,
         private val list: JsonField<kotlin.collections.List<List>>,
@@ -535,6 +537,7 @@ private constructor(
                 (references.asKnown().getOrNull()?.validity() ?: 0)
 
         class List
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lastLocationUpdateTime: JsonField<Long>,
             private val lastUpdateTime: JsonField<Long>,
@@ -1077,6 +1080,7 @@ private constructor(
                     (if (status.asKnown().isPresent) 1 else 0)
 
             class Location
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val lat: JsonField<Double>,
                 private val lon: JsonField<Double>,
@@ -1250,6 +1254,7 @@ private constructor(
             }
 
             class TripStatus
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val activeTripId: JsonField<String>,
                 private val blockTripSequence: JsonField<Long>,
@@ -2604,6 +2609,7 @@ private constructor(
 
                 /** Last known location of the transit vehicle. */
                 class LastKnownLocation
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val lat: JsonField<Double>,
                     private val lon: JsonField<Double>,
@@ -2798,6 +2804,7 @@ private constructor(
 
                 /** Current position of the transit vehicle. */
                 class Position
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val lat: JsonField<Double>,
                     private val lon: JsonField<Double>,
