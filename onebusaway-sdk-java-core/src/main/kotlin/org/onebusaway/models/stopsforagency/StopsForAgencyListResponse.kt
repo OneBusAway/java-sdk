@@ -22,6 +22,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class StopsForAgencyListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -431,6 +432,7 @@ private constructor(
             (if (outOfRange.asKnown().isPresent) 1 else 0)
 
     class List
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val lat: JsonField<Double>,

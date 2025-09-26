@@ -22,6 +22,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class ScheduleForStopRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -301,6 +302,7 @@ private constructor(
             (data.asKnown().getOrNull()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -479,6 +481,7 @@ private constructor(
                 (references.asKnown().getOrNull()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val date: JsonField<Long>,
             private val stopId: JsonField<String>,
@@ -716,6 +719,7 @@ private constructor(
                     (stopRouteSchedules.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
             class StopRouteSchedule
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val routeId: JsonField<String>,
                 private val stopRouteDirectionSchedules:
@@ -938,6 +942,7 @@ private constructor(
                         } ?: 0)
 
                 class StopRouteDirectionSchedule
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val scheduleStopTimes: JsonField<List<ScheduleStopTime>>,
                     private val tripHeadsign: JsonField<String>,
@@ -1222,6 +1227,7 @@ private constructor(
                             } ?: 0)
 
                     class ScheduleStopTime
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val arrivalEnabled: JsonField<Boolean>,
                         private val arrivalTime: JsonField<Long>,
@@ -1669,6 +1675,7 @@ private constructor(
                     }
 
                     class ScheduleFrequency
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val endTime: JsonField<Long>,
                         private val headway: JsonField<Int>,

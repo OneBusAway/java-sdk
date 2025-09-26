@@ -16,6 +16,7 @@ import org.onebusaway.core.checkRequired
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
 class ResponseWrapper
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
