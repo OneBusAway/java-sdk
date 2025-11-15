@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.42 (2025-11-14)
+
+Full Changelog: [v0.1.0-alpha.41...v0.1.0-alpha.42](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.41...v0.1.0-alpha.42)
+
+### Bug Fixes
+
+* **client:** multi-value header serialization ([01b57d3](https://github.com/OneBusAway/java-sdk/commit/01b57d3a01c2c628b5559e020bc1b85583d7495c))
+
 ## 0.1.0-alpha.41 (2025-09-26)
 
 Full Changelog: [v0.1.0-alpha.40...v0.1.0-alpha.41](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.40...v0.1.0-alpha.41)
