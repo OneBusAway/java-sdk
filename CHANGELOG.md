@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.43 (2025-11-27)
+
+Full Changelog: [v0.1.0-alpha.42...v0.1.0-alpha.43](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.42...v0.1.0-alpha.43)
+
+### Bug Fixes
+
+* **client:** cancel okhttp call when future cancelled ([cdbf828](https://github.com/OneBusAway/java-sdk/commit/cdbf828a4f00dfff3c6cff8ef87cae984c297cb7))
+
 ## 0.1.0-alpha.42 (2025-11-14)
 
 Full Changelog: [v0.1.0-alpha.41...v0.1.0-alpha.42](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.41...v0.1.0-alpha.42)
