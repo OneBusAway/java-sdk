@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.44 (2025-12-03)
+
+Full Changelog: [v0.1.0-alpha.43...v0.1.0-alpha.44](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.43...v0.1.0-alpha.44)
+
+### Documentation
+
+* remove `$` for better copy-pasteabality ([46951ba](https://github.com/OneBusAway/java-sdk/commit/46951ba7f06628a819405b362528401621aa3398))
+
 ## 0.1.0-alpha.43 (2025-11-27)
 
 Full Changelog: [v0.1.0-alpha.42...v0.1.0-alpha.43](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.42...v0.1.0-alpha.43)
