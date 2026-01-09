@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.45 (2026-01-09)
+
+Full Changelog: [v0.1.0-alpha.44...v0.1.0-alpha.45](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.44...v0.1.0-alpha.45)
+
+### Features
+
+* **client:** add `HttpRequest#url()` method ([d7e318b](https://github.com/OneBusAway/java-sdk/commit/d7e318b548f644a4dc9e55f5ebc6604282fe57a3))
+* **client:** allow configuring dispatcher executor service ([4ff1629](https://github.com/OneBusAway/java-sdk/commit/4ff16297c9acc59aba99ff7cb1fe278e73c7d38b))
+
 ## 0.1.0-alpha.44 (2025-12-03)
 
 Full Changelog: [v0.1.0-alpha.43...v0.1.0-alpha.44](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.43...v0.1.0-alpha.44)
