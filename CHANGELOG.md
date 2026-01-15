@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.46 (2026-01-13)
+
+Full Changelog: [v0.1.0-alpha.45...v0.1.0-alpha.46](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.45...v0.1.0-alpha.46)
+
+### Chores
+
+* **internal:** support uploading Maven repo artifacts to stainless package server ([4bc9781](https://github.com/OneBusAway/java-sdk/commit/4bc9781829c01677527b5b3dce191908ac6e2a8d))
+
 ## 0.1.0-alpha.45 (2026-01-09)
 
 Full Changelog: [v0.1.0-alpha.44...v0.1.0-alpha.45](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.44...v0.1.0-alpha.45)
