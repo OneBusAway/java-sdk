@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0-alpha.47 (2026-01-17)
+
+Full Changelog: [v0.1.0-alpha.46...v0.1.0-alpha.47](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.46...v0.1.0-alpha.47)
+
+### Bug Fixes
+
+* **client:** disallow coercion from float to int ([7455e7f](https://github.com/OneBusAway/java-sdk/commit/7455e7fabfca0fa03bae97ffe09afc993f153d64))
+* **client:** fully respect max retries ([814f38c](https://github.com/OneBusAway/java-sdk/commit/814f38ce0cba11f4517205d2834d324ad62368dd))
+* **client:** send retry count header for max retries 0 ([814f38c](https://github.com/OneBusAway/java-sdk/commit/814f38ce0cba11f4517205d2834d324ad62368dd))
+* date time deserialization leniency ([32945ab](https://github.com/OneBusAway/java-sdk/commit/32945ab3cebb1771692105447c58669a1b015b66))
+
+
+### Chores
+
+* **ci:** upgrade `actions/setup-java` ([efba5c4](https://github.com/OneBusAway/java-sdk/commit/efba5c4cfd981b9a40888f32fef1d8813d46b076))
+* **internal:** clean up maven repo artifact script and add html documentation to repo root ([75e739a](https://github.com/OneBusAway/java-sdk/commit/75e739ad6e188354083dc1edd80e2d5c4ce848dc))
+* **internal:** depend on packages directly in example ([814f38c](https://github.com/OneBusAway/java-sdk/commit/814f38ce0cba11f4517205d2834d324ad62368dd))
+* **internal:** improve maven repo docs ([214feba](https://github.com/OneBusAway/java-sdk/commit/214feba0154c64ddcfbe4142a18c581e5167074b))
+* **internal:** update `actions/checkout` version ([e69a85a](https://github.com/OneBusAway/java-sdk/commit/e69a85a1cef632cfe7519003453cd73cf707d279))
+* test on Jackson 2.14.0 to avoid encountering FasterXML/jackson-databind[#3240](https://github.com/OneBusAway/java-sdk/issues/3240) in tests ([32945ab](https://github.com/OneBusAway/java-sdk/commit/32945ab3cebb1771692105447c58669a1b015b66))
+
 ## 0.1.0-alpha.46 (2026-01-13)
 
 Full Changelog: [v0.1.0-alpha.45...v0.1.0-alpha.46](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.45...v0.1.0-alpha.46)
