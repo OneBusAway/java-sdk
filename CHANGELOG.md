@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.48 (2026-01-22)
+
+Full Changelog: [v0.1.0-alpha.47...v0.1.0-alpha.48](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.47...v0.1.0-alpha.48)
+
+### Features
+
+* **client:** send `X-Stainless-Kotlin-Version` header ([acd3860](https://github.com/OneBusAway/java-sdk/commit/acd3860b3b99dffd71f1e9a8f2e554f0b984aaca))
+
+
+### Chores
+
+* **internal:** update maven repo doc to include authentication ([647f6b5](https://github.com/OneBusAway/java-sdk/commit/647f6b54a992e0e9f131420c3c7ca9168a85b33b))
+
 ## 0.1.0-alpha.47 (2026-01-17)
 
 Full Changelog: [v0.1.0-alpha.46...v0.1.0-alpha.47](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.46...v0.1.0-alpha.47)
