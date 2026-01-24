@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.49 (2026-01-24)
+
+Full Changelog: [v0.1.0-alpha.48...v0.1.0-alpha.49](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.48...v0.1.0-alpha.49)
+
+### Bug Fixes
+
+* **client:** preserve time zone in lenient date-time parsing ([99572e3](https://github.com/OneBusAway/java-sdk/commit/99572e3a8c05fb5d37d5ba1ed63aae58a49326d6))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([7501fdc](https://github.com/OneBusAway/java-sdk/commit/7501fdca0669d7c6492620d8ab92206357fd142b))
+* **internal:** correct cache invalidation for `SKIP_MOCK_TESTS` ([2625cdd](https://github.com/OneBusAway/java-sdk/commit/2625cddb2178d4c800e97f12440f51d96cc22a97))
+
 ## 0.1.0-alpha.48 (2026-01-22)
 
 Full Changelog: [v0.1.0-alpha.47...v0.1.0-alpha.48](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.47...v0.1.0-alpha.48)
