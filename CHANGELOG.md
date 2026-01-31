@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.50 (2026-01-31)
+
+Full Changelog: [v0.1.0-alpha.49...v0.1.0-alpha.50](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.49...v0.1.0-alpha.50)
+
+### Chores
+
+* **internal:** allow passing args to `./scripts/test` ([2d5fc39](https://github.com/OneBusAway/java-sdk/commit/2d5fc39e92abdc943ac69f4b06120e06ec7d91ec))
+
 ## 0.1.0-alpha.49 (2026-01-24)
 
 Full Changelog: [v0.1.0-alpha.48...v0.1.0-alpha.49](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.48...v0.1.0-alpha.49)
