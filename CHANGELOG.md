@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.51 (2026-02-07)
+
+Full Changelog: [v0.1.0-alpha.50...v0.1.0-alpha.51](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.50...v0.1.0-alpha.51)
+
+### Chores
+
+* **internal:** upgrade AssertJ ([aae1bab](https://github.com/OneBusAway/java-sdk/commit/aae1bab6fcc34c5998e4c0a467de9dcb73026ff4))
+
 ## 0.1.0-alpha.50 (2026-01-31)
 
 Full Changelog: [v0.1.0-alpha.49...v0.1.0-alpha.50](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.49...v0.1.0-alpha.50)
