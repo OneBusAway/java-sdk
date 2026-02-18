@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.52 (2026-02-18)
+
+Full Changelog: [v0.1.0-alpha.51...v0.1.0-alpha.52](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.51...v0.1.0-alpha.52)
+
+### Chores
+
+* **internal:** update `TestServerExtension` comment ([5d66e53](https://github.com/OneBusAway/java-sdk/commit/5d66e53e2c70e34e939d717a688a9a85bbb3bbfd))
+
 ## 0.1.0-alpha.51 (2026-02-07)
 
 Full Changelog: [v0.1.0-alpha.50...v0.1.0-alpha.51](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.50...v0.1.0-alpha.51)
