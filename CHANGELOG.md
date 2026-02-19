@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.53 (2026-02-19)
+
+Full Changelog: [v0.1.0-alpha.52...v0.1.0-alpha.53](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.52...v0.1.0-alpha.53)
+
+### Features
+
+* **client:** add connection pooling option ([9dcb580](https://github.com/OneBusAway/java-sdk/commit/9dcb580bc844c9f90296c4e4a2a8c2c53b70bb95))
+
+
+### Chores
+
+* **internal:** make `OkHttp` constructor internal ([ac8f1c2](https://github.com/OneBusAway/java-sdk/commit/ac8f1c28e6ec0a636fa725bd9f033703388b3282))
+
 ## 0.1.0-alpha.52 (2026-02-18)
 
 Full Changelog: [v0.1.0-alpha.51...v0.1.0-alpha.52](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.51...v0.1.0-alpha.52)
