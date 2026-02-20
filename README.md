@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.52)
-[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.52/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.52)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-java)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.53)
+[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.53/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.53)
 
 <!-- x-release-please-end -->
 
@@ -15,7 +15,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). Javadocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.52).
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). Javadocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-java/0.1.0-alpha.53).
 
 <!-- x-release-please-end -->
 
@@ -26,7 +26,7 @@ The REST API documentation can be found on [developer.onebusaway.org](https://de
 ### Gradle
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.52")
+implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.53")
 ```
 
 ### Maven
@@ -35,7 +35,7 @@ implementation("org.onebusaway:onebusaway-sdk-java:0.1.0-alpha.52")
 <dependency>
   <groupId>org.onebusaway</groupId>
   <artifactId>onebusaway-sdk-java</artifactId>
-  <version>0.1.0-alpha.52</version>
+  <version>0.1.0-alpha.53</version>
 </dependency>
 ```
 
@@ -334,6 +334,25 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     ))
     .build();
 ```
+
+### Connection pooling
+
+To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
+
+```java
+import java.time.Duration;
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+
+OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
+    .fromEnv()
+    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.
+    .maxIdleConnections(10)
+    .keepAliveDuration(Duration.ofMinutes(2))
+    .build();
+```
+
+If both options are unset, OkHttp's default connection pool settings are used.
 
 ### HTTPS
 
