@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.54 (2026-02-25)
+
+Full Changelog: [v0.1.0-alpha.53...v0.1.0-alpha.54](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.53...v0.1.0-alpha.54)
+
+### Chores
+
+* drop apache dependency ([7c4dc22](https://github.com/OneBusAway/java-sdk/commit/7c4dc22dafc8ce6892a94da4d227d5e0a810c4ce))
+* **internal:** expand imports ([6b02ef8](https://github.com/OneBusAway/java-sdk/commit/6b02ef86864a0f6a2a1456f59c017364fa271a40))
+* make `Properties` more resilient to `null` ([a743178](https://github.com/OneBusAway/java-sdk/commit/a7431780bc7a3b13b284ab66bfafc7aee55dd802))
+
 ## 0.1.0-alpha.53 (2026-02-19)
 
 Full Changelog: [v0.1.0-alpha.52...v0.1.0-alpha.53](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.52...v0.1.0-alpha.53)
