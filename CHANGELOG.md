@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.55 (2026-03-06)
+
+Full Changelog: [v0.1.0-alpha.54...v0.1.0-alpha.55](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.54...v0.1.0-alpha.55)
+
+### Chores
+
+* **internal:** bump palantir-java-format ([f47bf74](https://github.com/OneBusAway/java-sdk/commit/f47bf74c86e4de958189ec6b8ba223a49d13617a))
+* **internal:** codegen related update ([c635e70](https://github.com/OneBusAway/java-sdk/commit/c635e70a343601fc7541840c2a1dfc22de4a9769))
+* **test:** do not count install time for mock server timeout ([2b1b731](https://github.com/OneBusAway/java-sdk/commit/2b1b7316c7b2365fb9547bd07b36fee2defc2cdc))
+
 ## 0.1.0-alpha.54 (2026-02-25)
 
 Full Changelog: [v0.1.0-alpha.53...v0.1.0-alpha.54](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.53...v0.1.0-alpha.54)
