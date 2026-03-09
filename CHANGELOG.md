@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.56 (2026-03-07)
+
+Full Changelog: [v0.1.0-alpha.55...v0.1.0-alpha.56](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.55...v0.1.0-alpha.56)
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([14706f6](https://github.com/OneBusAway/java-sdk/commit/14706f6646d4601f2c9031479437bed2d516c96a))
+
 ## 0.1.0-alpha.55 (2026-03-06)
 
 Full Changelog: [v0.1.0-alpha.54...v0.1.0-alpha.55](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.54...v0.1.0-alpha.55)
