@@ -301,27 +301,46 @@ private constructor(
     class Data
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val data: JsonField<InnerData>,
+        private val entry: JsonField<Entry>,
+        private val references: JsonField<References>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("data") @ExcludeMissing data: JsonField<InnerData> = JsonMissing.of()
-        ) : this(data, mutableMapOf())
+            @JsonProperty("entry") @ExcludeMissing entry: JsonField<Entry> = JsonMissing.of(),
+            @JsonProperty("references")
+            @ExcludeMissing
+            references: JsonField<References> = JsonMissing.of(),
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun data(): InnerData = data.getRequired("data")
+        fun entry(): Entry = entry.getRequired("entry")
 
         /**
-         * Returns the raw JSON value of [data].
-         *
-         * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<InnerData> = data
+        fun references(): References = references.getRequired("references")
+
+        /**
+         * Returns the raw JSON value of [entry].
+         *
+         * Unlike [entry], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
+
+        /**
+         * Returns the raw JSON value of [references].
+         *
+         * Unlike [references], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -342,7 +361,8 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .data()
+             * .entry()
+             * .references()
              * ```
              */
             @JvmStatic fun builder() = Builder()
@@ -351,25 +371,40 @@ private constructor(
         /** A builder for [Data]. */
         class Builder internal constructor() {
 
-            private var data: JsonField<InnerData>? = null
+            private var entry: JsonField<Entry>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(data: Data) = apply {
-                this.data = data.data
+                entry = data.entry
+                references = data.references
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
 
-            fun data(data: InnerData) = data(JsonField.of(data))
+            fun entry(entry: Entry) = entry(JsonField.of(entry))
 
             /**
-             * Sets [Builder.data] to an arbitrary JSON value.
+             * Sets [Builder.entry] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.data] with a well-typed [InnerData] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
+             * You should usually call [Builder.entry] with a well-typed [Entry] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
+
+            fun references(references: References) = references(JsonField.of(references))
+
+            /**
+             * Sets [Builder.references] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.references] with a well-typed [References] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun data(data: JsonField<InnerData>) = apply { this.data = data }
+            fun references(references: JsonField<References>) = apply {
+                this.references = references
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -397,13 +432,18 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .data()
+             * .entry()
+             * .references()
              * ```
              *
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Data =
-                Data(checkRequired("data", data), additionalProperties.toMutableMap())
+                Data(
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -413,7 +453,8 @@ private constructor(
                 return@apply
             }
 
-            data().validate()
+            entry().validate()
+            references().validate()
             validated = true
         }
 
@@ -431,54 +472,97 @@ private constructor(
          *
          * Used for best match union deserialization.
          */
-        @JvmSynthetic internal fun validity(): Int = (data.asKnown().getOrNull()?.validity() ?: 0)
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (entry.asKnown().getOrNull()?.validity() ?: 0) +
+                (references.asKnown().getOrNull()?.validity() ?: 0)
 
-        class InnerData
+        class Entry
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
-            private val entry: JsonField<Entry>,
-            private val references: JsonField<References>,
+            private val polylines: JsonField<List<Polyline>>,
+            private val routeId: JsonField<String>,
+            private val stopGroupings: JsonField<List<StopGrouping>>,
+            private val stopIds: JsonField<List<String>>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
             @JsonCreator
             private constructor(
-                @JsonProperty("entry") @ExcludeMissing entry: JsonField<Entry> = JsonMissing.of(),
-                @JsonProperty("references")
+                @JsonProperty("polylines")
                 @ExcludeMissing
-                references: JsonField<References> = JsonMissing.of(),
-            ) : this(entry, references, mutableMapOf())
+                polylines: JsonField<List<Polyline>> = JsonMissing.of(),
+                @JsonProperty("routeId")
+                @ExcludeMissing
+                routeId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("stopGroupings")
+                @ExcludeMissing
+                stopGroupings: JsonField<List<StopGrouping>> = JsonMissing.of(),
+                @JsonProperty("stopIds")
+                @ExcludeMissing
+                stopIds: JsonField<List<String>> = JsonMissing.of(),
+            ) : this(polylines, routeId, stopGroupings, stopIds, mutableMapOf())
 
             /**
-             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
              */
-            fun entry(): Entry = entry.getRequired("entry")
+            fun polylines(): Optional<List<Polyline>> = polylines.getOptional("polylines")
 
             /**
-             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
              */
-            fun references(): References = references.getRequired("references")
+            fun routeId(): Optional<String> = routeId.getOptional("routeId")
 
             /**
-             * Returns the raw JSON value of [entry].
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun stopGroupings(): Optional<List<StopGrouping>> =
+                stopGroupings.getOptional("stopGroupings")
+
+            /**
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun stopIds(): Optional<List<String>> = stopIds.getOptional("stopIds")
+
+            /**
+             * Returns the raw JSON value of [polylines].
              *
-             * Unlike [entry], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
-
-            /**
-             * Returns the raw JSON value of [references].
-             *
-             * Unlike [references], this method doesn't throw if the JSON field has an unexpected
+             * Unlike [polylines], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
-            @JsonProperty("references")
+            @JsonProperty("polylines")
             @ExcludeMissing
-            fun _references(): JsonField<References> = references
+            fun _polylines(): JsonField<List<Polyline>> = polylines
+
+            /**
+             * Returns the raw JSON value of [routeId].
+             *
+             * Unlike [routeId], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
+
+            /**
+             * Returns the raw JSON value of [stopGroupings].
+             *
+             * Unlike [stopGroupings], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("stopGroupings")
+            @ExcludeMissing
+            fun _stopGroupings(): JsonField<List<StopGrouping>> = stopGroupings
+
+            /**
+             * Returns the raw JSON value of [stopIds].
+             *
+             * Unlike [stopIds], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("stopIds")
+            @ExcludeMissing
+            fun _stopIds(): JsonField<List<String>> = stopIds
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -494,54 +578,113 @@ private constructor(
 
             companion object {
 
-                /**
-                 * Returns a mutable builder for constructing an instance of [InnerData].
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .entry()
-                 * .references()
-                 * ```
-                 */
+                /** Returns a mutable builder for constructing an instance of [Entry]. */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [InnerData]. */
+            /** A builder for [Entry]. */
             class Builder internal constructor() {
 
-                private var entry: JsonField<Entry>? = null
-                private var references: JsonField<References>? = null
+                private var polylines: JsonField<MutableList<Polyline>>? = null
+                private var routeId: JsonField<String> = JsonMissing.of()
+                private var stopGroupings: JsonField<MutableList<StopGrouping>>? = null
+                private var stopIds: JsonField<MutableList<String>>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(innerData: InnerData) = apply {
-                    entry = innerData.entry
-                    references = innerData.references
-                    additionalProperties = innerData.additionalProperties.toMutableMap()
+                internal fun from(entry: Entry) = apply {
+                    polylines = entry.polylines.map { it.toMutableList() }
+                    routeId = entry.routeId
+                    stopGroupings = entry.stopGroupings.map { it.toMutableList() }
+                    stopIds = entry.stopIds.map { it.toMutableList() }
+                    additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
-                fun entry(entry: Entry) = entry(JsonField.of(entry))
+                fun polylines(polylines: List<Polyline>) = polylines(JsonField.of(polylines))
 
                 /**
-                 * Sets [Builder.entry] to an arbitrary JSON value.
+                 * Sets [Builder.polylines] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.entry] with a well-typed [Entry] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
+                 * You should usually call [Builder.polylines] with a well-typed `List<Polyline>`
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
                  */
-                fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
-
-                fun references(references: References) = references(JsonField.of(references))
+                fun polylines(polylines: JsonField<List<Polyline>>) = apply {
+                    this.polylines = polylines.map { it.toMutableList() }
+                }
 
                 /**
-                 * Sets [Builder.references] to an arbitrary JSON value.
+                 * Adds a single [Polyline] to [polylines].
                  *
-                 * You should usually call [Builder.references] with a well-typed [References] value
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addPolyline(polyline: Polyline) = apply {
+                    polylines =
+                        (polylines ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("polylines", it).add(polyline)
+                        }
+                }
+
+                fun routeId(routeId: String) = routeId(JsonField.of(routeId))
+
+                /**
+                 * Sets [Builder.routeId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.routeId] with a well-typed [String] value
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun references(references: JsonField<References>) = apply {
-                    this.references = references
+                fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
+
+                fun stopGroupings(stopGroupings: List<StopGrouping>) =
+                    stopGroupings(JsonField.of(stopGroupings))
+
+                /**
+                 * Sets [Builder.stopGroupings] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.stopGroupings] with a well-typed
+                 * `List<StopGrouping>` value instead. This method is primarily for setting the
+                 * field to an undocumented or not yet supported value.
+                 */
+                fun stopGroupings(stopGroupings: JsonField<List<StopGrouping>>) = apply {
+                    this.stopGroupings = stopGroupings.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [StopGrouping] to [stopGroupings].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addStopGrouping(stopGrouping: StopGrouping) = apply {
+                    stopGroupings =
+                        (stopGroupings ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("stopGroupings", it).add(stopGrouping)
+                        }
+                }
+
+                fun stopIds(stopIds: List<String>) = stopIds(JsonField.of(stopIds))
+
+                /**
+                 * Sets [Builder.stopIds] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.stopIds] with a well-typed `List<String>` value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun stopIds(stopIds: JsonField<List<String>>) = apply {
+                    this.stopIds = stopIds.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [String] to [stopIds].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addStopId(stopId: String) = apply {
+                    stopIds =
+                        (stopIds ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("stopIds", it).add(stopId)
+                        }
                 }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -567,35 +710,31 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [InnerData].
+                 * Returns an immutable instance of [Entry].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .entry()
-                 * .references()
-                 * ```
-                 *
-                 * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): InnerData =
-                    InnerData(
-                        checkRequired("entry", entry),
-                        checkRequired("references", references),
+                fun build(): Entry =
+                    Entry(
+                        (polylines ?: JsonMissing.of()).map { it.toImmutable() },
+                        routeId,
+                        (stopGroupings ?: JsonMissing.of()).map { it.toImmutable() },
+                        (stopIds ?: JsonMissing.of()).map { it.toImmutable() },
                         additionalProperties.toMutableMap(),
                     )
             }
 
             private var validated: Boolean = false
 
-            fun validate(): InnerData = apply {
+            fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
                 }
 
-                entry().validate()
-                references().validate()
+                polylines().ifPresent { it.forEach { it.validate() } }
+                routeId()
+                stopGroupings().ifPresent { it.forEach { it.validate() } }
+                stopIds()
                 validated = true
             }
 
@@ -615,34 +754,261 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (entry.asKnown().getOrNull()?.validity() ?: 0) +
-                    (references.asKnown().getOrNull()?.validity() ?: 0)
+                (polylines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (if (routeId.asKnown().isPresent) 1 else 0) +
+                    (stopGroupings.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (stopIds.asKnown().getOrNull()?.size ?: 0)
 
-            class Entry
+            class Polyline
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
+                private val length: JsonField<Long>,
+                private val levels: JsonField<String>,
+                private val points: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
+            ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("length")
+                    @ExcludeMissing
+                    length: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("levels")
+                    @ExcludeMissing
+                    levels: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("points")
+                    @ExcludeMissing
+                    points: JsonField<String> = JsonMissing.of(),
+                ) : this(length, levels, points, mutableMapOf())
+
+                /**
+                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                 *   type (e.g. if the server responded with an unexpected value).
+                 */
+                fun length(): Optional<Long> = length.getOptional("length")
+
+                /**
+                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                 *   type (e.g. if the server responded with an unexpected value).
+                 */
+                fun levels(): Optional<String> = levels.getOptional("levels")
+
+                /**
+                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                 *   type (e.g. if the server responded with an unexpected value).
+                 */
+                fun points(): Optional<String> = points.getOptional("points")
+
+                /**
+                 * Returns the raw JSON value of [length].
+                 *
+                 * Unlike [length], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("length") @ExcludeMissing fun _length(): JsonField<Long> = length
+
+                /**
+                 * Returns the raw JSON value of [levels].
+                 *
+                 * Unlike [levels], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("levels") @ExcludeMissing fun _levels(): JsonField<String> = levels
+
+                /**
+                 * Returns the raw JSON value of [points].
+                 *
+                 * Unlike [points], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("points") @ExcludeMissing fun _points(): JsonField<String> = points
+
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    /** Returns a mutable builder for constructing an instance of [Polyline]. */
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                /** A builder for [Polyline]. */
+                class Builder internal constructor() {
+
+                    private var length: JsonField<Long> = JsonMissing.of()
+                    private var levels: JsonField<String> = JsonMissing.of()
+                    private var points: JsonField<String> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(polyline: Polyline) = apply {
+                        length = polyline.length
+                        levels = polyline.levels
+                        points = polyline.points
+                        additionalProperties = polyline.additionalProperties.toMutableMap()
+                    }
+
+                    fun length(length: Long) = length(JsonField.of(length))
+
+                    /**
+                     * Sets [Builder.length] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.length] with a well-typed [Long] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun length(length: JsonField<Long>) = apply { this.length = length }
+
+                    fun levels(levels: String) = levels(JsonField.of(levels))
+
+                    /**
+                     * Sets [Builder.levels] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.levels] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun levels(levels: JsonField<String>) = apply { this.levels = levels }
+
+                    fun points(points: String) = points(JsonField.of(points))
+
+                    /**
+                     * Sets [Builder.points] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.points] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun points(points: JsonField<String>) = apply { this.points = points }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
+
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
+
+                    /**
+                     * Returns an immutable instance of [Polyline].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
+                    fun build(): Polyline =
+                        Polyline(length, levels, points, additionalProperties.toMutableMap())
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): Polyline = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    length()
+                    levels()
+                    points()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    (if (length.asKnown().isPresent) 1 else 0) +
+                        (if (levels.asKnown().isPresent) 1 else 0) +
+                        (if (points.asKnown().isPresent) 1 else 0)
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Polyline &&
+                        length == other.length &&
+                        levels == other.levels &&
+                        points == other.points &&
+                        additionalProperties == other.additionalProperties
+                }
+
+                private val hashCode: Int by lazy {
+                    Objects.hash(length, levels, points, additionalProperties)
+                }
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
+            }
+
+            class StopGrouping
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+            private constructor(
+                private val id: JsonField<String>,
+                private val name: JsonField<Name>,
                 private val polylines: JsonField<List<Polyline>>,
-                private val routeId: JsonField<String>,
-                private val stopGroupings: JsonField<List<StopGrouping>>,
                 private val stopIds: JsonField<List<String>>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
                 @JsonCreator
                 private constructor(
+                    @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("name") @ExcludeMissing name: JsonField<Name> = JsonMissing.of(),
                     @JsonProperty("polylines")
                     @ExcludeMissing
                     polylines: JsonField<List<Polyline>> = JsonMissing.of(),
-                    @JsonProperty("routeId")
-                    @ExcludeMissing
-                    routeId: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("stopGroupings")
-                    @ExcludeMissing
-                    stopGroupings: JsonField<List<StopGrouping>> = JsonMissing.of(),
                     @JsonProperty("stopIds")
                     @ExcludeMissing
                     stopIds: JsonField<List<String>> = JsonMissing.of(),
-                ) : this(polylines, routeId, stopGroupings, stopIds, mutableMapOf())
+                ) : this(id, name, polylines, stopIds, mutableMapOf())
+
+                /**
+                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                 *   type (e.g. if the server responded with an unexpected value).
+                 */
+                fun id(): Optional<String> = id.getOptional("id")
+
+                /**
+                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                 *   type (e.g. if the server responded with an unexpected value).
+                 */
+                fun name(): Optional<Name> = name.getOptional("name")
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -654,20 +1020,22 @@ private constructor(
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
                  *   type (e.g. if the server responded with an unexpected value).
                  */
-                fun routeId(): Optional<String> = routeId.getOptional("routeId")
-
-                /**
-                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
-                 *   type (e.g. if the server responded with an unexpected value).
-                 */
-                fun stopGroupings(): Optional<List<StopGrouping>> =
-                    stopGroupings.getOptional("stopGroupings")
-
-                /**
-                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
-                 *   type (e.g. if the server responded with an unexpected value).
-                 */
                 fun stopIds(): Optional<List<String>> = stopIds.getOptional("stopIds")
+
+                /**
+                 * Returns the raw JSON value of [id].
+                 *
+                 * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+                 */
+                @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
+
+                /**
+                 * Returns the raw JSON value of [name].
+                 *
+                 * Unlike [name], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<Name> = name
 
                 /**
                  * Returns the raw JSON value of [polylines].
@@ -678,24 +1046,6 @@ private constructor(
                 @JsonProperty("polylines")
                 @ExcludeMissing
                 fun _polylines(): JsonField<List<Polyline>> = polylines
-
-                /**
-                 * Returns the raw JSON value of [routeId].
-                 *
-                 * Unlike [routeId], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
-
-                /**
-                 * Returns the raw JSON value of [stopGroupings].
-                 *
-                 * Unlike [stopGroupings], this method doesn't throw if the JSON field has an
-                 * unexpected type.
-                 */
-                @JsonProperty("stopGroupings")
-                @ExcludeMissing
-                fun _stopGroupings(): JsonField<List<StopGrouping>> = stopGroupings
 
                 /**
                  * Returns the raw JSON value of [stopIds].
@@ -721,27 +1071,49 @@ private constructor(
 
                 companion object {
 
-                    /** Returns a mutable builder for constructing an instance of [Entry]. */
+                    /** Returns a mutable builder for constructing an instance of [StopGrouping]. */
                     @JvmStatic fun builder() = Builder()
                 }
 
-                /** A builder for [Entry]. */
+                /** A builder for [StopGrouping]. */
                 class Builder internal constructor() {
 
+                    private var id: JsonField<String> = JsonMissing.of()
+                    private var name: JsonField<Name> = JsonMissing.of()
                     private var polylines: JsonField<MutableList<Polyline>>? = null
-                    private var routeId: JsonField<String> = JsonMissing.of()
-                    private var stopGroupings: JsonField<MutableList<StopGrouping>>? = null
                     private var stopIds: JsonField<MutableList<String>>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
-                    internal fun from(entry: Entry) = apply {
-                        polylines = entry.polylines.map { it.toMutableList() }
-                        routeId = entry.routeId
-                        stopGroupings = entry.stopGroupings.map { it.toMutableList() }
-                        stopIds = entry.stopIds.map { it.toMutableList() }
-                        additionalProperties = entry.additionalProperties.toMutableMap()
+                    internal fun from(stopGrouping: StopGrouping) = apply {
+                        id = stopGrouping.id
+                        name = stopGrouping.name
+                        polylines = stopGrouping.polylines.map { it.toMutableList() }
+                        stopIds = stopGrouping.stopIds.map { it.toMutableList() }
+                        additionalProperties = stopGrouping.additionalProperties.toMutableMap()
                     }
+
+                    fun id(id: String) = id(JsonField.of(id))
+
+                    /**
+                     * Sets [Builder.id] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.id] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun id(id: JsonField<String>) = apply { this.id = id }
+
+                    fun name(name: Name) = name(JsonField.of(name))
+
+                    /**
+                     * Sets [Builder.name] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.name] with a well-typed [Name] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun name(name: JsonField<Name>) = apply { this.name = name }
 
                     fun polylines(polylines: List<Polyline>) = polylines(JsonField.of(polylines))
 
@@ -765,43 +1137,6 @@ private constructor(
                         polylines =
                             (polylines ?: JsonField.of(mutableListOf())).also {
                                 checkKnown("polylines", it).add(polyline)
-                            }
-                    }
-
-                    fun routeId(routeId: String) = routeId(JsonField.of(routeId))
-
-                    /**
-                     * Sets [Builder.routeId] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.routeId] with a well-typed [String] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
-
-                    fun stopGroupings(stopGroupings: List<StopGrouping>) =
-                        stopGroupings(JsonField.of(stopGroupings))
-
-                    /**
-                     * Sets [Builder.stopGroupings] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.stopGroupings] with a well-typed
-                     * `List<StopGrouping>` value instead. This method is primarily for setting the
-                     * field to an undocumented or not yet supported value.
-                     */
-                    fun stopGroupings(stopGroupings: JsonField<List<StopGrouping>>) = apply {
-                        this.stopGroupings = stopGroupings.map { it.toMutableList() }
-                    }
-
-                    /**
-                     * Adds a single [StopGrouping] to [stopGroupings].
-                     *
-                     * @throws IllegalStateException if the field was previously set to a non-list.
-                     */
-                    fun addStopGrouping(stopGrouping: StopGrouping) = apply {
-                        stopGroupings =
-                            (stopGroupings ?: JsonField.of(mutableListOf())).also {
-                                checkKnown("stopGroupings", it).add(stopGrouping)
                             }
                     }
 
@@ -853,15 +1188,15 @@ private constructor(
                     }
 
                     /**
-                     * Returns an immutable instance of [Entry].
+                     * Returns an immutable instance of [StopGrouping].
                      *
                      * Further updates to this [Builder] will not mutate the returned instance.
                      */
-                    fun build(): Entry =
-                        Entry(
+                    fun build(): StopGrouping =
+                        StopGrouping(
+                            id,
+                            name,
                             (polylines ?: JsonMissing.of()).map { it.toImmutable() },
-                            routeId,
-                            (stopGroupings ?: JsonMissing.of()).map { it.toImmutable() },
                             (stopIds ?: JsonMissing.of()).map { it.toImmutable() },
                             additionalProperties.toMutableMap(),
                         )
@@ -869,14 +1204,14 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                fun validate(): Entry = apply {
+                fun validate(): StopGrouping = apply {
                     if (validated) {
                         return@apply
                     }
 
+                    id()
+                    name().ifPresent { it.validate() }
                     polylines().ifPresent { it.forEach { it.validate() } }
-                    routeId()
-                    stopGroupings().ifPresent { it.forEach { it.validate() } }
                     stopIds()
                     validated = true
                 }
@@ -897,11 +1232,250 @@ private constructor(
                  */
                 @JvmSynthetic
                 internal fun validity(): Int =
-                    (polylines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-                        (if (routeId.asKnown().isPresent) 1 else 0) +
-                        (stopGroupings.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
-                            ?: 0) +
+                    (if (id.asKnown().isPresent) 1 else 0) +
+                        (name.asKnown().getOrNull()?.validity() ?: 0) +
+                        (polylines.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                         (stopIds.asKnown().getOrNull()?.size ?: 0)
+
+                class Name
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+                private constructor(
+                    private val name: JsonField<String>,
+                    private val names: JsonField<List<String>>,
+                    private val type: JsonField<String>,
+                    private val additionalProperties: MutableMap<String, JsonValue>,
+                ) {
+
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("name")
+                        @ExcludeMissing
+                        name: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("names")
+                        @ExcludeMissing
+                        names: JsonField<List<String>> = JsonMissing.of(),
+                        @JsonProperty("type")
+                        @ExcludeMissing
+                        type: JsonField<String> = JsonMissing.of(),
+                    ) : this(name, names, type, mutableMapOf())
+
+                    /**
+                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
+                    fun name(): Optional<String> = name.getOptional("name")
+
+                    /**
+                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
+                    fun names(): Optional<List<String>> = names.getOptional("names")
+
+                    /**
+                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
+                    fun type(): Optional<String> = type.getOptional("type")
+
+                    /**
+                     * Returns the raw JSON value of [name].
+                     *
+                     * Unlike [name], this method doesn't throw if the JSON field has an unexpected
+                     * type.
+                     */
+                    @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+                    /**
+                     * Returns the raw JSON value of [names].
+                     *
+                     * Unlike [names], this method doesn't throw if the JSON field has an unexpected
+                     * type.
+                     */
+                    @JsonProperty("names")
+                    @ExcludeMissing
+                    fun _names(): JsonField<List<String>> = names
+
+                    /**
+                     * Returns the raw JSON value of [type].
+                     *
+                     * Unlike [type], this method doesn't throw if the JSON field has an unexpected
+                     * type.
+                     */
+                    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
+
+                    @JsonAnySetter
+                    private fun putAdditionalProperty(key: String, value: JsonValue) {
+                        additionalProperties.put(key, value)
+                    }
+
+                    @JsonAnyGetter
+                    @ExcludeMissing
+                    fun _additionalProperties(): Map<String, JsonValue> =
+                        Collections.unmodifiableMap(additionalProperties)
+
+                    fun toBuilder() = Builder().from(this)
+
+                    companion object {
+
+                        /** Returns a mutable builder for constructing an instance of [Name]. */
+                        @JvmStatic fun builder() = Builder()
+                    }
+
+                    /** A builder for [Name]. */
+                    class Builder internal constructor() {
+
+                        private var name: JsonField<String> = JsonMissing.of()
+                        private var names: JsonField<MutableList<String>>? = null
+                        private var type: JsonField<String> = JsonMissing.of()
+                        private var additionalProperties: MutableMap<String, JsonValue> =
+                            mutableMapOf()
+
+                        @JvmSynthetic
+                        internal fun from(name: Name) = apply {
+                            this.name = name.name
+                            names = name.names.map { it.toMutableList() }
+                            type = name.type
+                            additionalProperties = name.additionalProperties.toMutableMap()
+                        }
+
+                        fun name(name: String) = name(JsonField.of(name))
+
+                        /**
+                         * Sets [Builder.name] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.name] with a well-typed [String] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun name(name: JsonField<String>) = apply { this.name = name }
+
+                        fun names(names: List<String>) = names(JsonField.of(names))
+
+                        /**
+                         * Sets [Builder.names] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.names] with a well-typed `List<String>`
+                         * value instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun names(names: JsonField<List<String>>) = apply {
+                            this.names = names.map { it.toMutableList() }
+                        }
+
+                        /**
+                         * Adds a single [String] to [names].
+                         *
+                         * @throws IllegalStateException if the field was previously set to a
+                         *   non-list.
+                         */
+                        fun addName(name: String) = apply {
+                            names =
+                                (names ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("names", it).add(name)
+                                }
+                        }
+
+                        fun type(type: String) = type(JsonField.of(type))
+
+                        /**
+                         * Sets [Builder.type] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.type] with a well-typed [String] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
+                        fun type(type: JsonField<String>) = apply { this.type = type }
+
+                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                            apply {
+                                this.additionalProperties.clear()
+                                putAllAdditionalProperties(additionalProperties)
+                            }
+
+                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                            additionalProperties.put(key, value)
+                        }
+
+                        fun putAllAdditionalProperties(
+                            additionalProperties: Map<String, JsonValue>
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
+
+                        /**
+                         * Returns an immutable instance of [Name].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
+                        fun build(): Name =
+                            Name(
+                                name,
+                                (names ?: JsonMissing.of()).map { it.toImmutable() },
+                                type,
+                                additionalProperties.toMutableMap(),
+                            )
+                    }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Name = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        name()
+                        names()
+                        type()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    @JvmSynthetic
+                    internal fun validity(): Int =
+                        (if (name.asKnown().isPresent) 1 else 0) +
+                            (names.asKnown().getOrNull()?.size ?: 0) +
+                            (if (type.asKnown().isPresent) 1 else 0)
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Name &&
+                            name == other.name &&
+                            names == other.names &&
+                            type == other.type &&
+                            additionalProperties == other.additionalProperties
+                    }
+
+                    private val hashCode: Int by lazy {
+                        Objects.hash(name, names, type, additionalProperties)
+                    }
+
+                    override fun hashCode(): Int = hashCode
+
+                    override fun toString() =
+                        "Name{name=$name, names=$names, type=$type, additionalProperties=$additionalProperties}"
+                }
 
                 class Polyline
                 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -1125,802 +1699,27 @@ private constructor(
                         "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
                 }
 
-                class StopGrouping
-                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                private constructor(
-                    private val id: JsonField<String>,
-                    private val name: JsonField<Name>,
-                    private val polylines: JsonField<List<Polyline>>,
-                    private val stopIds: JsonField<List<String>>,
-                    private val additionalProperties: MutableMap<String, JsonValue>,
-                ) {
-
-                    @JsonCreator
-                    private constructor(
-                        @JsonProperty("id")
-                        @ExcludeMissing
-                        id: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("name")
-                        @ExcludeMissing
-                        name: JsonField<Name> = JsonMissing.of(),
-                        @JsonProperty("polylines")
-                        @ExcludeMissing
-                        polylines: JsonField<List<Polyline>> = JsonMissing.of(),
-                        @JsonProperty("stopIds")
-                        @ExcludeMissing
-                        stopIds: JsonField<List<String>> = JsonMissing.of(),
-                    ) : this(id, name, polylines, stopIds, mutableMapOf())
-
-                    /**
-                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
-                     *   type (e.g. if the server responded with an unexpected value).
-                     */
-                    fun id(): Optional<String> = id.getOptional("id")
-
-                    /**
-                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
-                     *   type (e.g. if the server responded with an unexpected value).
-                     */
-                    fun name(): Optional<Name> = name.getOptional("name")
-
-                    /**
-                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
-                     *   type (e.g. if the server responded with an unexpected value).
-                     */
-                    fun polylines(): Optional<List<Polyline>> = polylines.getOptional("polylines")
-
-                    /**
-                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
-                     *   type (e.g. if the server responded with an unexpected value).
-                     */
-                    fun stopIds(): Optional<List<String>> = stopIds.getOptional("stopIds")
-
-                    /**
-                     * Returns the raw JSON value of [id].
-                     *
-                     * Unlike [id], this method doesn't throw if the JSON field has an unexpected
-                     * type.
-                     */
-                    @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
-
-                    /**
-                     * Returns the raw JSON value of [name].
-                     *
-                     * Unlike [name], this method doesn't throw if the JSON field has an unexpected
-                     * type.
-                     */
-                    @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<Name> = name
-
-                    /**
-                     * Returns the raw JSON value of [polylines].
-                     *
-                     * Unlike [polylines], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("polylines")
-                    @ExcludeMissing
-                    fun _polylines(): JsonField<List<Polyline>> = polylines
-
-                    /**
-                     * Returns the raw JSON value of [stopIds].
-                     *
-                     * Unlike [stopIds], this method doesn't throw if the JSON field has an
-                     * unexpected type.
-                     */
-                    @JsonProperty("stopIds")
-                    @ExcludeMissing
-                    fun _stopIds(): JsonField<List<String>> = stopIds
-
-                    @JsonAnySetter
-                    private fun putAdditionalProperty(key: String, value: JsonValue) {
-                        additionalProperties.put(key, value)
-                    }
-
-                    @JsonAnyGetter
-                    @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> =
-                        Collections.unmodifiableMap(additionalProperties)
-
-                    fun toBuilder() = Builder().from(this)
-
-                    companion object {
-
-                        /**
-                         * Returns a mutable builder for constructing an instance of [StopGrouping].
-                         */
-                        @JvmStatic fun builder() = Builder()
-                    }
-
-                    /** A builder for [StopGrouping]. */
-                    class Builder internal constructor() {
-
-                        private var id: JsonField<String> = JsonMissing.of()
-                        private var name: JsonField<Name> = JsonMissing.of()
-                        private var polylines: JsonField<MutableList<Polyline>>? = null
-                        private var stopIds: JsonField<MutableList<String>>? = null
-                        private var additionalProperties: MutableMap<String, JsonValue> =
-                            mutableMapOf()
-
-                        @JvmSynthetic
-                        internal fun from(stopGrouping: StopGrouping) = apply {
-                            id = stopGrouping.id
-                            name = stopGrouping.name
-                            polylines = stopGrouping.polylines.map { it.toMutableList() }
-                            stopIds = stopGrouping.stopIds.map { it.toMutableList() }
-                            additionalProperties = stopGrouping.additionalProperties.toMutableMap()
-                        }
-
-                        fun id(id: String) = id(JsonField.of(id))
-
-                        /**
-                         * Sets [Builder.id] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.id] with a well-typed [String] value
-                         * instead. This method is primarily for setting the field to an
-                         * undocumented or not yet supported value.
-                         */
-                        fun id(id: JsonField<String>) = apply { this.id = id }
-
-                        fun name(name: Name) = name(JsonField.of(name))
-
-                        /**
-                         * Sets [Builder.name] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.name] with a well-typed [Name] value
-                         * instead. This method is primarily for setting the field to an
-                         * undocumented or not yet supported value.
-                         */
-                        fun name(name: JsonField<Name>) = apply { this.name = name }
-
-                        fun polylines(polylines: List<Polyline>) =
-                            polylines(JsonField.of(polylines))
-
-                        /**
-                         * Sets [Builder.polylines] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.polylines] with a well-typed
-                         * `List<Polyline>` value instead. This method is primarily for setting the
-                         * field to an undocumented or not yet supported value.
-                         */
-                        fun polylines(polylines: JsonField<List<Polyline>>) = apply {
-                            this.polylines = polylines.map { it.toMutableList() }
-                        }
-
-                        /**
-                         * Adds a single [Polyline] to [polylines].
-                         *
-                         * @throws IllegalStateException if the field was previously set to a
-                         *   non-list.
-                         */
-                        fun addPolyline(polyline: Polyline) = apply {
-                            polylines =
-                                (polylines ?: JsonField.of(mutableListOf())).also {
-                                    checkKnown("polylines", it).add(polyline)
-                                }
-                        }
-
-                        fun stopIds(stopIds: List<String>) = stopIds(JsonField.of(stopIds))
-
-                        /**
-                         * Sets [Builder.stopIds] to an arbitrary JSON value.
-                         *
-                         * You should usually call [Builder.stopIds] with a well-typed
-                         * `List<String>` value instead. This method is primarily for setting the
-                         * field to an undocumented or not yet supported value.
-                         */
-                        fun stopIds(stopIds: JsonField<List<String>>) = apply {
-                            this.stopIds = stopIds.map { it.toMutableList() }
-                        }
-
-                        /**
-                         * Adds a single [String] to [stopIds].
-                         *
-                         * @throws IllegalStateException if the field was previously set to a
-                         *   non-list.
-                         */
-                        fun addStopId(stopId: String) = apply {
-                            stopIds =
-                                (stopIds ?: JsonField.of(mutableListOf())).also {
-                                    checkKnown("stopIds", it).add(stopId)
-                                }
-                        }
-
-                        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                            apply {
-                                this.additionalProperties.clear()
-                                putAllAdditionalProperties(additionalProperties)
-                            }
-
-                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            additionalProperties.put(key, value)
-                        }
-
-                        fun putAllAdditionalProperties(
-                            additionalProperties: Map<String, JsonValue>
-                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                        fun removeAdditionalProperty(key: String) = apply {
-                            additionalProperties.remove(key)
-                        }
-
-                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                            keys.forEach(::removeAdditionalProperty)
-                        }
-
-                        /**
-                         * Returns an immutable instance of [StopGrouping].
-                         *
-                         * Further updates to this [Builder] will not mutate the returned instance.
-                         */
-                        fun build(): StopGrouping =
-                            StopGrouping(
-                                id,
-                                name,
-                                (polylines ?: JsonMissing.of()).map { it.toImmutable() },
-                                (stopIds ?: JsonMissing.of()).map { it.toImmutable() },
-                                additionalProperties.toMutableMap(),
-                            )
-                    }
-
-                    private var validated: Boolean = false
-
-                    fun validate(): StopGrouping = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        id()
-                        name().ifPresent { it.validate() }
-                        polylines().ifPresent { it.forEach { it.validate() } }
-                        stopIds()
-                        validated = true
-                    }
-
-                    fun isValid(): Boolean =
-                        try {
-                            validate()
-                            true
-                        } catch (e: OnebusawaySdkInvalidDataException) {
-                            false
-                        }
-
-                    /**
-                     * Returns a score indicating how many valid values are contained in this object
-                     * recursively.
-                     *
-                     * Used for best match union deserialization.
-                     */
-                    @JvmSynthetic
-                    internal fun validity(): Int =
-                        (if (id.asKnown().isPresent) 1 else 0) +
-                            (name.asKnown().getOrNull()?.validity() ?: 0) +
-                            (polylines.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
-                                ?: 0) +
-                            (stopIds.asKnown().getOrNull()?.size ?: 0)
-
-                    class Name
-                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                    private constructor(
-                        private val name: JsonField<String>,
-                        private val names: JsonField<List<String>>,
-                        private val type: JsonField<String>,
-                        private val additionalProperties: MutableMap<String, JsonValue>,
-                    ) {
-
-                        @JsonCreator
-                        private constructor(
-                            @JsonProperty("name")
-                            @ExcludeMissing
-                            name: JsonField<String> = JsonMissing.of(),
-                            @JsonProperty("names")
-                            @ExcludeMissing
-                            names: JsonField<List<String>> = JsonMissing.of(),
-                            @JsonProperty("type")
-                            @ExcludeMissing
-                            type: JsonField<String> = JsonMissing.of(),
-                        ) : this(name, names, type, mutableMapOf())
-
-                        /**
-                         * @throws OnebusawaySdkInvalidDataException if the JSON field has an
-                         *   unexpected type (e.g. if the server responded with an unexpected
-                         *   value).
-                         */
-                        fun name(): Optional<String> = name.getOptional("name")
-
-                        /**
-                         * @throws OnebusawaySdkInvalidDataException if the JSON field has an
-                         *   unexpected type (e.g. if the server responded with an unexpected
-                         *   value).
-                         */
-                        fun names(): Optional<List<String>> = names.getOptional("names")
-
-                        /**
-                         * @throws OnebusawaySdkInvalidDataException if the JSON field has an
-                         *   unexpected type (e.g. if the server responded with an unexpected
-                         *   value).
-                         */
-                        fun type(): Optional<String> = type.getOptional("type")
-
-                        /**
-                         * Returns the raw JSON value of [name].
-                         *
-                         * Unlike [name], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
-
-                        /**
-                         * Returns the raw JSON value of [names].
-                         *
-                         * Unlike [names], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("names")
-                        @ExcludeMissing
-                        fun _names(): JsonField<List<String>> = names
-
-                        /**
-                         * Returns the raw JSON value of [type].
-                         *
-                         * Unlike [type], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
-
-                        @JsonAnySetter
-                        private fun putAdditionalProperty(key: String, value: JsonValue) {
-                            additionalProperties.put(key, value)
-                        }
-
-                        @JsonAnyGetter
-                        @ExcludeMissing
-                        fun _additionalProperties(): Map<String, JsonValue> =
-                            Collections.unmodifiableMap(additionalProperties)
-
-                        fun toBuilder() = Builder().from(this)
-
-                        companion object {
-
-                            /** Returns a mutable builder for constructing an instance of [Name]. */
-                            @JvmStatic fun builder() = Builder()
-                        }
-
-                        /** A builder for [Name]. */
-                        class Builder internal constructor() {
-
-                            private var name: JsonField<String> = JsonMissing.of()
-                            private var names: JsonField<MutableList<String>>? = null
-                            private var type: JsonField<String> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> =
-                                mutableMapOf()
-
-                            @JvmSynthetic
-                            internal fun from(name: Name) = apply {
-                                this.name = name.name
-                                names = name.names.map { it.toMutableList() }
-                                type = name.type
-                                additionalProperties = name.additionalProperties.toMutableMap()
-                            }
-
-                            fun name(name: String) = name(JsonField.of(name))
-
-                            /**
-                             * Sets [Builder.name] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.name] with a well-typed [String]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun name(name: JsonField<String>) = apply { this.name = name }
-
-                            fun names(names: List<String>) = names(JsonField.of(names))
-
-                            /**
-                             * Sets [Builder.names] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.names] with a well-typed
-                             * `List<String>` value instead. This method is primarily for setting
-                             * the field to an undocumented or not yet supported value.
-                             */
-                            fun names(names: JsonField<List<String>>) = apply {
-                                this.names = names.map { it.toMutableList() }
-                            }
-
-                            /**
-                             * Adds a single [String] to [names].
-                             *
-                             * @throws IllegalStateException if the field was previously set to a
-                             *   non-list.
-                             */
-                            fun addName(name: String) = apply {
-                                names =
-                                    (names ?: JsonField.of(mutableListOf())).also {
-                                        checkKnown("names", it).add(name)
-                                    }
-                            }
-
-                            fun type(type: String) = type(JsonField.of(type))
-
-                            /**
-                             * Sets [Builder.type] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.type] with a well-typed [String]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun type(type: JsonField<String>) = apply { this.type = type }
-
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                                apply {
-                                    this.additionalProperties.clear()
-                                    putAllAdditionalProperties(additionalProperties)
-                                }
-
-                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                                additionalProperties.put(key, value)
-                            }
-
-                            fun putAllAdditionalProperties(
-                                additionalProperties: Map<String, JsonValue>
-                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                            fun removeAdditionalProperty(key: String) = apply {
-                                additionalProperties.remove(key)
-                            }
-
-                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                                keys.forEach(::removeAdditionalProperty)
-                            }
-
-                            /**
-                             * Returns an immutable instance of [Name].
-                             *
-                             * Further updates to this [Builder] will not mutate the returned
-                             * instance.
-                             */
-                            fun build(): Name =
-                                Name(
-                                    name,
-                                    (names ?: JsonMissing.of()).map { it.toImmutable() },
-                                    type,
-                                    additionalProperties.toMutableMap(),
-                                )
-                        }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Name = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            name()
-                            names()
-                            type()
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: OnebusawaySdkInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int =
-                            (if (name.asKnown().isPresent) 1 else 0) +
-                                (names.asKnown().getOrNull()?.size ?: 0) +
-                                (if (type.asKnown().isPresent) 1 else 0)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Name &&
-                                name == other.name &&
-                                names == other.names &&
-                                type == other.type &&
-                                additionalProperties == other.additionalProperties
-                        }
-
-                        private val hashCode: Int by lazy {
-                            Objects.hash(name, names, type, additionalProperties)
-                        }
-
-                        override fun hashCode(): Int = hashCode
-
-                        override fun toString() =
-                            "Name{name=$name, names=$names, type=$type, additionalProperties=$additionalProperties}"
-                    }
-
-                    class Polyline
-                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-                    private constructor(
-                        private val length: JsonField<Long>,
-                        private val levels: JsonField<String>,
-                        private val points: JsonField<String>,
-                        private val additionalProperties: MutableMap<String, JsonValue>,
-                    ) {
-
-                        @JsonCreator
-                        private constructor(
-                            @JsonProperty("length")
-                            @ExcludeMissing
-                            length: JsonField<Long> = JsonMissing.of(),
-                            @JsonProperty("levels")
-                            @ExcludeMissing
-                            levels: JsonField<String> = JsonMissing.of(),
-                            @JsonProperty("points")
-                            @ExcludeMissing
-                            points: JsonField<String> = JsonMissing.of(),
-                        ) : this(length, levels, points, mutableMapOf())
-
-                        /**
-                         * @throws OnebusawaySdkInvalidDataException if the JSON field has an
-                         *   unexpected type (e.g. if the server responded with an unexpected
-                         *   value).
-                         */
-                        fun length(): Optional<Long> = length.getOptional("length")
-
-                        /**
-                         * @throws OnebusawaySdkInvalidDataException if the JSON field has an
-                         *   unexpected type (e.g. if the server responded with an unexpected
-                         *   value).
-                         */
-                        fun levels(): Optional<String> = levels.getOptional("levels")
-
-                        /**
-                         * @throws OnebusawaySdkInvalidDataException if the JSON field has an
-                         *   unexpected type (e.g. if the server responded with an unexpected
-                         *   value).
-                         */
-                        fun points(): Optional<String> = points.getOptional("points")
-
-                        /**
-                         * Returns the raw JSON value of [length].
-                         *
-                         * Unlike [length], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("length")
-                        @ExcludeMissing
-                        fun _length(): JsonField<Long> = length
-
-                        /**
-                         * Returns the raw JSON value of [levels].
-                         *
-                         * Unlike [levels], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("levels")
-                        @ExcludeMissing
-                        fun _levels(): JsonField<String> = levels
-
-                        /**
-                         * Returns the raw JSON value of [points].
-                         *
-                         * Unlike [points], this method doesn't throw if the JSON field has an
-                         * unexpected type.
-                         */
-                        @JsonProperty("points")
-                        @ExcludeMissing
-                        fun _points(): JsonField<String> = points
-
-                        @JsonAnySetter
-                        private fun putAdditionalProperty(key: String, value: JsonValue) {
-                            additionalProperties.put(key, value)
-                        }
-
-                        @JsonAnyGetter
-                        @ExcludeMissing
-                        fun _additionalProperties(): Map<String, JsonValue> =
-                            Collections.unmodifiableMap(additionalProperties)
-
-                        fun toBuilder() = Builder().from(this)
-
-                        companion object {
-
-                            /**
-                             * Returns a mutable builder for constructing an instance of [Polyline].
-                             */
-                            @JvmStatic fun builder() = Builder()
-                        }
-
-                        /** A builder for [Polyline]. */
-                        class Builder internal constructor() {
-
-                            private var length: JsonField<Long> = JsonMissing.of()
-                            private var levels: JsonField<String> = JsonMissing.of()
-                            private var points: JsonField<String> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> =
-                                mutableMapOf()
-
-                            @JvmSynthetic
-                            internal fun from(polyline: Polyline) = apply {
-                                length = polyline.length
-                                levels = polyline.levels
-                                points = polyline.points
-                                additionalProperties = polyline.additionalProperties.toMutableMap()
-                            }
-
-                            fun length(length: Long) = length(JsonField.of(length))
-
-                            /**
-                             * Sets [Builder.length] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.length] with a well-typed [Long]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun length(length: JsonField<Long>) = apply { this.length = length }
-
-                            fun levels(levels: String) = levels(JsonField.of(levels))
-
-                            /**
-                             * Sets [Builder.levels] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.levels] with a well-typed [String]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun levels(levels: JsonField<String>) = apply { this.levels = levels }
-
-                            fun points(points: String) = points(JsonField.of(points))
-
-                            /**
-                             * Sets [Builder.points] to an arbitrary JSON value.
-                             *
-                             * You should usually call [Builder.points] with a well-typed [String]
-                             * value instead. This method is primarily for setting the field to an
-                             * undocumented or not yet supported value.
-                             */
-                            fun points(points: JsonField<String>) = apply { this.points = points }
-
-                            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                                apply {
-                                    this.additionalProperties.clear()
-                                    putAllAdditionalProperties(additionalProperties)
-                                }
-
-                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                                additionalProperties.put(key, value)
-                            }
-
-                            fun putAllAdditionalProperties(
-                                additionalProperties: Map<String, JsonValue>
-                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
-
-                            fun removeAdditionalProperty(key: String) = apply {
-                                additionalProperties.remove(key)
-                            }
-
-                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                                keys.forEach(::removeAdditionalProperty)
-                            }
-
-                            /**
-                             * Returns an immutable instance of [Polyline].
-                             *
-                             * Further updates to this [Builder] will not mutate the returned
-                             * instance.
-                             */
-                            fun build(): Polyline =
-                                Polyline(
-                                    length,
-                                    levels,
-                                    points,
-                                    additionalProperties.toMutableMap(),
-                                )
-                        }
-
-                        private var validated: Boolean = false
-
-                        fun validate(): Polyline = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            length()
-                            levels()
-                            points()
-                            validated = true
-                        }
-
-                        fun isValid(): Boolean =
-                            try {
-                                validate()
-                                true
-                            } catch (e: OnebusawaySdkInvalidDataException) {
-                                false
-                            }
-
-                        /**
-                         * Returns a score indicating how many valid values are contained in this
-                         * object recursively.
-                         *
-                         * Used for best match union deserialization.
-                         */
-                        @JvmSynthetic
-                        internal fun validity(): Int =
-                            (if (length.asKnown().isPresent) 1 else 0) +
-                                (if (levels.asKnown().isPresent) 1 else 0) +
-                                (if (points.asKnown().isPresent) 1 else 0)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Polyline &&
-                                length == other.length &&
-                                levels == other.levels &&
-                                points == other.points &&
-                                additionalProperties == other.additionalProperties
-                        }
-
-                        private val hashCode: Int by lazy {
-                            Objects.hash(length, levels, points, additionalProperties)
-                        }
-
-                        override fun hashCode(): Int = hashCode
-
-                        override fun toString() =
-                            "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
-                    }
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is StopGrouping &&
-                            id == other.id &&
-                            name == other.name &&
-                            polylines == other.polylines &&
-                            stopIds == other.stopIds &&
-                            additionalProperties == other.additionalProperties
-                    }
-
-                    private val hashCode: Int by lazy {
-                        Objects.hash(id, name, polylines, stopIds, additionalProperties)
-                    }
-
-                    override fun hashCode(): Int = hashCode
-
-                    override fun toString() =
-                        "StopGrouping{id=$id, name=$name, polylines=$polylines, stopIds=$stopIds, additionalProperties=$additionalProperties}"
-                }
-
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
                         return true
                     }
 
-                    return other is Entry &&
+                    return other is StopGrouping &&
+                        id == other.id &&
+                        name == other.name &&
                         polylines == other.polylines &&
-                        routeId == other.routeId &&
-                        stopGroupings == other.stopGroupings &&
                         stopIds == other.stopIds &&
                         additionalProperties == other.additionalProperties
                 }
 
                 private val hashCode: Int by lazy {
-                    Objects.hash(polylines, routeId, stopGroupings, stopIds, additionalProperties)
+                    Objects.hash(id, name, polylines, stopIds, additionalProperties)
                 }
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "Entry{polylines=$polylines, routeId=$routeId, stopGroupings=$stopGroupings, stopIds=$stopIds, additionalProperties=$additionalProperties}"
+                    "StopGrouping{id=$id, name=$name, polylines=$polylines, stopIds=$stopIds, additionalProperties=$additionalProperties}"
             }
 
             override fun equals(other: Any?): Boolean {
@@ -1928,20 +1727,22 @@ private constructor(
                     return true
                 }
 
-                return other is InnerData &&
-                    entry == other.entry &&
-                    references == other.references &&
+                return other is Entry &&
+                    polylines == other.polylines &&
+                    routeId == other.routeId &&
+                    stopGroupings == other.stopGroupings &&
+                    stopIds == other.stopIds &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(entry, references, additionalProperties)
+                Objects.hash(polylines, routeId, stopGroupings, stopIds, additionalProperties)
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "InnerData{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
+                "Entry{polylines=$polylines, routeId=$routeId, stopGroupings=$stopGroupings, stopIds=$stopIds, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1950,15 +1751,17 @@ private constructor(
             }
 
             return other is Data &&
-                data == other.data &&
+                entry == other.entry &&
+                references == other.references &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(data, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
 
         override fun hashCode(): Int = hashCode
 
-        override fun toString() = "Data{data=$data, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
