@@ -537,15 +537,15 @@ private constructor(
         private constructor(
             private val lastLocationUpdateTime: JsonField<Long>,
             private val lastUpdateTime: JsonField<Long>,
-            private val location: JsonField<Location>,
-            private val tripId: JsonField<String>,
-            private val tripStatus: JsonField<TripStatus>,
             private val vehicleId: JsonField<String>,
+            private val location: JsonField<Location>,
             private val occupancyCapacity: JsonField<Long>,
             private val occupancyCount: JsonField<Long>,
             private val occupancyStatus: JsonField<String>,
             private val phase: JsonField<String>,
             private val status: JsonField<String>,
+            private val tripId: JsonField<String>,
+            private val tripStatus: JsonField<TripStatus>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -557,18 +557,12 @@ private constructor(
                 @JsonProperty("lastUpdateTime")
                 @ExcludeMissing
                 lastUpdateTime: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("location")
-                @ExcludeMissing
-                location: JsonField<Location> = JsonMissing.of(),
-                @JsonProperty("tripId")
-                @ExcludeMissing
-                tripId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("tripStatus")
-                @ExcludeMissing
-                tripStatus: JsonField<TripStatus> = JsonMissing.of(),
                 @JsonProperty("vehicleId")
                 @ExcludeMissing
                 vehicleId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("location")
+                @ExcludeMissing
+                location: JsonField<Location> = JsonMissing.of(),
                 @JsonProperty("occupancyCapacity")
                 @ExcludeMissing
                 occupancyCapacity: JsonField<Long> = JsonMissing.of(),
@@ -579,19 +573,27 @@ private constructor(
                 @ExcludeMissing
                 occupancyStatus: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("phase") @ExcludeMissing phase: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("status") @ExcludeMissing status: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("status")
+                @ExcludeMissing
+                status: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tripId")
+                @ExcludeMissing
+                tripId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tripStatus")
+                @ExcludeMissing
+                tripStatus: JsonField<TripStatus> = JsonMissing.of(),
             ) : this(
                 lastLocationUpdateTime,
                 lastUpdateTime,
-                location,
-                tripId,
-                tripStatus,
                 vehicleId,
+                location,
                 occupancyCapacity,
                 occupancyCount,
                 occupancyStatus,
                 phase,
                 status,
+                tripId,
+                tripStatus,
                 mutableMapOf(),
             )
 
@@ -615,28 +617,13 @@ private constructor(
              *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
              */
-            fun location(): Location = location.getRequired("location")
-
-            /**
-             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun tripId(): String = tripId.getRequired("tripId")
-
-            /**
-             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun tripStatus(): TripStatus = tripStatus.getRequired("tripStatus")
-
-            /**
-             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
             fun vehicleId(): String = vehicleId.getRequired("vehicleId")
+
+            /**
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun location(): Optional<Location> = location.getOptional("location")
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
@@ -670,6 +657,18 @@ private constructor(
             fun status(): Optional<String> = status.getOptional("status")
 
             /**
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun tripId(): Optional<String> = tripId.getOptional("tripId")
+
+            /**
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
+            fun tripStatus(): Optional<TripStatus> = tripStatus.getOptional("tripStatus")
+
+            /**
              * Returns the raw JSON value of [lastLocationUpdateTime].
              *
              * Unlike [lastLocationUpdateTime], this method doesn't throw if the JSON field has an
@@ -690,33 +689,6 @@ private constructor(
             fun _lastUpdateTime(): JsonField<Long> = lastUpdateTime
 
             /**
-             * Returns the raw JSON value of [location].
-             *
-             * Unlike [location], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("location")
-            @ExcludeMissing
-            fun _location(): JsonField<Location> = location
-
-            /**
-             * Returns the raw JSON value of [tripId].
-             *
-             * Unlike [tripId], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("tripId") @ExcludeMissing fun _tripId(): JsonField<String> = tripId
-
-            /**
-             * Returns the raw JSON value of [tripStatus].
-             *
-             * Unlike [tripStatus], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("tripStatus")
-            @ExcludeMissing
-            fun _tripStatus(): JsonField<TripStatus> = tripStatus
-
-            /**
              * Returns the raw JSON value of [vehicleId].
              *
              * Unlike [vehicleId], this method doesn't throw if the JSON field has an unexpected
@@ -725,6 +697,16 @@ private constructor(
             @JsonProperty("vehicleId")
             @ExcludeMissing
             fun _vehicleId(): JsonField<String> = vehicleId
+
+            /**
+             * Returns the raw JSON value of [location].
+             *
+             * Unlike [location], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("location")
+            @ExcludeMissing
+            fun _location(): JsonField<Location> = location
 
             /**
              * Returns the raw JSON value of [occupancyCapacity].
@@ -770,6 +752,23 @@ private constructor(
              */
             @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<String> = status
 
+            /**
+             * Returns the raw JSON value of [tripId].
+             *
+             * Unlike [tripId], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tripId") @ExcludeMissing fun _tripId(): JsonField<String> = tripId
+
+            /**
+             * Returns the raw JSON value of [tripStatus].
+             *
+             * Unlike [tripStatus], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("tripStatus")
+            @ExcludeMissing
+            fun _tripStatus(): JsonField<TripStatus> = tripStatus
+
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -791,9 +790,6 @@ private constructor(
                  * ```java
                  * .lastLocationUpdateTime()
                  * .lastUpdateTime()
-                 * .location()
-                 * .tripId()
-                 * .tripStatus()
                  * .vehicleId()
                  * ```
                  */
@@ -805,30 +801,30 @@ private constructor(
 
                 private var lastLocationUpdateTime: JsonField<Long>? = null
                 private var lastUpdateTime: JsonField<Long>? = null
-                private var location: JsonField<Location>? = null
-                private var tripId: JsonField<String>? = null
-                private var tripStatus: JsonField<TripStatus>? = null
                 private var vehicleId: JsonField<String>? = null
+                private var location: JsonField<Location> = JsonMissing.of()
                 private var occupancyCapacity: JsonField<Long> = JsonMissing.of()
                 private var occupancyCount: JsonField<Long> = JsonMissing.of()
                 private var occupancyStatus: JsonField<String> = JsonMissing.of()
                 private var phase: JsonField<String> = JsonMissing.of()
                 private var status: JsonField<String> = JsonMissing.of()
+                private var tripId: JsonField<String> = JsonMissing.of()
+                private var tripStatus: JsonField<TripStatus> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(list: List) = apply {
                     lastLocationUpdateTime = list.lastLocationUpdateTime
                     lastUpdateTime = list.lastUpdateTime
-                    location = list.location
-                    tripId = list.tripId
-                    tripStatus = list.tripStatus
                     vehicleId = list.vehicleId
+                    location = list.location
                     occupancyCapacity = list.occupancyCapacity
                     occupancyCount = list.occupancyCount
                     occupancyStatus = list.occupancyStatus
                     phase = list.phase
                     status = list.status
+                    tripId = list.tripId
+                    tripStatus = list.tripStatus
                     additionalProperties = list.additionalProperties.toMutableMap()
                 }
 
@@ -860,41 +856,6 @@ private constructor(
                     this.lastUpdateTime = lastUpdateTime
                 }
 
-                fun location(location: Location) = location(JsonField.of(location))
-
-                /**
-                 * Sets [Builder.location] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.location] with a well-typed [Location] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun location(location: JsonField<Location>) = apply { this.location = location }
-
-                fun tripId(tripId: String) = tripId(JsonField.of(tripId))
-
-                /**
-                 * Sets [Builder.tripId] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.tripId] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
-
-                fun tripStatus(tripStatus: TripStatus) = tripStatus(JsonField.of(tripStatus))
-
-                /**
-                 * Sets [Builder.tripStatus] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.tripStatus] with a well-typed [TripStatus] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun tripStatus(tripStatus: JsonField<TripStatus>) = apply {
-                    this.tripStatus = tripStatus
-                }
-
                 fun vehicleId(vehicleId: String) = vehicleId(JsonField.of(vehicleId))
 
                 /**
@@ -905,6 +866,17 @@ private constructor(
                  * yet supported value.
                  */
                 fun vehicleId(vehicleId: JsonField<String>) = apply { this.vehicleId = vehicleId }
+
+                fun location(location: Location) = location(JsonField.of(location))
+
+                /**
+                 * Sets [Builder.location] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.location] with a well-typed [Location] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun location(location: JsonField<Location>) = apply { this.location = location }
 
                 fun occupancyCapacity(occupancyCapacity: Long) =
                     occupancyCapacity(JsonField.of(occupancyCapacity))
@@ -970,6 +942,30 @@ private constructor(
                  */
                 fun status(status: JsonField<String>) = apply { this.status = status }
 
+                fun tripId(tripId: String) = tripId(JsonField.of(tripId))
+
+                /**
+                 * Sets [Builder.tripId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.tripId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
+
+                fun tripStatus(tripStatus: TripStatus) = tripStatus(JsonField.of(tripStatus))
+
+                /**
+                 * Sets [Builder.tripStatus] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.tripStatus] with a well-typed [TripStatus] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun tripStatus(tripStatus: JsonField<TripStatus>) = apply {
+                    this.tripStatus = tripStatus
+                }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -1001,9 +997,6 @@ private constructor(
                  * ```java
                  * .lastLocationUpdateTime()
                  * .lastUpdateTime()
-                 * .location()
-                 * .tripId()
-                 * .tripStatus()
                  * .vehicleId()
                  * ```
                  *
@@ -1013,15 +1006,15 @@ private constructor(
                     List(
                         checkRequired("lastLocationUpdateTime", lastLocationUpdateTime),
                         checkRequired("lastUpdateTime", lastUpdateTime),
-                        checkRequired("location", location),
-                        checkRequired("tripId", tripId),
-                        checkRequired("tripStatus", tripStatus),
                         checkRequired("vehicleId", vehicleId),
+                        location,
                         occupancyCapacity,
                         occupancyCount,
                         occupancyStatus,
                         phase,
                         status,
+                        tripId,
+                        tripStatus,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -1035,15 +1028,15 @@ private constructor(
 
                 lastLocationUpdateTime()
                 lastUpdateTime()
-                location().validate()
-                tripId()
-                tripStatus().validate()
                 vehicleId()
+                location().ifPresent { it.validate() }
                 occupancyCapacity()
                 occupancyCount()
                 occupancyStatus()
                 phase()
                 status()
+                tripId()
+                tripStatus().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -1065,15 +1058,15 @@ private constructor(
             internal fun validity(): Int =
                 (if (lastLocationUpdateTime.asKnown().isPresent) 1 else 0) +
                     (if (lastUpdateTime.asKnown().isPresent) 1 else 0) +
-                    (location.asKnown().getOrNull()?.validity() ?: 0) +
-                    (if (tripId.asKnown().isPresent) 1 else 0) +
-                    (tripStatus.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (vehicleId.asKnown().isPresent) 1 else 0) +
+                    (location.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (occupancyCapacity.asKnown().isPresent) 1 else 0) +
                     (if (occupancyCount.asKnown().isPresent) 1 else 0) +
                     (if (occupancyStatus.asKnown().isPresent) 1 else 0) +
                     (if (phase.asKnown().isPresent) 1 else 0) +
-                    (if (status.asKnown().isPresent) 1 else 0)
+                    (if (status.asKnown().isPresent) 1 else 0) +
+                    (if (tripId.asKnown().isPresent) 1 else 0) +
+                    (tripStatus.asKnown().getOrNull()?.validity() ?: 0)
 
             class Location
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -3071,15 +3064,15 @@ private constructor(
                 return other is List &&
                     lastLocationUpdateTime == other.lastLocationUpdateTime &&
                     lastUpdateTime == other.lastUpdateTime &&
-                    location == other.location &&
-                    tripId == other.tripId &&
-                    tripStatus == other.tripStatus &&
                     vehicleId == other.vehicleId &&
+                    location == other.location &&
                     occupancyCapacity == other.occupancyCapacity &&
                     occupancyCount == other.occupancyCount &&
                     occupancyStatus == other.occupancyStatus &&
                     phase == other.phase &&
                     status == other.status &&
+                    tripId == other.tripId &&
+                    tripStatus == other.tripStatus &&
                     additionalProperties == other.additionalProperties
             }
 
@@ -3087,15 +3080,15 @@ private constructor(
                 Objects.hash(
                     lastLocationUpdateTime,
                     lastUpdateTime,
-                    location,
-                    tripId,
-                    tripStatus,
                     vehicleId,
+                    location,
                     occupancyCapacity,
                     occupancyCount,
                     occupancyStatus,
                     phase,
                     status,
+                    tripId,
+                    tripStatus,
                     additionalProperties,
                 )
             }
@@ -3103,7 +3096,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "List{lastLocationUpdateTime=$lastLocationUpdateTime, lastUpdateTime=$lastUpdateTime, location=$location, tripId=$tripId, tripStatus=$tripStatus, vehicleId=$vehicleId, occupancyCapacity=$occupancyCapacity, occupancyCount=$occupancyCount, occupancyStatus=$occupancyStatus, phase=$phase, status=$status, additionalProperties=$additionalProperties}"
+                "List{lastLocationUpdateTime=$lastLocationUpdateTime, lastUpdateTime=$lastUpdateTime, vehicleId=$vehicleId, location=$location, occupancyCapacity=$occupancyCapacity, occupancyCount=$occupancyCount, occupancyStatus=$occupancyStatus, phase=$phase, status=$status, tripId=$tripId, tripStatus=$tripStatus, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
