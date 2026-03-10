@@ -10,7 +10,6 @@ import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
-import org.onebusaway.core.Enum
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
@@ -1416,7 +1415,7 @@ private constructor(
         private val consequences: JsonField<List<Consequence>>,
         private val description: JsonField<Description>,
         private val publicationWindows: JsonField<List<PublicationWindow>>,
-        private val reason: JsonField<Reason>,
+        private val reason: JsonField<String>,
         private val severity: JsonField<String>,
         private val summary: JsonField<Summary>,
         private val url: JsonField<Url>,
@@ -1447,7 +1446,7 @@ private constructor(
             @JsonProperty("publicationWindows")
             @ExcludeMissing
             publicationWindows: JsonField<List<PublicationWindow>> = JsonMissing.of(),
-            @JsonProperty("reason") @ExcludeMissing reason: JsonField<Reason> = JsonMissing.of(),
+            @JsonProperty("reason") @ExcludeMissing reason: JsonField<String> = JsonMissing.of(),
             @JsonProperty("severity")
             @ExcludeMissing
             severity: JsonField<String> = JsonMissing.of(),
@@ -1532,7 +1531,7 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
          *   if the server responded with an unexpected value).
          */
-        fun reason(): Optional<Reason> = reason.getOptional("reason")
+        fun reason(): Optional<String> = reason.getOptional("reason")
 
         /**
          * Severity of the situation.
@@ -1634,7 +1633,7 @@ private constructor(
          *
          * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<Reason> = reason
+        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
 
         /**
          * Returns the raw JSON value of [severity].
@@ -1694,7 +1693,7 @@ private constructor(
             private var consequences: JsonField<MutableList<Consequence>>? = null
             private var description: JsonField<Description> = JsonMissing.of()
             private var publicationWindows: JsonField<MutableList<PublicationWindow>>? = null
-            private var reason: JsonField<Reason> = JsonMissing.of()
+            private var reason: JsonField<String> = JsonMissing.of()
             private var severity: JsonField<String> = JsonMissing.of()
             private var summary: JsonField<Summary> = JsonMissing.of()
             private var url: JsonField<Url> = JsonMissing.of()
@@ -1875,16 +1874,16 @@ private constructor(
             }
 
             /** Reason for the service alert, taken from TPEG codes. */
-            fun reason(reason: Reason) = reason(JsonField.of(reason))
+            fun reason(reason: String) = reason(JsonField.of(reason))
 
             /**
              * Sets [Builder.reason] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.reason] with a well-typed [Reason] value instead.
+             * You should usually call [Builder.reason] with a well-typed [String] value instead.
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
+            fun reason(reason: JsonField<String>) = apply { this.reason = reason }
 
             /** Severity of the situation. */
             fun severity(severity: String) = severity(JsonField.of(severity))
@@ -1985,7 +1984,7 @@ private constructor(
             consequences().ifPresent { it.forEach { it.validate() } }
             description().ifPresent { it.validate() }
             publicationWindows().ifPresent { it.forEach { it.validate() } }
-            reason().ifPresent { it.validate() }
+            reason()
             severity()
             summary().ifPresent { it.validate() }
             url().ifPresent { it.validate() }
@@ -2016,7 +2015,7 @@ private constructor(
                 (consequences.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (description.asKnown().getOrNull()?.validity() ?: 0) +
                 (publicationWindows.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-                (reason.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (reason.asKnown().isPresent) 1 else 0) +
                 (if (severity.asKnown().isPresent) 1 else 0) +
                 (summary.asKnown().getOrNull()?.validity() ?: 0) +
                 (url.asKnown().getOrNull()?.validity() ?: 0)
@@ -3585,154 +3584,6 @@ private constructor(
 
             override fun toString() =
                 "PublicationWindow{from=$from, to=$to, additionalProperties=$additionalProperties}"
-        }
-
-        /** Reason for the service alert, taken from TPEG codes. */
-        class Reason @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
-
-            /**
-             * Returns this class instance's raw value.
-             *
-             * This is usually only useful if this instance was deserialized from data that doesn't
-             * match any known member, and you want to know that value. For example, if the SDK is
-             * on an older version than the API, then the API may respond with new members that the
-             * SDK is unaware of.
-             */
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            companion object {
-
-                @JvmField val EQUIPMENT_REASON = of("equipmentReason")
-
-                @JvmField val ENVIRONMENT_REASON = of("environmentReason")
-
-                @JvmField val PERSONNEL_REASON = of("personnelReason")
-
-                @JvmField val MISCELLANEOUS_REASON = of("miscellaneousReason")
-
-                @JvmField val SECURITY_ALERT = of("securityAlert")
-
-                @JvmStatic fun of(value: String) = Reason(JsonField.of(value))
-            }
-
-            /** An enum containing [Reason]'s known values. */
-            enum class Known {
-                EQUIPMENT_REASON,
-                ENVIRONMENT_REASON,
-                PERSONNEL_REASON,
-                MISCELLANEOUS_REASON,
-                SECURITY_ALERT,
-            }
-
-            /**
-             * An enum containing [Reason]'s known values, as well as an [_UNKNOWN] member.
-             *
-             * An instance of [Reason] can contain an unknown value in a couple of cases:
-             * - It was deserialized from data that doesn't match any known member. For example, if
-             *   the SDK is on an older version than the API, then the API may respond with new
-             *   members that the SDK is unaware of.
-             * - It was constructed with an arbitrary value using the [of] method.
-             */
-            enum class Value {
-                EQUIPMENT_REASON,
-                ENVIRONMENT_REASON,
-                PERSONNEL_REASON,
-                MISCELLANEOUS_REASON,
-                SECURITY_ALERT,
-                /**
-                 * An enum member indicating that [Reason] was instantiated with an unknown value.
-                 */
-                _UNKNOWN,
-            }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value, or
-             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-             *
-             * Use the [known] method instead if you're certain the value is always known or if you
-             * want to throw for the unknown case.
-             */
-            fun value(): Value =
-                when (this) {
-                    EQUIPMENT_REASON -> Value.EQUIPMENT_REASON
-                    ENVIRONMENT_REASON -> Value.ENVIRONMENT_REASON
-                    PERSONNEL_REASON -> Value.PERSONNEL_REASON
-                    MISCELLANEOUS_REASON -> Value.MISCELLANEOUS_REASON
-                    SECURITY_ALERT -> Value.SECURITY_ALERT
-                    else -> Value._UNKNOWN
-                }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value.
-             *
-             * Use the [value] method instead if you're uncertain the value is always known and
-             * don't want to throw for the unknown case.
-             *
-             * @throws OnebusawaySdkInvalidDataException if this class instance's value is a not a
-             *   known member.
-             */
-            fun known(): Known =
-                when (this) {
-                    EQUIPMENT_REASON -> Known.EQUIPMENT_REASON
-                    ENVIRONMENT_REASON -> Known.ENVIRONMENT_REASON
-                    PERSONNEL_REASON -> Known.PERSONNEL_REASON
-                    MISCELLANEOUS_REASON -> Known.MISCELLANEOUS_REASON
-                    SECURITY_ALERT -> Known.SECURITY_ALERT
-                    else -> throw OnebusawaySdkInvalidDataException("Unknown Reason: $value")
-                }
-
-            /**
-             * Returns this class instance's primitive wire representation.
-             *
-             * This differs from the [toString] method because that method is primarily for
-             * debugging and generally doesn't throw.
-             *
-             * @throws OnebusawaySdkInvalidDataException if this class instance's value does not
-             *   have the expected primitive type.
-             */
-            fun asString(): String =
-                _value().asString().orElseThrow {
-                    OnebusawaySdkInvalidDataException("Value is not a String")
-                }
-
-            private var validated: Boolean = false
-
-            fun validate(): Reason = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                known()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: OnebusawaySdkInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Reason && value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
         }
 
         class Summary

@@ -20,7 +20,6 @@ internal class TripsForRouteListResponseTest {
                 .version(0L)
                 .data(
                     TripsForRouteListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             TripsForRouteListResponse.Data.List.builder()
                                 .schedule(
@@ -177,7 +176,7 @@ internal class TripsForRouteListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -235,6 +234,7 @@ internal class TripsForRouteListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()
@@ -246,7 +246,6 @@ internal class TripsForRouteListResponseTest {
         assertThat(tripsForRouteListResponse.data())
             .isEqualTo(
                 TripsForRouteListResponse.Data.builder()
-                    .limitExceeded(true)
                     .addList(
                         TripsForRouteListResponse.Data.List.builder()
                             .schedule(
@@ -401,7 +400,7 @@ internal class TripsForRouteListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -459,6 +458,7 @@ internal class TripsForRouteListResponseTest {
                             )
                             .build()
                     )
+                    .limitExceeded(true)
                     .build()
             )
     }
@@ -474,7 +474,6 @@ internal class TripsForRouteListResponseTest {
                 .version(0L)
                 .data(
                     TripsForRouteListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             TripsForRouteListResponse.Data.List.builder()
                                 .schedule(
@@ -631,7 +630,7 @@ internal class TripsForRouteListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -689,6 +688,7 @@ internal class TripsForRouteListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()

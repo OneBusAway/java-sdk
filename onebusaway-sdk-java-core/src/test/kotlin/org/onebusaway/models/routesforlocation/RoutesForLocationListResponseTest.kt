@@ -20,7 +20,6 @@ internal class RoutesForLocationListResponseTest {
                 .version(0L)
                 .data(
                     RoutesForLocationListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             RoutesForLocationListResponse.Data.List.builder()
                                 .id("id")
@@ -121,7 +120,7 @@ internal class RoutesForLocationListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -179,6 +178,7 @@ internal class RoutesForLocationListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()
@@ -190,7 +190,6 @@ internal class RoutesForLocationListResponseTest {
         assertThat(routesForLocationListResponse.data())
             .isEqualTo(
                 RoutesForLocationListResponse.Data.builder()
-                    .limitExceeded(true)
                     .addList(
                         RoutesForLocationListResponse.Data.List.builder()
                             .id("id")
@@ -290,7 +289,7 @@ internal class RoutesForLocationListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -348,6 +347,7 @@ internal class RoutesForLocationListResponseTest {
                             )
                             .build()
                     )
+                    .limitExceeded(true)
                     .build()
             )
     }
@@ -363,7 +363,6 @@ internal class RoutesForLocationListResponseTest {
                 .version(0L)
                 .data(
                     RoutesForLocationListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             RoutesForLocationListResponse.Data.List.builder()
                                 .id("id")
@@ -464,7 +463,7 @@ internal class RoutesForLocationListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -522,6 +521,7 @@ internal class RoutesForLocationListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()

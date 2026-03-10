@@ -20,7 +20,6 @@ internal class VehiclesForAgencyListResponseTest {
                 .version(0L)
                 .data(
                     VehiclesForAgencyListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             VehiclesForAgencyListResponse.Data.List.builder()
                                 .lastLocationUpdateTime(0L)
@@ -170,7 +169,7 @@ internal class VehiclesForAgencyListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -228,6 +227,7 @@ internal class VehiclesForAgencyListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()
@@ -239,7 +239,6 @@ internal class VehiclesForAgencyListResponseTest {
         assertThat(vehiclesForAgencyListResponse.data())
             .isEqualTo(
                 VehiclesForAgencyListResponse.Data.builder()
-                    .limitExceeded(true)
                     .addList(
                         VehiclesForAgencyListResponse.Data.List.builder()
                             .lastLocationUpdateTime(0L)
@@ -387,7 +386,7 @@ internal class VehiclesForAgencyListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -445,6 +444,7 @@ internal class VehiclesForAgencyListResponseTest {
                             )
                             .build()
                     )
+                    .limitExceeded(true)
                     .build()
             )
     }
@@ -460,7 +460,6 @@ internal class VehiclesForAgencyListResponseTest {
                 .version(0L)
                 .data(
                     VehiclesForAgencyListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             VehiclesForAgencyListResponse.Data.List.builder()
                                 .lastLocationUpdateTime(0L)
@@ -610,7 +609,7 @@ internal class VehiclesForAgencyListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -668,6 +667,7 @@ internal class VehiclesForAgencyListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()

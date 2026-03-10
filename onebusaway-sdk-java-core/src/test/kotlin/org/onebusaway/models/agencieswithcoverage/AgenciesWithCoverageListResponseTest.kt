@@ -20,7 +20,6 @@ internal class AgenciesWithCoverageListResponseTest {
                 .version(0L)
                 .data(
                     AgenciesWithCoverageListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             AgenciesWithCoverageListResponse.Data.List.builder()
                                 .agencyId("agencyId")
@@ -115,7 +114,7 @@ internal class AgenciesWithCoverageListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -173,6 +172,7 @@ internal class AgenciesWithCoverageListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()
@@ -184,7 +184,6 @@ internal class AgenciesWithCoverageListResponseTest {
         assertThat(agenciesWithCoverageListResponse.data())
             .isEqualTo(
                 AgenciesWithCoverageListResponse.Data.builder()
-                    .limitExceeded(true)
                     .addList(
                         AgenciesWithCoverageListResponse.Data.List.builder()
                             .agencyId("agencyId")
@@ -278,7 +277,7 @@ internal class AgenciesWithCoverageListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -336,6 +335,7 @@ internal class AgenciesWithCoverageListResponseTest {
                             )
                             .build()
                     )
+                    .limitExceeded(true)
                     .build()
             )
     }
@@ -351,7 +351,6 @@ internal class AgenciesWithCoverageListResponseTest {
                 .version(0L)
                 .data(
                     AgenciesWithCoverageListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             AgenciesWithCoverageListResponse.Data.List.builder()
                                 .agencyId("agencyId")
@@ -446,7 +445,7 @@ internal class AgenciesWithCoverageListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -504,6 +503,7 @@ internal class AgenciesWithCoverageListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
@@ -303,28 +304,22 @@ private constructor(
     class Data
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val limitExceeded: JsonField<Boolean>,
         private val list: JsonField<List<List>>,
         private val references: JsonField<References>,
+        private val limitExceeded: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("limitExceeded")
-            @ExcludeMissing
-            limitExceeded: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("list") @ExcludeMissing list: JsonField<List<List>> = JsonMissing.of(),
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
-        ) : this(limitExceeded, list, references, mutableMapOf())
-
-        /**
-         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
+            @JsonProperty("limitExceeded")
+            @ExcludeMissing
+            limitExceeded: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(list, references, limitExceeded, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -339,14 +334,10 @@ private constructor(
         fun references(): References = references.getRequired("references")
 
         /**
-         * Returns the raw JSON value of [limitExceeded].
-         *
-         * Unlike [limitExceeded], this method doesn't throw if the JSON field has an unexpected
-         * type.
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
          */
-        @JsonProperty("limitExceeded")
-        @ExcludeMissing
-        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
+        fun limitExceeded(): Optional<Boolean> = limitExceeded.getOptional("limitExceeded")
 
         /**
          * Returns the raw JSON value of [list].
@@ -363,6 +354,16 @@ private constructor(
         @JsonProperty("references")
         @ExcludeMissing
         fun _references(): JsonField<References> = references
+
+        /**
+         * Returns the raw JSON value of [limitExceeded].
+         *
+         * Unlike [limitExceeded], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -383,7 +384,6 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .limitExceeded()
              * .list()
              * .references()
              * ```
@@ -394,30 +394,17 @@ private constructor(
         /** A builder for [Data]. */
         class Builder internal constructor() {
 
-            private var limitExceeded: JsonField<Boolean>? = null
             private var list: JsonField<MutableList<List>>? = null
             private var references: JsonField<References>? = null
+            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(data: Data) = apply {
-                limitExceeded = data.limitExceeded
                 list = data.list.map { it.toMutableList() }
                 references = data.references
+                limitExceeded = data.limitExceeded
                 additionalProperties = data.additionalProperties.toMutableMap()
-            }
-
-            fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
-
-            /**
-             * Sets [Builder.limitExceeded] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.limitExceeded] with a well-typed [Boolean] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
-                this.limitExceeded = limitExceeded
             }
 
             fun list(list: List<List>) = list(JsonField.of(list))
@@ -458,6 +445,19 @@ private constructor(
                 this.references = references
             }
 
+            fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
+
+            /**
+             * Sets [Builder.limitExceeded] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.limitExceeded] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
+                this.limitExceeded = limitExceeded
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -484,7 +484,6 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .limitExceeded()
              * .list()
              * .references()
              * ```
@@ -493,9 +492,9 @@ private constructor(
              */
             fun build(): Data =
                 Data(
-                    checkRequired("limitExceeded", limitExceeded),
                     checkRequired("list", list).map { it.toImmutable() },
                     checkRequired("references", references),
+                    limitExceeded,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -507,9 +506,9 @@ private constructor(
                 return@apply
             }
 
-            limitExceeded()
             list().forEach { it.validate() }
             references().validate()
+            limitExceeded()
             validated = true
         }
 
@@ -529,9 +528,9 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (limitExceeded.asKnown().isPresent) 1 else 0) +
-                (list.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-                (references.asKnown().getOrNull()?.validity() ?: 0)
+            (list.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (references.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (limitExceeded.asKnown().isPresent) 1 else 0)
 
         class List
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -850,20 +849,20 @@ private constructor(
             }
 
             return other is Data &&
-                limitExceeded == other.limitExceeded &&
                 list == other.list &&
                 references == other.references &&
+                limitExceeded == other.limitExceeded &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(limitExceeded, list, references, additionalProperties)
+            Objects.hash(list, references, limitExceeded, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
+            "Data{list=$list, references=$references, limitExceeded=$limitExceeded, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
