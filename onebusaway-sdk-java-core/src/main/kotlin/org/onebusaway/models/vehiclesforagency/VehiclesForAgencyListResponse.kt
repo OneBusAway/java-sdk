@@ -1555,7 +1555,7 @@ private constructor(
                 fun frequency(): Optional<String> = frequency.getOptional("frequency")
 
                 /**
-                 * Last known location of the transit vehicle.
+                 * Last known location of the transit vehicle (optional).
                  *
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
                  *   type (e.g. if the server responded with an unexpected value).
@@ -2282,9 +2282,16 @@ private constructor(
                         this.frequency = frequency
                     }
 
-                    /** Last known location of the transit vehicle. */
-                    fun lastKnownLocation(lastKnownLocation: LastKnownLocation) =
-                        lastKnownLocation(JsonField.of(lastKnownLocation))
+                    /** Last known location of the transit vehicle (optional). */
+                    fun lastKnownLocation(lastKnownLocation: LastKnownLocation?) =
+                        lastKnownLocation(JsonField.ofNullable(lastKnownLocation))
+
+                    /**
+                     * Alias for calling [Builder.lastKnownLocation] with
+                     * `lastKnownLocation.orElse(null)`.
+                     */
+                    fun lastKnownLocation(lastKnownLocation: Optional<LastKnownLocation>) =
+                        lastKnownLocation(lastKnownLocation.getOrNull())
 
                     /**
                      * Sets [Builder.lastKnownLocation] to an arbitrary JSON value.
@@ -2593,7 +2600,7 @@ private constructor(
                         (situationIds.asKnown().getOrNull()?.size ?: 0) +
                         (if (vehicleId.asKnown().isPresent) 1 else 0)
 
-                /** Last known location of the transit vehicle. */
+                /** Last known location of the transit vehicle (optional). */
                 class LastKnownLocation
                 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
