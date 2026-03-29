@@ -11,6 +11,8 @@ import org.onebusaway.services.async.AgencyServiceAsync
 import org.onebusaway.services.async.AgencyServiceAsyncImpl
 import org.onebusaway.services.async.ArrivalAndDepartureServiceAsync
 import org.onebusaway.services.async.ArrivalAndDepartureServiceAsyncImpl
+import org.onebusaway.services.async.ArrivalsAndDeparturesForLocationServiceAsync
+import org.onebusaway.services.async.ArrivalsAndDeparturesForLocationServiceAsyncImpl
 import org.onebusaway.services.async.BlockServiceAsync
 import org.onebusaway.services.async.BlockServiceAsyncImpl
 import org.onebusaway.services.async.ConfigServiceAsync
@@ -142,6 +144,11 @@ class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
         ScheduleForRouteServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val arrivalsAndDeparturesForLocation:
+        ArrivalsAndDeparturesForLocationServiceAsync by lazy {
+        ArrivalsAndDeparturesForLocationServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     private val arrivalAndDeparture: ArrivalAndDepartureServiceAsync by lazy {
         ArrivalAndDepartureServiceAsyncImpl(clientOptionsWithUserAgent)
     }
@@ -226,6 +233,9 @@ class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
     override fun routesForAgency(): RoutesForAgencyServiceAsync = routesForAgency
 
     override fun scheduleForRoute(): ScheduleForRouteServiceAsync = scheduleForRoute
+
+    override fun arrivalsAndDeparturesForLocation(): ArrivalsAndDeparturesForLocationServiceAsync =
+        arrivalsAndDeparturesForLocation
 
     override fun arrivalAndDeparture(): ArrivalAndDepartureServiceAsync = arrivalAndDeparture
 
@@ -318,6 +328,11 @@ class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
 
         private val scheduleForRoute: ScheduleForRouteServiceAsync.WithRawResponse by lazy {
             ScheduleForRouteServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val arrivalsAndDeparturesForLocation:
+            ArrivalsAndDeparturesForLocationServiceAsync.WithRawResponse by lazy {
+            ArrivalsAndDeparturesForLocationServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val arrivalAndDeparture: ArrivalAndDepartureServiceAsync.WithRawResponse by lazy {
@@ -417,6 +432,10 @@ class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
 
         override fun scheduleForRoute(): ScheduleForRouteServiceAsync.WithRawResponse =
             scheduleForRoute
+
+        override fun arrivalsAndDeparturesForLocation():
+            ArrivalsAndDeparturesForLocationServiceAsync.WithRawResponse =
+            arrivalsAndDeparturesForLocation
 
         override fun arrivalAndDeparture(): ArrivalAndDepartureServiceAsync.WithRawResponse =
             arrivalAndDeparture
