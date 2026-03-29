@@ -11,6 +11,8 @@ import org.onebusaway.services.blocking.AgencyService
 import org.onebusaway.services.blocking.AgencyServiceImpl
 import org.onebusaway.services.blocking.ArrivalAndDepartureService
 import org.onebusaway.services.blocking.ArrivalAndDepartureServiceImpl
+import org.onebusaway.services.blocking.ArrivalsAndDeparturesForLocationService
+import org.onebusaway.services.blocking.ArrivalsAndDeparturesForLocationServiceImpl
 import org.onebusaway.services.blocking.BlockService
 import org.onebusaway.services.blocking.BlockServiceImpl
 import org.onebusaway.services.blocking.ConfigService
@@ -137,6 +139,10 @@ class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : Onebus
         ScheduleForRouteServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val arrivalsAndDeparturesForLocation: ArrivalsAndDeparturesForLocationService by lazy {
+        ArrivalsAndDeparturesForLocationServiceImpl(clientOptionsWithUserAgent)
+    }
+
     private val arrivalAndDeparture: ArrivalAndDepartureService by lazy {
         ArrivalAndDepartureServiceImpl(clientOptionsWithUserAgent)
     }
@@ -217,6 +223,9 @@ class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : Onebus
     override fun routesForAgency(): RoutesForAgencyService = routesForAgency
 
     override fun scheduleForRoute(): ScheduleForRouteService = scheduleForRoute
+
+    override fun arrivalsAndDeparturesForLocation(): ArrivalsAndDeparturesForLocationService =
+        arrivalsAndDeparturesForLocation
 
     override fun arrivalAndDeparture(): ArrivalAndDepartureService = arrivalAndDeparture
 
@@ -311,6 +320,11 @@ class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : Onebus
             ScheduleForRouteServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val arrivalsAndDeparturesForLocation:
+            ArrivalsAndDeparturesForLocationService.WithRawResponse by lazy {
+            ArrivalsAndDeparturesForLocationServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val arrivalAndDeparture: ArrivalAndDepartureService.WithRawResponse by lazy {
             ArrivalAndDepartureServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -401,6 +415,10 @@ class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : Onebus
         override fun routesForAgency(): RoutesForAgencyService.WithRawResponse = routesForAgency
 
         override fun scheduleForRoute(): ScheduleForRouteService.WithRawResponse = scheduleForRoute
+
+        override fun arrivalsAndDeparturesForLocation():
+            ArrivalsAndDeparturesForLocationService.WithRawResponse =
+            arrivalsAndDeparturesForLocation
 
         override fun arrivalAndDeparture(): ArrivalAndDepartureService.WithRawResponse =
             arrivalAndDeparture

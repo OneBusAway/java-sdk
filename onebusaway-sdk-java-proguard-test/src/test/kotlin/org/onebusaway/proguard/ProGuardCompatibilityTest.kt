@@ -65,6 +65,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.routesForLocation()).isNotNull()
         assertThat(client.routesForAgency()).isNotNull()
         assertThat(client.scheduleForRoute()).isNotNull()
+        assertThat(client.arrivalsAndDeparturesForLocation()).isNotNull()
         assertThat(client.arrivalAndDeparture()).isNotNull()
         assertThat(client.trip()).isNotNull()
         assertThat(client.tripsForLocation()).isNotNull()
