@@ -7,6 +7,7 @@ import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
+import org.onebusaway.core.jsonMapper
 
 class UnexpectedStatusCodeException
 private constructor(
@@ -14,7 +15,11 @@ private constructor(
     private val headers: Headers,
     private val body: JsonValue,
     cause: Throwable?,
-) : OnebusawaySdkServiceException("$statusCode: $body", cause) {
+) :
+    OnebusawaySdkServiceException(
+        "$statusCode: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = statusCode
 
