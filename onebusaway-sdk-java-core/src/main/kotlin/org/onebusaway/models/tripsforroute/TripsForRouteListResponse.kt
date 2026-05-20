@@ -588,6 +588,8 @@ private constructor(
             fun schedule(): Schedule = schedule.getRequired("schedule")
 
             /**
+             * Trip-specific status for the arriving transit vehicle.
+             *
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
              *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
@@ -733,6 +735,7 @@ private constructor(
                  */
                 fun schedule(schedule: JsonField<Schedule>) = apply { this.schedule = schedule }
 
+                /** Trip-specific status for the arriving transit vehicle. */
                 fun status(status: Status) = status(JsonField.of(status))
 
                 /**
@@ -1654,6 +1657,7 @@ private constructor(
                     "Schedule{nextTripId=$nextTripId, previousTripId=$previousTripId, stopTimes=$stopTimes, timeZone=$timeZone, frequency=$frequency, additionalProperties=$additionalProperties}"
             }
 
+            /** Trip-specific status for the arriving transit vehicle. */
             class Status
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
