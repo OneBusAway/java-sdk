@@ -682,6 +682,8 @@ private constructor(
             fun tripId(): Optional<String> = tripId.getOptional("tripId")
 
             /**
+             * Trip-specific status for the arriving transit vehicle.
+             *
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
              *   (e.g. if the server responded with an unexpected value).
              */
@@ -972,6 +974,7 @@ private constructor(
                  */
                 fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
+                /** Trip-specific status for the arriving transit vehicle. */
                 fun tripStatus(tripStatus: TripStatus) = tripStatus(JsonField.of(tripStatus))
 
                 /**
@@ -1281,6 +1284,7 @@ private constructor(
                     "Location{lat=$lat, lon=$lon, additionalProperties=$additionalProperties}"
             }
 
+            /** Trip-specific status for the arriving transit vehicle. */
             class TripStatus
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
