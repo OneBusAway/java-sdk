@@ -1705,7 +1705,10 @@ private constructor(
                 }
 
                 /** Information about frequency-based scheduling, if applicable to the trip. */
-                fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
+
+                /** Alias for calling [Builder.frequency] with `frequency.orElse(null)`. */
+                fun frequency(frequency: Optional<String>) = frequency(frequency.getOrNull())
 
                 /**
                  * Sets [Builder.frequency] to an arbitrary JSON value.
@@ -1774,8 +1777,15 @@ private constructor(
                 fun predicted(predicted: JsonField<Boolean>) = apply { this.predicted = predicted }
 
                 /** Interval for predicted arrival time, if available. */
-                fun predictedArrivalInterval(predictedArrivalInterval: String) =
-                    predictedArrivalInterval(JsonField.of(predictedArrivalInterval))
+                fun predictedArrivalInterval(predictedArrivalInterval: String?) =
+                    predictedArrivalInterval(JsonField.ofNullable(predictedArrivalInterval))
+
+                /**
+                 * Alias for calling [Builder.predictedArrivalInterval] with
+                 * `predictedArrivalInterval.orElse(null)`.
+                 */
+                fun predictedArrivalInterval(predictedArrivalInterval: Optional<String>) =
+                    predictedArrivalInterval(predictedArrivalInterval.getOrNull())
 
                 /**
                  * Sets [Builder.predictedArrivalInterval] to an arbitrary JSON value.
@@ -1789,8 +1799,15 @@ private constructor(
                 }
 
                 /** Interval for predicted departure time, if available. */
-                fun predictedDepartureInterval(predictedDepartureInterval: String) =
-                    predictedDepartureInterval(JsonField.of(predictedDepartureInterval))
+                fun predictedDepartureInterval(predictedDepartureInterval: String?) =
+                    predictedDepartureInterval(JsonField.ofNullable(predictedDepartureInterval))
+
+                /**
+                 * Alias for calling [Builder.predictedDepartureInterval] with
+                 * `predictedDepartureInterval.orElse(null)`.
+                 */
+                fun predictedDepartureInterval(predictedDepartureInterval: Optional<String>) =
+                    predictedDepartureInterval(predictedDepartureInterval.getOrNull())
 
                 /**
                  * Sets [Builder.predictedDepartureInterval] to an arbitrary JSON value.
@@ -1856,8 +1873,15 @@ private constructor(
                 }
 
                 /** Interval for scheduled arrival time. */
-                fun scheduledArrivalInterval(scheduledArrivalInterval: String) =
-                    scheduledArrivalInterval(JsonField.of(scheduledArrivalInterval))
+                fun scheduledArrivalInterval(scheduledArrivalInterval: String?) =
+                    scheduledArrivalInterval(JsonField.ofNullable(scheduledArrivalInterval))
+
+                /**
+                 * Alias for calling [Builder.scheduledArrivalInterval] with
+                 * `scheduledArrivalInterval.orElse(null)`.
+                 */
+                fun scheduledArrivalInterval(scheduledArrivalInterval: Optional<String>) =
+                    scheduledArrivalInterval(scheduledArrivalInterval.getOrNull())
 
                 /**
                  * Sets [Builder.scheduledArrivalInterval] to an arbitrary JSON value.
@@ -1871,8 +1895,15 @@ private constructor(
                 }
 
                 /** Interval for scheduled departure time. */
-                fun scheduledDepartureInterval(scheduledDepartureInterval: String) =
-                    scheduledDepartureInterval(JsonField.of(scheduledDepartureInterval))
+                fun scheduledDepartureInterval(scheduledDepartureInterval: String?) =
+                    scheduledDepartureInterval(JsonField.ofNullable(scheduledDepartureInterval))
+
+                /**
+                 * Alias for calling [Builder.scheduledDepartureInterval] with
+                 * `scheduledDepartureInterval.orElse(null)`.
+                 */
+                fun scheduledDepartureInterval(scheduledDepartureInterval: Optional<String>) =
+                    scheduledDepartureInterval(scheduledDepartureInterval.getOrNull())
 
                 /**
                  * Sets [Builder.scheduledDepartureInterval] to an arbitrary JSON value.
@@ -3178,7 +3209,10 @@ private constructor(
                     }
 
                     /** Information about frequency-based scheduling, if applicable to the trip. */
-                    fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                    fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
+
+                    /** Alias for calling [Builder.frequency] with `frequency.orElse(null)`. */
+                    fun frequency(frequency: Optional<String>) = frequency(frequency.getOrNull())
 
                     /**
                      * Sets [Builder.frequency] to an arbitrary JSON value.
