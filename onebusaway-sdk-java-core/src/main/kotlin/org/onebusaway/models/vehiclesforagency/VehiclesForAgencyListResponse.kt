@@ -2314,7 +2314,10 @@ private constructor(
                     }
 
                     /** Information about frequency-based scheduling, if applicable to the trip. */
-                    fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                    fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
+
+                    /** Alias for calling [Builder.frequency] with `frequency.orElse(null)`. */
+                    fun frequency(frequency: Optional<String>) = frequency(frequency.getOrNull())
 
                     /**
                      * Sets [Builder.frequency] to an arbitrary JSON value.
