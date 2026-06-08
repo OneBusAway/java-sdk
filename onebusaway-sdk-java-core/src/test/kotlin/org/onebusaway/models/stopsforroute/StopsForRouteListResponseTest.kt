@@ -141,7 +141,7 @@ internal class StopsForRouteListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -329,7 +329,7 @@ internal class StopsForRouteListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -523,7 +523,7 @@ internal class StopsForRouteListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()

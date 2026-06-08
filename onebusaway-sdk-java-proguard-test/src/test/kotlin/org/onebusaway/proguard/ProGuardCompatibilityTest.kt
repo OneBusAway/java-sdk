@@ -158,7 +158,7 @@ internal class ProGuardCompatibilityTest {
                         .addPublicationWindow(
                             References.Situation.PublicationWindow.builder().from(0L).to(0L).build()
                         )
-                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                        .reason("reason")
                         .severity("severity")
                         .summary(
                             References.Situation.Summary.builder()

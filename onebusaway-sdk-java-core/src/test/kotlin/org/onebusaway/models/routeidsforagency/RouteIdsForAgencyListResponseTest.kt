@@ -20,7 +20,6 @@ internal class RouteIdsForAgencyListResponseTest {
                 .version(0L)
                 .data(
                     RouteIdsForAgencyListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList("string")
                         .references(
                             References.builder()
@@ -107,7 +106,7 @@ internal class RouteIdsForAgencyListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -165,6 +164,7 @@ internal class RouteIdsForAgencyListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()
@@ -176,7 +176,6 @@ internal class RouteIdsForAgencyListResponseTest {
         assertThat(routeIdsForAgencyListResponse.data())
             .isEqualTo(
                 RouteIdsForAgencyListResponse.Data.builder()
-                    .limitExceeded(true)
                     .addList("string")
                     .references(
                         References.builder()
@@ -262,7 +261,7 @@ internal class RouteIdsForAgencyListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -320,6 +319,7 @@ internal class RouteIdsForAgencyListResponseTest {
                             )
                             .build()
                     )
+                    .limitExceeded(true)
                     .build()
             )
     }
@@ -335,7 +335,6 @@ internal class RouteIdsForAgencyListResponseTest {
                 .version(0L)
                 .data(
                     RouteIdsForAgencyListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList("string")
                         .references(
                             References.builder()
@@ -422,7 +421,7 @@ internal class RouteIdsForAgencyListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -480,6 +479,7 @@ internal class RouteIdsForAgencyListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()

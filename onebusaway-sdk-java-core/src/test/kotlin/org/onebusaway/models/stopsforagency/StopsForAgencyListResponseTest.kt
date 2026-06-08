@@ -20,7 +20,6 @@ internal class StopsForAgencyListResponseTest {
                 .version(0L)
                 .data(
                     StopsForAgencyListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             StopsForAgencyListResponse.Data.List.builder()
                                 .id("id")
@@ -121,7 +120,7 @@ internal class StopsForAgencyListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -179,6 +178,7 @@ internal class StopsForAgencyListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .outOfRange(true)
                         .build()
                 )
@@ -191,7 +191,6 @@ internal class StopsForAgencyListResponseTest {
         assertThat(stopsForAgencyListResponse.data())
             .isEqualTo(
                 StopsForAgencyListResponse.Data.builder()
-                    .limitExceeded(true)
                     .addList(
                         StopsForAgencyListResponse.Data.List.builder()
                             .id("id")
@@ -291,7 +290,7 @@ internal class StopsForAgencyListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -349,6 +348,7 @@ internal class StopsForAgencyListResponseTest {
                             )
                             .build()
                     )
+                    .limitExceeded(true)
                     .outOfRange(true)
                     .build()
             )
@@ -365,7 +365,6 @@ internal class StopsForAgencyListResponseTest {
                 .version(0L)
                 .data(
                     StopsForAgencyListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             StopsForAgencyListResponse.Data.List.builder()
                                 .id("id")
@@ -466,7 +465,7 @@ internal class StopsForAgencyListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -524,6 +523,7 @@ internal class StopsForAgencyListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .outOfRange(true)
                         .build()
                 )
