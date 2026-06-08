@@ -318,7 +318,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("list") @ExcludeMissing list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
+            @JsonProperty("list")
+            @ExcludeMissing
+            list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
@@ -359,7 +361,9 @@ private constructor(
          *
          * Unlike [list], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<kotlin.collections.List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         /**
          * Returns the raw JSON value of [references].
@@ -438,9 +442,9 @@ private constructor(
             /**
              * Sets [Builder.list] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.list] with a well-typed `kotlin.collections.List<List>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.list] with a well-typed
+             * `kotlin.collections.List<List>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
             fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
