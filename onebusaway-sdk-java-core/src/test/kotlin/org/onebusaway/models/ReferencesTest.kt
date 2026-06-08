@@ -87,7 +87,7 @@ internal class ReferencesTest {
                         .addPublicationWindow(
                             References.Situation.PublicationWindow.builder().from(0L).to(0L).build()
                         )
-                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                        .reason("reason")
                         .severity("severity")
                         .summary(
                             References.Situation.Summary.builder()
@@ -217,7 +217,7 @@ internal class ReferencesTest {
                     .addPublicationWindow(
                         References.Situation.PublicationWindow.builder().from(0L).to(0L).build()
                     )
-                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                    .reason("reason")
                     .severity("severity")
                     .summary(
                         References.Situation.Summary.builder().lang("lang").value("value").build()
@@ -349,7 +349,7 @@ internal class ReferencesTest {
                         .addPublicationWindow(
                             References.Situation.PublicationWindow.builder().from(0L).to(0L).build()
                         )
-                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                        .reason("reason")
                         .severity("severity")
                         .summary(
                             References.Situation.Summary.builder()

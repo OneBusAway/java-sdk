@@ -65,6 +65,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.routesForLocation()).isNotNull()
         assertThat(client.routesForAgency()).isNotNull()
         assertThat(client.scheduleForRoute()).isNotNull()
+        assertThat(client.arrivalsAndDeparturesForLocation()).isNotNull()
         assertThat(client.arrivalAndDeparture()).isNotNull()
         assertThat(client.trip()).isNotNull()
         assertThat(client.tripsForLocation()).isNotNull()
@@ -158,7 +159,7 @@ internal class ProGuardCompatibilityTest {
                         .addPublicationWindow(
                             References.Situation.PublicationWindow.builder().from(0L).to(0L).build()
                         )
-                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                        .reason("reason")
                         .severity("severity")
                         .summary(
                             References.Situation.Summary.builder()

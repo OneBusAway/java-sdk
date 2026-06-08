@@ -20,7 +20,6 @@ internal class SearchForStopListResponseTest {
                 .version(0L)
                 .data(
                     SearchForStopListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             SearchForStopListResponse.Data.List.builder()
                                 .id("id")
@@ -122,7 +121,7 @@ internal class SearchForStopListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -180,6 +179,7 @@ internal class SearchForStopListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()
@@ -191,7 +191,6 @@ internal class SearchForStopListResponseTest {
         assertThat(searchForStopListResponse.data())
             .contains(
                 SearchForStopListResponse.Data.builder()
-                    .limitExceeded(true)
                     .addList(
                         SearchForStopListResponse.Data.List.builder()
                             .id("id")
@@ -292,7 +291,7 @@ internal class SearchForStopListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                    .reason("reason")
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -350,6 +349,7 @@ internal class SearchForStopListResponseTest {
                             )
                             .build()
                     )
+                    .limitExceeded(true)
                     .build()
             )
     }
@@ -365,7 +365,6 @@ internal class SearchForStopListResponseTest {
                 .version(0L)
                 .data(
                     SearchForStopListResponse.Data.builder()
-                        .limitExceeded(true)
                         .addList(
                             SearchForStopListResponse.Data.List.builder()
                                 .id("id")
@@ -467,7 +466,7 @@ internal class SearchForStopListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
+                                        .reason("reason")
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -525,6 +524,7 @@ internal class SearchForStopListResponseTest {
                                 )
                                 .build()
                         )
+                        .limitExceeded(true)
                         .build()
                 )
                 .build()

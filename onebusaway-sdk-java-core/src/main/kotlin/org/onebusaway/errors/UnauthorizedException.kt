@@ -7,10 +7,14 @@ import kotlin.jvm.optionals.getOrNull
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
+import org.onebusaway.core.jsonMapper
 
 class UnauthorizedException
 private constructor(private val headers: Headers, private val body: JsonValue, cause: Throwable?) :
-    OnebusawaySdkServiceException("401: $body", cause) {
+    OnebusawaySdkServiceException(
+        "401: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = 401
 

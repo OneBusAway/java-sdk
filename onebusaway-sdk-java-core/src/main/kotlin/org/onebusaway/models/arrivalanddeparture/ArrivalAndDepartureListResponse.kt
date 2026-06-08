@@ -267,6 +267,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): ArrivalAndDepartureListResponse = apply {
         if (validated) {
             return@apply
@@ -451,6 +459,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -624,6 +641,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -1874,7 +1901,10 @@ private constructor(
                     }
 
                     /** Information about frequency-based scheduling, if applicable to the trip. */
-                    fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                    fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
+
+                    /** Alias for calling [Builder.frequency] with `frequency.orElse(null)`. */
+                    fun frequency(frequency: Optional<String>) = frequency(frequency.getOrNull())
 
                     /**
                      * Sets [Builder.frequency] to an arbitrary JSON value.
@@ -1947,8 +1977,15 @@ private constructor(
                     }
 
                     /** Interval for predicted arrival time, if available. */
-                    fun predictedArrivalInterval(predictedArrivalInterval: String) =
-                        predictedArrivalInterval(JsonField.of(predictedArrivalInterval))
+                    fun predictedArrivalInterval(predictedArrivalInterval: String?) =
+                        predictedArrivalInterval(JsonField.ofNullable(predictedArrivalInterval))
+
+                    /**
+                     * Alias for calling [Builder.predictedArrivalInterval] with
+                     * `predictedArrivalInterval.orElse(null)`.
+                     */
+                    fun predictedArrivalInterval(predictedArrivalInterval: Optional<String>) =
+                        predictedArrivalInterval(predictedArrivalInterval.getOrNull())
 
                     /**
                      * Sets [Builder.predictedArrivalInterval] to an arbitrary JSON value.
@@ -1963,8 +2000,15 @@ private constructor(
                         }
 
                     /** Interval for predicted departure time, if available. */
-                    fun predictedDepartureInterval(predictedDepartureInterval: String) =
-                        predictedDepartureInterval(JsonField.of(predictedDepartureInterval))
+                    fun predictedDepartureInterval(predictedDepartureInterval: String?) =
+                        predictedDepartureInterval(JsonField.ofNullable(predictedDepartureInterval))
+
+                    /**
+                     * Alias for calling [Builder.predictedDepartureInterval] with
+                     * `predictedDepartureInterval.orElse(null)`.
+                     */
+                    fun predictedDepartureInterval(predictedDepartureInterval: Optional<String>) =
+                        predictedDepartureInterval(predictedDepartureInterval.getOrNull())
 
                     /**
                      * Sets [Builder.predictedDepartureInterval] to an arbitrary JSON value.
@@ -2030,8 +2074,15 @@ private constructor(
                     }
 
                     /** Interval for scheduled arrival time. */
-                    fun scheduledArrivalInterval(scheduledArrivalInterval: String) =
-                        scheduledArrivalInterval(JsonField.of(scheduledArrivalInterval))
+                    fun scheduledArrivalInterval(scheduledArrivalInterval: String?) =
+                        scheduledArrivalInterval(JsonField.ofNullable(scheduledArrivalInterval))
+
+                    /**
+                     * Alias for calling [Builder.scheduledArrivalInterval] with
+                     * `scheduledArrivalInterval.orElse(null)`.
+                     */
+                    fun scheduledArrivalInterval(scheduledArrivalInterval: Optional<String>) =
+                        scheduledArrivalInterval(scheduledArrivalInterval.getOrNull())
 
                     /**
                      * Sets [Builder.scheduledArrivalInterval] to an arbitrary JSON value.
@@ -2046,8 +2097,15 @@ private constructor(
                         }
 
                     /** Interval for scheduled departure time. */
-                    fun scheduledDepartureInterval(scheduledDepartureInterval: String) =
-                        scheduledDepartureInterval(JsonField.of(scheduledDepartureInterval))
+                    fun scheduledDepartureInterval(scheduledDepartureInterval: String?) =
+                        scheduledDepartureInterval(JsonField.ofNullable(scheduledDepartureInterval))
+
+                    /**
+                     * Alias for calling [Builder.scheduledDepartureInterval] with
+                     * `scheduledDepartureInterval.orElse(null)`.
+                     */
+                    fun scheduledDepartureInterval(scheduledDepartureInterval: Optional<String>) =
+                        scheduledDepartureInterval(scheduledDepartureInterval.getOrNull())
 
                     /**
                      * Sets [Builder.scheduledDepartureInterval] to an arbitrary JSON value.
@@ -2220,6 +2278,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): ArrivalsAndDeparture = apply {
                     if (validated) {
                         return@apply
@@ -2636,7 +2704,7 @@ private constructor(
                     fun frequency(): Optional<String> = frequency.getOptional("frequency")
 
                     /**
-                     * Last known location of the transit vehicle.
+                     * Last known location of the transit vehicle (optional).
                      *
                      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
                      *   type (e.g. if the server responded with an unexpected value).
@@ -3366,7 +3434,12 @@ private constructor(
                         /**
                          * Information about frequency-based scheduling, if applicable to the trip.
                          */
-                        fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                        fun frequency(frequency: String?) =
+                            frequency(JsonField.ofNullable(frequency))
+
+                        /** Alias for calling [Builder.frequency] with `frequency.orElse(null)`. */
+                        fun frequency(frequency: Optional<String>) =
+                            frequency(frequency.getOrNull())
 
                         /**
                          * Sets [Builder.frequency] to an arbitrary JSON value.
@@ -3379,9 +3452,16 @@ private constructor(
                             this.frequency = frequency
                         }
 
-                        /** Last known location of the transit vehicle. */
-                        fun lastKnownLocation(lastKnownLocation: LastKnownLocation) =
-                            lastKnownLocation(JsonField.of(lastKnownLocation))
+                        /** Last known location of the transit vehicle (optional). */
+                        fun lastKnownLocation(lastKnownLocation: LastKnownLocation?) =
+                            lastKnownLocation(JsonField.ofNullable(lastKnownLocation))
+
+                        /**
+                         * Alias for calling [Builder.lastKnownLocation] with
+                         * `lastKnownLocation.orElse(null)`.
+                         */
+                        fun lastKnownLocation(lastKnownLocation: Optional<LastKnownLocation>) =
+                            lastKnownLocation(lastKnownLocation.getOrNull())
 
                         /**
                          * Sets [Builder.lastKnownLocation] to an arbitrary JSON value.
@@ -3623,6 +3703,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): TripStatus = apply {
                         if (validated) {
                             return@apply
@@ -3702,7 +3792,7 @@ private constructor(
                             (situationIds.asKnown().getOrNull()?.size ?: 0) +
                             (if (vehicleId.asKnown().isPresent) 1 else 0)
 
-                    /** Last known location of the transit vehicle. */
+                    /** Last known location of the transit vehicle (optional). */
                     class LastKnownLocation
                     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
@@ -3850,6 +3940,16 @@ private constructor(
 
                         private var validated: Boolean = false
 
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws OnebusawaySdkInvalidDataException if any value type in this
+                         *   object doesn't match its expected type.
+                         */
                         fun validate(): LastKnownLocation = apply {
                             if (validated) {
                                 return@apply
@@ -4046,6 +4146,16 @@ private constructor(
 
                         private var validated: Boolean = false
 
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws OnebusawaySdkInvalidDataException if any value type in this
+                         *   object doesn't match its expected type.
+                         */
                         fun validate(): Position = apply {
                             if (validated) {
                                 return@apply

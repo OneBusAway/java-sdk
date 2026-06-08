@@ -264,6 +264,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): TripDetailRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -448,6 +456,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -541,6 +558,8 @@ private constructor(
             fun situationIds(): Optional<List<String>> = situationIds.getOptional("situationIds")
 
             /**
+             * Trip-specific status for the arriving transit vehicle.
+             *
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
              *   (e.g. if the server responded with an unexpected value).
              */
@@ -672,7 +691,10 @@ private constructor(
                  */
                 fun frequency(frequency: JsonField<String>) = apply { this.frequency = frequency }
 
-                fun schedule(schedule: Schedule) = schedule(JsonField.of(schedule))
+                fun schedule(schedule: Schedule?) = schedule(JsonField.ofNullable(schedule))
+
+                /** Alias for calling [Builder.schedule] with `schedule.orElse(null)`. */
+                fun schedule(schedule: Optional<Schedule>) = schedule(schedule.getOrNull())
 
                 /**
                  * Sets [Builder.schedule] to an arbitrary JSON value.
@@ -722,6 +744,7 @@ private constructor(
                         }
                 }
 
+                /** Trip-specific status for the arriving transit vehicle. */
                 fun status(status: Status) = status(JsonField.of(status))
 
                 /**
@@ -781,6 +804,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -1109,6 +1142,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): Schedule = apply {
                     if (validated) {
                         return@apply
@@ -1446,6 +1489,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): StopTime = apply {
                         if (validated) {
                             return@apply
@@ -1547,6 +1600,7 @@ private constructor(
                     "Schedule{nextTripId=$nextTripId, previousTripId=$previousTripId, stopTimes=$stopTimes, timeZone=$timeZone, frequency=$frequency, additionalProperties=$additionalProperties}"
             }
 
+            /** Trip-specific status for the arriving transit vehicle. */
             class Status
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
@@ -1862,7 +1916,7 @@ private constructor(
                 fun frequency(): Optional<String> = frequency.getOptional("frequency")
 
                 /**
-                 * Last known location of the transit vehicle.
+                 * Last known location of the transit vehicle (optional).
                  *
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
                  *   type (e.g. if the server responded with an unexpected value).
@@ -2576,7 +2630,10 @@ private constructor(
                     }
 
                     /** Information about frequency-based scheduling, if applicable to the trip. */
-                    fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                    fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
+
+                    /** Alias for calling [Builder.frequency] with `frequency.orElse(null)`. */
+                    fun frequency(frequency: Optional<String>) = frequency(frequency.getOrNull())
 
                     /**
                      * Sets [Builder.frequency] to an arbitrary JSON value.
@@ -2589,9 +2646,16 @@ private constructor(
                         this.frequency = frequency
                     }
 
-                    /** Last known location of the transit vehicle. */
-                    fun lastKnownLocation(lastKnownLocation: LastKnownLocation) =
-                        lastKnownLocation(JsonField.of(lastKnownLocation))
+                    /** Last known location of the transit vehicle (optional). */
+                    fun lastKnownLocation(lastKnownLocation: LastKnownLocation?) =
+                        lastKnownLocation(JsonField.ofNullable(lastKnownLocation))
+
+                    /**
+                     * Alias for calling [Builder.lastKnownLocation] with
+                     * `lastKnownLocation.orElse(null)`.
+                     */
+                    fun lastKnownLocation(lastKnownLocation: Optional<LastKnownLocation>) =
+                        lastKnownLocation(lastKnownLocation.getOrNull())
 
                     /**
                      * Sets [Builder.lastKnownLocation] to an arbitrary JSON value.
@@ -2821,6 +2885,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): Status = apply {
                     if (validated) {
                         return@apply
@@ -2900,7 +2974,7 @@ private constructor(
                         (situationIds.asKnown().getOrNull()?.size ?: 0) +
                         (if (vehicleId.asKnown().isPresent) 1 else 0)
 
-                /** Last known location of the transit vehicle. */
+                /** Last known location of the transit vehicle (optional). */
                 class LastKnownLocation
                 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
@@ -3045,6 +3119,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): LastKnownLocation = apply {
                         if (validated) {
                             return@apply
@@ -3236,6 +3320,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): Position = apply {
                         if (validated) {
                             return@apply

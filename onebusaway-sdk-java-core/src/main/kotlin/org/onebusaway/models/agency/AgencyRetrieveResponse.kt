@@ -262,6 +262,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): AgencyRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -300,7 +308,6 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
-        private val limitExceeded: JsonField<Boolean>,
         private val references: JsonField<References>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -308,25 +315,16 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("entry") @ExcludeMissing entry: JsonField<Entry> = JsonMissing.of(),
-            @JsonProperty("limitExceeded")
-            @ExcludeMissing
-            limitExceeded: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
-        ) : this(entry, limitExceeded, references, mutableMapOf())
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun entry(): Entry = entry.getRequired("entry")
-
-        /**
-         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -340,16 +338,6 @@ private constructor(
          * Unlike [entry], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
-
-        /**
-         * Returns the raw JSON value of [limitExceeded].
-         *
-         * Unlike [limitExceeded], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("limitExceeded")
-        @ExcludeMissing
-        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
         /**
          * Returns the raw JSON value of [references].
@@ -380,7 +368,6 @@ private constructor(
              * The following fields are required:
              * ```java
              * .entry()
-             * .limitExceeded()
              * .references()
              * ```
              */
@@ -391,14 +378,12 @@ private constructor(
         class Builder internal constructor() {
 
             private var entry: JsonField<Entry>? = null
-            private var limitExceeded: JsonField<Boolean>? = null
             private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(data: Data) = apply {
                 entry = data.entry
-                limitExceeded = data.limitExceeded
                 references = data.references
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
@@ -413,19 +398,6 @@ private constructor(
              * value.
              */
             fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
-
-            fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
-
-            /**
-             * Sets [Builder.limitExceeded] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.limitExceeded] with a well-typed [Boolean] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
-                this.limitExceeded = limitExceeded
-            }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -467,7 +439,6 @@ private constructor(
              * The following fields are required:
              * ```java
              * .entry()
-             * .limitExceeded()
              * .references()
              * ```
              *
@@ -476,7 +447,6 @@ private constructor(
             fun build(): Data =
                 Data(
                     checkRequired("entry", entry),
-                    checkRequired("limitExceeded", limitExceeded),
                     checkRequired("references", references),
                     additionalProperties.toMutableMap(),
                 )
@@ -484,13 +454,21 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
             }
 
             entry().validate()
-            limitExceeded()
             references().validate()
             validated = true
         }
@@ -512,7 +490,6 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (entry.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (limitExceeded.asKnown().isPresent) 1 else 0) +
                 (references.asKnown().getOrNull()?.validity() ?: 0)
 
         class Entry
@@ -934,6 +911,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -1027,19 +1014,16 @@ private constructor(
 
             return other is Data &&
                 entry == other.entry &&
-                limitExceeded == other.limitExceeded &&
                 references == other.references &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy {
-            Objects.hash(entry, limitExceeded, references, additionalProperties)
-        }
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Data{entry=$entry, limitExceeded=$limitExceeded, references=$references, additionalProperties=$additionalProperties}"
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

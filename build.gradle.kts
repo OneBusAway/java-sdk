@@ -8,7 +8,7 @@ repositories {
 
 allprojects {
     group = "org.onebusaway"
-    version = "0.1.0-alpha.56" // x-release-please-version
+    version = "0.1.0-alpha.57" // x-release-please-version
 }
 
 subprojects {
@@ -21,7 +21,6 @@ subprojects {
         group = "Verification"
         description = "Verifies all source files are formatted."
     }
-    apply(plugin = "org.jetbrains.dokka")
 }
 
 subprojects {
