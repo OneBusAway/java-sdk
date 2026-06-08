@@ -1,5 +1,64 @@
 # Changelog
 
+## 0.1.0-alpha.57 (2026-06-08)
+
+Full Changelog: [v0.1.0-alpha.56...v0.1.0-alpha.57](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.56...v0.1.0-alpha.57)
+
+### Features
+
+* **api:** api update ([97d101f](https://github.com/OneBusAway/java-sdk/commit/97d101f05496b1456a689edc3405c8ec1daf4087))
+* **api:** api update ([437baa4](https://github.com/OneBusAway/java-sdk/commit/437baa4d600d5504c7e269a4b6f41381810f6027))
+* **api:** api update ([6b55911](https://github.com/OneBusAway/java-sdk/commit/6b55911920235024bc07b4bdfd44768a70df1d48))
+* **api:** api update ([fbaadd8](https://github.com/OneBusAway/java-sdk/commit/fbaadd8e2395cc74e3748f486fb17513a211bc1b))
+* **api:** api update ([0d4ee8e](https://github.com/OneBusAway/java-sdk/commit/0d4ee8e11408ed9a067d3a45038d1bfe45ad58a3))
+* **api:** api update ([1e5faa0](https://github.com/OneBusAway/java-sdk/commit/1e5faa0e778189bb3ffc214ac370b0f8c5085824))
+* **api:** api update ([fff5ec2](https://github.com/OneBusAway/java-sdk/commit/fff5ec2ab5207e5e378a1cf59e79922f1f8ade21))
+* **client:** improve logging ([80d4a74](https://github.com/OneBusAway/java-sdk/commit/80d4a74241fa268e03504f2fc565df666da77400))
+* **client:** more robust error parsing ([8c92200](https://github.com/OneBusAway/java-sdk/commit/8c92200d5138d6ff8acad77742994445992d0c0a))
+* **client:** support proxy authentication ([baeb731](https://github.com/OneBusAway/java-sdk/commit/baeb731d323acdc19d58ec4a0134107203f45e18))
+* support setting headers via env ([58e75c3](https://github.com/OneBusAway/java-sdk/commit/58e75c3de82e535d8c8a1a69922edc71f231d149))
+
+
+### Bug Fixes
+
+* **client:** allow updating header/query affecting fields in `toBuilder()` ([3964864](https://github.com/OneBusAway/java-sdk/commit/3964864f1cb0ebea7318a6e0fd68ea12e6705b24))
+* **client:** incorrect `Retry-After` parsing ([ee33acf](https://github.com/OneBusAway/java-sdk/commit/ee33acffec6143677ceae8a1e155c31736c0e4e0))
+
+
+### Performance Improvements
+
+* **client:** create one json mapper ([8157d7e](https://github.com/OneBusAway/java-sdk/commit/8157d7ecfa89ee3ccb179a57c2b8cd0665a1f5d1))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([e23b045](https://github.com/OneBusAway/java-sdk/commit/e23b04511c261dd1b68e84e7302361cae57f8a0c))
+* **internal:** bump ktfmt ([ffd9a1b](https://github.com/OneBusAway/java-sdk/commit/ffd9a1b7d321a1a0d89f5d00184ba94341db23aa))
+* **internal:** codegen related update ([1cad394](https://github.com/OneBusAway/java-sdk/commit/1cad394444409bd3e6264f2de9d345bf9ff4ac4d))
+* **internal:** tweak CI branches ([165398b](https://github.com/OneBusAway/java-sdk/commit/165398b0c6f820ec29093b1122837a990b2ae587))
+* **internal:** update gitignore ([2976e04](https://github.com/OneBusAway/java-sdk/commit/2976e04d3381ba91ed619eac4cdb9a001fbf46e8))
+* **internal:** update multipart form array serialization ([7208a3c](https://github.com/OneBusAway/java-sdk/commit/7208a3c4f47fc1070808d19e78f3d86c6daa9307))
+* **internal:** update retry delay tests ([56092cf](https://github.com/OneBusAway/java-sdk/commit/56092cf073f68b0631750dda62089acb0496affc))
+* redact api-key headers in debug logs ([051e173](https://github.com/OneBusAway/java-sdk/commit/051e173193c87cabce6486b1d419e1a5c230c444))
+* remove duplicated dokka setup ([88e7490](https://github.com/OneBusAway/java-sdk/commit/88e7490658f71bbe6ae94b8727746b5f34722244))
+* **tests:** bump steady to v0.19.4 ([633a61a](https://github.com/OneBusAway/java-sdk/commit/633a61ab965ff86afd6466106c9c1325ace48187))
+* **tests:** bump steady to v0.19.5 ([22f82da](https://github.com/OneBusAway/java-sdk/commit/22f82dae778becca20f549b8410a7c1d2c954655))
+* **tests:** bump steady to v0.19.6 ([e334755](https://github.com/OneBusAway/java-sdk/commit/e334755a99bdf8f096d8247ffd40e416471db36b))
+* **tests:** bump steady to v0.19.7 ([ef0587c](https://github.com/OneBusAway/java-sdk/commit/ef0587c47711d53a97a7982fbf352de7c3f17333))
+* **tests:** bump steady to v0.20.1 ([f74e874](https://github.com/OneBusAway/java-sdk/commit/f74e874bd26003286fbf031c340bf1ae25e1de63))
+* **tests:** bump steady to v0.20.2 ([7e86c45](https://github.com/OneBusAway/java-sdk/commit/7e86c4531e42593b1f50806efd88afaa2f46bdd1))
+* **tests:** bump steady to v0.22.1 ([344888d](https://github.com/OneBusAway/java-sdk/commit/344888d82e5616e2f6e6400c270b8e9e89072bbf))
+
+
+### Documentation
+
+* clarify forwards compat behavior ([ce30a3c](https://github.com/OneBusAway/java-sdk/commit/ce30a3c1bdf6f81bcb3af3cb10470a68b9065b9b))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([77efbfa](https://github.com/OneBusAway/java-sdk/commit/77efbfa7675a8d7d8335e445ea0caac680017e57))
+
 ## 0.1.0-alpha.56 (2026-03-07)
 
 Full Changelog: [v0.1.0-alpha.55...v0.1.0-alpha.56](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.55...v0.1.0-alpha.56)
