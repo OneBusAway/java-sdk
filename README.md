@@ -335,6 +335,21 @@ OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
     .build();
 ```
 
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import org.onebusaway.client.OnebusawaySdkClient;
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient;
+import org.onebusaway.core.http.ProxyAuthenticator;
+
+OnebusawaySdkClient client = OnebusawaySdkOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
 ### Connection pooling
 
 To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
