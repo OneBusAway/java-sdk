@@ -39,7 +39,7 @@ private constructor(
     /** Whether to include full schedule elements in the tripDetails section. Defaults to false. */
     fun includeSchedule(): Optional<Boolean> = Optional.ofNullable(includeSchedule)
 
-    /** Whether to include full trip elements in the references section. Defaults to false. */
+    /** Whether to include full trip elements in the references section. Defaults to true. */
     fun includeTrip(): Optional<Boolean> = Optional.ofNullable(includeTrip)
 
     /** Specific time for the query. Defaults to the current time. */
@@ -125,7 +125,7 @@ private constructor(
         fun includeSchedule(includeSchedule: Optional<Boolean>) =
             includeSchedule(includeSchedule.getOrNull())
 
-        /** Whether to include full trip elements in the references section. Defaults to false. */
+        /** Whether to include full trip elements in the references section. Defaults to true. */
         fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
         /**
