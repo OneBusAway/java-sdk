@@ -8,7 +8,7 @@ repositories {
 
 allprojects {
     group = "org.onebusaway"
-    version = "0.1.0-alpha.57" // x-release-please-version
+    version = "0.1.0-alpha.58" // x-release-please-version
 }
 
 subprojects {
