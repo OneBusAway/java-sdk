@@ -13,25 +13,19 @@ import org.onebusaway.core.http.QueryParams
 /** Retrieve trips for a given location */
 class TripsForLocationListParams
 private constructor(
-    private val lat: Float,
     private val latSpan: Float,
-    private val lon: Float,
     private val lonSpan: Float,
     private val includeSchedule: Boolean?,
     private val includeTrip: Boolean?,
+    private val lat: Float?,
+    private val lon: Float?,
     private val time: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /** The latitude coordinate of the search center */
-    fun lat(): Float = lat
-
     /** Latitude span of the search bounding box */
     fun latSpan(): Float = latSpan
-
-    /** The longitude coordinate of the search center */
-    fun lon(): Float = lon
 
     /** Longitude span of the search bounding box */
     fun lonSpan(): Float = lonSpan
@@ -41,6 +35,12 @@ private constructor(
 
     /** Whether to include full trip elements in the references section. Defaults to true. */
     fun includeTrip(): Optional<Boolean> = Optional.ofNullable(includeTrip)
+
+    /** The latitude coordinate of the search center. If omitted, defaults to 0.0. */
+    fun lat(): Optional<Float> = Optional.ofNullable(lat)
+
+    /** The longitude coordinate of the search center. If omitted, defaults to 0.0. */
+    fun lon(): Optional<Float> = Optional.ofNullable(lon)
 
     /** Specific time for the query. Defaults to the current time. */
     fun time(): Optional<Long> = Optional.ofNullable(time)
@@ -60,9 +60,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .lat()
          * .latSpan()
-         * .lon()
          * .lonSpan()
          * ```
          */
@@ -72,37 +70,31 @@ private constructor(
     /** A builder for [TripsForLocationListParams]. */
     class Builder internal constructor() {
 
-        private var lat: Float? = null
         private var latSpan: Float? = null
-        private var lon: Float? = null
         private var lonSpan: Float? = null
         private var includeSchedule: Boolean? = null
         private var includeTrip: Boolean? = null
+        private var lat: Float? = null
+        private var lon: Float? = null
         private var time: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(tripsForLocationListParams: TripsForLocationListParams) = apply {
-            lat = tripsForLocationListParams.lat
             latSpan = tripsForLocationListParams.latSpan
-            lon = tripsForLocationListParams.lon
             lonSpan = tripsForLocationListParams.lonSpan
             includeSchedule = tripsForLocationListParams.includeSchedule
             includeTrip = tripsForLocationListParams.includeTrip
+            lat = tripsForLocationListParams.lat
+            lon = tripsForLocationListParams.lon
             time = tripsForLocationListParams.time
             additionalHeaders = tripsForLocationListParams.additionalHeaders.toBuilder()
             additionalQueryParams = tripsForLocationListParams.additionalQueryParams.toBuilder()
         }
 
-        /** The latitude coordinate of the search center */
-        fun lat(lat: Float) = apply { this.lat = lat }
-
         /** Latitude span of the search bounding box */
         fun latSpan(latSpan: Float) = apply { this.latSpan = latSpan }
-
-        /** The longitude coordinate of the search center */
-        fun lon(lon: Float) = apply { this.lon = lon }
 
         /** Longitude span of the search bounding box */
         fun lonSpan(lonSpan: Float) = apply { this.lonSpan = lonSpan }
@@ -137,6 +129,32 @@ private constructor(
 
         /** Alias for calling [Builder.includeTrip] with `includeTrip.orElse(null)`. */
         fun includeTrip(includeTrip: Optional<Boolean>) = includeTrip(includeTrip.getOrNull())
+
+        /** The latitude coordinate of the search center. If omitted, defaults to 0.0. */
+        fun lat(lat: Float?) = apply { this.lat = lat }
+
+        /**
+         * Alias for [Builder.lat].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun lat(lat: Float) = lat(lat as Float?)
+
+        /** Alias for calling [Builder.lat] with `lat.orElse(null)`. */
+        fun lat(lat: Optional<Float>) = lat(lat.getOrNull())
+
+        /** The longitude coordinate of the search center. If omitted, defaults to 0.0. */
+        fun lon(lon: Float?) = apply { this.lon = lon }
+
+        /**
+         * Alias for [Builder.lon].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun lon(lon: Float) = lon(lon as Float?)
+
+        /** Alias for calling [Builder.lon] with `lon.orElse(null)`. */
+        fun lon(lon: Optional<Float>) = lon(lon.getOrNull())
 
         /** Specific time for the query. Defaults to the current time. */
         fun time(time: Long?) = apply { this.time = time }
@@ -256,9 +274,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .lat()
          * .latSpan()
-         * .lon()
          * .lonSpan()
          * ```
          *
@@ -266,12 +282,12 @@ private constructor(
          */
         fun build(): TripsForLocationListParams =
             TripsForLocationListParams(
-                checkRequired("lat", lat),
                 checkRequired("latSpan", latSpan),
-                checkRequired("lon", lon),
                 checkRequired("lonSpan", lonSpan),
                 includeSchedule,
                 includeTrip,
+                lat,
+                lon,
                 time,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -283,12 +299,12 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                put("lat", lat.toString())
                 put("latSpan", latSpan.toString())
-                put("lon", lon.toString())
                 put("lonSpan", lonSpan.toString())
                 includeSchedule?.let { put("includeSchedule", it.toString()) }
                 includeTrip?.let { put("includeTrip", it.toString()) }
+                lat?.let { put("lat", it.toString()) }
+                lon?.let { put("lon", it.toString()) }
                 time?.let { put("time", it.toString()) }
                 putAll(additionalQueryParams)
             }
@@ -300,12 +316,12 @@ private constructor(
         }
 
         return other is TripsForLocationListParams &&
-            lat == other.lat &&
             latSpan == other.latSpan &&
-            lon == other.lon &&
             lonSpan == other.lonSpan &&
             includeSchedule == other.includeSchedule &&
             includeTrip == other.includeTrip &&
+            lat == other.lat &&
+            lon == other.lon &&
             time == other.time &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -313,17 +329,17 @@ private constructor(
 
     override fun hashCode(): Int =
         Objects.hash(
-            lat,
             latSpan,
-            lon,
             lonSpan,
             includeSchedule,
             includeTrip,
+            lat,
+            lon,
             time,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "TripsForLocationListParams{lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, includeSchedule=$includeSchedule, includeTrip=$includeTrip, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "TripsForLocationListParams{latSpan=$latSpan, lonSpan=$lonSpan, includeSchedule=$includeSchedule, includeTrip=$includeTrip, lat=$lat, lon=$lon, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
