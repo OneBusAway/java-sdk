@@ -25,15 +25,23 @@ interface RoutesForLocationServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): RoutesForLocationServiceAsync
 
     /** routes-for-location */
-    fun list(
-        params: RoutesForLocationListParams
-    ): CompletableFuture<RoutesForLocationListResponse> = list(params, RequestOptions.none())
+    fun list(): CompletableFuture<RoutesForLocationListResponse> =
+        list(RoutesForLocationListParams.none())
 
     /** @see list */
     fun list(
-        params: RoutesForLocationListParams,
+        params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<RoutesForLocationListResponse>
+
+    /** @see list */
+    fun list(
+        params: RoutesForLocationListParams = RoutesForLocationListParams.none()
+    ): CompletableFuture<RoutesForLocationListResponse> = list(params, RequestOptions.none())
+
+    /** @see list */
+    fun list(requestOptions: RequestOptions): CompletableFuture<RoutesForLocationListResponse> =
+        list(RoutesForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForLocationServiceAsync] that provides access to raw HTTP responses for each
@@ -54,15 +62,25 @@ interface RoutesForLocationServiceAsync {
          * Returns a raw HTTP response for `get /api/where/routes-for-location.json`, but is
          * otherwise the same as [RoutesForLocationServiceAsync.list].
          */
+        fun list(): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>> =
+            list(RoutesForLocationListParams.none())
+
+        /** @see list */
         fun list(
-            params: RoutesForLocationListParams
+            params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>>
+
+        /** @see list */
+        fun list(
+            params: RoutesForLocationListParams = RoutesForLocationListParams.none()
         ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
-            params: RoutesForLocationListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>> =
+            list(RoutesForLocationListParams.none(), requestOptions)
     }
 }

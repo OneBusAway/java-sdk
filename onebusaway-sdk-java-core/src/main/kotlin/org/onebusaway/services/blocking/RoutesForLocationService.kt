@@ -25,14 +25,22 @@ interface RoutesForLocationService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): RoutesForLocationService
 
     /** routes-for-location */
-    fun list(params: RoutesForLocationListParams): RoutesForLocationListResponse =
-        list(params, RequestOptions.none())
+    fun list(): RoutesForLocationListResponse = list(RoutesForLocationListParams.none())
 
     /** @see list */
     fun list(
-        params: RoutesForLocationListParams,
+        params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForLocationListResponse
+
+    /** @see list */
+    fun list(
+        params: RoutesForLocationListParams = RoutesForLocationListParams.none()
+    ): RoutesForLocationListResponse = list(params, RequestOptions.none())
+
+    /** @see list */
+    fun list(requestOptions: RequestOptions): RoutesForLocationListResponse =
+        list(RoutesForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForLocationService] that provides access to raw HTTP responses for each
@@ -54,15 +62,25 @@ interface RoutesForLocationService {
          * otherwise the same as [RoutesForLocationService.list].
          */
         @MustBeClosed
-        fun list(
-            params: RoutesForLocationListParams
-        ): HttpResponseFor<RoutesForLocationListResponse> = list(params, RequestOptions.none())
+        fun list(): HttpResponseFor<RoutesForLocationListResponse> =
+            list(RoutesForLocationListParams.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
-            params: RoutesForLocationListParams,
+            params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RoutesForLocationListResponse>
+
+        /** @see list */
+        @MustBeClosed
+        fun list(
+            params: RoutesForLocationListParams = RoutesForLocationListParams.none()
+        ): HttpResponseFor<RoutesForLocationListResponse> = list(params, RequestOptions.none())
+
+        /** @see list */
+        @MustBeClosed
+        fun list(requestOptions: RequestOptions): HttpResponseFor<RoutesForLocationListResponse> =
+            list(RoutesForLocationListParams.none(), requestOptions)
     }
 }

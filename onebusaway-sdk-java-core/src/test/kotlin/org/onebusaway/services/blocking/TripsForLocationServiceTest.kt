@@ -23,12 +23,12 @@ internal class TripsForLocationServiceTest {
         val tripsForLocations =
             tripsForLocationService.list(
                 TripsForLocationListParams.builder()
-                    .lat(0.0f)
                     .latSpan(0.0f)
-                    .lon(0.0f)
                     .lonSpan(0.0f)
                     .includeSchedule(true)
                     .includeTrip(true)
+                    .lat(0.0f)
+                    .lon(0.0f)
                     .time(0L)
                     .build()
             )

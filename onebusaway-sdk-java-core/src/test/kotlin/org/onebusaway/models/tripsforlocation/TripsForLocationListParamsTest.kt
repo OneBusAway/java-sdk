@@ -11,12 +11,12 @@ internal class TripsForLocationListParamsTest {
     @Test
     fun create() {
         TripsForLocationListParams.builder()
-            .lat(0.0f)
             .latSpan(0.0f)
-            .lon(0.0f)
             .lonSpan(0.0f)
             .includeSchedule(true)
             .includeTrip(true)
+            .lat(0.0f)
+            .lon(0.0f)
             .time(0L)
             .build()
     }
@@ -25,12 +25,12 @@ internal class TripsForLocationListParamsTest {
     fun queryParams() {
         val params =
             TripsForLocationListParams.builder()
-                .lat(0.0f)
                 .latSpan(0.0f)
-                .lon(0.0f)
                 .lonSpan(0.0f)
                 .includeSchedule(true)
                 .includeTrip(true)
+                .lat(0.0f)
+                .lon(0.0f)
                 .time(0L)
                 .build()
 
@@ -39,12 +39,12 @@ internal class TripsForLocationListParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
-                    .put("lat", "0.0")
                     .put("latSpan", "0.0")
-                    .put("lon", "0.0")
                     .put("lonSpan", "0.0")
                     .put("includeSchedule", "true")
                     .put("includeTrip", "true")
+                    .put("lat", "0.0")
+                    .put("lon", "0.0")
                     .put("time", "0")
                     .build()
             )
@@ -52,24 +52,11 @@ internal class TripsForLocationListParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params =
-            TripsForLocationListParams.builder()
-                .lat(0.0f)
-                .latSpan(0.0f)
-                .lon(0.0f)
-                .lonSpan(0.0f)
-                .build()
+        val params = TripsForLocationListParams.builder().latSpan(0.0f).lonSpan(0.0f).build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(
-                QueryParams.builder()
-                    .put("lat", "0.0")
-                    .put("latSpan", "0.0")
-                    .put("lon", "0.0")
-                    .put("lonSpan", "0.0")
-                    .build()
-            )
+            .isEqualTo(QueryParams.builder().put("latSpan", "0.0").put("lonSpan", "0.0").build())
     }
 }

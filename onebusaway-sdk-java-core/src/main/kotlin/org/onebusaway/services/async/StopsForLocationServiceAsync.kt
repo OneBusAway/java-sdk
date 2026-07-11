@@ -25,14 +25,23 @@ interface StopsForLocationServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): StopsForLocationServiceAsync
 
     /** stops-for-location */
-    fun list(params: StopsForLocationListParams): CompletableFuture<StopsForLocationListResponse> =
-        list(params, RequestOptions.none())
+    fun list(): CompletableFuture<StopsForLocationListResponse> =
+        list(StopsForLocationListParams.none())
 
     /** @see list */
     fun list(
-        params: StopsForLocationListParams,
+        params: StopsForLocationListParams = StopsForLocationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StopsForLocationListResponse>
+
+    /** @see list */
+    fun list(
+        params: StopsForLocationListParams = StopsForLocationListParams.none()
+    ): CompletableFuture<StopsForLocationListResponse> = list(params, RequestOptions.none())
+
+    /** @see list */
+    fun list(requestOptions: RequestOptions): CompletableFuture<StopsForLocationListResponse> =
+        list(StopsForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForLocationServiceAsync] that provides access to raw HTTP responses for each
@@ -53,15 +62,25 @@ interface StopsForLocationServiceAsync {
          * Returns a raw HTTP response for `get /api/where/stops-for-location.json`, but is
          * otherwise the same as [StopsForLocationServiceAsync.list].
          */
+        fun list(): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>> =
+            list(StopsForLocationListParams.none())
+
+        /** @see list */
         fun list(
-            params: StopsForLocationListParams
+            params: StopsForLocationListParams = StopsForLocationListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>>
+
+        /** @see list */
+        fun list(
+            params: StopsForLocationListParams = StopsForLocationListParams.none()
         ): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
-            params: StopsForLocationListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>> =
+            list(StopsForLocationListParams.none(), requestOptions)
     }
 }
