@@ -24,8 +24,8 @@ internal class RoutesForLocationServiceAsyncTest {
             routesForLocationServiceAsync.list(
                 RoutesForLocationListParams.builder()
                     .lat(0.0)
-                    .lon(0.0)
                     .latSpan(0.0)
+                    .lon(0.0)
                     .lonSpan(0.0)
                     .query("query")
                     .radius(0.0)

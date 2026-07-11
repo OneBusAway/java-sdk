@@ -12,8 +12,8 @@ internal class StopsForLocationListParamsTest {
     fun create() {
         StopsForLocationListParams.builder()
             .lat(0.0)
-            .lon(0.0)
             .latSpan(0.0)
+            .lon(0.0)
             .lonSpan(0.0)
             .query("query")
             .radius(0.0)
@@ -25,8 +25,8 @@ internal class StopsForLocationListParamsTest {
         val params =
             StopsForLocationListParams.builder()
                 .lat(0.0)
-                .lon(0.0)
                 .latSpan(0.0)
+                .lon(0.0)
                 .lonSpan(0.0)
                 .query("query")
                 .radius(0.0)
@@ -38,8 +38,8 @@ internal class StopsForLocationListParamsTest {
             .isEqualTo(
                 QueryParams.builder()
                     .put("lat", "0.0")
-                    .put("lon", "0.0")
                     .put("latSpan", "0.0")
+                    .put("lon", "0.0")
                     .put("lonSpan", "0.0")
                     .put("query", "query")
                     .put("radius", "0.0")
@@ -49,11 +49,10 @@ internal class StopsForLocationListParamsTest {
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = StopsForLocationListParams.builder().lat(0.0).lon(0.0).build()
+        val params = StopsForLocationListParams.builder().build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("lat", "0.0").put("lon", "0.0").build())
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }
