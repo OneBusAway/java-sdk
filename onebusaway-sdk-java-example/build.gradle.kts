@@ -8,7 +8,8 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":onebusaway-sdk-java"))
+    implementation(project(":onebusaway-sdk-java-core"))
+    implementation(project(":onebusaway-sdk-java-client-okhttp"))
 }
 
 tasks.withType<JavaCompile>().configureEach {
