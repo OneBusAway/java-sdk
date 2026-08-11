@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.60 (2026-08-04)
+
+Full Changelog: [v0.1.0-alpha.59...v0.1.0-alpha.60](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.59...v0.1.0-alpha.60)
+
+### Chores
+
+* **internal:** codegen related update ([8e23459](https://github.com/OneBusAway/java-sdk/commit/8e23459eb795526b9a2af666e4b932c97f028d67))
+
 ## 0.1.0-alpha.59 (2026-07-18)
 
 Full Changelog: [v0.1.0-alpha.58...v0.1.0-alpha.59](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.58...v0.1.0-alpha.59)
