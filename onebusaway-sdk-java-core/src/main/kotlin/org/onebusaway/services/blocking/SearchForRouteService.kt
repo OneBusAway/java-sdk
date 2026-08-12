@@ -26,10 +26,7 @@ interface SearchForRouteService {
 
     /** Search for a route based on its name. */
     fun list(params: SearchForRouteListParams): SearchForRouteListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -57,10 +54,7 @@ interface SearchForRouteService {
          */
         @MustBeClosed
         fun list(params: SearchForRouteListParams): HttpResponseFor<SearchForRouteListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed

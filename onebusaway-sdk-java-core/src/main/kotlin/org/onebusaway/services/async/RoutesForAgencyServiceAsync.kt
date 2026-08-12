@@ -26,10 +26,7 @@ interface RoutesForAgencyServiceAsync {
 
     /** Retrieve the list of all routes for a particular agency by id */
     fun list(agencyId: String): CompletableFuture<RoutesForAgencyListResponse> =
-        list(
-            agencyId,
-            RoutesForAgencyListParams.none(),
-        )
+        list(agencyId, RoutesForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,14 @@ interface RoutesForAgencyServiceAsync {
         params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<RoutesForAgencyListResponse> =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
     ): CompletableFuture<RoutesForAgencyListResponse> =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+        list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,21 +51,14 @@ interface RoutesForAgencyServiceAsync {
 
     /** @see list */
     fun list(params: RoutesForAgencyListParams): CompletableFuture<RoutesForAgencyListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         agencyId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<RoutesForAgencyListResponse> =
-        list(
-            agencyId,
-            RoutesForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, RoutesForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -99,10 +82,7 @@ interface RoutesForAgencyServiceAsync {
         fun list(
             agencyId: String
         ): CompletableFuture<HttpResponseFor<RoutesForAgencyListResponse>> =
-            list(
-                agencyId,
-                RoutesForAgencyListParams.none(),
-            )
+            list(agencyId, RoutesForAgencyListParams.none())
 
         /** @see list */
         fun list(
@@ -110,21 +90,14 @@ interface RoutesForAgencyServiceAsync {
             params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<RoutesForAgencyListResponse>> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         fun list(
             agencyId: String,
             params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
         ): CompletableFuture<HttpResponseFor<RoutesForAgencyListResponse>> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -136,20 +109,13 @@ interface RoutesForAgencyServiceAsync {
         fun list(
             params: RoutesForAgencyListParams
         ): CompletableFuture<HttpResponseFor<RoutesForAgencyListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             agencyId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<RoutesForAgencyListResponse>> =
-            list(
-                agencyId,
-                RoutesForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, RoutesForAgencyListParams.none(), requestOptions)
     }
 }

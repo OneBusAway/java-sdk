@@ -70,9 +70,7 @@ private constructor(
             additionalQueryParams = tripsForRouteListParams.additionalQueryParams.toBuilder()
         }
 
-        fun routeId(routeId: String?) = apply {
-            this.routeId = routeId
-        }
+        fun routeId(routeId: String?) = apply { this.routeId = routeId }
 
         /** Alias for calling [Builder.routeId] with `routeId.orElse(null)`. */
         fun routeId(routeId: Optional<String>) = routeId(routeId.getOrNull())
@@ -97,9 +95,7 @@ private constructor(
          * Determine whether full tripStatus elements with real-time information are included.
          * Defaults to false.
          */
-        fun includeStatus(includeStatus: Boolean?) = apply {
-            this.includeStatus = includeStatus
-        }
+        fun includeStatus(includeStatus: Boolean?) = apply { this.includeStatus = includeStatus }
 
         /**
          * Alias for [Builder.includeStatus].
@@ -113,9 +109,7 @@ private constructor(
             includeStatus(includeStatus.getOrNull())
 
         /** Query the system at a specific time. Useful for testing. */
-        fun time(time: Long?) = apply {
-            this.time = time
-        }
+        fun time(time: Long?) = apply { this.time = time }
 
         /**
          * Alias for [Builder.time].
@@ -169,9 +163,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -221,9 +213,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

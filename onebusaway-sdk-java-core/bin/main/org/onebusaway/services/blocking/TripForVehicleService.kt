@@ -26,10 +26,7 @@ interface TripForVehicleService {
 
     /** Retrieve trip for a specific vehicle */
     fun retrieve(vehicleId: String): TripForVehicleRetrieveResponse =
-        retrieve(
-            vehicleId,
-            TripForVehicleRetrieveParams.none(),
-        )
+        retrieve(vehicleId, TripForVehicleRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface TripForVehicleService {
         params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripForVehicleRetrieveResponse =
-        retrieve(
-            params.toBuilder().vehicleId(vehicleId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         vehicleId: String,
         params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
-    ): TripForVehicleRetrieveResponse =
-        retrieve(
-            vehicleId,
-            params,
-            RequestOptions.none(),
-        )
+    ): TripForVehicleRetrieveResponse = retrieve(vehicleId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface TripForVehicleService {
 
     /** @see retrieve */
     fun retrieve(params: TripForVehicleRetrieveParams): TripForVehicleRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         vehicleId: String,
         requestOptions: RequestOptions,
     ): TripForVehicleRetrieveResponse =
-        retrieve(
-            vehicleId,
-            TripForVehicleRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [TripForVehicleService] that provides access to raw HTTP responses for each method.
@@ -97,10 +79,7 @@ interface TripForVehicleService {
          */
         @MustBeClosed
         fun retrieve(vehicleId: String): HttpResponseFor<TripForVehicleRetrieveResponse> =
-            retrieve(
-                vehicleId,
-                TripForVehicleRetrieveParams.none(),
-            )
+            retrieve(vehicleId, TripForVehicleRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -109,10 +88,7 @@ interface TripForVehicleService {
             params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripForVehicleRetrieveResponse> =
-            retrieve(
-                params.toBuilder().vehicleId(vehicleId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
@@ -120,11 +96,7 @@ interface TripForVehicleService {
             vehicleId: String,
             params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
         ): HttpResponseFor<TripForVehicleRetrieveResponse> =
-            retrieve(
-                vehicleId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(vehicleId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -137,11 +109,7 @@ interface TripForVehicleService {
         @MustBeClosed
         fun retrieve(
             params: TripForVehicleRetrieveParams
-        ): HttpResponseFor<TripForVehicleRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<TripForVehicleRetrieveResponse> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -149,10 +117,6 @@ interface TripForVehicleService {
             vehicleId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<TripForVehicleRetrieveResponse> =
-            retrieve(
-                vehicleId,
-                TripForVehicleRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
     }
 }

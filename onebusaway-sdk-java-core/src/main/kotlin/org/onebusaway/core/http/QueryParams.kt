@@ -45,9 +45,7 @@ private constructor(
                 is JsonString -> put(key, value.value)
                 is JsonArray -> value.values.forEach { put(key, it) }
                 is JsonObject ->
-                    value.values.forEach { (nestedKey, value) ->
-                        put("$key[$nestedKey]", value)
-                    }
+                    value.values.forEach { (nestedKey, value) -> put("$key[$nestedKey]", value) }
             }
         }
 
@@ -94,10 +92,7 @@ private constructor(
         }
 
         fun build() =
-            QueryParams(
-                map.mapValues { (_, values) -> values.toImmutable() }.toImmutable(),
-                size,
-            )
+            QueryParams(map.mapValues { (_, values) -> values.toImmutable() }.toImmutable(), size)
     }
 
     override fun hashCode(): Int = map.hashCode()

@@ -26,10 +26,7 @@ interface StopsForAgencyServiceAsync {
 
     /** Get stops for a specific agency */
     fun list(agencyId: String): CompletableFuture<StopsForAgencyListResponse> =
-        list(
-            agencyId,
-            StopsForAgencyListParams.none(),
-        )
+        list(agencyId, StopsForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,13 @@ interface StopsForAgencyServiceAsync {
         params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StopsForAgencyListResponse> =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
-    ): CompletableFuture<StopsForAgencyListResponse> =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<StopsForAgencyListResponse> = list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,21 +50,14 @@ interface StopsForAgencyServiceAsync {
 
     /** @see list */
     fun list(params: StopsForAgencyListParams): CompletableFuture<StopsForAgencyListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         agencyId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<StopsForAgencyListResponse> =
-        list(
-            agencyId,
-            StopsForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, StopsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -97,10 +79,7 @@ interface StopsForAgencyServiceAsync {
          * otherwise the same as [StopsForAgencyServiceAsync.list].
          */
         fun list(agencyId: String): CompletableFuture<HttpResponseFor<StopsForAgencyListResponse>> =
-            list(
-                agencyId,
-                StopsForAgencyListParams.none(),
-            )
+            list(agencyId, StopsForAgencyListParams.none())
 
         /** @see list */
         fun list(
@@ -108,21 +87,14 @@ interface StopsForAgencyServiceAsync {
             params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StopsForAgencyListResponse>> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         fun list(
             agencyId: String,
             params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
         ): CompletableFuture<HttpResponseFor<StopsForAgencyListResponse>> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -134,20 +106,13 @@ interface StopsForAgencyServiceAsync {
         fun list(
             params: StopsForAgencyListParams
         ): CompletableFuture<HttpResponseFor<StopsForAgencyListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             agencyId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<StopsForAgencyListResponse>> =
-            list(
-                agencyId,
-                StopsForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, StopsForAgencyListParams.none(), requestOptions)
     }
 }

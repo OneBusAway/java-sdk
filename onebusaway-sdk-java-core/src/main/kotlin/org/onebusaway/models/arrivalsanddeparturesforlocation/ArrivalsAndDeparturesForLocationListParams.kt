@@ -131,14 +131,10 @@ private constructor(
         }
 
         /** The latitude coordinate of the search center. */
-        fun lat(lat: Double) = apply {
-            this.lat = lat
-        }
+        fun lat(lat: Double) = apply { this.lat = lat }
 
         /** The longitude coordinate of the search center. */
-        fun lon(lon: Double) = apply {
-            this.lon = lon
-        }
+        fun lon(lon: Double) = apply { this.lon = lon }
 
         /** If true, returns a 404 Not Found error instead of an empty result. */
         fun emptyReturnsNotFound(emptyReturnsNotFound: Boolean?) = apply {
@@ -161,9 +157,7 @@ private constructor(
             emptyReturnsNotFound(emptyReturnsNotFound.getOrNull())
 
         /** Sets the latitude limits of the search bounding box. */
-        fun latSpan(latSpan: Double?) = apply {
-            this.latSpan = latSpan
-        }
+        fun latSpan(latSpan: Double?) = apply { this.latSpan = latSpan }
 
         /**
          * Alias for [Builder.latSpan].
@@ -176,9 +170,7 @@ private constructor(
         fun latSpan(latSpan: Optional<Double>) = latSpan(latSpan.getOrNull())
 
         /** Sets the longitude limits of the search bounding box. */
-        fun lonSpan(lonSpan: Double?) = apply {
-            this.lonSpan = lonSpan
-        }
+        fun lonSpan(lonSpan: Double?) = apply { this.lonSpan = lonSpan }
 
         /**
          * Alias for [Builder.lonSpan].
@@ -194,9 +186,7 @@ private constructor(
          * The max size of the list of nearby stops and arrivals to return. Defaults to 250,
          * max 1000.
          */
-        fun maxCount(maxCount: Long?) = apply {
-            this.maxCount = maxCount
-        }
+        fun maxCount(maxCount: Long?) = apply { this.maxCount = maxCount }
 
         /**
          * Alias for [Builder.maxCount].
@@ -209,9 +199,7 @@ private constructor(
         fun maxCount(maxCount: Optional<Long>) = maxCount(maxCount.getOrNull())
 
         /** Include arrivals and departures this many minutes after the query time. */
-        fun minutesAfter(minutesAfter: Long?) = apply {
-            this.minutesAfter = minutesAfter
-        }
+        fun minutesAfter(minutesAfter: Long?) = apply { this.minutesAfter = minutesAfter }
 
         /**
          * Alias for [Builder.minutesAfter].
@@ -224,9 +212,7 @@ private constructor(
         fun minutesAfter(minutesAfter: Optional<Long>) = minutesAfter(minutesAfter.getOrNull())
 
         /** Include arrivals and departures this many minutes before the query time. */
-        fun minutesBefore(minutesBefore: Long?) = apply {
-            this.minutesBefore = minutesBefore
-        }
+        fun minutesBefore(minutesBefore: Long?) = apply { this.minutesBefore = minutesBefore }
 
         /**
          * Alias for [Builder.minutesBefore].
@@ -239,9 +225,7 @@ private constructor(
         fun minutesBefore(minutesBefore: Optional<Long>) = minutesBefore(minutesBefore.getOrNull())
 
         /** The search radius in meters. */
-        fun radius(radius: Double?) = apply {
-            this.radius = radius
-        }
+        fun radius(radius: Double?) = apply { this.radius = radius }
 
         /**
          * Alias for [Builder.radius].
@@ -254,9 +238,7 @@ private constructor(
         fun radius(radius: Optional<Double>) = radius(radius.getOrNull())
 
         /** Optional list of GTFS routeTypes to filter by (comma delimited) e.g. "1,2,3". */
-        fun routeType(routeType: String?) = apply {
-            this.routeType = routeType
-        }
+        fun routeType(routeType: String?) = apply { this.routeType = routeType }
 
         /** Alias for calling [Builder.routeType] with `routeType.orElse(null)`. */
         fun routeType(routeType: Optional<String>) = routeType(routeType.getOrNull())
@@ -265,9 +247,7 @@ private constructor(
          * By default, returns the status right now. Can be queried at a specific time (milliseconds
          * since epoch) for testing.
          */
-        fun time(time: Long?) = apply {
-            this.time = time
-        }
+        fun time(time: Long?) = apply { this.time = time }
 
         /**
          * Alias for [Builder.time].
@@ -321,9 +301,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -373,9 +351,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -396,14 +372,8 @@ private constructor(
          */
         fun build(): ArrivalsAndDeparturesForLocationListParams =
             ArrivalsAndDeparturesForLocationListParams(
-                checkRequired(
-                    "lat",
-                    lat,
-                ),
-                checkRequired(
-                    "lon",
-                    lon,
-                ),
+                checkRequired("lat", lat),
+                checkRequired("lon", lon),
                 emptyReturnsNotFound,
                 latSpan,
                 lonSpan,

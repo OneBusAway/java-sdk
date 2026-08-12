@@ -57,17 +57,13 @@ private constructor(
             additionalQueryParams = vehiclesForAgencyListParams.additionalQueryParams.toBuilder()
         }
 
-        fun agencyId(agencyId: String?) = apply {
-            this.agencyId = agencyId
-        }
+        fun agencyId(agencyId: String?) = apply { this.agencyId = agencyId }
 
         /** Alias for calling [Builder.agencyId] with `agencyId.orElse(null)`. */
         fun agencyId(agencyId: Optional<String>) = agencyId(agencyId.getOrNull())
 
         /** Specific time for querying the status (timestamp format) */
-        fun time(time: String?) = apply {
-            this.time = time
-        }
+        fun time(time: String?) = apply { this.time = time }
 
         /** Alias for calling [Builder.time] with `time.orElse(null)`. */
         fun time(time: Optional<String>) = time(time.getOrNull())
@@ -114,9 +110,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -166,9 +160,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

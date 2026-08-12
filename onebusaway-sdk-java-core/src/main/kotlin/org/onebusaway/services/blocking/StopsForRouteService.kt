@@ -26,32 +26,20 @@ interface StopsForRouteService {
 
     /** Get stops for a specific route */
     fun list(routeId: String): StopsForRouteListResponse =
-        list(
-            routeId,
-            StopsForRouteListParams.none(),
-        )
+        list(routeId, StopsForRouteListParams.none())
 
     /** @see list */
     fun list(
         routeId: String,
         params: StopsForRouteListParams = StopsForRouteListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): StopsForRouteListResponse =
-        list(
-            params.toBuilder().routeId(routeId).build(),
-            requestOptions,
-        )
+    ): StopsForRouteListResponse = list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
     /** @see list */
     fun list(
         routeId: String,
         params: StopsForRouteListParams = StopsForRouteListParams.none(),
-    ): StopsForRouteListResponse =
-        list(
-            routeId,
-            params,
-            RequestOptions.none(),
-        )
+    ): StopsForRouteListResponse = list(routeId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,18 +49,11 @@ interface StopsForRouteService {
 
     /** @see list */
     fun list(params: StopsForRouteListParams): StopsForRouteListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(routeId: String, requestOptions: RequestOptions): StopsForRouteListResponse =
-        list(
-            routeId,
-            StopsForRouteListParams.none(),
-            requestOptions,
-        )
+        list(routeId, StopsForRouteListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForRouteService] that provides access to raw HTTP responses for each method.
@@ -94,10 +75,7 @@ interface StopsForRouteService {
          */
         @MustBeClosed
         fun list(routeId: String): HttpResponseFor<StopsForRouteListResponse> =
-            list(
-                routeId,
-                StopsForRouteListParams.none(),
-            )
+            list(routeId, StopsForRouteListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -106,22 +84,14 @@ interface StopsForRouteService {
             params: StopsForRouteListParams = StopsForRouteListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForRouteListResponse> =
-            list(
-                params.toBuilder().routeId(routeId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see list */
         @MustBeClosed
         fun list(
             routeId: String,
             params: StopsForRouteListParams = StopsForRouteListParams.none(),
-        ): HttpResponseFor<StopsForRouteListResponse> =
-            list(
-                routeId,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<StopsForRouteListResponse> = list(routeId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -133,10 +103,7 @@ interface StopsForRouteService {
         /** @see list */
         @MustBeClosed
         fun list(params: StopsForRouteListParams): HttpResponseFor<StopsForRouteListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -144,10 +111,6 @@ interface StopsForRouteService {
             routeId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopsForRouteListResponse> =
-            list(
-                routeId,
-                StopsForRouteListParams.none(),
-                requestOptions,
-            )
+            list(routeId, StopsForRouteListParams.none(), requestOptions)
     }
 }

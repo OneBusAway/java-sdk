@@ -26,10 +26,7 @@ interface StopsForAgencyService {
 
     /** Get stops for a specific agency */
     fun list(agencyId: String): StopsForAgencyListResponse =
-        list(
-            agencyId,
-            StopsForAgencyListParams.none(),
-        )
+        list(agencyId, StopsForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,13 @@ interface StopsForAgencyService {
         params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForAgencyListResponse =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
-    ): StopsForAgencyListResponse =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+    ): StopsForAgencyListResponse = list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,18 +50,11 @@ interface StopsForAgencyService {
 
     /** @see list */
     fun list(params: StopsForAgencyListParams): StopsForAgencyListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): StopsForAgencyListResponse =
-        list(
-            agencyId,
-            StopsForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, StopsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForAgencyService] that provides access to raw HTTP responses for each method.
@@ -94,10 +76,7 @@ interface StopsForAgencyService {
          */
         @MustBeClosed
         fun list(agencyId: String): HttpResponseFor<StopsForAgencyListResponse> =
-            list(
-                agencyId,
-                StopsForAgencyListParams.none(),
-            )
+            list(agencyId, StopsForAgencyListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -106,10 +85,7 @@ interface StopsForAgencyService {
             params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForAgencyListResponse> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         @MustBeClosed
@@ -117,11 +93,7 @@ interface StopsForAgencyService {
             agencyId: String,
             params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
         ): HttpResponseFor<StopsForAgencyListResponse> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -133,10 +105,7 @@ interface StopsForAgencyService {
         /** @see list */
         @MustBeClosed
         fun list(params: StopsForAgencyListParams): HttpResponseFor<StopsForAgencyListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -144,10 +113,6 @@ interface StopsForAgencyService {
             agencyId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopsForAgencyListResponse> =
-            list(
-                agencyId,
-                StopsForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, StopsForAgencyListParams.none(), requestOptions)
     }
 }

@@ -39,14 +39,7 @@ private constructor(
         @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
         @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
-    ) : this(
-        code,
-        currentTime,
-        text,
-        version,
-        data,
-        mutableMapOf(),
-    )
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
 
     fun toResponseWrapper(): ResponseWrapper =
         ResponseWrapper.builder()
@@ -178,9 +171,7 @@ private constructor(
          * You should usually call [Builder.code] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun code(code: JsonField<Long>) = apply {
-            this.code = code
-        }
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
@@ -191,9 +182,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun currentTime(currentTime: JsonField<Long>) = apply {
-            this.currentTime = currentTime
-        }
+        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
@@ -203,9 +192,7 @@ private constructor(
          * You should usually call [Builder.text] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun text(text: JsonField<String>) = apply {
-            this.text = text
-        }
+        fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
@@ -215,9 +202,7 @@ private constructor(
          * You should usually call [Builder.version] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun version(version: JsonField<Long>) = apply {
-            this.version = version
-        }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
@@ -227,9 +212,7 @@ private constructor(
          * You should usually call [Builder.data] with a well-typed [Data] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun data(data: JsonField<Data>) = apply {
-            this.data = data
-        }
+        fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -244,9 +227,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -270,26 +251,11 @@ private constructor(
          */
         fun build(): ConfigRetrieveResponse =
             ConfigRetrieveResponse(
-                checkRequired(
-                    "code",
-                    code,
-                ),
-                checkRequired(
-                    "currentTime",
-                    currentTime,
-                ),
-                checkRequired(
-                    "text",
-                    text,
-                ),
-                checkRequired(
-                    "version",
-                    version,
-                ),
-                checkRequired(
-                    "data",
-                    data,
-                ),
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -352,11 +318,7 @@ private constructor(
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
-        ) : this(
-            entry,
-            references,
-            mutableMapOf(),
-        )
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -435,9 +397,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun entry(entry: JsonField<Entry>) = apply {
-                this.entry = entry
-            }
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -465,9 +425,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -488,14 +446,8 @@ private constructor(
              */
             fun build(): Data =
                 Data(
-                    checkRequired(
-                        "entry",
-                        entry,
-                    ),
-                    checkRequired(
-                        "references",
-                        references,
-                    ),
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -564,14 +516,7 @@ private constructor(
                 @JsonProperty("serviceDateTo")
                 @ExcludeMissing
                 serviceDateTo: JsonField<String> = JsonMissing.of(),
-            ) : this(
-                id,
-                gitProperties,
-                name,
-                serviceDateFrom,
-                serviceDateTo,
-                mutableMapOf(),
-            )
+            ) : this(id, gitProperties, name, serviceDateFrom, serviceDateTo, mutableMapOf())
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
@@ -695,9 +640,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun id(id: JsonField<String>) = apply {
-                    this.id = id
-                }
+                fun id(id: JsonField<String>) = apply { this.id = id }
 
                 fun gitProperties(gitProperties: GitProperties) =
                     gitProperties(JsonField.of(gitProperties))
@@ -722,9 +665,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 fun serviceDateFrom(serviceDateFrom: String) =
                     serviceDateFrom(JsonField.of(serviceDateFrom))
@@ -1601,9 +1542,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun gitDirty(gitDirty: JsonField<String>) = apply {
-                        this.gitDirty = gitDirty
-                    }
+                    fun gitDirty(gitDirty: JsonField<String>) = apply { this.gitDirty = gitDirty }
 
                     fun gitRemoteOriginUrl(gitRemoteOriginUrl: String) =
                         gitRemoteOriginUrl(JsonField.of(gitRemoteOriginUrl))
@@ -1628,9 +1567,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun gitTags(gitTags: JsonField<String>) = apply {
-                        this.gitTags = gitTags
-                    }
+                    fun gitTags(gitTags: JsonField<String>) = apply { this.gitTags = gitTags }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()

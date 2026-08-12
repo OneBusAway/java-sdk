@@ -26,10 +26,7 @@ interface TripsForRouteServiceAsync {
 
     /** Search for active trips for a specific route. */
     fun list(routeId: String): CompletableFuture<TripsForRouteListResponse> =
-        list(
-            routeId,
-            TripsForRouteListParams.none(),
-        )
+        list(routeId, TripsForRouteListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,13 @@ interface TripsForRouteServiceAsync {
         params: TripsForRouteListParams = TripsForRouteListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TripsForRouteListResponse> =
-        list(
-            params.toBuilder().routeId(routeId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
     /** @see list */
     fun list(
         routeId: String,
         params: TripsForRouteListParams = TripsForRouteListParams.none(),
-    ): CompletableFuture<TripsForRouteListResponse> =
-        list(
-            routeId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<TripsForRouteListResponse> = list(routeId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,21 +50,14 @@ interface TripsForRouteServiceAsync {
 
     /** @see list */
     fun list(params: TripsForRouteListParams): CompletableFuture<TripsForRouteListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         routeId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<TripsForRouteListResponse> =
-        list(
-            routeId,
-            TripsForRouteListParams.none(),
-            requestOptions,
-        )
+        list(routeId, TripsForRouteListParams.none(), requestOptions)
 
     /**
      * A view of [TripsForRouteServiceAsync] that provides access to raw HTTP responses for each
@@ -97,10 +79,7 @@ interface TripsForRouteServiceAsync {
          * otherwise the same as [TripsForRouteServiceAsync.list].
          */
         fun list(routeId: String): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
-            list(
-                routeId,
-                TripsForRouteListParams.none(),
-            )
+            list(routeId, TripsForRouteListParams.none())
 
         /** @see list */
         fun list(
@@ -108,21 +87,14 @@ interface TripsForRouteServiceAsync {
             params: TripsForRouteListParams = TripsForRouteListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
-            list(
-                params.toBuilder().routeId(routeId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see list */
         fun list(
             routeId: String,
             params: TripsForRouteListParams = TripsForRouteListParams.none(),
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
-            list(
-                routeId,
-                params,
-                RequestOptions.none(),
-            )
+            list(routeId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -134,20 +106,13 @@ interface TripsForRouteServiceAsync {
         fun list(
             params: TripsForRouteListParams
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             routeId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<TripsForRouteListResponse>> =
-            list(
-                routeId,
-                TripsForRouteListParams.none(),
-                requestOptions,
-            )
+            list(routeId, TripsForRouteListParams.none(), requestOptions)
     }
 }

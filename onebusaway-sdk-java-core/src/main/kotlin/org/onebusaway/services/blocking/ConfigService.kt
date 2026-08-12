@@ -36,18 +36,11 @@ interface ConfigService {
     /** @see retrieve */
     fun retrieve(
         params: ConfigRetrieveParams = ConfigRetrieveParams.none()
-    ): ConfigRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): ConfigRetrieveResponse = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
-        retrieve(
-            ConfigRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(ConfigRetrieveParams.none(), requestOptions)
 
     /** A view of [ConfigService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -78,18 +71,11 @@ interface ConfigService {
         @MustBeClosed
         fun retrieve(
             params: ConfigRetrieveParams = ConfigRetrieveParams.none()
-        ): HttpResponseFor<ConfigRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<ConfigRetrieveResponse> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<ConfigRetrieveResponse> =
-            retrieve(
-                ConfigRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(ConfigRetrieveParams.none(), requestOptions)
     }
 }

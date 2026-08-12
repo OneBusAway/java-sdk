@@ -63,14 +63,10 @@ private constructor(
         }
 
         /** The string to search for. */
-        fun input(input: String) = apply {
-            this.input = input
-        }
+        fun input(input: String) = apply { this.input = input }
 
         /** The max number of results to return. Defaults to 20. */
-        fun maxCount(maxCount: Long?) = apply {
-            this.maxCount = maxCount
-        }
+        fun maxCount(maxCount: Long?) = apply { this.maxCount = maxCount }
 
         /**
          * Alias for [Builder.maxCount].
@@ -124,9 +120,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -176,9 +170,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -198,10 +190,7 @@ private constructor(
          */
         fun build(): SearchForRouteListParams =
             SearchForRouteListParams(
-                checkRequired(
-                    "input",
-                    input,
-                ),
+                checkRequired("input", input),
                 maxCount,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

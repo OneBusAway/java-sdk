@@ -51,9 +51,7 @@ private constructor(
             additionalQueryParams = routesForAgencyListParams.additionalQueryParams.toBuilder()
         }
 
-        fun agencyId(agencyId: String?) = apply {
-            this.agencyId = agencyId
-        }
+        fun agencyId(agencyId: String?) = apply { this.agencyId = agencyId }
 
         /** Alias for calling [Builder.agencyId] with `agencyId.orElse(null)`. */
         fun agencyId(agencyId: Optional<String>) = agencyId(agencyId.getOrNull())
@@ -100,9 +98,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -152,9 +148,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

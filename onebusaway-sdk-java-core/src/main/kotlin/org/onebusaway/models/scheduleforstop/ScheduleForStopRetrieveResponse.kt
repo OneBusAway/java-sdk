@@ -41,14 +41,7 @@ private constructor(
         @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
         @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
-    ) : this(
-        code,
-        currentTime,
-        text,
-        version,
-        data,
-        mutableMapOf(),
-    )
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
 
     fun toResponseWrapper(): ResponseWrapper =
         ResponseWrapper.builder()
@@ -183,9 +176,7 @@ private constructor(
          * You should usually call [Builder.code] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun code(code: JsonField<Long>) = apply {
-            this.code = code
-        }
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
@@ -196,9 +187,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun currentTime(currentTime: JsonField<Long>) = apply {
-            this.currentTime = currentTime
-        }
+        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
@@ -208,9 +197,7 @@ private constructor(
          * You should usually call [Builder.text] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun text(text: JsonField<String>) = apply {
-            this.text = text
-        }
+        fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
@@ -220,9 +207,7 @@ private constructor(
          * You should usually call [Builder.version] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun version(version: JsonField<Long>) = apply {
-            this.version = version
-        }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
@@ -232,9 +217,7 @@ private constructor(
          * You should usually call [Builder.data] with a well-typed [Data] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun data(data: JsonField<Data>) = apply {
-            this.data = data
-        }
+        fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -249,9 +232,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -275,26 +256,11 @@ private constructor(
          */
         fun build(): ScheduleForStopRetrieveResponse =
             ScheduleForStopRetrieveResponse(
-                checkRequired(
-                    "code",
-                    code,
-                ),
-                checkRequired(
-                    "currentTime",
-                    currentTime,
-                ),
-                checkRequired(
-                    "text",
-                    text,
-                ),
-                checkRequired(
-                    "version",
-                    version,
-                ),
-                checkRequired(
-                    "data",
-                    data,
-                ),
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -357,11 +323,7 @@ private constructor(
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
-        ) : this(
-            entry,
-            references,
-            mutableMapOf(),
-        )
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -440,9 +402,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun entry(entry: JsonField<Entry>) = apply {
-                this.entry = entry
-            }
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -470,9 +430,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -493,14 +451,8 @@ private constructor(
              */
             fun build(): Data =
                 Data(
-                    checkRequired(
-                        "entry",
-                        entry,
-                    ),
-                    checkRequired(
-                        "references",
-                        references,
-                    ),
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -563,12 +515,7 @@ private constructor(
                 @JsonProperty("stopRouteSchedules")
                 @ExcludeMissing
                 stopRouteSchedules: JsonField<List<StopRouteSchedule>> = JsonMissing.of(),
-            ) : this(
-                date,
-                stopId,
-                stopRouteSchedules,
-                mutableMapOf(),
-            )
+            ) : this(date, stopId, stopRouteSchedules, mutableMapOf())
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
@@ -668,9 +615,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun date(date: JsonField<Long>) = apply {
-                    this.date = date
-                }
+                fun date(date: JsonField<Long>) = apply { this.date = date }
 
                 fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
@@ -681,9 +626,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun stopId(stopId: JsonField<String>) = apply {
-                    this.stopId = stopId
-                }
+                fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
                 fun stopRouteSchedules(stopRouteSchedules: List<StopRouteSchedule>) =
                     stopRouteSchedules(JsonField.of(stopRouteSchedules))
@@ -750,19 +693,11 @@ private constructor(
                  */
                 fun build(): Entry =
                     Entry(
-                        checkRequired(
-                            "date",
-                            date,
-                        ),
-                        checkRequired(
-                            "stopId",
-                            stopId,
-                        ),
-                        checkRequired(
-                                "stopRouteSchedules",
-                                stopRouteSchedules,
-                            )
-                            .map { it.toImmutable() },
+                        checkRequired("date", date),
+                        checkRequired("stopId", stopId),
+                        checkRequired("stopRouteSchedules", stopRouteSchedules).map {
+                            it.toImmutable()
+                        },
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -828,11 +763,7 @@ private constructor(
                     @ExcludeMissing
                     stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>> =
                         JsonMissing.of(),
-                ) : this(
-                    routeId,
-                    stopRouteDirectionSchedules,
-                    mutableMapOf(),
-                )
+                ) : this(routeId, stopRouteDirectionSchedules, mutableMapOf())
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -921,9 +852,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun routeId(routeId: JsonField<String>) = apply {
-                        this.routeId = routeId
-                    }
+                    fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                     fun stopRouteDirectionSchedules(
                         stopRouteDirectionSchedules: List<StopRouteDirectionSchedule>
@@ -940,9 +869,8 @@ private constructor(
                     fun stopRouteDirectionSchedules(
                         stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>>
                     ) = apply {
-                        this.stopRouteDirectionSchedules = stopRouteDirectionSchedules.map {
-                            it.toMutableList()
-                        }
+                        this.stopRouteDirectionSchedules =
+                            stopRouteDirectionSchedules.map { it.toMutableList() }
                     }
 
                     /**
@@ -997,10 +925,7 @@ private constructor(
                      */
                     fun build(): StopRouteSchedule =
                         StopRouteSchedule(
-                            checkRequired(
-                                "routeId",
-                                routeId,
-                            ),
+                            checkRequired("routeId", routeId),
                             checkRequired(
                                     "stopRouteDirectionSchedules",
                                     stopRouteDirectionSchedules,
@@ -1073,12 +998,7 @@ private constructor(
                         @JsonProperty("scheduleFrequencies")
                         @ExcludeMissing
                         scheduleFrequencies: JsonField<List<ScheduleFrequency>> = JsonMissing.of(),
-                    ) : this(
-                        scheduleStopTimes,
-                        tripHeadsign,
-                        scheduleFrequencies,
-                        mutableMapOf(),
-                    )
+                    ) : this(scheduleStopTimes, tripHeadsign, scheduleFrequencies, mutableMapOf())
 
                     /**
                      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -1244,9 +1164,8 @@ private constructor(
                         fun scheduleFrequencies(
                             scheduleFrequencies: JsonField<List<ScheduleFrequency>>
                         ) = apply {
-                            this.scheduleFrequencies = scheduleFrequencies.map {
-                                it.toMutableList()
-                            }
+                            this.scheduleFrequencies =
+                                scheduleFrequencies.map { it.toMutableList() }
                         }
 
                         /**
@@ -1274,9 +1193,7 @@ private constructor(
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
-                        ) = apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
                         fun removeAdditionalProperty(key: String) = apply {
                             additionalProperties.remove(key)
@@ -1301,15 +1218,10 @@ private constructor(
                          */
                         fun build(): StopRouteDirectionSchedule =
                             StopRouteDirectionSchedule(
-                                checkRequired(
-                                        "scheduleStopTimes",
-                                        scheduleStopTimes,
-                                    )
-                                    .map { it.toImmutable() },
-                                checkRequired(
-                                    "tripHeadsign",
-                                    tripHeadsign,
-                                ),
+                                checkRequired("scheduleStopTimes", scheduleStopTimes).map {
+                                    it.toImmutable()
+                                },
+                                checkRequired("tripHeadsign", tripHeadsign),
                                 (scheduleFrequencies ?: JsonMissing.of()).map { it.toImmutable() },
                                 additionalProperties.toMutableMap(),
                             )
@@ -1664,9 +1576,7 @@ private constructor(
                              * value instead. This method is primarily for setting the field to an
                              * undocumented or not yet supported value.
                              */
-                            fun tripId(tripId: JsonField<String>) = apply {
-                                this.tripId = tripId
-                            }
+                            fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                             fun stopHeadsign(stopHeadsign: String) =
                                 stopHeadsign(JsonField.of(stopHeadsign))
@@ -1694,9 +1604,7 @@ private constructor(
 
                             fun putAllAdditionalProperties(
                                 additionalProperties: Map<String, JsonValue>
-                            ) = apply {
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
                             fun removeAdditionalProperty(key: String) = apply {
                                 additionalProperties.remove(key)
@@ -1726,30 +1634,12 @@ private constructor(
                              */
                             fun build(): ScheduleStopTime =
                                 ScheduleStopTime(
-                                    checkRequired(
-                                        "arrivalEnabled",
-                                        arrivalEnabled,
-                                    ),
-                                    checkRequired(
-                                        "arrivalTime",
-                                        arrivalTime,
-                                    ),
-                                    checkRequired(
-                                        "departureEnabled",
-                                        departureEnabled,
-                                    ),
-                                    checkRequired(
-                                        "departureTime",
-                                        departureTime,
-                                    ),
-                                    checkRequired(
-                                        "serviceId",
-                                        serviceId,
-                                    ),
-                                    checkRequired(
-                                        "tripId",
-                                        tripId,
-                                    ),
+                                    checkRequired("arrivalEnabled", arrivalEnabled),
+                                    checkRequired("arrivalTime", arrivalTime),
+                                    checkRequired("departureEnabled", departureEnabled),
+                                    checkRequired("departureTime", departureTime),
+                                    checkRequired("serviceId", serviceId),
+                                    checkRequired("tripId", tripId),
                                     stopHeadsign,
                                     additionalProperties.toMutableMap(),
                                 )
@@ -2049,9 +1939,7 @@ private constructor(
                              * value instead. This method is primarily for setting the field to an
                              * undocumented or not yet supported value.
                              */
-                            fun endTime(endTime: JsonField<Long>) = apply {
-                                this.endTime = endTime
-                            }
+                            fun endTime(endTime: JsonField<Long>) = apply { this.endTime = endTime }
 
                             fun headway(headway: Int) = headway(JsonField.of(headway))
 
@@ -2062,9 +1950,7 @@ private constructor(
                              * value instead. This method is primarily for setting the field to an
                              * undocumented or not yet supported value.
                              */
-                            fun headway(headway: JsonField<Int>) = apply {
-                                this.headway = headway
-                            }
+                            fun headway(headway: JsonField<Int>) = apply { this.headway = headway }
 
                             fun serviceDate(serviceDate: Long) =
                                 serviceDate(JsonField.of(serviceDate))
@@ -2115,9 +2001,7 @@ private constructor(
                              * value instead. This method is primarily for setting the field to an
                              * undocumented or not yet supported value.
                              */
-                            fun tripId(tripId: JsonField<String>) = apply {
-                                this.tripId = tripId
-                            }
+                            fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                             fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                                 apply {
@@ -2131,9 +2015,7 @@ private constructor(
 
                             fun putAllAdditionalProperties(
                                 additionalProperties: Map<String, JsonValue>
-                            ) = apply {
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
                             fun removeAdditionalProperty(key: String) = apply {
                                 additionalProperties.remove(key)
@@ -2163,30 +2045,12 @@ private constructor(
                              */
                             fun build(): ScheduleFrequency =
                                 ScheduleFrequency(
-                                    checkRequired(
-                                        "endTime",
-                                        endTime,
-                                    ),
-                                    checkRequired(
-                                        "headway",
-                                        headway,
-                                    ),
-                                    checkRequired(
-                                        "serviceDate",
-                                        serviceDate,
-                                    ),
-                                    checkRequired(
-                                        "serviceId",
-                                        serviceId,
-                                    ),
-                                    checkRequired(
-                                        "startTime",
-                                        startTime,
-                                    ),
-                                    checkRequired(
-                                        "tripId",
-                                        tripId,
-                                    ),
+                                    checkRequired("endTime", endTime),
+                                    checkRequired("headway", headway),
+                                    checkRequired("serviceDate", serviceDate),
+                                    checkRequired("serviceId", serviceId),
+                                    checkRequired("startTime", startTime),
+                                    checkRequired("tripId", tripId),
                                     additionalProperties.toMutableMap(),
                                 )
                         }

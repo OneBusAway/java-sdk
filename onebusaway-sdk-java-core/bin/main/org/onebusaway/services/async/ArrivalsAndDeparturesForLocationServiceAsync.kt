@@ -33,10 +33,7 @@ interface ArrivalsAndDeparturesForLocationServiceAsync {
     fun list(
         params: ArrivalsAndDeparturesForLocationListParams
     ): CompletableFuture<ArrivalsAndDeparturesForLocationListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -67,10 +64,7 @@ interface ArrivalsAndDeparturesForLocationServiceAsync {
         fun list(
             params: ArrivalsAndDeparturesForLocationListParams
         ): CompletableFuture<HttpResponseFor<ArrivalsAndDeparturesForLocationListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(

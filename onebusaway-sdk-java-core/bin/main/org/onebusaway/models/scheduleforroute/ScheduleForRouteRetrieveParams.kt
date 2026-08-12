@@ -62,9 +62,7 @@ private constructor(
             additionalQueryParams = scheduleForRouteRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun routeId(routeId: String?) = apply {
-            this.routeId = routeId
-        }
+        fun routeId(routeId: String?) = apply { this.routeId = routeId }
 
         /** Alias for calling [Builder.routeId] with `routeId.orElse(null)`. */
         fun routeId(routeId: Optional<String>) = routeId(routeId.getOrNull())
@@ -73,9 +71,7 @@ private constructor(
          * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
          * defaults to current date)
          */
-        fun date(date: LocalDate?) = apply {
-            this.date = date
-        }
+        fun date(date: LocalDate?) = apply { this.date = date }
 
         /** Alias for calling [Builder.date] with `date.orElse(null)`. */
         fun date(date: Optional<LocalDate>) = date(date.getOrNull())
@@ -122,9 +118,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -174,9 +168,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

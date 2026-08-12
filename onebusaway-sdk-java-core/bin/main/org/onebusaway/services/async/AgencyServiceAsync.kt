@@ -26,10 +26,7 @@ interface AgencyServiceAsync {
 
     /** Retrieve information for a specific transit agency identified by its unique ID. */
     fun retrieve(agencyId: String): CompletableFuture<AgencyRetrieveResponse> =
-        retrieve(
-            agencyId,
-            AgencyRetrieveParams.none(),
-        )
+        retrieve(agencyId, AgencyRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface AgencyServiceAsync {
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AgencyRetrieveResponse> =
-        retrieve(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         agencyId: String,
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
-    ): CompletableFuture<AgencyRetrieveResponse> =
-        retrieve(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<AgencyRetrieveResponse> = retrieve(agencyId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface AgencyServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: AgencyRetrieveParams): CompletableFuture<AgencyRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         agencyId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<AgencyRetrieveResponse> =
-        retrieve(
-            agencyId,
-            AgencyRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(agencyId, AgencyRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [AgencyServiceAsync] that provides access to raw HTTP responses for each method.
@@ -96,10 +78,7 @@ interface AgencyServiceAsync {
          * the same as [AgencyServiceAsync.retrieve].
          */
         fun retrieve(agencyId: String): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
-            retrieve(
-                agencyId,
-                AgencyRetrieveParams.none(),
-            )
+            retrieve(agencyId, AgencyRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -107,21 +86,14 @@ interface AgencyServiceAsync {
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             agencyId: String,
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
-            retrieve(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(agencyId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -133,20 +105,13 @@ interface AgencyServiceAsync {
         fun retrieve(
             params: AgencyRetrieveParams
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             agencyId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<AgencyRetrieveResponse>> =
-            retrieve(
-                agencyId,
-                AgencyRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(agencyId, AgencyRetrieveParams.none(), requestOptions)
     }
 }

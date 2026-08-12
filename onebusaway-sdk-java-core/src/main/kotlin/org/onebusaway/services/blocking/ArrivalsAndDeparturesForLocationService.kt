@@ -32,11 +32,7 @@ interface ArrivalsAndDeparturesForLocationService {
      */
     fun list(
         params: ArrivalsAndDeparturesForLocationListParams
-    ): ArrivalsAndDeparturesForLocationListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): ArrivalsAndDeparturesForLocationListResponse = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -68,10 +64,7 @@ interface ArrivalsAndDeparturesForLocationService {
         fun list(
             params: ArrivalsAndDeparturesForLocationListParams
         ): HttpResponseFor<ArrivalsAndDeparturesForLocationListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed

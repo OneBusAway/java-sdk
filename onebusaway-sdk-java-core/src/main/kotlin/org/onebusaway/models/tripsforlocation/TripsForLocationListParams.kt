@@ -94,14 +94,10 @@ private constructor(
         }
 
         /** Latitude span of the search bounding box */
-        fun latSpan(latSpan: Float) = apply {
-            this.latSpan = latSpan
-        }
+        fun latSpan(latSpan: Float) = apply { this.latSpan = latSpan }
 
         /** Longitude span of the search bounding box */
-        fun lonSpan(lonSpan: Float) = apply {
-            this.lonSpan = lonSpan
-        }
+        fun lonSpan(lonSpan: Float) = apply { this.lonSpan = lonSpan }
 
         /**
          * Whether to include full schedule elements in the tripDetails section. Defaults to false.
@@ -122,9 +118,7 @@ private constructor(
             includeSchedule(includeSchedule.getOrNull())
 
         /** Whether to include full trip elements in the references section. Defaults to true. */
-        fun includeTrip(includeTrip: Boolean?) = apply {
-            this.includeTrip = includeTrip
-        }
+        fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
         /**
          * Alias for [Builder.includeTrip].
@@ -137,9 +131,7 @@ private constructor(
         fun includeTrip(includeTrip: Optional<Boolean>) = includeTrip(includeTrip.getOrNull())
 
         /** The latitude coordinate of the search center. If omitted, defaults to 0.0. */
-        fun lat(lat: Float?) = apply {
-            this.lat = lat
-        }
+        fun lat(lat: Float?) = apply { this.lat = lat }
 
         /**
          * Alias for [Builder.lat].
@@ -152,9 +144,7 @@ private constructor(
         fun lat(lat: Optional<Float>) = lat(lat.getOrNull())
 
         /** The longitude coordinate of the search center. If omitted, defaults to 0.0. */
-        fun lon(lon: Float?) = apply {
-            this.lon = lon
-        }
+        fun lon(lon: Float?) = apply { this.lon = lon }
 
         /**
          * Alias for [Builder.lon].
@@ -167,9 +157,7 @@ private constructor(
         fun lon(lon: Optional<Float>) = lon(lon.getOrNull())
 
         /** Specific time for the query. Defaults to the current time. */
-        fun time(time: Long?) = apply {
-            this.time = time
-        }
+        fun time(time: Long?) = apply { this.time = time }
 
         /**
          * Alias for [Builder.time].
@@ -223,9 +211,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -275,9 +261,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -298,14 +282,8 @@ private constructor(
          */
         fun build(): TripsForLocationListParams =
             TripsForLocationListParams(
-                checkRequired(
-                    "latSpan",
-                    latSpan,
-                ),
-                checkRequired(
-                    "lonSpan",
-                    lonSpan,
-                ),
+                checkRequired("latSpan", latSpan),
+                checkRequired("lonSpan", lonSpan),
                 includeSchedule,
                 includeTrip,
                 lat,

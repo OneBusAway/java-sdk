@@ -26,10 +26,7 @@ interface RoutesForAgencyService {
 
     /** Retrieve the list of all routes for a particular agency by id */
     fun list(agencyId: String): RoutesForAgencyListResponse =
-        list(
-            agencyId,
-            RoutesForAgencyListParams.none(),
-        )
+        list(agencyId, RoutesForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,13 @@ interface RoutesForAgencyService {
         params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForAgencyListResponse =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
-    ): RoutesForAgencyListResponse =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+    ): RoutesForAgencyListResponse = list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,18 +50,11 @@ interface RoutesForAgencyService {
 
     /** @see list */
     fun list(params: RoutesForAgencyListParams): RoutesForAgencyListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): RoutesForAgencyListResponse =
-        list(
-            agencyId,
-            RoutesForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, RoutesForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForAgencyService] that provides access to raw HTTP responses for each
@@ -95,10 +77,7 @@ interface RoutesForAgencyService {
          */
         @MustBeClosed
         fun list(agencyId: String): HttpResponseFor<RoutesForAgencyListResponse> =
-            list(
-                agencyId,
-                RoutesForAgencyListParams.none(),
-            )
+            list(agencyId, RoutesForAgencyListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -107,10 +86,7 @@ interface RoutesForAgencyService {
             params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RoutesForAgencyListResponse> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         @MustBeClosed
@@ -118,11 +94,7 @@ interface RoutesForAgencyService {
             agencyId: String,
             params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
         ): HttpResponseFor<RoutesForAgencyListResponse> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -134,10 +106,7 @@ interface RoutesForAgencyService {
         /** @see list */
         @MustBeClosed
         fun list(params: RoutesForAgencyListParams): HttpResponseFor<RoutesForAgencyListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -145,10 +114,6 @@ interface RoutesForAgencyService {
             agencyId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<RoutesForAgencyListResponse> =
-            list(
-                agencyId,
-                RoutesForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, RoutesForAgencyListParams.none(), requestOptions)
     }
 }

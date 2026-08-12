@@ -26,10 +26,7 @@ interface StopIdsForAgencyService {
 
     /** Get stop IDs for a specific agency */
     fun list(agencyId: String): StopIdsForAgencyListResponse =
-        list(
-            agencyId,
-            StopIdsForAgencyListParams.none(),
-        )
+        list(agencyId, StopIdsForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,13 @@ interface StopIdsForAgencyService {
         params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopIdsForAgencyListResponse =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
-    ): StopIdsForAgencyListResponse =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+    ): StopIdsForAgencyListResponse = list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,18 +50,11 @@ interface StopIdsForAgencyService {
 
     /** @see list */
     fun list(params: StopIdsForAgencyListParams): StopIdsForAgencyListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): StopIdsForAgencyListResponse =
-        list(
-            agencyId,
-            StopIdsForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, StopIdsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [StopIdsForAgencyService] that provides access to raw HTTP responses for each
@@ -95,10 +77,7 @@ interface StopIdsForAgencyService {
          */
         @MustBeClosed
         fun list(agencyId: String): HttpResponseFor<StopIdsForAgencyListResponse> =
-            list(
-                agencyId,
-                StopIdsForAgencyListParams.none(),
-            )
+            list(agencyId, StopIdsForAgencyListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -107,10 +86,7 @@ interface StopIdsForAgencyService {
             params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopIdsForAgencyListResponse> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         @MustBeClosed
@@ -118,11 +94,7 @@ interface StopIdsForAgencyService {
             agencyId: String,
             params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
         ): HttpResponseFor<StopIdsForAgencyListResponse> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -135,11 +107,7 @@ interface StopIdsForAgencyService {
         @MustBeClosed
         fun list(
             params: StopIdsForAgencyListParams
-        ): HttpResponseFor<StopIdsForAgencyListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<StopIdsForAgencyListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -147,10 +115,6 @@ interface StopIdsForAgencyService {
             agencyId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopIdsForAgencyListResponse> =
-            list(
-                agencyId,
-                StopIdsForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, StopIdsForAgencyListParams.none(), requestOptions)
     }
 }

@@ -26,10 +26,7 @@ interface BlockServiceAsync {
 
     /** Get details of a specific block by ID */
     fun retrieve(blockId: String): CompletableFuture<BlockRetrieveResponse> =
-        retrieve(
-            blockId,
-            BlockRetrieveParams.none(),
-        )
+        retrieve(blockId, BlockRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface BlockServiceAsync {
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<BlockRetrieveResponse> =
-        retrieve(
-            params.toBuilder().blockId(blockId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         blockId: String,
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
-    ): CompletableFuture<BlockRetrieveResponse> =
-        retrieve(
-            blockId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<BlockRetrieveResponse> = retrieve(blockId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface BlockServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: BlockRetrieveParams): CompletableFuture<BlockRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         blockId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<BlockRetrieveResponse> =
-        retrieve(
-            blockId,
-            BlockRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
 
     /** A view of [BlockServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -94,10 +76,7 @@ interface BlockServiceAsync {
          * the same as [BlockServiceAsync.retrieve].
          */
         fun retrieve(blockId: String): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
-            retrieve(
-                blockId,
-                BlockRetrieveParams.none(),
-            )
+            retrieve(blockId, BlockRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -105,21 +84,14 @@ interface BlockServiceAsync {
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().blockId(blockId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             blockId: String,
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
-            retrieve(
-                blockId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(blockId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -131,20 +103,13 @@ interface BlockServiceAsync {
         fun retrieve(
             params: BlockRetrieveParams
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             blockId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<BlockRetrieveResponse>> =
-            retrieve(
-                blockId,
-                BlockRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
     }
 }

@@ -26,10 +26,7 @@ interface AgencyService {
 
     /** Retrieve information for a specific transit agency identified by its unique ID. */
     fun retrieve(agencyId: String): AgencyRetrieveResponse =
-        retrieve(
-            agencyId,
-            AgencyRetrieveParams.none(),
-        )
+        retrieve(agencyId, AgencyRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface AgencyService {
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgencyRetrieveResponse =
-        retrieve(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         agencyId: String,
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
-    ): AgencyRetrieveResponse =
-        retrieve(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+    ): AgencyRetrieveResponse = retrieve(agencyId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +50,11 @@ interface AgencyService {
 
     /** @see retrieve */
     fun retrieve(params: AgencyRetrieveParams): AgencyRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(agencyId: String, requestOptions: RequestOptions): AgencyRetrieveResponse =
-        retrieve(
-            agencyId,
-            AgencyRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(agencyId, AgencyRetrieveParams.none(), requestOptions)
 
     /** A view of [AgencyService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -90,10 +72,7 @@ interface AgencyService {
          */
         @MustBeClosed
         fun retrieve(agencyId: String): HttpResponseFor<AgencyRetrieveResponse> =
-            retrieve(
-                agencyId,
-                AgencyRetrieveParams.none(),
-            )
+            retrieve(agencyId, AgencyRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -102,10 +81,7 @@ interface AgencyService {
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AgencyRetrieveResponse> =
-            retrieve(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
@@ -113,11 +89,7 @@ interface AgencyService {
             agencyId: String,
             params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
         ): HttpResponseFor<AgencyRetrieveResponse> =
-            retrieve(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(agencyId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -129,10 +101,7 @@ interface AgencyService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: AgencyRetrieveParams): HttpResponseFor<AgencyRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -140,10 +109,6 @@ interface AgencyService {
             agencyId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<AgencyRetrieveResponse> =
-            retrieve(
-                agencyId,
-                AgencyRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(agencyId, AgencyRetrieveParams.none(), requestOptions)
     }
 }

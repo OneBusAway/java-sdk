@@ -65,21 +65,12 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "agencies-with-coverage.json")
                     .build()
-                    .prepare(
-                        clientOptions,
-                        params,
-                    )
+                    .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response =
-                clientOptions.httpClient.execute(
-                    request,
-                    requestOptions,
-                )
+            val response = clientOptions.httpClient.execute(request, requestOptions)
             return errorHandler.handle(response).parseable {
                 response
-                    .use {
-                        listHandler.handle(it)
-                    }
+                    .use { listHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

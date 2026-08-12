@@ -39,18 +39,11 @@ interface AgenciesWithCoverageService {
     /** @see list */
     fun list(
         params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
-    ): AgenciesWithCoverageListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): AgenciesWithCoverageListResponse = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): AgenciesWithCoverageListResponse =
-        list(
-            AgenciesWithCoverageListParams.none(),
-            requestOptions,
-        )
+        list(AgenciesWithCoverageListParams.none(), requestOptions)
 
     /**
      * A view of [AgenciesWithCoverageService] that provides access to raw HTTP responses for each
@@ -86,20 +79,13 @@ interface AgenciesWithCoverageService {
         @MustBeClosed
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
-        ): HttpResponseFor<AgenciesWithCoverageListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<AgenciesWithCoverageListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): HttpResponseFor<AgenciesWithCoverageListResponse> =
-            list(
-                AgenciesWithCoverageListParams.none(),
-                requestOptions,
-            )
+            list(AgenciesWithCoverageListParams.none(), requestOptions)
     }
 }

@@ -30,12 +30,7 @@ interface ArrivalAndDepartureService {
     fun retrieve(
         stopId: String,
         params: ArrivalAndDepartureRetrieveParams,
-    ): ArrivalAndDepartureRetrieveResponse =
-        retrieve(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+    ): ArrivalAndDepartureRetrieveResponse = retrieve(stopId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -43,17 +38,11 @@ interface ArrivalAndDepartureService {
         params: ArrivalAndDepartureRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureRetrieveResponse =
-        retrieve(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(params: ArrivalAndDepartureRetrieveParams): ArrivalAndDepartureRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -63,10 +52,7 @@ interface ArrivalAndDepartureService {
 
     /** arrivals-and-departures-for-stop */
     fun list(stopId: String): ArrivalAndDepartureListResponse =
-        list(
-            stopId,
-            ArrivalAndDepartureListParams.none(),
-        )
+        list(stopId, ArrivalAndDepartureListParams.none())
 
     /** @see list */
     fun list(
@@ -74,21 +60,13 @@ interface ArrivalAndDepartureService {
         params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureListResponse =
-        list(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see list */
     fun list(
         stopId: String,
         params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
-    ): ArrivalAndDepartureListResponse =
-        list(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+    ): ArrivalAndDepartureListResponse = list(stopId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -98,18 +76,11 @@ interface ArrivalAndDepartureService {
 
     /** @see list */
     fun list(params: ArrivalAndDepartureListParams): ArrivalAndDepartureListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(stopId: String, requestOptions: RequestOptions): ArrivalAndDepartureListResponse =
-        list(
-            stopId,
-            ArrivalAndDepartureListParams.none(),
-            requestOptions,
-        )
+        list(stopId, ArrivalAndDepartureListParams.none(), requestOptions)
 
     /**
      * A view of [ArrivalAndDepartureService] that provides access to raw HTTP responses for each
@@ -136,11 +107,7 @@ interface ArrivalAndDepartureService {
             stopId: String,
             params: ArrivalAndDepartureRetrieveParams,
         ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse> =
-            retrieve(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(stopId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -149,20 +116,14 @@ interface ArrivalAndDepartureService {
             params: ArrivalAndDepartureRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse> =
-            retrieve(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ArrivalAndDepartureRetrieveParams
         ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -178,10 +139,7 @@ interface ArrivalAndDepartureService {
          */
         @MustBeClosed
         fun list(stopId: String): HttpResponseFor<ArrivalAndDepartureListResponse> =
-            list(
-                stopId,
-                ArrivalAndDepartureListParams.none(),
-            )
+            list(stopId, ArrivalAndDepartureListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -190,10 +148,7 @@ interface ArrivalAndDepartureService {
             params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ArrivalAndDepartureListResponse> =
-            list(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see list */
         @MustBeClosed
@@ -201,11 +156,7 @@ interface ArrivalAndDepartureService {
             stopId: String,
             params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
         ): HttpResponseFor<ArrivalAndDepartureListResponse> =
-            list(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+            list(stopId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -218,11 +169,7 @@ interface ArrivalAndDepartureService {
         @MustBeClosed
         fun list(
             params: ArrivalAndDepartureListParams
-        ): HttpResponseFor<ArrivalAndDepartureListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<ArrivalAndDepartureListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -230,10 +177,6 @@ interface ArrivalAndDepartureService {
             stopId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ArrivalAndDepartureListResponse> =
-            list(
-                stopId,
-                ArrivalAndDepartureListParams.none(),
-                requestOptions,
-            )
+            list(stopId, ArrivalAndDepartureListParams.none(), requestOptions)
     }
 }

@@ -37,18 +37,11 @@ interface RoutesForLocationServiceAsync {
     /** @see list */
     fun list(
         params: RoutesForLocationListParams = RoutesForLocationListParams.none()
-    ): CompletableFuture<RoutesForLocationListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<RoutesForLocationListResponse> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<RoutesForLocationListResponse> =
-        list(
-            RoutesForLocationListParams.none(),
-            requestOptions,
-        )
+        list(RoutesForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForLocationServiceAsync] that provides access to raw HTTP responses for each
@@ -82,18 +75,12 @@ interface RoutesForLocationServiceAsync {
         fun list(
             params: RoutesForLocationListParams = RoutesForLocationListParams.none()
         ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<RoutesForLocationListResponse>> =
-            list(
-                RoutesForLocationListParams.none(),
-                requestOptions,
-            )
+            list(RoutesForLocationListParams.none(), requestOptions)
     }
 }

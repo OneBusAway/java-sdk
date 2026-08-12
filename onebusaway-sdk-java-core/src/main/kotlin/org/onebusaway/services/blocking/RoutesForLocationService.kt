@@ -36,18 +36,11 @@ interface RoutesForLocationService {
     /** @see list */
     fun list(
         params: RoutesForLocationListParams = RoutesForLocationListParams.none()
-    ): RoutesForLocationListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): RoutesForLocationListResponse = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): RoutesForLocationListResponse =
-        list(
-            RoutesForLocationListParams.none(),
-            requestOptions,
-        )
+        list(RoutesForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForLocationService] that provides access to raw HTTP responses for each
@@ -83,18 +76,11 @@ interface RoutesForLocationService {
         @MustBeClosed
         fun list(
             params: RoutesForLocationListParams = RoutesForLocationListParams.none()
-        ): HttpResponseFor<RoutesForLocationListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<RoutesForLocationListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<RoutesForLocationListResponse> =
-            list(
-                RoutesForLocationListParams.none(),
-                requestOptions,
-            )
+            list(RoutesForLocationListParams.none(), requestOptions)
     }
 }

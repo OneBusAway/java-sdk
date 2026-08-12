@@ -26,32 +26,20 @@ interface ShapeService {
 
     /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
     fun retrieve(shapeId: String): ShapeRetrieveResponse =
-        retrieve(
-            shapeId,
-            ShapeRetrieveParams.none(),
-        )
+        retrieve(shapeId, ShapeRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         shapeId: String,
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): ShapeRetrieveResponse =
-        retrieve(
-            params.toBuilder().shapeId(shapeId).build(),
-            requestOptions,
-        )
+    ): ShapeRetrieveResponse = retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         shapeId: String,
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
-    ): ShapeRetrieveResponse =
-        retrieve(
-            shapeId,
-            params,
-            RequestOptions.none(),
-        )
+    ): ShapeRetrieveResponse = retrieve(shapeId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +49,11 @@ interface ShapeService {
 
     /** @see retrieve */
     fun retrieve(params: ShapeRetrieveParams): ShapeRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(shapeId: String, requestOptions: RequestOptions): ShapeRetrieveResponse =
-        retrieve(
-            shapeId,
-            ShapeRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(shapeId, ShapeRetrieveParams.none(), requestOptions)
 
     /** A view of [ShapeService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -90,10 +71,7 @@ interface ShapeService {
          */
         @MustBeClosed
         fun retrieve(shapeId: String): HttpResponseFor<ShapeRetrieveResponse> =
-            retrieve(
-                shapeId,
-                ShapeRetrieveParams.none(),
-            )
+            retrieve(shapeId, ShapeRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -102,22 +80,14 @@ interface ShapeService {
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ShapeRetrieveResponse> =
-            retrieve(
-                params.toBuilder().shapeId(shapeId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             shapeId: String,
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
-        ): HttpResponseFor<ShapeRetrieveResponse> =
-            retrieve(
-                shapeId,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<ShapeRetrieveResponse> = retrieve(shapeId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -129,10 +99,7 @@ interface ShapeService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: ShapeRetrieveParams): HttpResponseFor<ShapeRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -140,10 +107,6 @@ interface ShapeService {
             shapeId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ShapeRetrieveResponse> =
-            retrieve(
-                shapeId,
-                ShapeRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(shapeId, ShapeRetrieveParams.none(), requestOptions)
     }
 }

@@ -41,14 +41,7 @@ private constructor(
         @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
         @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
-    ) : this(
-        code,
-        currentTime,
-        text,
-        version,
-        data,
-        mutableMapOf(),
-    )
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
 
     fun toResponseWrapper(): ResponseWrapper =
         ResponseWrapper.builder()
@@ -182,9 +175,7 @@ private constructor(
          * You should usually call [Builder.code] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun code(code: JsonField<Long>) = apply {
-            this.code = code
-        }
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
@@ -195,9 +186,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun currentTime(currentTime: JsonField<Long>) = apply {
-            this.currentTime = currentTime
-        }
+        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
@@ -207,9 +196,7 @@ private constructor(
          * You should usually call [Builder.text] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun text(text: JsonField<String>) = apply {
-            this.text = text
-        }
+        fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
@@ -219,9 +206,7 @@ private constructor(
          * You should usually call [Builder.version] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun version(version: JsonField<Long>) = apply {
-            this.version = version
-        }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
@@ -231,9 +216,7 @@ private constructor(
          * You should usually call [Builder.data] with a well-typed [Data] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun data(data: JsonField<Data>) = apply {
-            this.data = data
-        }
+        fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -248,9 +231,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -274,26 +255,11 @@ private constructor(
          */
         fun build(): TripForVehicleRetrieveResponse =
             TripForVehicleRetrieveResponse(
-                checkRequired(
-                    "code",
-                    code,
-                ),
-                checkRequired(
-                    "currentTime",
-                    currentTime,
-                ),
-                checkRequired(
-                    "text",
-                    text,
-                ),
-                checkRequired(
-                    "version",
-                    version,
-                ),
-                checkRequired(
-                    "data",
-                    data,
-                ),
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -356,11 +322,7 @@ private constructor(
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
-        ) : this(
-            entry,
-            references,
-            mutableMapOf(),
-        )
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -439,9 +401,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun entry(entry: JsonField<Entry>) = apply {
-                this.entry = entry
-            }
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -469,9 +429,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -492,14 +450,8 @@ private constructor(
              */
             fun build(): Data =
                 Data(
-                    checkRequired(
-                        "entry",
-                        entry,
-                    ),
-                    checkRequired(
-                        "references",
-                        references,
-                    ),
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -573,18 +525,8 @@ private constructor(
                 @JsonProperty("situationIds")
                 @ExcludeMissing
                 situationIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("status")
-                @ExcludeMissing
-                status: JsonField<Status> = JsonMissing.of(),
-            ) : this(
-                tripId,
-                frequency,
-                schedule,
-                serviceDate,
-                situationIds,
-                status,
-                mutableMapOf(),
-            )
+                @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+            ) : this(tripId, frequency, schedule, serviceDate, situationIds, status, mutableMapOf())
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
@@ -735,9 +677,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun tripId(tripId: JsonField<String>) = apply {
-                    this.tripId = tripId
-                }
+                fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                 fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
 
@@ -751,9 +691,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun frequency(frequency: JsonField<String>) = apply {
-                    this.frequency = frequency
-                }
+                fun frequency(frequency: JsonField<String>) = apply { this.frequency = frequency }
 
                 fun schedule(schedule: Schedule?) = schedule(JsonField.ofNullable(schedule))
 
@@ -767,9 +705,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun schedule(schedule: JsonField<Schedule>) = apply {
-                    this.schedule = schedule
-                }
+                fun schedule(schedule: JsonField<Schedule>) = apply { this.schedule = schedule }
 
                 fun serviceDate(serviceDate: Long) = serviceDate(JsonField.of(serviceDate))
 
@@ -820,9 +756,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun status(status: JsonField<Status>) = apply {
-                    this.status = status
-                }
+                fun status(status: JsonField<Status>) = apply { this.status = status }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -860,10 +794,7 @@ private constructor(
                  */
                 fun build(): Entry =
                     Entry(
-                        checkRequired(
-                            "tripId",
-                            tripId,
-                        ),
+                        checkRequired("tripId", tripId),
                         frequency,
                         schedule,
                         serviceDate,
@@ -950,14 +881,7 @@ private constructor(
                     @JsonProperty("frequency")
                     @ExcludeMissing
                     frequency: JsonField<String> = JsonMissing.of(),
-                ) : this(
-                    nextTripId,
-                    previousTripId,
-                    stopTimes,
-                    timeZone,
-                    frequency,
-                    mutableMapOf(),
-                )
+                ) : this(nextTripId, previousTripId, stopTimes, timeZone, frequency, mutableMapOf())
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -1152,9 +1076,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun timeZone(timeZone: JsonField<String>) = apply {
-                        this.timeZone = timeZone
-                    }
+                    fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
 
                     fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
 
@@ -1211,23 +1133,10 @@ private constructor(
                      */
                     fun build(): Schedule =
                         Schedule(
-                            checkRequired(
-                                "nextTripId",
-                                nextTripId,
-                            ),
-                            checkRequired(
-                                "previousTripId",
-                                previousTripId,
-                            ),
-                            checkRequired(
-                                    "stopTimes",
-                                    stopTimes,
-                                )
-                                .map { it.toImmutable() },
-                            checkRequired(
-                                "timeZone",
-                                timeZone,
-                            ),
+                            checkRequired("nextTripId", nextTripId),
+                            checkRequired("previousTripId", previousTripId),
+                            checkRequired("stopTimes", stopTimes).map { it.toImmutable() },
+                            checkRequired("timeZone", timeZone),
                             frequency,
                             additionalProperties.toMutableMap(),
                         )
@@ -1539,9 +1448,7 @@ private constructor(
                          * instead. This method is primarily for setting the field to an
                          * undocumented or not yet supported value.
                          */
-                        fun stopId(stopId: JsonField<String>) = apply {
-                            this.stopId = stopId
-                        }
+                        fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -1555,9 +1462,7 @@ private constructor(
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
-                        ) = apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
                         fun removeAdditionalProperty(key: String) = apply {
                             additionalProperties.remove(key)
@@ -2630,9 +2535,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun phase(phase: JsonField<String>) = apply {
-                        this.phase = phase
-                    }
+                    fun phase(phase: JsonField<String>) = apply { this.phase = phase }
 
                     /** Indicates if real-time arrival info is available for this trip. */
                     fun predicted(predicted: Boolean) = predicted(JsonField.of(predicted))
@@ -2693,9 +2596,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun status(status: JsonField<String>) = apply {
-                        this.status = status
-                    }
+                    fun status(status: JsonField<String>) = apply { this.status = status }
 
                     /** Total length of the trip, in meters. */
                     fun totalDistanceAlongTrip(totalDistanceAlongTrip: Double) =
@@ -2796,9 +2697,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun nextStop(nextStop: JsonField<String>) = apply {
-                        this.nextStop = nextStop
-                    }
+                    fun nextStop(nextStop: JsonField<String>) = apply { this.nextStop = nextStop }
 
                     /**
                      * Time offset from the next stop to the current position of the transit vehicle
@@ -2842,9 +2741,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun position(position: JsonField<Position>) = apply {
-                        this.position = position
-                    }
+                    fun position(position: JsonField<Position>) = apply { this.position = position }
 
                     /**
                      * Distance, in meters, the transit vehicle is scheduled to have progressed
@@ -2957,70 +2854,22 @@ private constructor(
                      */
                     fun build(): Status =
                         Status(
-                            checkRequired(
-                                "activeTripId",
-                                activeTripId,
-                            ),
-                            checkRequired(
-                                "blockTripSequence",
-                                blockTripSequence,
-                            ),
-                            checkRequired(
-                                "closestStop",
-                                closestStop,
-                            ),
-                            checkRequired(
-                                "distanceAlongTrip",
-                                distanceAlongTrip,
-                            ),
-                            checkRequired(
-                                "lastKnownDistanceAlongTrip",
-                                lastKnownDistanceAlongTrip,
-                            ),
-                            checkRequired(
-                                "lastLocationUpdateTime",
-                                lastLocationUpdateTime,
-                            ),
-                            checkRequired(
-                                "lastUpdateTime",
-                                lastUpdateTime,
-                            ),
-                            checkRequired(
-                                "occupancyCapacity",
-                                occupancyCapacity,
-                            ),
-                            checkRequired(
-                                "occupancyCount",
-                                occupancyCount,
-                            ),
-                            checkRequired(
-                                "occupancyStatus",
-                                occupancyStatus,
-                            ),
-                            checkRequired(
-                                "phase",
-                                phase,
-                            ),
-                            checkRequired(
-                                "predicted",
-                                predicted,
-                            ),
-                            checkRequired(
-                                "scheduleDeviation",
-                                scheduleDeviation,
-                            ),
-                            checkRequired(
-                                "serviceDate",
-                                serviceDate,
-                            ),
-                            checkRequired(
-                                "status",
-                                status,
-                            ),
-                            checkRequired(
-                                "totalDistanceAlongTrip",
-                                totalDistanceAlongTrip,
-                            ),
+                            checkRequired("activeTripId", activeTripId),
+                            checkRequired("blockTripSequence", blockTripSequence),
+                            checkRequired("closestStop", closestStop),
+                            checkRequired("distanceAlongTrip", distanceAlongTrip),
+                            checkRequired("lastKnownDistanceAlongTrip", lastKnownDistanceAlongTrip),
+                            checkRequired("lastLocationUpdateTime", lastLocationUpdateTime),
+                            checkRequired("lastUpdateTime", lastUpdateTime),
+                            checkRequired("occupancyCapacity", occupancyCapacity),
+                            checkRequired("occupancyCount", occupancyCount),
+                            checkRequired("occupancyStatus", occupancyStatus),
+                            checkRequired("phase", phase),
+                            checkRequired("predicted", predicted),
+                            checkRequired("scheduleDeviation", scheduleDeviation),
+                            checkRequired("serviceDate", serviceDate),
+                            checkRequired("status", status),
+                            checkRequired("totalDistanceAlongTrip", totalDistanceAlongTrip),
                             closestStopTimeOffset,
                             frequency,
                             lastKnownLocation,
@@ -3144,11 +2993,7 @@ private constructor(
                         @JsonProperty("lon")
                         @ExcludeMissing
                         lon: JsonField<Double> = JsonMissing.of(),
-                    ) : this(
-                        lat,
-                        lon,
-                        mutableMapOf(),
-                    )
+                    ) : this(lat, lon, mutableMapOf())
 
                     /**
                      * Latitude of the last known location of the transit vehicle.
@@ -3229,9 +3074,7 @@ private constructor(
                          * instead. This method is primarily for setting the field to an
                          * undocumented or not yet supported value.
                          */
-                        fun lat(lat: JsonField<Double>) = apply {
-                            this.lat = lat
-                        }
+                        fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
                         /** Longitude of the last known location of the transit vehicle. */
                         fun lon(lon: Double) = lon(JsonField.of(lon))
@@ -3243,9 +3086,7 @@ private constructor(
                          * instead. This method is primarily for setting the field to an
                          * undocumented or not yet supported value.
                          */
-                        fun lon(lon: JsonField<Double>) = apply {
-                            this.lon = lon
-                        }
+                        fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -3259,9 +3100,7 @@ private constructor(
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
-                        ) = apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
                         fun removeAdditionalProperty(key: String) = apply {
                             additionalProperties.remove(key)
@@ -3277,11 +3116,7 @@ private constructor(
                          * Further updates to this [Builder] will not mutate the returned instance.
                          */
                         fun build(): LastKnownLocation =
-                            LastKnownLocation(
-                                lat,
-                                lon,
-                                additionalProperties.toMutableMap(),
-                            )
+                            LastKnownLocation(lat, lon, additionalProperties.toMutableMap())
                     }
 
                     private var validated: Boolean = false
@@ -3363,11 +3198,7 @@ private constructor(
                         @JsonProperty("lon")
                         @ExcludeMissing
                         lon: JsonField<Double> = JsonMissing.of(),
-                    ) : this(
-                        lat,
-                        lon,
-                        mutableMapOf(),
-                    )
+                    ) : this(lat, lon, mutableMapOf())
 
                     /**
                      * Latitude of the current position of the transit vehicle.
@@ -3444,9 +3275,7 @@ private constructor(
                          * instead. This method is primarily for setting the field to an
                          * undocumented or not yet supported value.
                          */
-                        fun lat(lat: JsonField<Double>) = apply {
-                            this.lat = lat
-                        }
+                        fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
                         /** Longitude of the current position of the transit vehicle. */
                         fun lon(lon: Double) = lon(JsonField.of(lon))
@@ -3458,9 +3287,7 @@ private constructor(
                          * instead. This method is primarily for setting the field to an
                          * undocumented or not yet supported value.
                          */
-                        fun lon(lon: JsonField<Double>) = apply {
-                            this.lon = lon
-                        }
+                        fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -3474,9 +3301,7 @@ private constructor(
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
-                        ) = apply {
-                            this.additionalProperties.putAll(additionalProperties)
-                        }
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
                         fun removeAdditionalProperty(key: String) = apply {
                             additionalProperties.remove(key)
@@ -3492,11 +3317,7 @@ private constructor(
                          * Further updates to this [Builder] will not mutate the returned instance.
                          */
                         fun build(): Position =
-                            Position(
-                                lat,
-                                lon,
-                                additionalProperties.toMutableMap(),
-                            )
+                            Position(lat, lon, additionalProperties.toMutableMap())
                     }
 
                     private var validated: Boolean = false

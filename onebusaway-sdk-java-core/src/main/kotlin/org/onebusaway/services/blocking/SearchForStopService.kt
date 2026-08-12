@@ -26,10 +26,7 @@ interface SearchForStopService {
 
     /** Search for a stop based on its name. */
     fun list(params: SearchForStopListParams): SearchForStopListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -57,10 +54,7 @@ interface SearchForStopService {
          */
         @MustBeClosed
         fun list(params: SearchForStopListParams): HttpResponseFor<SearchForStopListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed

@@ -61,9 +61,7 @@ private constructor(
             additionalQueryParams = stopsForRouteListParams.additionalQueryParams.toBuilder()
         }
 
-        fun routeId(routeId: String?) = apply {
-            this.routeId = routeId
-        }
+        fun routeId(routeId: String?) = apply { this.routeId = routeId }
 
         /** Alias for calling [Builder.routeId] with `routeId.orElse(null)`. */
         fun routeId(routeId: Optional<String>) = routeId(routeId.getOrNull())
@@ -86,9 +84,7 @@ private constructor(
             includePolylines(includePolylines.getOrNull())
 
         /** Specify service date (YYYY-MM-DD or epoch) (default today) */
-        fun time(time: String?) = apply {
-            this.time = time
-        }
+        fun time(time: String?) = apply { this.time = time }
 
         /** Alias for calling [Builder.time] with `time.orElse(null)`. */
         fun time(time: Optional<String>) = time(time.getOrNull())
@@ -135,9 +131,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -187,9 +181,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

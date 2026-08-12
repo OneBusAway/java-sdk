@@ -26,10 +26,7 @@ interface ScheduleForStopServiceAsync {
 
     /** Get schedule for a specific stop */
     fun retrieve(stopId: String): CompletableFuture<ScheduleForStopRetrieveResponse> =
-        retrieve(
-            stopId,
-            ScheduleForStopRetrieveParams.none(),
-        )
+        retrieve(stopId, ScheduleForStopRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,14 @@ interface ScheduleForStopServiceAsync {
         params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ScheduleForStopRetrieveResponse> =
-        retrieve(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
     ): CompletableFuture<ScheduleForStopRetrieveResponse> =
-        retrieve(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(stopId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -62,22 +52,14 @@ interface ScheduleForStopServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: ScheduleForStopRetrieveParams
-    ): CompletableFuture<ScheduleForStopRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ScheduleForStopRetrieveResponse> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ScheduleForStopRetrieveResponse> =
-        retrieve(
-            stopId,
-            ScheduleForStopRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(stopId, ScheduleForStopRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ScheduleForStopServiceAsync] that provides access to raw HTTP responses for each
@@ -101,10 +83,7 @@ interface ScheduleForStopServiceAsync {
         fun retrieve(
             stopId: String
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>> =
-            retrieve(
-                stopId,
-                ScheduleForStopRetrieveParams.none(),
-            )
+            retrieve(stopId, ScheduleForStopRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -112,21 +91,14 @@ interface ScheduleForStopServiceAsync {
             params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             stopId: String,
             params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>> =
-            retrieve(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(stopId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -138,20 +110,13 @@ interface ScheduleForStopServiceAsync {
         fun retrieve(
             params: ScheduleForStopRetrieveParams
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             stopId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ScheduleForStopRetrieveResponse>> =
-            retrieve(
-                stopId,
-                ScheduleForStopRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(stopId, ScheduleForStopRetrieveParams.none(), requestOptions)
     }
 }

@@ -26,32 +26,20 @@ interface BlockService {
 
     /** Get details of a specific block by ID */
     fun retrieve(blockId: String): BlockRetrieveResponse =
-        retrieve(
-            blockId,
-            BlockRetrieveParams.none(),
-        )
+        retrieve(blockId, BlockRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         blockId: String,
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): BlockRetrieveResponse =
-        retrieve(
-            params.toBuilder().blockId(blockId).build(),
-            requestOptions,
-        )
+    ): BlockRetrieveResponse = retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         blockId: String,
         params: BlockRetrieveParams = BlockRetrieveParams.none(),
-    ): BlockRetrieveResponse =
-        retrieve(
-            blockId,
-            params,
-            RequestOptions.none(),
-        )
+    ): BlockRetrieveResponse = retrieve(blockId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +49,11 @@ interface BlockService {
 
     /** @see retrieve */
     fun retrieve(params: BlockRetrieveParams): BlockRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(blockId: String, requestOptions: RequestOptions): BlockRetrieveResponse =
-        retrieve(
-            blockId,
-            BlockRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
 
     /** A view of [BlockService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -90,10 +71,7 @@ interface BlockService {
          */
         @MustBeClosed
         fun retrieve(blockId: String): HttpResponseFor<BlockRetrieveResponse> =
-            retrieve(
-                blockId,
-                BlockRetrieveParams.none(),
-            )
+            retrieve(blockId, BlockRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -102,22 +80,14 @@ interface BlockService {
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BlockRetrieveResponse> =
-            retrieve(
-                params.toBuilder().blockId(blockId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             blockId: String,
             params: BlockRetrieveParams = BlockRetrieveParams.none(),
-        ): HttpResponseFor<BlockRetrieveResponse> =
-            retrieve(
-                blockId,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<BlockRetrieveResponse> = retrieve(blockId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -129,10 +99,7 @@ interface BlockService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: BlockRetrieveParams): HttpResponseFor<BlockRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -140,10 +107,6 @@ interface BlockService {
             blockId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<BlockRetrieveResponse> =
-            retrieve(
-                blockId,
-                BlockRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
     }
 }

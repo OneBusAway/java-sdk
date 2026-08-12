@@ -40,18 +40,11 @@ interface AgenciesWithCoverageServiceAsync {
     /** @see list */
     fun list(
         params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
-    ): CompletableFuture<AgenciesWithCoverageListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<AgenciesWithCoverageListResponse> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<AgenciesWithCoverageListResponse> =
-        list(
-            AgenciesWithCoverageListParams.none(),
-            requestOptions,
-        )
+        list(AgenciesWithCoverageListParams.none(), requestOptions)
 
     /**
      * A view of [AgenciesWithCoverageServiceAsync] that provides access to raw HTTP responses for
@@ -85,18 +78,12 @@ interface AgenciesWithCoverageServiceAsync {
         fun list(
             params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none()
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AgenciesWithCoverageListResponse>> =
-            list(
-                AgenciesWithCoverageListParams.none(),
-                requestOptions,
-            )
+            list(AgenciesWithCoverageListParams.none(), requestOptions)
     }
 }

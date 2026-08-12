@@ -26,10 +26,7 @@ interface StopServiceAsync {
 
     /** Get details of a specific stop */
     fun retrieve(stopId: String): CompletableFuture<StopRetrieveResponse> =
-        retrieve(
-            stopId,
-            StopRetrieveParams.none(),
-        )
+        retrieve(stopId, StopRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface StopServiceAsync {
         params: StopRetrieveParams = StopRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StopRetrieveResponse> =
-        retrieve(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: StopRetrieveParams = StopRetrieveParams.none(),
-    ): CompletableFuture<StopRetrieveResponse> =
-        retrieve(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<StopRetrieveResponse> = retrieve(stopId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface StopServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: StopRetrieveParams): CompletableFuture<StopRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<StopRetrieveResponse> =
-        retrieve(
-            stopId,
-            StopRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(stopId, StopRetrieveParams.none(), requestOptions)
 
     /** A view of [StopServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -92,10 +74,7 @@ interface StopServiceAsync {
          * same as [StopServiceAsync.retrieve].
          */
         fun retrieve(stopId: String): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
-            retrieve(
-                stopId,
-                StopRetrieveParams.none(),
-            )
+            retrieve(stopId, StopRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -103,21 +82,14 @@ interface StopServiceAsync {
             params: StopRetrieveParams = StopRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             stopId: String,
             params: StopRetrieveParams = StopRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
-            retrieve(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(stopId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -129,20 +101,13 @@ interface StopServiceAsync {
         fun retrieve(
             params: StopRetrieveParams
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             stopId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<StopRetrieveResponse>> =
-            retrieve(
-                stopId,
-                StopRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(stopId, StopRetrieveParams.none(), requestOptions)
     }
 }

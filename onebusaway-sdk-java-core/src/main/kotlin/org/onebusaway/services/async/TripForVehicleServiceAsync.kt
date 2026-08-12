@@ -26,10 +26,7 @@ interface TripForVehicleServiceAsync {
 
     /** Retrieve trip for a specific vehicle */
     fun retrieve(vehicleId: String): CompletableFuture<TripForVehicleRetrieveResponse> =
-        retrieve(
-            vehicleId,
-            TripForVehicleRetrieveParams.none(),
-        )
+        retrieve(vehicleId, TripForVehicleRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,14 @@ interface TripForVehicleServiceAsync {
         params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TripForVehicleRetrieveResponse> =
-        retrieve(
-            params.toBuilder().vehicleId(vehicleId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         vehicleId: String,
         params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
     ): CompletableFuture<TripForVehicleRetrieveResponse> =
-        retrieve(
-            vehicleId,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(vehicleId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -62,22 +52,14 @@ interface TripForVehicleServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: TripForVehicleRetrieveParams
-    ): CompletableFuture<TripForVehicleRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<TripForVehicleRetrieveResponse> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         vehicleId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<TripForVehicleRetrieveResponse> =
-        retrieve(
-            vehicleId,
-            TripForVehicleRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [TripForVehicleServiceAsync] that provides access to raw HTTP responses for each
@@ -101,10 +83,7 @@ interface TripForVehicleServiceAsync {
         fun retrieve(
             vehicleId: String
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>> =
-            retrieve(
-                vehicleId,
-                TripForVehicleRetrieveParams.none(),
-            )
+            retrieve(vehicleId, TripForVehicleRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -112,21 +91,14 @@ interface TripForVehicleServiceAsync {
             params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().vehicleId(vehicleId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             vehicleId: String,
             params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>> =
-            retrieve(
-                vehicleId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(vehicleId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -138,20 +110,13 @@ interface TripForVehicleServiceAsync {
         fun retrieve(
             params: TripForVehicleRetrieveParams
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             vehicleId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<TripForVehicleRetrieveResponse>> =
-            retrieve(
-                vehicleId,
-                TripForVehicleRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
     }
 }

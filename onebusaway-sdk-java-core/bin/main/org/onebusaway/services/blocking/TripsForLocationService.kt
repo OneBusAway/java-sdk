@@ -26,10 +26,7 @@ interface TripsForLocationService {
 
     /** Retrieve trips for a given location */
     fun list(params: TripsForLocationListParams): TripsForLocationListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -59,11 +56,7 @@ interface TripsForLocationService {
         @MustBeClosed
         fun list(
             params: TripsForLocationListParams
-        ): HttpResponseFor<TripsForLocationListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<TripsForLocationListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed

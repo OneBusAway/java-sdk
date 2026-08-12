@@ -49,9 +49,7 @@ private constructor(
             additionalQueryParams = routeRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun routeId(routeId: String?) = apply {
-            this.routeId = routeId
-        }
+        fun routeId(routeId: String?) = apply { this.routeId = routeId }
 
         /** Alias for calling [Builder.routeId] with `routeId.orElse(null)`. */
         fun routeId(routeId: Optional<String>) = routeId(routeId.getOrNull())
@@ -98,9 +96,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -150,9 +146,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -164,11 +158,7 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): RouteRetrieveParams =
-            RouteRetrieveParams(
-                routeId,
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
+            RouteRetrieveParams(routeId, additionalHeaders.build(), additionalQueryParams.build())
     }
 
     fun _pathParam(index: Int): String =

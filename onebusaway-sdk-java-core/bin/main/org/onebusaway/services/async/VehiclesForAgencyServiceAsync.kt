@@ -26,10 +26,7 @@ interface VehiclesForAgencyServiceAsync {
 
     /** Get vehicles for a specific agency */
     fun list(agencyId: String): CompletableFuture<VehiclesForAgencyListResponse> =
-        list(
-            agencyId,
-            VehiclesForAgencyListParams.none(),
-        )
+        list(agencyId, VehiclesForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,14 @@ interface VehiclesForAgencyServiceAsync {
         params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<VehiclesForAgencyListResponse> =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
     ): CompletableFuture<VehiclesForAgencyListResponse> =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+        list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -62,22 +52,14 @@ interface VehiclesForAgencyServiceAsync {
     /** @see list */
     fun list(
         params: VehiclesForAgencyListParams
-    ): CompletableFuture<VehiclesForAgencyListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<VehiclesForAgencyListResponse> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         agencyId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<VehiclesForAgencyListResponse> =
-        list(
-            agencyId,
-            VehiclesForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, VehiclesForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [VehiclesForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -101,10 +83,7 @@ interface VehiclesForAgencyServiceAsync {
         fun list(
             agencyId: String
         ): CompletableFuture<HttpResponseFor<VehiclesForAgencyListResponse>> =
-            list(
-                agencyId,
-                VehiclesForAgencyListParams.none(),
-            )
+            list(agencyId, VehiclesForAgencyListParams.none())
 
         /** @see list */
         fun list(
@@ -112,21 +91,14 @@ interface VehiclesForAgencyServiceAsync {
             params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<VehiclesForAgencyListResponse>> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         fun list(
             agencyId: String,
             params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
         ): CompletableFuture<HttpResponseFor<VehiclesForAgencyListResponse>> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -138,20 +110,13 @@ interface VehiclesForAgencyServiceAsync {
         fun list(
             params: VehiclesForAgencyListParams
         ): CompletableFuture<HttpResponseFor<VehiclesForAgencyListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             agencyId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<VehiclesForAgencyListResponse>> =
-            list(
-                agencyId,
-                VehiclesForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, VehiclesForAgencyListParams.none(), requestOptions)
     }
 }

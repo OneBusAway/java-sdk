@@ -72,17 +72,13 @@ private constructor(
             additionalQueryParams = arrivalAndDepartureListParams.additionalQueryParams.toBuilder()
         }
 
-        fun stopId(stopId: String?) = apply {
-            this.stopId = stopId
-        }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
 
         /** Alias for calling [Builder.stopId] with `stopId.orElse(null)`. */
         fun stopId(stopId: Optional<String>) = stopId(stopId.getOrNull())
 
         /** Include vehicles arriving or departing in the next n minutes. */
-        fun minutesAfter(minutesAfter: Long?) = apply {
-            this.minutesAfter = minutesAfter
-        }
+        fun minutesAfter(minutesAfter: Long?) = apply { this.minutesAfter = minutesAfter }
 
         /**
          * Alias for [Builder.minutesAfter].
@@ -95,9 +91,7 @@ private constructor(
         fun minutesAfter(minutesAfter: Optional<Long>) = minutesAfter(minutesAfter.getOrNull())
 
         /** Include vehicles having arrived or departed in the previous n minutes. */
-        fun minutesBefore(minutesBefore: Long?) = apply {
-            this.minutesBefore = minutesBefore
-        }
+        fun minutesBefore(minutesBefore: Long?) = apply { this.minutesBefore = minutesBefore }
 
         /**
          * Alias for [Builder.minutesBefore].
@@ -110,9 +104,7 @@ private constructor(
         fun minutesBefore(minutesBefore: Optional<Long>) = minutesBefore(minutesBefore.getOrNull())
 
         /** The specific time for querying the system status. */
-        fun time(time: OffsetDateTime?) = apply {
-            this.time = time
-        }
+        fun time(time: OffsetDateTime?) = apply { this.time = time }
 
         /** Alias for calling [Builder.time] with `time.orElse(null)`. */
         fun time(time: Optional<OffsetDateTime>) = time(time.getOrNull())
@@ -159,9 +151,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -211,9 +201,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

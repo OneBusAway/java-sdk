@@ -89,33 +89,25 @@ private constructor(
                 reportProblemWithStopRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun stopId(stopId: String?) = apply {
-            this.stopId = stopId
-        }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
 
         /** Alias for calling [Builder.stopId] with `stopId.orElse(null)`. */
         fun stopId(stopId: Optional<String>) = stopId(stopId.getOrNull())
 
         /** A string code identifying the nature of the problem */
-        fun code(code: Code?) = apply {
-            this.code = code
-        }
+        fun code(code: Code?) = apply { this.code = code }
 
         /** Alias for calling [Builder.code] with `code.orElse(null)`. */
         fun code(code: Optional<Code>) = code(code.getOrNull())
 
         /** Additional comment text supplied by the user describing the problem */
-        fun userComment(userComment: String?) = apply {
-            this.userComment = userComment
-        }
+        fun userComment(userComment: String?) = apply { this.userComment = userComment }
 
         /** Alias for calling [Builder.userComment] with `userComment.orElse(null)`. */
         fun userComment(userComment: Optional<String>) = userComment(userComment.getOrNull())
 
         /** The reporting user’s current latitude */
-        fun userLat(userLat: Float?) = apply {
-            this.userLat = userLat
-        }
+        fun userLat(userLat: Float?) = apply { this.userLat = userLat }
 
         /**
          * Alias for [Builder.userLat].
@@ -148,9 +140,7 @@ private constructor(
             userLocationAccuracy(userLocationAccuracy.getOrNull())
 
         /** The reporting user’s current longitude */
-        fun userLon(userLon: Float?) = apply {
-            this.userLon = userLon
-        }
+        fun userLon(userLon: Float?) = apply { this.userLon = userLon }
 
         /**
          * Alias for [Builder.userLon].
@@ -204,9 +194,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -256,9 +244,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -343,11 +329,9 @@ private constructor(
          * An enum containing [Code]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Code] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

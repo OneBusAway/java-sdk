@@ -41,14 +41,7 @@ private constructor(
         @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
         @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
-    ) : this(
-        code,
-        currentTime,
-        text,
-        version,
-        data,
-        mutableMapOf(),
-    )
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
 
     fun toResponseWrapper(): ResponseWrapper =
         ResponseWrapper.builder()
@@ -180,9 +173,7 @@ private constructor(
          * You should usually call [Builder.code] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun code(code: JsonField<Long>) = apply {
-            this.code = code
-        }
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
@@ -193,9 +184,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun currentTime(currentTime: JsonField<Long>) = apply {
-            this.currentTime = currentTime
-        }
+        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
@@ -205,9 +194,7 @@ private constructor(
          * You should usually call [Builder.text] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun text(text: JsonField<String>) = apply {
-            this.text = text
-        }
+        fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
@@ -217,9 +204,7 @@ private constructor(
          * You should usually call [Builder.version] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun version(version: JsonField<Long>) = apply {
-            this.version = version
-        }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
@@ -229,9 +214,7 @@ private constructor(
          * You should usually call [Builder.data] with a well-typed [Data] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun data(data: JsonField<Data>) = apply {
-            this.data = data
-        }
+        fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -246,9 +229,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -272,26 +253,11 @@ private constructor(
          */
         fun build(): StopRetrieveResponse =
             StopRetrieveResponse(
-                checkRequired(
-                    "code",
-                    code,
-                ),
-                checkRequired(
-                    "currentTime",
-                    currentTime,
-                ),
-                checkRequired(
-                    "text",
-                    text,
-                ),
-                checkRequired(
-                    "version",
-                    version,
-                ),
-                checkRequired(
-                    "data",
-                    data,
-                ),
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -354,11 +320,7 @@ private constructor(
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
-        ) : this(
-            entry,
-            references,
-            mutableMapOf(),
-        )
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -437,9 +399,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun entry(entry: JsonField<Entry>) = apply {
-                this.entry = entry
-            }
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -467,9 +427,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -490,14 +448,8 @@ private constructor(
              */
             fun build(): Data =
                 Data(
-                    checkRequired(
-                        "entry",
-                        entry,
-                    ),
-                    checkRequired(
-                        "references",
-                        references,
-                    ),
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -839,9 +791,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun id(id: JsonField<String>) = apply {
-                    this.id = id
-                }
+                fun id(id: JsonField<String>) = apply { this.id = id }
 
                 fun lat(lat: Double) = lat(JsonField.of(lat))
 
@@ -852,9 +802,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun lat(lat: JsonField<Double>) = apply {
-                    this.lat = lat
-                }
+                fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
                 fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
 
@@ -878,9 +826,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun lon(lon: JsonField<Double>) = apply {
-                    this.lon = lon
-                }
+                fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
                 fun name(name: String) = name(JsonField.of(name))
 
@@ -891,9 +837,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 fun parent(parent: String) = parent(JsonField.of(parent))
 
@@ -904,9 +848,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun parent(parent: JsonField<String>) = apply {
-                    this.parent = parent
-                }
+                fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
                 fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
 
@@ -968,9 +910,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun code(code: JsonField<String>) = apply {
-                    this.code = code
-                }
+                fun code(code: JsonField<String>) = apply { this.code = code }
 
                 fun direction(direction: String) = direction(JsonField.of(direction))
 
@@ -981,9 +921,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun direction(direction: JsonField<String>) = apply {
-                    this.direction = direction
-                }
+                fun direction(direction: JsonField<String>) = apply { this.direction = direction }
 
                 fun wheelchairBoarding(wheelchairBoarding: String) =
                     wheelchairBoarding(JsonField.of(wheelchairBoarding))
@@ -1042,40 +980,14 @@ private constructor(
                  */
                 fun build(): Entry =
                     Entry(
-                        checkRequired(
-                            "id",
-                            id,
-                        ),
-                        checkRequired(
-                            "lat",
-                            lat,
-                        ),
-                        checkRequired(
-                            "locationType",
-                            locationType,
-                        ),
-                        checkRequired(
-                            "lon",
-                            lon,
-                        ),
-                        checkRequired(
-                            "name",
-                            name,
-                        ),
-                        checkRequired(
-                            "parent",
-                            parent,
-                        ),
-                        checkRequired(
-                                "routeIds",
-                                routeIds,
-                            )
-                            .map { it.toImmutable() },
-                        checkRequired(
-                                "staticRouteIds",
-                                staticRouteIds,
-                            )
-                            .map { it.toImmutable() },
+                        checkRequired("id", id),
+                        checkRequired("lat", lat),
+                        checkRequired("locationType", locationType),
+                        checkRequired("lon", lon),
+                        checkRequired("name", name),
+                        checkRequired("parent", parent),
+                        checkRequired("routeIds", routeIds).map { it.toImmutable() },
+                        checkRequired("staticRouteIds", staticRouteIds).map { it.toImmutable() },
                         code,
                         direction,
                         wheelchairBoarding,

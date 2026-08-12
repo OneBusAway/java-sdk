@@ -81,9 +81,7 @@ private constructor(
             additionalQueryParams = tripDetailRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun tripId(tripId: String?) = apply {
-            this.tripId = tripId
-        }
+        fun tripId(tripId: String?) = apply { this.tripId = tripId }
 
         /** Alias for calling [Builder.tripId] with `tripId.orElse(null)`. */
         fun tripId(tripId: Optional<String>) = tripId(tripId.getOrNull())
@@ -110,9 +108,7 @@ private constructor(
         /**
          * Whether to include the full status element in the tripDetails section (defaults to true).
          */
-        fun includeStatus(includeStatus: Boolean?) = apply {
-            this.includeStatus = includeStatus
-        }
+        fun includeStatus(includeStatus: Boolean?) = apply { this.includeStatus = includeStatus }
 
         /**
          * Alias for [Builder.includeStatus].
@@ -128,9 +124,7 @@ private constructor(
         /**
          * Whether to include the full trip element in the references section (defaults to true).
          */
-        fun includeTrip(includeTrip: Boolean?) = apply {
-            this.includeTrip = includeTrip
-        }
+        fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
         /**
          * Alias for [Builder.includeTrip].
@@ -143,9 +137,7 @@ private constructor(
         fun includeTrip(includeTrip: Optional<Boolean>) = includeTrip(includeTrip.getOrNull())
 
         /** Service date for the trip as Unix time in milliseconds (optional). */
-        fun serviceDate(serviceDate: Long?) = apply {
-            this.serviceDate = serviceDate
-        }
+        fun serviceDate(serviceDate: Long?) = apply { this.serviceDate = serviceDate }
 
         /**
          * Alias for [Builder.serviceDate].
@@ -158,9 +150,7 @@ private constructor(
         fun serviceDate(serviceDate: Optional<Long>) = serviceDate(serviceDate.getOrNull())
 
         /** Time parameter to query the system at a specific time (optional). */
-        fun time(time: Long?) = apply {
-            this.time = time
-        }
+        fun time(time: Long?) = apply { this.time = time }
 
         /**
          * Alias for [Builder.time].
@@ -214,9 +204,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -266,9 +254,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

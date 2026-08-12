@@ -25,33 +25,20 @@ interface TripService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): TripService
 
     /** Get details of a specific trip */
-    fun retrieve(tripId: String): TripRetrieveResponse =
-        retrieve(
-            tripId,
-            TripRetrieveParams.none(),
-        )
+    fun retrieve(tripId: String): TripRetrieveResponse = retrieve(tripId, TripRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripRetrieveParams = TripRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): TripRetrieveResponse =
-        retrieve(
-            params.toBuilder().tripId(tripId).build(),
-            requestOptions,
-        )
+    ): TripRetrieveResponse = retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripRetrieveParams = TripRetrieveParams.none(),
-    ): TripRetrieveResponse =
-        retrieve(
-            tripId,
-            params,
-            RequestOptions.none(),
-        )
+    ): TripRetrieveResponse = retrieve(tripId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +48,11 @@ interface TripService {
 
     /** @see retrieve */
     fun retrieve(params: TripRetrieveParams): TripRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(tripId: String, requestOptions: RequestOptions): TripRetrieveResponse =
-        retrieve(
-            tripId,
-            TripRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(tripId, TripRetrieveParams.none(), requestOptions)
 
     /** A view of [TripService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -90,10 +70,7 @@ interface TripService {
          */
         @MustBeClosed
         fun retrieve(tripId: String): HttpResponseFor<TripRetrieveResponse> =
-            retrieve(
-                tripId,
-                TripRetrieveParams.none(),
-            )
+            retrieve(tripId, TripRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -102,22 +79,14 @@ interface TripService {
             params: TripRetrieveParams = TripRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripRetrieveResponse> =
-            retrieve(
-                params.toBuilder().tripId(tripId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,
             params: TripRetrieveParams = TripRetrieveParams.none(),
-        ): HttpResponseFor<TripRetrieveResponse> =
-            retrieve(
-                tripId,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<TripRetrieveResponse> = retrieve(tripId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -129,10 +98,7 @@ interface TripService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: TripRetrieveParams): HttpResponseFor<TripRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -140,10 +106,6 @@ interface TripService {
             tripId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<TripRetrieveResponse> =
-            retrieve(
-                tripId,
-                TripRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(tripId, TripRetrieveParams.none(), requestOptions)
     }
 }

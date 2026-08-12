@@ -26,10 +26,7 @@ interface TripDetailService {
 
     /** Retrieve Trip Details */
     fun retrieve(tripId: String): TripDetailRetrieveResponse =
-        retrieve(
-            tripId,
-            TripDetailRetrieveParams.none(),
-        )
+        retrieve(tripId, TripDetailRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface TripDetailService {
         params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripDetailRetrieveResponse =
-        retrieve(
-            params.toBuilder().tripId(tripId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
-    ): TripDetailRetrieveResponse =
-        retrieve(
-            tripId,
-            params,
-            RequestOptions.none(),
-        )
+    ): TripDetailRetrieveResponse = retrieve(tripId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +50,11 @@ interface TripDetailService {
 
     /** @see retrieve */
     fun retrieve(params: TripDetailRetrieveParams): TripDetailRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(tripId: String, requestOptions: RequestOptions): TripDetailRetrieveResponse =
-        retrieve(
-            tripId,
-            TripDetailRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(tripId, TripDetailRetrieveParams.none(), requestOptions)
 
     /** A view of [TripDetailService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -92,10 +74,7 @@ interface TripDetailService {
          */
         @MustBeClosed
         fun retrieve(tripId: String): HttpResponseFor<TripDetailRetrieveResponse> =
-            retrieve(
-                tripId,
-                TripDetailRetrieveParams.none(),
-            )
+            retrieve(tripId, TripDetailRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -104,10 +83,7 @@ interface TripDetailService {
             params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripDetailRetrieveResponse> =
-            retrieve(
-                params.toBuilder().tripId(tripId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
@@ -115,11 +91,7 @@ interface TripDetailService {
             tripId: String,
             params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
         ): HttpResponseFor<TripDetailRetrieveResponse> =
-            retrieve(
-                tripId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(tripId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -132,11 +104,7 @@ interface TripDetailService {
         @MustBeClosed
         fun retrieve(
             params: TripDetailRetrieveParams
-        ): HttpResponseFor<TripDetailRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<TripDetailRetrieveResponse> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -144,10 +112,6 @@ interface TripDetailService {
             tripId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<TripDetailRetrieveResponse> =
-            retrieve(
-                tripId,
-                TripDetailRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(tripId, TripDetailRetrieveParams.none(), requestOptions)
     }
 }

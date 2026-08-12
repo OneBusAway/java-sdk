@@ -26,32 +26,20 @@ interface ReportProblemWithStopService {
 
     /** Submit a user-generated problem report for a stop */
     fun retrieve(stopId: String): ResponseWrapper =
-        retrieve(
-            stopId,
-            ReportProblemWithStopRetrieveParams.none(),
-        )
+        retrieve(stopId, ReportProblemWithStopRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): ResponseWrapper =
-        retrieve(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+    ): ResponseWrapper = retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
-    ): ResponseWrapper =
-        retrieve(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+    ): ResponseWrapper = retrieve(stopId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +49,11 @@ interface ReportProblemWithStopService {
 
     /** @see retrieve */
     fun retrieve(params: ReportProblemWithStopRetrieveParams): ResponseWrapper =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(stopId: String, requestOptions: RequestOptions): ResponseWrapper =
-        retrieve(
-            stopId,
-            ReportProblemWithStopRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(stopId, ReportProblemWithStopRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ReportProblemWithStopService] that provides access to raw HTTP responses for each
@@ -95,10 +76,7 @@ interface ReportProblemWithStopService {
          */
         @MustBeClosed
         fun retrieve(stopId: String): HttpResponseFor<ResponseWrapper> =
-            retrieve(
-                stopId,
-                ReportProblemWithStopRetrieveParams.none(),
-            )
+            retrieve(stopId, ReportProblemWithStopRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -108,23 +86,14 @@ interface ReportProblemWithStopService {
                 ReportProblemWithStopRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ResponseWrapper> =
-            retrieve(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,
-            params: ReportProblemWithStopRetrieveParams =
-                ReportProblemWithStopRetrieveParams.none(),
-        ): HttpResponseFor<ResponseWrapper> =
-            retrieve(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+            params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
+        ): HttpResponseFor<ResponseWrapper> = retrieve(stopId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -137,11 +106,7 @@ interface ReportProblemWithStopService {
         @MustBeClosed
         fun retrieve(
             params: ReportProblemWithStopRetrieveParams
-        ): HttpResponseFor<ResponseWrapper> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<ResponseWrapper> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -149,10 +114,6 @@ interface ReportProblemWithStopService {
             stopId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ResponseWrapper> =
-            retrieve(
-                stopId,
-                ReportProblemWithStopRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(stopId, ReportProblemWithStopRetrieveParams.none(), requestOptions)
     }
 }

@@ -26,32 +26,20 @@ interface RouteService {
 
     /** Retrieve information for a specific route identified by its unique ID. */
     fun retrieve(routeId: String): RouteRetrieveResponse =
-        retrieve(
-            routeId,
-            RouteRetrieveParams.none(),
-        )
+        retrieve(routeId, RouteRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: RouteRetrieveParams = RouteRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): RouteRetrieveResponse =
-        retrieve(
-            params.toBuilder().routeId(routeId).build(),
-            requestOptions,
-        )
+    ): RouteRetrieveResponse = retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: RouteRetrieveParams = RouteRetrieveParams.none(),
-    ): RouteRetrieveResponse =
-        retrieve(
-            routeId,
-            params,
-            RequestOptions.none(),
-        )
+    ): RouteRetrieveResponse = retrieve(routeId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +49,11 @@ interface RouteService {
 
     /** @see retrieve */
     fun retrieve(params: RouteRetrieveParams): RouteRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(routeId: String, requestOptions: RequestOptions): RouteRetrieveResponse =
-        retrieve(
-            routeId,
-            RouteRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(routeId, RouteRetrieveParams.none(), requestOptions)
 
     /** A view of [RouteService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -90,10 +71,7 @@ interface RouteService {
          */
         @MustBeClosed
         fun retrieve(routeId: String): HttpResponseFor<RouteRetrieveResponse> =
-            retrieve(
-                routeId,
-                RouteRetrieveParams.none(),
-            )
+            retrieve(routeId, RouteRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -102,22 +80,14 @@ interface RouteService {
             params: RouteRetrieveParams = RouteRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RouteRetrieveResponse> =
-            retrieve(
-                params.toBuilder().routeId(routeId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,
             params: RouteRetrieveParams = RouteRetrieveParams.none(),
-        ): HttpResponseFor<RouteRetrieveResponse> =
-            retrieve(
-                routeId,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<RouteRetrieveResponse> = retrieve(routeId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -129,10 +99,7 @@ interface RouteService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: RouteRetrieveParams): HttpResponseFor<RouteRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -140,10 +107,6 @@ interface RouteService {
             routeId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<RouteRetrieveResponse> =
-            retrieve(
-                routeId,
-                RouteRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(routeId, RouteRetrieveParams.none(), requestOptions)
     }
 }

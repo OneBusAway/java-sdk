@@ -26,10 +26,7 @@ interface ScheduleForStopService {
 
     /** Get schedule for a specific stop */
     fun retrieve(stopId: String): ScheduleForStopRetrieveResponse =
-        retrieve(
-            stopId,
-            ScheduleForStopRetrieveParams.none(),
-        )
+        retrieve(stopId, ScheduleForStopRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface ScheduleForStopService {
         params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForStopRetrieveResponse =
-        retrieve(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
-    ): ScheduleForStopRetrieveResponse =
-        retrieve(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+    ): ScheduleForStopRetrieveResponse = retrieve(stopId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +50,11 @@ interface ScheduleForStopService {
 
     /** @see retrieve */
     fun retrieve(params: ScheduleForStopRetrieveParams): ScheduleForStopRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(stopId: String, requestOptions: RequestOptions): ScheduleForStopRetrieveResponse =
-        retrieve(
-            stopId,
-            ScheduleForStopRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(stopId, ScheduleForStopRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ScheduleForStopService] that provides access to raw HTTP responses for each
@@ -95,10 +77,7 @@ interface ScheduleForStopService {
          */
         @MustBeClosed
         fun retrieve(stopId: String): HttpResponseFor<ScheduleForStopRetrieveResponse> =
-            retrieve(
-                stopId,
-                ScheduleForStopRetrieveParams.none(),
-            )
+            retrieve(stopId, ScheduleForStopRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -107,10 +86,7 @@ interface ScheduleForStopService {
             params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
-            retrieve(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
@@ -118,11 +94,7 @@ interface ScheduleForStopService {
             stopId: String,
             params: ScheduleForStopRetrieveParams = ScheduleForStopRetrieveParams.none(),
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
-            retrieve(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(stopId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -136,10 +108,7 @@ interface ScheduleForStopService {
         fun retrieve(
             params: ScheduleForStopRetrieveParams
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -147,10 +116,6 @@ interface ScheduleForStopService {
             stopId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
-            retrieve(
-                stopId,
-                ScheduleForStopRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(stopId, ScheduleForStopRetrieveParams.none(), requestOptions)
     }
 }

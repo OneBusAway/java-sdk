@@ -26,10 +26,7 @@ interface TripServiceAsync {
 
     /** Get details of a specific trip */
     fun retrieve(tripId: String): CompletableFuture<TripRetrieveResponse> =
-        retrieve(
-            tripId,
-            TripRetrieveParams.none(),
-        )
+        retrieve(tripId, TripRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface TripServiceAsync {
         params: TripRetrieveParams = TripRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TripRetrieveResponse> =
-        retrieve(
-            params.toBuilder().tripId(tripId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: TripRetrieveParams = TripRetrieveParams.none(),
-    ): CompletableFuture<TripRetrieveResponse> =
-        retrieve(
-            tripId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<TripRetrieveResponse> = retrieve(tripId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface TripServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: TripRetrieveParams): CompletableFuture<TripRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         tripId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<TripRetrieveResponse> =
-        retrieve(
-            tripId,
-            TripRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(tripId, TripRetrieveParams.none(), requestOptions)
 
     /** A view of [TripServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -92,10 +74,7 @@ interface TripServiceAsync {
          * same as [TripServiceAsync.retrieve].
          */
         fun retrieve(tripId: String): CompletableFuture<HttpResponseFor<TripRetrieveResponse>> =
-            retrieve(
-                tripId,
-                TripRetrieveParams.none(),
-            )
+            retrieve(tripId, TripRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -103,21 +82,14 @@ interface TripServiceAsync {
             params: TripRetrieveParams = TripRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TripRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().tripId(tripId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             tripId: String,
             params: TripRetrieveParams = TripRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<TripRetrieveResponse>> =
-            retrieve(
-                tripId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(tripId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -129,20 +101,13 @@ interface TripServiceAsync {
         fun retrieve(
             params: TripRetrieveParams
         ): CompletableFuture<HttpResponseFor<TripRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             tripId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<TripRetrieveResponse>> =
-            retrieve(
-                tripId,
-                TripRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(tripId, TripRetrieveParams.none(), requestOptions)
     }
 }

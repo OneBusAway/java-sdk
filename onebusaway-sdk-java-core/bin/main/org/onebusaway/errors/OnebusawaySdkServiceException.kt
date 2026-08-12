@@ -6,14 +6,8 @@ import org.onebusaway.core.JsonValue
 import org.onebusaway.core.http.Headers
 
 abstract class OnebusawaySdkServiceException
-protected constructor(
-    message: String,
-    cause: Throwable? = null,
-) :
-    OnebusawaySdkException(
-        message,
-        cause,
-    ) {
+protected constructor(message: String, cause: Throwable? = null) :
+    OnebusawaySdkException(message, cause) {
 
     abstract fun statusCode(): Int
 

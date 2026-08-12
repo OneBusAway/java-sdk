@@ -26,10 +26,7 @@ interface ScheduleForRouteService {
 
     /** Retrieve the full schedule for a route on a particular day */
     fun retrieve(routeId: String): ScheduleForRouteRetrieveResponse =
-        retrieve(
-            routeId,
-            ScheduleForRouteRetrieveParams.none(),
-        )
+        retrieve(routeId, ScheduleForRouteRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface ScheduleForRouteService {
         params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForRouteRetrieveResponse =
-        retrieve(
-            params.toBuilder().routeId(routeId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
-    ): ScheduleForRouteRetrieveResponse =
-        retrieve(
-            routeId,
-            params,
-            RequestOptions.none(),
-        )
+    ): ScheduleForRouteRetrieveResponse = retrieve(routeId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface ScheduleForRouteService {
 
     /** @see retrieve */
     fun retrieve(params: ScheduleForRouteRetrieveParams): ScheduleForRouteRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         routeId: String,
         requestOptions: RequestOptions,
     ): ScheduleForRouteRetrieveResponse =
-        retrieve(
-            routeId,
-            ScheduleForRouteRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(routeId, ScheduleForRouteRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ScheduleForRouteService] that provides access to raw HTTP responses for each
@@ -98,10 +80,7 @@ interface ScheduleForRouteService {
          */
         @MustBeClosed
         fun retrieve(routeId: String): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
-            retrieve(
-                routeId,
-                ScheduleForRouteRetrieveParams.none(),
-            )
+            retrieve(routeId, ScheduleForRouteRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -110,10 +89,7 @@ interface ScheduleForRouteService {
             params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
-            retrieve(
-                params.toBuilder().routeId(routeId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
@@ -121,11 +97,7 @@ interface ScheduleForRouteService {
             routeId: String,
             params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
-            retrieve(
-                routeId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(routeId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -139,10 +111,7 @@ interface ScheduleForRouteService {
         fun retrieve(
             params: ScheduleForRouteRetrieveParams
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -150,10 +119,6 @@ interface ScheduleForRouteService {
             routeId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
-            retrieve(
-                routeId,
-                ScheduleForRouteRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(routeId, ScheduleForRouteRetrieveParams.none(), requestOptions)
     }
 }

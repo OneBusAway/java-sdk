@@ -84,9 +84,7 @@ private constructor(
             additionalQueryParams = tripForVehicleRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun vehicleId(vehicleId: String?) = apply {
-            this.vehicleId = vehicleId
-        }
+        fun vehicleId(vehicleId: String?) = apply { this.vehicleId = vehicleId }
 
         /** Alias for calling [Builder.vehicleId] with `vehicleId.orElse(null)`. */
         fun vehicleId(vehicleId: Optional<String>) = vehicleId(vehicleId.getOrNull())
@@ -114,9 +112,7 @@ private constructor(
          * Determines whether the full <status/> element is included in the <tripDetails/> section.
          * Defaults to true.
          */
-        fun includeStatus(includeStatus: Boolean?) = apply {
-            this.includeStatus = includeStatus
-        }
+        fun includeStatus(includeStatus: Boolean?) = apply { this.includeStatus = includeStatus }
 
         /**
          * Alias for [Builder.includeStatus].
@@ -133,9 +129,7 @@ private constructor(
          * Determines whether full <trip/> element is included in the <references/> section.
          * Defaults to false.
          */
-        fun includeTrip(includeTrip: Boolean?) = apply {
-            this.includeTrip = includeTrip
-        }
+        fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
         /**
          * Alias for [Builder.includeTrip].
@@ -148,9 +142,7 @@ private constructor(
         fun includeTrip(includeTrip: Optional<Boolean>) = includeTrip(includeTrip.getOrNull())
 
         /** Time parameter to query the system at a specific time (optional). */
-        fun time(time: Long?) = apply {
-            this.time = time
-        }
+        fun time(time: Long?) = apply { this.time = time }
 
         /**
          * Alias for [Builder.time].
@@ -204,9 +196,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -256,9 +246,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

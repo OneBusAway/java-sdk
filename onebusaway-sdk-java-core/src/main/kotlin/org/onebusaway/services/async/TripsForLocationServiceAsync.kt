@@ -26,10 +26,7 @@ interface TripsForLocationServiceAsync {
 
     /** Retrieve trips for a given location */
     fun list(params: TripsForLocationListParams): CompletableFuture<TripsForLocationListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -59,10 +56,7 @@ interface TripsForLocationServiceAsync {
         fun list(
             params: TripsForLocationListParams
         ): CompletableFuture<HttpResponseFor<TripsForLocationListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(

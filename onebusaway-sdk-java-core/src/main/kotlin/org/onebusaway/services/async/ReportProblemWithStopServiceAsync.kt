@@ -26,10 +26,7 @@ interface ReportProblemWithStopServiceAsync {
 
     /** Submit a user-generated problem report for a stop */
     fun retrieve(stopId: String): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            stopId,
-            ReportProblemWithStopRetrieveParams.none(),
-        )
+        retrieve(stopId, ReportProblemWithStopRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface ReportProblemWithStopServiceAsync {
         params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
-    ): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ResponseWrapper> = retrieve(stopId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface ReportProblemWithStopServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: ReportProblemWithStopRetrieveParams): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            stopId,
-            ReportProblemWithStopRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(stopId, ReportProblemWithStopRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ReportProblemWithStopServiceAsync] that provides access to raw HTTP responses for
@@ -97,10 +79,7 @@ interface ReportProblemWithStopServiceAsync {
          * but is otherwise the same as [ReportProblemWithStopServiceAsync.retrieve].
          */
         fun retrieve(stopId: String): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                stopId,
-                ReportProblemWithStopRetrieveParams.none(),
-            )
+            retrieve(stopId, ReportProblemWithStopRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -109,22 +88,14 @@ interface ReportProblemWithStopServiceAsync {
                 ReportProblemWithStopRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             stopId: String,
-            params: ReportProblemWithStopRetrieveParams =
-                ReportProblemWithStopRetrieveParams.none(),
+            params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(stopId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -136,20 +107,13 @@ interface ReportProblemWithStopServiceAsync {
         fun retrieve(
             params: ReportProblemWithStopRetrieveParams
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             stopId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                stopId,
-                ReportProblemWithStopRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(stopId, ReportProblemWithStopRetrieveParams.none(), requestOptions)
     }
 }

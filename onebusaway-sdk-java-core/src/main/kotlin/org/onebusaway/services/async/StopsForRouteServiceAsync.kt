@@ -26,10 +26,7 @@ interface StopsForRouteServiceAsync {
 
     /** Get stops for a specific route */
     fun list(routeId: String): CompletableFuture<StopsForRouteListResponse> =
-        list(
-            routeId,
-            StopsForRouteListParams.none(),
-        )
+        list(routeId, StopsForRouteListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,13 @@ interface StopsForRouteServiceAsync {
         params: StopsForRouteListParams = StopsForRouteListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StopsForRouteListResponse> =
-        list(
-            params.toBuilder().routeId(routeId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
     /** @see list */
     fun list(
         routeId: String,
         params: StopsForRouteListParams = StopsForRouteListParams.none(),
-    ): CompletableFuture<StopsForRouteListResponse> =
-        list(
-            routeId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<StopsForRouteListResponse> = list(routeId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,21 +50,14 @@ interface StopsForRouteServiceAsync {
 
     /** @see list */
     fun list(params: StopsForRouteListParams): CompletableFuture<StopsForRouteListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         routeId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<StopsForRouteListResponse> =
-        list(
-            routeId,
-            StopsForRouteListParams.none(),
-            requestOptions,
-        )
+        list(routeId, StopsForRouteListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForRouteServiceAsync] that provides access to raw HTTP responses for each
@@ -97,10 +79,7 @@ interface StopsForRouteServiceAsync {
          * otherwise the same as [StopsForRouteServiceAsync.list].
          */
         fun list(routeId: String): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
-            list(
-                routeId,
-                StopsForRouteListParams.none(),
-            )
+            list(routeId, StopsForRouteListParams.none())
 
         /** @see list */
         fun list(
@@ -108,21 +87,14 @@ interface StopsForRouteServiceAsync {
             params: StopsForRouteListParams = StopsForRouteListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
-            list(
-                params.toBuilder().routeId(routeId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see list */
         fun list(
             routeId: String,
             params: StopsForRouteListParams = StopsForRouteListParams.none(),
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
-            list(
-                routeId,
-                params,
-                RequestOptions.none(),
-            )
+            list(routeId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -134,20 +106,13 @@ interface StopsForRouteServiceAsync {
         fun list(
             params: StopsForRouteListParams
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             routeId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<StopsForRouteListResponse>> =
-            list(
-                routeId,
-                StopsForRouteListParams.none(),
-                requestOptions,
-            )
+            list(routeId, StopsForRouteListParams.none(), requestOptions)
     }
 }

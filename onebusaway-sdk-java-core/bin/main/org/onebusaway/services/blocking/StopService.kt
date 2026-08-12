@@ -25,33 +25,20 @@ interface StopService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): StopService
 
     /** Get details of a specific stop */
-    fun retrieve(stopId: String): StopRetrieveResponse =
-        retrieve(
-            stopId,
-            StopRetrieveParams.none(),
-        )
+    fun retrieve(stopId: String): StopRetrieveResponse = retrieve(stopId, StopRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: StopRetrieveParams = StopRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): StopRetrieveResponse =
-        retrieve(
-            params.toBuilder().stopId(stopId).build(),
-            requestOptions,
-        )
+    ): StopRetrieveResponse = retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         stopId: String,
         params: StopRetrieveParams = StopRetrieveParams.none(),
-    ): StopRetrieveResponse =
-        retrieve(
-            stopId,
-            params,
-            RequestOptions.none(),
-        )
+    ): StopRetrieveResponse = retrieve(stopId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,18 +48,11 @@ interface StopService {
 
     /** @see retrieve */
     fun retrieve(params: StopRetrieveParams): StopRetrieveResponse =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(stopId: String, requestOptions: RequestOptions): StopRetrieveResponse =
-        retrieve(
-            stopId,
-            StopRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(stopId, StopRetrieveParams.none(), requestOptions)
 
     /** A view of [StopService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -90,10 +70,7 @@ interface StopService {
          */
         @MustBeClosed
         fun retrieve(stopId: String): HttpResponseFor<StopRetrieveResponse> =
-            retrieve(
-                stopId,
-                StopRetrieveParams.none(),
-            )
+            retrieve(stopId, StopRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -102,22 +79,14 @@ interface StopService {
             params: StopRetrieveParams = StopRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopRetrieveResponse> =
-            retrieve(
-                params.toBuilder().stopId(stopId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,
             params: StopRetrieveParams = StopRetrieveParams.none(),
-        ): HttpResponseFor<StopRetrieveResponse> =
-            retrieve(
-                stopId,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<StopRetrieveResponse> = retrieve(stopId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -129,10 +98,7 @@ interface StopService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: StopRetrieveParams): HttpResponseFor<StopRetrieveResponse> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -140,10 +106,6 @@ interface StopService {
             stopId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopRetrieveResponse> =
-            retrieve(
-                stopId,
-                StopRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(stopId, StopRetrieveParams.none(), requestOptions)
     }
 }

@@ -37,18 +37,11 @@ interface CurrentTimeServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none()
-    ): CompletableFuture<CurrentTimeRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<CurrentTimeRetrieveResponse> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): CompletableFuture<CurrentTimeRetrieveResponse> =
-        retrieve(
-            CurrentTimeRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [CurrentTimeServiceAsync] that provides access to raw HTTP responses for each
@@ -82,18 +75,12 @@ interface CurrentTimeServiceAsync {
         fun retrieve(
             params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.none()
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CurrentTimeRetrieveResponse>> =
-            retrieve(
-                CurrentTimeRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
     }
 }

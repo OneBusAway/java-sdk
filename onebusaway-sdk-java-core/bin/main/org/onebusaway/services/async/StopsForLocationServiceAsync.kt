@@ -37,18 +37,11 @@ interface StopsForLocationServiceAsync {
     /** @see list */
     fun list(
         params: StopsForLocationListParams = StopsForLocationListParams.none()
-    ): CompletableFuture<StopsForLocationListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<StopsForLocationListResponse> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<StopsForLocationListResponse> =
-        list(
-            StopsForLocationListParams.none(),
-            requestOptions,
-        )
+        list(StopsForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForLocationServiceAsync] that provides access to raw HTTP responses for each
@@ -82,18 +75,12 @@ interface StopsForLocationServiceAsync {
         fun list(
             params: StopsForLocationListParams = StopsForLocationListParams.none()
         ): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<StopsForLocationListResponse>> =
-            list(
-                StopsForLocationListParams.none(),
-                requestOptions,
-            )
+            list(StopsForLocationListParams.none(), requestOptions)
     }
 }

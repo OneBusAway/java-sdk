@@ -26,10 +26,7 @@ interface ShapeServiceAsync {
 
     /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
     fun retrieve(shapeId: String): CompletableFuture<ShapeRetrieveResponse> =
-        retrieve(
-            shapeId,
-            ShapeRetrieveParams.none(),
-        )
+        retrieve(shapeId, ShapeRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface ShapeServiceAsync {
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ShapeRetrieveResponse> =
-        retrieve(
-            params.toBuilder().shapeId(shapeId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         shapeId: String,
         params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
-    ): CompletableFuture<ShapeRetrieveResponse> =
-        retrieve(
-            shapeId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ShapeRetrieveResponse> = retrieve(shapeId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface ShapeServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: ShapeRetrieveParams): CompletableFuture<ShapeRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         shapeId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ShapeRetrieveResponse> =
-        retrieve(
-            shapeId,
-            ShapeRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(shapeId, ShapeRetrieveParams.none(), requestOptions)
 
     /** A view of [ShapeServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -94,10 +76,7 @@ interface ShapeServiceAsync {
          * the same as [ShapeServiceAsync.retrieve].
          */
         fun retrieve(shapeId: String): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
-            retrieve(
-                shapeId,
-                ShapeRetrieveParams.none(),
-            )
+            retrieve(shapeId, ShapeRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -105,21 +84,14 @@ interface ShapeServiceAsync {
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().shapeId(shapeId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             shapeId: String,
             params: ShapeRetrieveParams = ShapeRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
-            retrieve(
-                shapeId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(shapeId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -131,20 +103,13 @@ interface ShapeServiceAsync {
         fun retrieve(
             params: ShapeRetrieveParams
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             shapeId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ShapeRetrieveResponse>> =
-            retrieve(
-                shapeId,
-                ShapeRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(shapeId, ShapeRetrieveParams.none(), requestOptions)
     }
 }

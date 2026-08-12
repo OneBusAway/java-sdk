@@ -26,10 +26,7 @@ interface RouteIdsForAgencyServiceAsync {
 
     /** Get route IDs for a specific agency */
     fun list(agencyId: String): CompletableFuture<RouteIdsForAgencyListResponse> =
-        list(
-            agencyId,
-            RouteIdsForAgencyListParams.none(),
-        )
+        list(agencyId, RouteIdsForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,14 @@ interface RouteIdsForAgencyServiceAsync {
         params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<RouteIdsForAgencyListResponse> =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
     ): CompletableFuture<RouteIdsForAgencyListResponse> =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+        list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -62,22 +52,14 @@ interface RouteIdsForAgencyServiceAsync {
     /** @see list */
     fun list(
         params: RouteIdsForAgencyListParams
-    ): CompletableFuture<RouteIdsForAgencyListResponse> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<RouteIdsForAgencyListResponse> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         agencyId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<RouteIdsForAgencyListResponse> =
-        list(
-            agencyId,
-            RouteIdsForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, RouteIdsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [RouteIdsForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -101,10 +83,7 @@ interface RouteIdsForAgencyServiceAsync {
         fun list(
             agencyId: String
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>> =
-            list(
-                agencyId,
-                RouteIdsForAgencyListParams.none(),
-            )
+            list(agencyId, RouteIdsForAgencyListParams.none())
 
         /** @see list */
         fun list(
@@ -112,21 +91,14 @@ interface RouteIdsForAgencyServiceAsync {
             params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         fun list(
             agencyId: String,
             params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -138,20 +110,13 @@ interface RouteIdsForAgencyServiceAsync {
         fun list(
             params: RouteIdsForAgencyListParams
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             agencyId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<RouteIdsForAgencyListResponse>> =
-            list(
-                agencyId,
-                RouteIdsForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, RouteIdsForAgencyListParams.none(), requestOptions)
     }
 }

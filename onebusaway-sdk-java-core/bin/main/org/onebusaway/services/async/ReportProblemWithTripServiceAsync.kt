@@ -26,10 +26,7 @@ interface ReportProblemWithTripServiceAsync {
 
     /** Submit a user-generated problem report for a particular trip. */
     fun retrieve(tripId: String): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            tripId,
-            ReportProblemWithTripRetrieveParams.none(),
-        )
+        retrieve(tripId, ReportProblemWithTripRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,13 @@ interface ReportProblemWithTripServiceAsync {
         params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            params.toBuilder().tripId(tripId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         tripId: String,
         params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
-    ): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            tripId,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ResponseWrapper> = retrieve(tripId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +50,14 @@ interface ReportProblemWithTripServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: ReportProblemWithTripRetrieveParams): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         tripId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ResponseWrapper> =
-        retrieve(
-            tripId,
-            ReportProblemWithTripRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(tripId, ReportProblemWithTripRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ReportProblemWithTripServiceAsync] that provides access to raw HTTP responses for
@@ -97,10 +79,7 @@ interface ReportProblemWithTripServiceAsync {
          * but is otherwise the same as [ReportProblemWithTripServiceAsync.retrieve].
          */
         fun retrieve(tripId: String): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                tripId,
-                ReportProblemWithTripRetrieveParams.none(),
-            )
+            retrieve(tripId, ReportProblemWithTripRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -109,22 +88,14 @@ interface ReportProblemWithTripServiceAsync {
                 ReportProblemWithTripRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                params.toBuilder().tripId(tripId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             tripId: String,
-            params: ReportProblemWithTripRetrieveParams =
-                ReportProblemWithTripRetrieveParams.none(),
+            params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                tripId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(tripId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -136,20 +107,13 @@ interface ReportProblemWithTripServiceAsync {
         fun retrieve(
             params: ReportProblemWithTripRetrieveParams
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             tripId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
-            retrieve(
-                tripId,
-                ReportProblemWithTripRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(tripId, ReportProblemWithTripRetrieveParams.none(), requestOptions)
     }
 }

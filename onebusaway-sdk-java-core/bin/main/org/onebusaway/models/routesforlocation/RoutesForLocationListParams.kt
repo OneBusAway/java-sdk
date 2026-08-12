@@ -79,9 +79,7 @@ private constructor(
         }
 
         /** If omitted, defaults to 0.0. */
-        fun lat(lat: Double?) = apply {
-            this.lat = lat
-        }
+        fun lat(lat: Double?) = apply { this.lat = lat }
 
         /**
          * Alias for [Builder.lat].
@@ -93,9 +91,7 @@ private constructor(
         /** Alias for calling [Builder.lat] with `lat.orElse(null)`. */
         fun lat(lat: Optional<Double>) = lat(lat.getOrNull())
 
-        fun latSpan(latSpan: Double?) = apply {
-            this.latSpan = latSpan
-        }
+        fun latSpan(latSpan: Double?) = apply { this.latSpan = latSpan }
 
         /**
          * Alias for [Builder.latSpan].
@@ -108,9 +104,7 @@ private constructor(
         fun latSpan(latSpan: Optional<Double>) = latSpan(latSpan.getOrNull())
 
         /** If omitted, defaults to 0.0. */
-        fun lon(lon: Double?) = apply {
-            this.lon = lon
-        }
+        fun lon(lon: Double?) = apply { this.lon = lon }
 
         /**
          * Alias for [Builder.lon].
@@ -122,9 +116,7 @@ private constructor(
         /** Alias for calling [Builder.lon] with `lon.orElse(null)`. */
         fun lon(lon: Optional<Double>) = lon(lon.getOrNull())
 
-        fun lonSpan(lonSpan: Double?) = apply {
-            this.lonSpan = lonSpan
-        }
+        fun lonSpan(lonSpan: Double?) = apply { this.lonSpan = lonSpan }
 
         /**
          * Alias for [Builder.lonSpan].
@@ -136,16 +128,12 @@ private constructor(
         /** Alias for calling [Builder.lonSpan] with `lonSpan.orElse(null)`. */
         fun lonSpan(lonSpan: Optional<Double>) = lonSpan(lonSpan.getOrNull())
 
-        fun query(query: String?) = apply {
-            this.query = query
-        }
+        fun query(query: String?) = apply { this.query = query }
 
         /** Alias for calling [Builder.query] with `query.orElse(null)`. */
         fun query(query: Optional<String>) = query(query.getOrNull())
 
-        fun radius(radius: Double?) = apply {
-            this.radius = radius
-        }
+        fun radius(radius: Double?) = apply { this.radius = radius }
 
         /**
          * Alias for [Builder.radius].
@@ -199,9 +187,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -251,9 +237,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

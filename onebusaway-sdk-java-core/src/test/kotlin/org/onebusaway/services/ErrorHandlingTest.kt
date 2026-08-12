@@ -67,10 +67,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<BadRequestException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<BadRequestException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -87,10 +84,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<BadRequestException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<BadRequestException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -107,10 +101,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnauthorizedException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<UnauthorizedException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -127,10 +118,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnauthorizedException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<UnauthorizedException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -147,10 +135,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<PermissionDeniedException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<PermissionDeniedException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -167,10 +152,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<PermissionDeniedException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<PermissionDeniedException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -187,10 +169,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<NotFoundException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<NotFoundException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -207,10 +186,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<NotFoundException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<NotFoundException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -227,10 +203,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnprocessableEntityException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<UnprocessableEntityException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -247,10 +220,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnprocessableEntityException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<UnprocessableEntityException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -267,10 +237,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<RateLimitException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<RateLimitException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -287,10 +254,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<RateLimitException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<RateLimitException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -307,10 +271,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<InternalServerException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<InternalServerException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -327,10 +288,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<InternalServerException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<InternalServerException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -347,10 +305,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnexpectedStatusCodeException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<UnexpectedStatusCodeException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -367,10 +322,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e =
-            assertThrows<UnexpectedStatusCodeException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<UnexpectedStatusCodeException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -385,10 +337,7 @@ internal class ErrorHandlingTest {
                 .willReturn(status(200).withHeader(HEADER_NAME, HEADER_VALUE).withBody(NOT_JSON))
         )
 
-        val e =
-            assertThrows<OnebusawaySdkException> {
-                currentTimeService.retrieve()
-            }
+        val e = assertThrows<OnebusawaySdkException> { currentTimeService.retrieve() }
 
         assertThat(e).hasMessage("Error reading response")
     }

@@ -26,10 +26,7 @@ interface VehiclesForAgencyService {
 
     /** Get vehicles for a specific agency */
     fun list(agencyId: String): VehiclesForAgencyListResponse =
-        list(
-            agencyId,
-            VehiclesForAgencyListParams.none(),
-        )
+        list(agencyId, VehiclesForAgencyListParams.none())
 
     /** @see list */
     fun list(
@@ -37,21 +34,13 @@ interface VehiclesForAgencyService {
         params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): VehiclesForAgencyListResponse =
-        list(
-            params.toBuilder().agencyId(agencyId).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
     /** @see list */
     fun list(
         agencyId: String,
         params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
-    ): VehiclesForAgencyListResponse =
-        list(
-            agencyId,
-            params,
-            RequestOptions.none(),
-        )
+    ): VehiclesForAgencyListResponse = list(agencyId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,18 +50,11 @@ interface VehiclesForAgencyService {
 
     /** @see list */
     fun list(params: VehiclesForAgencyListParams): VehiclesForAgencyListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): VehiclesForAgencyListResponse =
-        list(
-            agencyId,
-            VehiclesForAgencyListParams.none(),
-            requestOptions,
-        )
+        list(agencyId, VehiclesForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [VehiclesForAgencyService] that provides access to raw HTTP responses for each
@@ -95,10 +77,7 @@ interface VehiclesForAgencyService {
          */
         @MustBeClosed
         fun list(agencyId: String): HttpResponseFor<VehiclesForAgencyListResponse> =
-            list(
-                agencyId,
-                VehiclesForAgencyListParams.none(),
-            )
+            list(agencyId, VehiclesForAgencyListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -107,10 +86,7 @@ interface VehiclesForAgencyService {
             params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<VehiclesForAgencyListResponse> =
-            list(
-                params.toBuilder().agencyId(agencyId).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
         /** @see list */
         @MustBeClosed
@@ -118,11 +94,7 @@ interface VehiclesForAgencyService {
             agencyId: String,
             params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
         ): HttpResponseFor<VehiclesForAgencyListResponse> =
-            list(
-                agencyId,
-                params,
-                RequestOptions.none(),
-            )
+            list(agencyId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -135,11 +107,7 @@ interface VehiclesForAgencyService {
         @MustBeClosed
         fun list(
             params: VehiclesForAgencyListParams
-        ): HttpResponseFor<VehiclesForAgencyListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<VehiclesForAgencyListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -147,10 +115,6 @@ interface VehiclesForAgencyService {
             agencyId: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<VehiclesForAgencyListResponse> =
-            list(
-                agencyId,
-                VehiclesForAgencyListParams.none(),
-                requestOptions,
-            )
+            list(agencyId, VehiclesForAgencyListParams.none(), requestOptions)
     }
 }

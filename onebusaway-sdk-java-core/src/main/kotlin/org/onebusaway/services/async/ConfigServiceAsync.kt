@@ -37,18 +37,11 @@ interface ConfigServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: ConfigRetrieveParams = ConfigRetrieveParams.none()
-    ): CompletableFuture<ConfigRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ConfigRetrieveResponse> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): CompletableFuture<ConfigRetrieveResponse> =
-        retrieve(
-            ConfigRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(ConfigRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ConfigServiceAsync] that provides access to raw HTTP responses for each method.
@@ -81,18 +74,12 @@ interface ConfigServiceAsync {
         fun retrieve(
             params: ConfigRetrieveParams = ConfigRetrieveParams.none()
         ): CompletableFuture<HttpResponseFor<ConfigRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ConfigRetrieveResponse>> =
-            retrieve(
-                ConfigRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(ConfigRetrieveParams.none(), requestOptions)
     }
 }

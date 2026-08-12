@@ -26,10 +26,7 @@ interface ScheduleForRouteServiceAsync {
 
     /** Retrieve the full schedule for a route on a particular day */
     fun retrieve(routeId: String): CompletableFuture<ScheduleForRouteRetrieveResponse> =
-        retrieve(
-            routeId,
-            ScheduleForRouteRetrieveParams.none(),
-        )
+        retrieve(routeId, ScheduleForRouteRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -37,21 +34,14 @@ interface ScheduleForRouteServiceAsync {
         params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ScheduleForRouteRetrieveResponse> =
-        retrieve(
-            params.toBuilder().routeId(routeId).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         routeId: String,
         params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
     ): CompletableFuture<ScheduleForRouteRetrieveResponse> =
-        retrieve(
-            routeId,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(routeId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -62,22 +52,14 @@ interface ScheduleForRouteServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: ScheduleForRouteRetrieveParams
-    ): CompletableFuture<ScheduleForRouteRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ScheduleForRouteRetrieveResponse> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         routeId: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ScheduleForRouteRetrieveResponse> =
-        retrieve(
-            routeId,
-            ScheduleForRouteRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(routeId, ScheduleForRouteRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ScheduleForRouteServiceAsync] that provides access to raw HTTP responses for each
@@ -101,10 +83,7 @@ interface ScheduleForRouteServiceAsync {
         fun retrieve(
             routeId: String
         ): CompletableFuture<HttpResponseFor<ScheduleForRouteRetrieveResponse>> =
-            retrieve(
-                routeId,
-                ScheduleForRouteRetrieveParams.none(),
-            )
+            retrieve(routeId, ScheduleForRouteRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -112,21 +91,14 @@ interface ScheduleForRouteServiceAsync {
             params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ScheduleForRouteRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().routeId(routeId).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             routeId: String,
             params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ScheduleForRouteRetrieveResponse>> =
-            retrieve(
-                routeId,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(routeId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -138,20 +110,13 @@ interface ScheduleForRouteServiceAsync {
         fun retrieve(
             params: ScheduleForRouteRetrieveParams
         ): CompletableFuture<HttpResponseFor<ScheduleForRouteRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             routeId: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ScheduleForRouteRetrieveResponse>> =
-            retrieve(
-                routeId,
-                ScheduleForRouteRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(routeId, ScheduleForRouteRetrieveParams.none(), requestOptions)
     }
 }

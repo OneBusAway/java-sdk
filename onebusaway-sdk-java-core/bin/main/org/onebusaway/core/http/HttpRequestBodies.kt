@@ -109,9 +109,7 @@ private fun serializePart(name: String, node: JsonNode): Sequence<Pair<String, I
         JsonNodeType.BOOLEAN -> sequenceOf(name to node.booleanValue().toString().byteInputStream())
         JsonNodeType.NUMBER -> sequenceOf(name to node.numberValue().toString().byteInputStream())
         JsonNodeType.ARRAY ->
-            node.elements().asSequence().flatMap { element ->
-                serializePart(name, element)
-            }
+            node.elements().asSequence().flatMap { element -> serializePart(name, element) }
         JsonNodeType.OBJECT ->
             node.fields().asSequence().flatMap { (key, value) ->
                 serializePart("$name[$key]", value)
@@ -122,10 +120,7 @@ private fun serializePart(name: String, node: JsonNode): Sequence<Pair<String, I
     }
 
 private class MultipartBody
-private constructor(
-    private val boundary: String,
-    private val parts: List<Part>,
-) : HttpRequestBody {
+private constructor(private val boundary: String, private val parts: List<Part>) : HttpRequestBody {
     private val boundaryBytes: ByteArray = boundary.toByteArray()
     private val contentType = "multipart/form-data; boundary=$boundary"
 

@@ -36,18 +36,11 @@ interface StopsForLocationService {
     /** @see list */
     fun list(
         params: StopsForLocationListParams = StopsForLocationListParams.none()
-    ): StopsForLocationListResponse =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): StopsForLocationListResponse = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): StopsForLocationListResponse =
-        list(
-            StopsForLocationListParams.none(),
-            requestOptions,
-        )
+        list(StopsForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForLocationService] that provides access to raw HTTP responses for each
@@ -83,18 +76,11 @@ interface StopsForLocationService {
         @MustBeClosed
         fun list(
             params: StopsForLocationListParams = StopsForLocationListParams.none()
-        ): HttpResponseFor<StopsForLocationListResponse> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<StopsForLocationListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<StopsForLocationListResponse> =
-            list(
-                StopsForLocationListParams.none(),
-                requestOptions,
-            )
+            list(StopsForLocationListParams.none(), requestOptions)
     }
 }
