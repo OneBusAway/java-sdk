@@ -117,7 +117,8 @@ interface ReportProblemWithStopService {
         @MustBeClosed
         fun retrieve(
             stopId: String,
-            params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
+            params: ReportProblemWithStopRetrieveParams =
+                ReportProblemWithStopRetrieveParams.none(),
         ): HttpResponseFor<ResponseWrapper> =
             retrieve(
                 stopId,

@@ -117,7 +117,8 @@ interface ReportProblemWithStopServiceAsync {
         /** @see retrieve */
         fun retrieve(
             stopId: String,
-            params: ReportProblemWithStopRetrieveParams = ReportProblemWithStopRetrieveParams.none(),
+            params: ReportProblemWithStopRetrieveParams =
+                ReportProblemWithStopRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
             retrieve(
                 stopId,

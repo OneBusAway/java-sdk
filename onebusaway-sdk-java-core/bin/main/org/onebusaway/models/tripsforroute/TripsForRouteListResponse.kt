@@ -629,8 +629,7 @@ private constructor(
                 serviceDate: JsonField<Long> = JsonMissing.of(),
                 @JsonProperty("situationIds")
                 @ExcludeMissing
-<<<<<<< HEAD
-                situationIds: JsonField<List<String>> = JsonMissing.of(),
+                situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
             ) : this(
                 schedule,
                 status,
@@ -640,10 +639,6 @@ private constructor(
                 situationIds,
                 mutableMapOf(),
             )
-=======
-                situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
-            ) : this(schedule, status, tripId, frequency, serviceDate, situationIds, mutableMapOf())
->>>>>>> 45b8c5b (Apply custom code)
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type

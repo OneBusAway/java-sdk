@@ -117,7 +117,8 @@ interface ReportProblemWithTripServiceAsync {
         /** @see retrieve */
         fun retrieve(
             tripId: String,
-            params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
+            params: ReportProblemWithTripRetrieveParams =
+                ReportProblemWithTripRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ResponseWrapper>> =
             retrieve(
                 tripId,

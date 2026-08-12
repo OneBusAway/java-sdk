@@ -117,7 +117,8 @@ interface ReportProblemWithTripService {
         @MustBeClosed
         fun retrieve(
             tripId: String,
-            params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
+            params: ReportProblemWithTripRetrieveParams =
+                ReportProblemWithTripRetrieveParams.none(),
         ): HttpResponseFor<ResponseWrapper> =
             retrieve(
                 tripId,
