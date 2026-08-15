@@ -442,9 +442,9 @@ private constructor(
             /**
              * Sets [Builder.list] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.list] with a well-typed `List<List>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.list] with a well-typed
+             * `kotlin.collections.List<List>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
             fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
@@ -948,9 +948,9 @@ private constructor(
                 /**
                  * Sets [Builder.routeIds] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.routeIds] with a well-typed `List<String>` value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
+                 * You should usually call [Builder.routeIds] with a well-typed
+                 * `kotlin.collections.List<String>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
                 fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
                     this.routeIds = routeIds.map { it.toMutableList() }
@@ -974,9 +974,9 @@ private constructor(
                 /**
                  * Sets [Builder.staticRouteIds] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.staticRouteIds] with a well-typed `List<String>`
-                 * value instead. This method is primarily for setting the field to an undocumented
-                 * or not yet supported value.
+                 * You should usually call [Builder.staticRouteIds] with a well-typed
+                 * `kotlin.collections.List<String>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
                 fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
                     apply {

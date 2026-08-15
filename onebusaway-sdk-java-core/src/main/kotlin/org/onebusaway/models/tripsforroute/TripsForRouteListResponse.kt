@@ -421,9 +421,9 @@ private constructor(
             /**
              * Sets [Builder.list] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.list] with a well-typed `List<List>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.list] with a well-typed
+             * `kotlin.collections.List<List>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
             fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
@@ -798,9 +798,9 @@ private constructor(
                 /**
                  * Sets [Builder.situationIds] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.situationIds] with a well-typed `List<String>`
-                 * value instead. This method is primarily for setting the field to an undocumented
-                 * or not yet supported value.
+                 * You should usually call [Builder.situationIds] with a well-typed
+                 * `kotlin.collections.List<String>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
                 fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) = apply {
                     this.situationIds = situationIds.map { it.toMutableList() }
@@ -1112,8 +1112,8 @@ private constructor(
                      * Sets [Builder.stopTimes] to an arbitrary JSON value.
                      *
                      * You should usually call [Builder.stopTimes] with a well-typed
-                     * `List<StopTime>` value instead. This method is primarily for setting the
-                     * field to an undocumented or not yet supported value.
+                     * `kotlin.collections.List<StopTime>` value instead. This method is primarily
+                     * for setting the field to an undocumented or not yet supported value.
                      */
                     fun stopTimes(stopTimes: JsonField<kotlin.collections.List<StopTime>>) = apply {
                         this.stopTimes = stopTimes.map { it.toMutableList() }
@@ -2834,8 +2834,8 @@ private constructor(
                      * Sets [Builder.situationIds] to an arbitrary JSON value.
                      *
                      * You should usually call [Builder.situationIds] with a well-typed
-                     * `List<String>` value instead. This method is primarily for setting the field
-                     * to an undocumented or not yet supported value.
+                     * `kotlin.collections.List<String>` value instead. This method is primarily for
+                     * setting the field to an undocumented or not yet supported value.
                      */
                     fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) =
                         apply {
