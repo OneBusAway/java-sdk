@@ -307,7 +307,7 @@ private constructor(
     class Data
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val list: JsonField<List<List>>,
+        private val list: JsonField<kotlin.collections.List<List>>,
         private val outOfRange: JsonField<Boolean>,
         private val references: JsonField<References>,
         private val limitExceeded: JsonField<Boolean>,
@@ -316,7 +316,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("list") @ExcludeMissing list: JsonField<List<List>> = JsonMissing.of(),
+            @JsonProperty("list")
+            @ExcludeMissing
+            list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
             @JsonProperty("outOfRange")
             @ExcludeMissing
             outOfRange: JsonField<Boolean> = JsonMissing.of(),
@@ -332,7 +334,7 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun list(): List<List> = list.getRequired("list")
+        fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -357,7 +359,9 @@ private constructor(
          *
          * Unlike [list], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         /**
          * Returns the raw JSON value of [outOfRange].
@@ -432,16 +436,16 @@ private constructor(
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
 
-            fun list(list: List<List>) = list(JsonField.of(list))
+            fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
             /**
              * Sets [Builder.list] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.list] with a well-typed `List<List>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.list] with a well-typed
+             * `kotlin.collections.List<List>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
-            fun list(list: JsonField<List<List>>) = apply {
+            fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
             }
 
@@ -590,8 +594,8 @@ private constructor(
             private val lon: JsonField<Double>,
             private val name: JsonField<String>,
             private val parent: JsonField<String>,
-            private val routeIds: JsonField<List<String>>,
-            private val staticRouteIds: JsonField<List<String>>,
+            private val routeIds: JsonField<kotlin.collections.List<String>>,
+            private val staticRouteIds: JsonField<kotlin.collections.List<String>>,
             private val code: JsonField<String>,
             private val direction: JsonField<String>,
             private val wheelchairBoarding: JsonField<String>,
@@ -612,10 +616,10 @@ private constructor(
                 parent: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("routeIds")
                 @ExcludeMissing
-                routeIds: JsonField<List<String>> = JsonMissing.of(),
+                routeIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
                 @JsonProperty("staticRouteIds")
                 @ExcludeMissing
-                staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
+                staticRouteIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
                 @JsonProperty("code") @ExcludeMissing code: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("direction")
                 @ExcludeMissing
@@ -685,14 +689,15 @@ private constructor(
              *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
              */
-            fun routeIds(): List<String> = routeIds.getRequired("routeIds")
+            fun routeIds(): kotlin.collections.List<String> = routeIds.getRequired("routeIds")
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
              *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
              */
-            fun staticRouteIds(): List<String> = staticRouteIds.getRequired("staticRouteIds")
+            fun staticRouteIds(): kotlin.collections.List<String> =
+                staticRouteIds.getRequired("staticRouteIds")
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
@@ -766,7 +771,7 @@ private constructor(
              */
             @JsonProperty("routeIds")
             @ExcludeMissing
-            fun _routeIds(): JsonField<List<String>> = routeIds
+            fun _routeIds(): JsonField<kotlin.collections.List<String>> = routeIds
 
             /**
              * Returns the raw JSON value of [staticRouteIds].
@@ -776,7 +781,7 @@ private constructor(
              */
             @JsonProperty("staticRouteIds")
             @ExcludeMissing
-            fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
+            fun _staticRouteIds(): JsonField<kotlin.collections.List<String>> = staticRouteIds
 
             /**
              * Returns the raw JSON value of [code].
@@ -937,16 +942,17 @@ private constructor(
                  */
                 fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
-                fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
+                fun routeIds(routeIds: kotlin.collections.List<String>) =
+                    routeIds(JsonField.of(routeIds))
 
                 /**
                  * Sets [Builder.routeIds] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.routeIds] with a well-typed `List<String>` value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
+                 * You should usually call [Builder.routeIds] with a well-typed
+                 * `kotlin.collections.List<String>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
-                fun routeIds(routeIds: JsonField<List<String>>) = apply {
+                fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
                     this.routeIds = routeIds.map { it.toMutableList() }
                 }
 
@@ -962,19 +968,20 @@ private constructor(
                         }
                 }
 
-                fun staticRouteIds(staticRouteIds: List<String>) =
+                fun staticRouteIds(staticRouteIds: kotlin.collections.List<String>) =
                     staticRouteIds(JsonField.of(staticRouteIds))
 
                 /**
                  * Sets [Builder.staticRouteIds] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.staticRouteIds] with a well-typed `List<String>`
-                 * value instead. This method is primarily for setting the field to an undocumented
-                 * or not yet supported value.
+                 * You should usually call [Builder.staticRouteIds] with a well-typed
+                 * `kotlin.collections.List<String>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
-                fun staticRouteIds(staticRouteIds: JsonField<List<String>>) = apply {
-                    this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
-                }
+                fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
+                    apply {
+                        this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
+                    }
 
                 /**
                  * Adds a single [String] to [staticRouteIds].

@@ -310,7 +310,7 @@ private constructor(
     class Data
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val list: JsonField<List<List>>,
+        private val list: JsonField<kotlin.collections.List<List>>,
         private val references: JsonField<References>,
         private val limitExceeded: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -318,7 +318,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("list") @ExcludeMissing list: JsonField<List<List>> = JsonMissing.of(),
+            @JsonProperty("list")
+            @ExcludeMissing
+            list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
@@ -331,7 +333,7 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun list(): List<List> = list.getRequired("list")
+        fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -350,7 +352,9 @@ private constructor(
          *
          * Unlike [list], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         /**
          * Returns the raw JSON value of [references].
@@ -413,16 +417,16 @@ private constructor(
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
 
-            fun list(list: List<List>) = list(JsonField.of(list))
+            fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
             /**
              * Sets [Builder.list] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.list] with a well-typed `List<List>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.list] with a well-typed
+             * `kotlin.collections.List<List>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
-            fun list(list: JsonField<List<List>>) = apply {
+            fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
             }
 
@@ -1309,7 +1313,7 @@ private constructor(
                 private val orientation: JsonField<Double>,
                 private val position: JsonField<Position>,
                 private val scheduledDistanceAlongTrip: JsonField<Double>,
-                private val situationIds: JsonField<List<String>>,
+                private val situationIds: JsonField<kotlin.collections.List<String>>,
                 private val vehicleId: JsonField<String>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
@@ -1393,7 +1397,7 @@ private constructor(
                     scheduledDistanceAlongTrip: JsonField<Double> = JsonMissing.of(),
                     @JsonProperty("situationIds")
                     @ExcludeMissing
-                    situationIds: JsonField<List<String>> = JsonMissing.of(),
+                    situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
                     @JsonProperty("vehicleId")
                     @ExcludeMissing
                     vehicleId: JsonField<String> = JsonMissing.of(),
@@ -1663,7 +1667,7 @@ private constructor(
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
                  *   type (e.g. if the server responded with an unexpected value).
                  */
-                fun situationIds(): Optional<List<String>> =
+                fun situationIds(): Optional<kotlin.collections.List<String>> =
                     situationIds.getOptional("situationIds")
 
                 /**
@@ -1928,7 +1932,7 @@ private constructor(
                  */
                 @JsonProperty("situationIds")
                 @ExcludeMissing
-                fun _situationIds(): JsonField<List<String>> = situationIds
+                fun _situationIds(): JsonField<kotlin.collections.List<String>> = situationIds
 
                 /**
                  * Returns the raw JSON value of [vehicleId].
@@ -2441,19 +2445,20 @@ private constructor(
                         }
 
                     /** References to situation elements (if any) applicable to this trip. */
-                    fun situationIds(situationIds: List<String>) =
+                    fun situationIds(situationIds: kotlin.collections.List<String>) =
                         situationIds(JsonField.of(situationIds))
 
                     /**
                      * Sets [Builder.situationIds] to an arbitrary JSON value.
                      *
                      * You should usually call [Builder.situationIds] with a well-typed
-                     * `List<String>` value instead. This method is primarily for setting the field
-                     * to an undocumented or not yet supported value.
+                     * `kotlin.collections.List<String>` value instead. This method is primarily for
+                     * setting the field to an undocumented or not yet supported value.
                      */
-                    fun situationIds(situationIds: JsonField<List<String>>) = apply {
-                        this.situationIds = situationIds.map { it.toMutableList() }
-                    }
+                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) =
+                        apply {
+                            this.situationIds = situationIds.map { it.toMutableList() }
+                        }
 
                     /**
                      * Adds a single [String] to [situationIds].

@@ -310,7 +310,7 @@ private constructor(
     class Data
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val list: JsonField<List<List>>,
+        private val list: JsonField<kotlin.collections.List<List>>,
         private val outOfRange: JsonField<Boolean>,
         private val references: JsonField<References>,
         private val limitExceeded: JsonField<Boolean>,
@@ -319,7 +319,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("list") @ExcludeMissing list: JsonField<List<List>> = JsonMissing.of(),
+            @JsonProperty("list")
+            @ExcludeMissing
+            list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
             @JsonProperty("outOfRange")
             @ExcludeMissing
             outOfRange: JsonField<Boolean> = JsonMissing.of(),
@@ -335,7 +337,7 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun list(): List<List> = list.getRequired("list")
+        fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -360,7 +362,9 @@ private constructor(
          *
          * Unlike [list], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         /**
          * Returns the raw JSON value of [outOfRange].
@@ -435,16 +439,16 @@ private constructor(
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
 
-            fun list(list: List<List>) = list(JsonField.of(list))
+            fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
             /**
              * Sets [Builder.list] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.list] with a well-typed `List<List>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.list] with a well-typed
+             * `kotlin.collections.List<List>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
-            fun list(list: JsonField<List<List>>) = apply {
+            fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
             }
 
