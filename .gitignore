@@ -6,4 +6,3 @@
 build/
 codegen.log
 kls_database.db
-bin/
