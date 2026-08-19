@@ -869,9 +869,8 @@ private constructor(
                     fun stopRouteDirectionSchedules(
                         stopRouteDirectionSchedules: JsonField<List<StopRouteDirectionSchedule>>
                     ) = apply {
-                        this.stopRouteDirectionSchedules = stopRouteDirectionSchedules.map {
-                            it.toMutableList()
-                        }
+                        this.stopRouteDirectionSchedules =
+                            stopRouteDirectionSchedules.map { it.toMutableList() }
                     }
 
                     /**
@@ -1165,9 +1164,8 @@ private constructor(
                         fun scheduleFrequencies(
                             scheduleFrequencies: JsonField<List<ScheduleFrequency>>
                         ) = apply {
-                            this.scheduleFrequencies = scheduleFrequencies.map {
-                                it.toMutableList()
-                            }
+                            this.scheduleFrequencies =
+                                scheduleFrequencies.map { it.toMutableList() }
                         }
 
                         /**
