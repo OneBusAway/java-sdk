@@ -19,6 +19,7 @@ import okhttp3.ConnectionPool
 import okhttp3.Dispatcher
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
@@ -92,6 +93,8 @@ internal constructor(@JvmSynthetic internal val okHttpClient: okhttp3.OkHttpClie
     private fun newCall(request: HttpRequest, requestOptions: RequestOptions): Call {
         val clientBuilder = okHttpClient.newBuilder()
 
+        // Custom logging interceptor for URL logging
+        clientBuilder.addNetworkInterceptor(LoggingInterceptor())
         requestOptions.timeout?.let {
             clientBuilder
                 .connectTimeout(it.connect())
@@ -353,4 +356,15 @@ private fun okhttp3.Headers.toHeaders(): Headers {
     val headersBuilder = Headers.builder()
     forEach { (name, value) -> headersBuilder.put(name, value) }
     return headersBuilder.build()
+}
+
+// --- ✅ New class added below ---
+class LoggingInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        println("➡️ Sending request: ${request.method} ${request.url}")
+        val response = chain.proceed(request)
+        println("⬅️ Received response: ${response.code} ${response.request.url}")
+        return response
+    }
 }
