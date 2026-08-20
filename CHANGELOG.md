@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.61 (2026-08-20)
+
+Full Changelog: [v0.1.0-alpha.60...v0.1.0-alpha.61](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.60...v0.1.0-alpha.61)
+
+### Bug Fixes
+
+* **docs:** link the javadoc badge so the version stays current after release ([1ec660b](https://github.com/OneBusAway/java-sdk/commit/1ec660bef1a6c2fca611d7f162f7cd1e711c4891))
+
+
+### Chores
+
+* **internal:** allow the mock server port to be set with STAINLESS_MOCK_PORT ([8f4fdeb](https://github.com/OneBusAway/java-sdk/commit/8f4fdebac261db9bf0cc7705a972d76f603db1b6))
+* **internal:** codegen related update ([2184209](https://github.com/OneBusAway/java-sdk/commit/218420994e2eadb1a7c9e3a5d75c72d25dc2bff9))
+* **internal:** codegen related update ([2d80c6b](https://github.com/OneBusAway/java-sdk/commit/2d80c6bfe9eb0df7c24c0be11ef08764db711e6b))
+
 ## 0.1.0-alpha.60 (2026-08-04)
 
 Full Changelog: [v0.1.0-alpha.59...v0.1.0-alpha.60](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.59...v0.1.0-alpha.60)
