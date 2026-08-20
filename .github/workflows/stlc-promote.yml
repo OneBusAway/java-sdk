@@ -1,4 +1,4 @@
-name: Promote SDKs
+zname: Promote SDKs
 
 # Promote staging to production by fast-forwarding production main up to staging.
 # Manual dispatch by design: a maintainer promotes when ready to cut a release.
