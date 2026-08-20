@@ -1,0 +1,38 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package org.onebusaway.services.async
+
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.onebusaway.TestServerExtension
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
+import org.onebusaway.models.reportproblemwithstop.ReportProblemWithStopRetrieveParams
+
+@ExtendWith(TestServerExtension::class)
+internal class ReportProblemWithStopServiceAsyncTest {
+
+    @Test
+    fun retrieve() {
+        val client =
+            OnebusawaySdkOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val reportProblemWithStopServiceAsync = client.reportProblemWithStop()
+
+        val responseWrapperFuture =
+            reportProblemWithStopServiceAsync.retrieve(
+                ReportProblemWithStopRetrieveParams.builder()
+                    .stopId("stopID")
+                    .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
+                    .userComment("userComment")
+                    .userLat(0.0f)
+                    .userLocationAccuracy(0.0f)
+                    .userLon(0.0f)
+                    .build()
+            )
+
+        val responseWrapper = responseWrapperFuture.get()
+        responseWrapper.validate()
+    }
+}
