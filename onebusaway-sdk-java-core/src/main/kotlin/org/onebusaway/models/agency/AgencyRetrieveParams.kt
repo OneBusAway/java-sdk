@@ -9,7 +9,7 @@ import org.onebusaway.core.Params
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
-/** Retrieve information for a specific transit agency identified by its unique ID. */
+/** Retrieve information for a specific transit agency identified by its ID. */
 class AgencyRetrieveParams
 private constructor(
     private val agencyId: String?,

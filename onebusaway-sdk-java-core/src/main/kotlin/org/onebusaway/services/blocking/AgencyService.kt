@@ -24,7 +24,7 @@ interface AgencyService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AgencyService
 
-    /** Retrieve information for a specific transit agency identified by its unique ID. */
+    /** Retrieve information for a specific transit agency identified by its ID. */
     fun retrieve(agencyId: String): AgencyRetrieveResponse =
         retrieve(agencyId, AgencyRetrieveParams.none())
 

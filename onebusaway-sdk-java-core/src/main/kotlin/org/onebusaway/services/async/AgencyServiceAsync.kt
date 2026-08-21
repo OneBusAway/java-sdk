@@ -24,7 +24,7 @@ interface AgencyServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AgencyServiceAsync
 
-    /** Retrieve information for a specific transit agency identified by its unique ID. */
+    /** Retrieve information for a specific transit agency identified by its ID. */
     fun retrieve(agencyId: String): CompletableFuture<AgencyRetrieveResponse> =
         retrieve(agencyId, AgencyRetrieveParams.none())
 
