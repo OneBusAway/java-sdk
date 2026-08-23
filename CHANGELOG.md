@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.1.0-alpha.61](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.60...v0.1.0-alpha.61) (2026-08-23)
+
+
+### Features
+
+* initial stlc build ([389ec1b](https://github.com/OneBusAway/java-sdk/commit/389ec1b98b8b09d57fdd0f543dbafb7989e03bef))
+
+
+### Bug Fixes
+
+* add bin/ to .gitignore ([44ca337](https://github.com/OneBusAway/java-sdk/commit/44ca3372cb441440c598a1bad7de0ea4672db6d1))
+* add release-please config to all targets ([cd7656c](https://github.com/OneBusAway/java-sdk/commit/cd7656cb024c8ca0761efda76f8741b9a3e63b46))
+* add slf4j-simple to silence test stderr warnings ([aaad618](https://github.com/OneBusAway/java-sdk/commit/aaad61808e7673453b1f5c0c82b0cb7cd302acb7))
+* java custom code with slf4j fix ([08758ce](https://github.com/OneBusAway/java-sdk/commit/08758ced5c04946f22cfc9706979821dcc8a4f65))
+* reformat with Gradle ktfmt 0.61 to match CI lint ([b6f0bee](https://github.com/OneBusAway/java-sdk/commit/b6f0bee9189ca59e63323a8956e19461ed9458dc))
+* reformat with Gradle ktfmt 0.61 to match CI lint ([eaa200b](https://github.com/OneBusAway/java-sdk/commit/eaa200b77a29a5055308893cadf5b5631f2d6794))
+* untrack bin/ directories from git ([6099d8f](https://github.com/OneBusAway/java-sdk/commit/6099d8f09a977e0168ebfa9062059ec528fc9bd2))
+* untrack bin/ files and add to .gitignore, format with ktfmt 0.61 ([d1824f5](https://github.com/OneBusAway/java-sdk/commit/d1824f542ec2f0b8f3a9fe4720c1192ca2c0d55c))
+* update agency endpoint description ([6ab6457](https://github.com/OneBusAway/java-sdk/commit/6ab645715bf38b6d263a9db0430baea5a2ff235c))
+
+
+### Chores
+
+* add stlc promote and sync workflows ([da7866c](https://github.com/OneBusAway/java-sdk/commit/da7866c5396c0e61e8a4db8e28b2c3687d1c0a95))
+
 ## 0.1.0-alpha.60 (2026-08-04)
 
 Full Changelog: [v0.1.0-alpha.59...v0.1.0-alpha.60](https://github.com/OneBusAway/java-sdk/compare/v0.1.0-alpha.59...v0.1.0-alpha.60)
